@@ -8,6 +8,9 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+import googletrans
+
+print(googletrans.LANGUAGES)
 app = Flask(__name__)
 
 
