@@ -39,7 +39,7 @@ def handle_message(event):
     print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
     print("=======Reply Token=======")
-    print(event.reply_toke)
+    print(event.reply_token)
     print("=========================")
 
 
