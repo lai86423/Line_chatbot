@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from Flask import Flask, request, abort
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,11 +8,9 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
-import googletrans
+from googletrans import Translator
 
-print(googletrans.LANGUAGES)
 app = Flask(__name__)
-
 
 # LINE 聊天機器人的基本資料
 # # Channel Access Token
@@ -38,6 +36,8 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    translator = Translator()
+    print(translator.translate('안녕하세요.'))
     message = TextSendMessage(text=event.message.text)
     print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
