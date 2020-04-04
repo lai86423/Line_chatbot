@@ -38,8 +38,8 @@ def callback():
 def handle_message(event):
     translator = Translator()
     print(translator.translate('안녕하세요.'))
-    message = TextSendMessage(text=event.message.text)
-    message=translator.translate(message)
+    message = TextSendMessage(translator.translate(text=event.message.text))
+    
     print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
     print("=======Reply Token=======")
