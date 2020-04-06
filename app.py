@@ -41,7 +41,7 @@ def handle_message(event):
 
     translateMessage = translator.translate(event.message.text)
     print(translateMessage)
-    message = TextSendMessage(translator.translate(text=event.message.text))
+    message = TextSendMessage(text=event.message.text)
     print("message=",message)
     print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
