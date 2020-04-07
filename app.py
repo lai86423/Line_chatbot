@@ -39,7 +39,7 @@ def handle_message(event):
     translator = Translator()
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)
-    
+        print("Lang=",lang.lang)
         if lang.lang == "zh-tw" or "zh-cn" :
             print("this is Chinese")
             translateMessage = translator.translate(event.message.text, dest='en')
@@ -52,9 +52,9 @@ def handle_message(event):
             message = TextSendMessage(text=translateMessage.text)
         else:
             print("I can't translate this kind of message")
-            message = TextSendMessage(text="I can't translate this language")
+            message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
     else:
-        message = TextSendMessage(text="I can't translate this kind of message")
+        message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
     #print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
