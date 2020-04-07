@@ -40,8 +40,8 @@ def handle_message(event):
     print(translator.translate('안녕하세요.'))
 
     translateMessage = translator.translate(event.message.text)
-    print(translateMessage)
-    message = TextSendMessage(text=translateMessage)
+    print(translateMessage.text)
+    message = TextSendMessage(text=translateMessage.text)
     print("message=",message)
     print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
