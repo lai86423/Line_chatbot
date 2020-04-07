@@ -39,12 +39,13 @@ def handle_message(event):
     translator = Translator()
     #print(translator.translate('안녕하세요.'))
     lang = translator.detect(event.message.text)
-    if lang.lang ='zh-tw':
-        print("this is Chinese")
-    elif lang.lang ='en':
-        print("this is English")
-    else:
-        print("I can't translate this language")
+    print("language",lang,lang.lang)
+    #if lang.lang ='zh-tw':
+     #   print("this is Chinese")
+    #elif lang.lang ='en':
+     #   print("this is English")
+    #else:
+     #   print("I can't translate this language")
 
     translateMessage = translator.translate(event.message.text)
     print(translateMessage.text)
