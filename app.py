@@ -40,14 +40,14 @@ def handle_message(event):
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)
     
-        if lang.lang == "zh-TW":
+        if lang.lang == "zh-tw" :
             print("this is Chinese")
             translateMessage = translator.translate(event.message.text, dest='en')
             print(translateMessage.text)
             message = TextSendMessage(text=translateMessage.text)
         elif lang.lang =="en":
             print("this is English")
-            translateMessage = translator.translate(event.message.text, dest='zh-TW')
+            translateMessage = translator.translate(event.message.text, dest='zh-tw')
             print(translateMessage.text)
             message = TextSendMessage(text=translateMessage.text)
         else:
