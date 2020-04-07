@@ -37,14 +37,23 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     translator = Translator()
-    print(translator.translate('안녕하세요.'))
+    #print(translator.translate('안녕하세요.'))
+    lang = translator.detect(event.message.text)
+    if(lang.lang ='zh-tw'):
+        print("this is Chinese")
+    elif(lang.lang ='en'):
+        print("this is English")
+    else:
+        print("I can't translate this language")
 
     translateMessage = translator.translate(event.message.text)
     print(translateMessage.text)
     message = TextSendMessage(text=translateMessage.text)
     print("message=",message)
-    print("event-----",event)
+    #print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
+
+
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
