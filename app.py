@@ -12,7 +12,8 @@ from googletrans import Translator
 
 import sys
 import datetime
-import gspread
+import pip
+pip.main(["install", "gspread"])
 from oauth2client.service_account import ServiceAccountCredentials as SAC
 
 app = Flask(__name__)
