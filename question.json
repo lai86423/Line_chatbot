@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cilabchatbot",
+  "private_key_id": "7cfd701b95e5b5edad1f7ac0ec166e426aaf53b4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQChPmCGqWFZQln/\n3RiwY/3lc/NLzDhUstb/aTBxCcjdYtuZisa8QhctIqof4bdo9pVp6oUM1sI4PWwh\nca4Qvs2Qe7Ebv3NZPTMPXauOhHogIzxpl2yhR1UKKfFG+uswBPvsYlw3SnuUqTLF\n9iqf1zxXJBb1lr/+sWN8EIq7v44KnqhBvkro1LMgjlXQJKCsgSe9HUOrMplwozPd\nMy6l4Z4lEymM77Me5MojM0UnciHjXRcChRAjQHt0Lu9Lnj1ssnt8uN/SbPENY5SU\nL/UnU8/SHB390k+jnseb1STdAyqM+6+EaDnFWnFv47UCgDFGIA+vSn6+P4785fTG\nIWUizQqfAgMBAAECggEANI8jIrICn/hPYuY8fn7Ri6Ism7gBYqZ7C31Lw4T3eyaW\nw2lnl4UJjfZfMw493VKHaKN/5Cv62h83aH1oSmAPnLmdBRj2bg/TXX5ghg+ryV8C\n+b5YtAeO8kWytrriv9/YCHkVaxZ1ywMOIFY6Fakwq40BiOMvSUOkVJQFzOZHVDFX\ny42M1Q2aCsCyyQchJkY2uJS8edZtsE4aEZKd5fau2F/cZMO/HoZsIUjzkCXp+34K\nxhCjZfKhY1uD8t0/Y3LOP1JR+LA1MNQWuzCBXqk2hlvRDLj5AzIQWJMvpTRYhVZb\nk9uheEX3SmOHcIEXUpFXa/Y6On9GBPM7XEp2ij0VAQKBgQDSAjEWv0wfXx3nbdHO\nnc2YZRfdtF+gS/6YRrp3UOtvNPDL+3KreQlSvh+JKf6Vs5knpjEP+/XiB95pRLGc\ngAHD4LgJiNPIfuXXi9avhWyx8Y0yoCDKjpXVO1GUdT30D6OIs4CffkHYw8HzsrS1\nWj/YjWSba5StGDrGs8siAH+/AQKBgQDEjkF+Hi4IqFSkBqlvnPj4Fs6H10jNQyfi\nQMlWFXiy/y1c/dk7s5JxPqgZbNPN75Gf5WE7H7MOdIreO+Co8fwXgbp3O7yw+L8d\nQ4JNnhXERlrhs2NUdm5NwBtaF0bJ+1XmVGFk6nOWU0mYwjzvXqEFF1g6NRqZdios\nMJ8mDB5pnwKBgAnoeJBuLhU805hbog5xe4W5H0sie3CApV5h1+JROwpgIQw+rMZS\nS5JPzgUWqiA9/PfV63KpnIwxetjUmNydXXf0Xjp07ikDc6ybuGFHlj0+/D5rN6DW\n4VLSHaM3dNjS9BA7B9J+jnS/p6Lrx4LW4zRAV4LNrJIOFpfRW8Aa7ewBAoGAHqbA\nd9Zk/1ygtmODkLA98xI7atubssbCNXo863u1stQwUswTUEgUkixfMnfSH884OmMe\n4oVy+tIZxcY4pp/13ASS+30JU9+2je21KD16z3zZN1EuMEG3udA3c7klhOH4505J\nUd9t3wdl9rhzoDB1k8GsNIeLelr/AJ0kdF53b6kCgYAhVd2o54fmsmVfA8Nj57eJ\n49FH0/Z9mmaTGkWpKj9wkXKtk+AGyUbpMZQm3iCjwE5kku1YOKtMDIDxRSZ4jMsU\nfoeCeMaA8Vk8I309/SsM1IibiIHTT/qqyFLkkonfs7WyZThY9AxND8kK+wcKPV7g\n/nH3+4LONxCkCKrrkdwFuw==\n-----END PRIVATE KEY-----\n",
+  "client_email": "cilab-chatbot@cilabchatbot.iam.gserviceaccount.com",
+  "client_id": "100933412721610486150",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/cilab-chatbot%40cilabchatbot.iam.gserviceaccount.com"
+}
