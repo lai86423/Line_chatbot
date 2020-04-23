@@ -37,10 +37,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-
-# 處理訊息
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
+def translation(event):
     translator = Translator()
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)
@@ -61,6 +58,13 @@ def handle_message(event):
     else:
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
+    return message
+# 處理訊息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
+    if(event.message.text=="1"):
+        message=translation(event)
+    else: message = "error"
     #print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
 
