@@ -17,10 +17,6 @@ import pygsheets
 gc = pygsheets.authorize(service_file='question.json')
 import pygsheets
 
-gc = pygsheets.authorize(service_account_file='path/to/key.json')
-survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
-sh = gc.open_by_url(survey_url)
-
 app = Flask(__name__)
 
 # LINE 聊天機器人的基本資料
@@ -50,6 +46,9 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    gc = pygsheets.authorize(service_account_file='question.json')
+    survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+    sh = gc.open_by_url(survey_url)
     ws = sh.worksheet_by_title('demo')
     ws.update_value('A1', 'test')
 
