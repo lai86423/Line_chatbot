@@ -53,8 +53,6 @@ def handle_message(event):
     ws = sh.worksheet_by_title('demo')
     ws.update_value('A1', 'test')
 
-    df1 = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
-    ws.set_dataframe(df1, 'A2', copy_index=True, nan='')
     translator = Translator()
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)
