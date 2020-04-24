@@ -11,6 +11,7 @@ from linebot.models import *
 from googletrans import Translator
 
 import sys
+import time
 import datetime
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials as SAC
@@ -24,7 +25,7 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 GDriveJSON = 'question.json'
-GSpreadSheet = 'UploadByPython'
+GSpreadSheet = 'cilab_ChatBot_test'
 WaitSecond = 60
 print('將資料記錄在試算表' ,GSpreadSheet , '每' ,WaitSecond ,'秒')
 print('按下 Ctrl-C中斷執行')
