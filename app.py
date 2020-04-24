@@ -11,10 +11,15 @@ from linebot.models import *
 from googletrans import Translator
 
 import sys
-import time
 import datetime
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials as SAC
+
+import pygsheets
+gc = pygsheets.authorize(service_file='question.json')
+import pygsheets
+
+gc = pygsheets.authorize(service_account_file='path/to/key.json')
+survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+sh = gc.open_by_url(survey_url)
 
 app = Flask(__name__)
 
@@ -45,24 +50,11 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    WaitSecond = 60
-    print('將資料記錄在試算表' ,GSpreadSheet , '每' ,WaitSecond ,'秒')
-    print('按下 Ctrl-C中斷執行')
-    count = 1
-    while True:
-        try:
-            scope = ['https://spreadsheets.google.com/feeds']
-            key = SAC.from_json_keyfile_name(GDriveJSON, scope)
-            gc = gspread.authorize(key)
-            worksheet = gc.open(GSpreadSheet).sheet1
-        except Exception as ex:
-            print('無法連線Google試算表', ex)
-            sys.exit(1)
-        worksheet.append_row((datetime.datetime.now(), count))
-        count = count+1
-        print('新增一列資料到試算表' ,GSpreadSheet)
-        time.sleep(WaitSecond)
-    
+    ws = sh.worksheet_by_title('demo')
+    ws.update_value('A1', 'test')
+
+df1 = pd.DataFrame({'a': [1, 2], 'b': [3, 4]})
+ws.set_dataframe(df1, 'A2', copy_index=True, nan='')
     translator = Translator()
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)

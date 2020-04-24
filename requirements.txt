@@ -1,5 +1,4 @@
 line-bot-sdk
 flask
 googletrans
-gspread
-oauth2client
+pygsheets
