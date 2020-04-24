@@ -23,6 +23,27 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 # Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
+GDriveJSON = 'question.json'
+GSpreadSheet = 'UploadByPython'
+WaitSecond = 60
+print('將資料記錄在試算表' ,GSpreadSheet , '每' ,WaitSecond ,'秒')
+print('按下 Ctrl-C中斷執行')
+count = 1
+while True:
+    try:
+        scope = ['https://spreadsheets.google.com/feeds']
+        key = SAC.from_json_keyfile_name(GDriveJSON, scope)
+        gc = gspread.authorize(key)
+        worksheet = gc.open(GSpreadSheet).sheet1
+    except Exception as ex:
+        print('無法連線Google試算表', ex)
+        sys.exit(1)
+    worksheet.append_row((datetime.datetime.now(), count))
+    count = count+1
+    print('新增一列資料到試算表' ,GSpreadSheet)
+    time.sleep(WaitSecond)
+
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -37,8 +58,10 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-def translation(event):
-    print("translation call")
+
+# 處理訊息
+@handler.add(MessageEvent, message=TextMessage)
+def handle_message(event):
     translator = Translator()
     if event.message.type == 'text':
         lang = translator.detect(event.message.text)
@@ -59,13 +82,6 @@ def translation(event):
     else:
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
-    return message
-
-# 處理訊息
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    if(event.message.text=="1"):
-        message=translation(event)
     #print("event-----",event)
     line_bot_api.reply_message(event.reply_token, message)
 
@@ -73,26 +89,6 @@ def handle_message(event):
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
-
-    #GDriveJSON就輸入下載下來Json檔名稱
-    #GSpreadSheet是google試算表名稱
-    GDriveJSON = 'question.json'
-    GSpreadSheet = 'cilab_ChatBot_test'
-    while True:
-        try:
-            scope = ['https://spreadsheets.google.com/feeds']
-            key = SAC.from_json_keyfile_name(GDriveJSON, scope)
-            gc = gspread.authorize(key)
-            worksheet = gc.open(GSpreadSheet).sheet1
-        except Exception as ex:
-            print('無法連線Google試算表', ex)
-            sys.exit(1)
-        textt=""
-        textt+=event.message.text
-        if textt!="":
-            worksheet.append_row((datetime.datetime.now(), textt))
-            print('新增一列資料到試算表' ,GSpreadSheet)
-            return textt         
 
 import os
 if __name__ == "__main__":
