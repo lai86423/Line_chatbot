@@ -52,6 +52,7 @@ def handle_message(event):
 
     # Update a single cell.
     #ws.update_value('A1', "Numbers on Stuff")
+    ws = sh.sheet1
     ws.update_value('A1', 'test')
     # Update the worksheet with the numpy array values. Beginning at cell 'A2'.
     ws.update_values('A2', my_numpy_array.to_list())
