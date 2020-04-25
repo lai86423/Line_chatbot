@@ -49,8 +49,12 @@ def handle_message(event):
     gc = pygsheets.authorize(service_account_file='question.json')
     survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
     sh = gc.open_by_url(survey_url)
-    ws = sh.worksheet_by_title('demo')
+
+    # Update a single cell.
+    #ws.update_value('A1', "Numbers on Stuff")
     ws.update_value('A1', 'test')
+    # Update the worksheet with the numpy array values. Beginning at cell 'A2'.
+    ws.update_values('A2', my_numpy_array.to_list())
 
     translator = Translator()
     if event.message.type == 'text':
