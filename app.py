@@ -33,7 +33,7 @@ val = ws.get_value('A1')
 print(val)
 # 以dataframe形式讀取資料
 user_df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
-print(user_df)
+print(user_df[0][1])
 
 
 # 監聽所有來自 /callback 的 Post Request
