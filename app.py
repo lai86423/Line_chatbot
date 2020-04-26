@@ -62,7 +62,15 @@ def handle_message(event):
         ws.export(filename='df')
         # 讀取
         df3 = pd.read_csv('df.csv')
-        print(df3)
+        print("df=",df3)
+
+        if (df3==None):
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
+            print('No data found.')
+        else: 
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
+            print('要問的問題已下載完畢！')
+        
         #line_bot_api.reply_message(event.reply_token, message)
     print("=======Reply Token=======")
     print(event.reply_token)
@@ -102,7 +110,7 @@ def getWelcomeStr():
     
     #return myResult
 
-def setFunction(FuncNum):
+def setFunction(FuncNum,event):
     defaultFuncNum=FuncNum
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=''))
     
