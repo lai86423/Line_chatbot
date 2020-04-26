@@ -30,7 +30,7 @@ sh = gc.open_by_url(survey_url)
 ws = sh.sheet1
 # 以dataframe形式讀取資料
 df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
-print(df)
+print(df.ix[0])
 question = df[0]
 optionA = df[1]
 optionB = df[2]
