@@ -99,7 +99,7 @@ def translate():
 def getWelcomeStr():
     myResult='您好，歡迎來到資策會英文小教室。輸入數字切換功能：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
     
-   return myResult
+    #return myResult
 
 def setFunction(FuncNum):
     defaultFuncNum=FuncNum
