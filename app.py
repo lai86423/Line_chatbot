@@ -29,7 +29,7 @@ survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_
 sh = gc.open_by_url(survey_url)
 ws = sh.sheet1
 # 以dataframe形式讀取資料
-df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
+df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
 print(df)
 question = df[0]
 optionA = df[1]
