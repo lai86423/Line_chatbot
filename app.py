@@ -79,7 +79,7 @@ def handle_message(event):
         #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
         #    print('要問的問題已下載完畢！')
         
-        #line_bot_api.reply_message(event.reply_token, message)
+        line_bot_api.reply_message(event.reply_token, text='hi.')
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
