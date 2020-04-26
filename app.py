@@ -47,8 +47,7 @@ def callback():
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    
+def handle_message(event):  
     if event.message.text== 'text':
         #if user_id is None:
         #    user_id = event.source.user_id
@@ -58,12 +57,17 @@ def handle_message(event):
         sh = gc.open_by_url(survey_url)
         ws = sh.sheet1
         ws.update_value('A1', 'test')
+        # 讀取單一儲存格值
+        val = ws.get_value('A1')
+        # 以dataframe形式讀取資料
+        user_df = ws.get_as_df(start='A2', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
+        
         #ws2 = sh.sheet2
         # 輸出
-        ws.export(filename='df')
+        #ws.export(filename='df')
         # 讀取
-        df3 = pd.read_csv('df.csv')
-        print("df=",df3)
+        #df3 = pd.read_csv('df.csv')
+        #print("df=",df3)
 
         if (df3==None):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
