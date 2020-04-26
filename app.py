@@ -49,7 +49,6 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     if event.message.type== 'text':
-        print("yes")
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)
@@ -57,12 +56,11 @@ def handle_message(event):
         survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
         sh = gc.open_by_url(survey_url)
         ws = sh.sheet1
-        ws.update_value('A1', 'test')
         # 讀取單一儲存格值
         val = ws.get_value('A1')
         # 以dataframe形式讀取資料
         user_df = ws.get_as_df(start='A2', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
-        
+        print(user_df)
         #ws2 = sh.sheet2
         # 輸出
         #ws.export(filename='df')
