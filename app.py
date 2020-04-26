@@ -41,9 +41,9 @@ def callback():
     return 'OK'
 
 #取得第一次交談時的歡迎詞
-welcomeStr=getWelcomeStr()
-users=[]
-defaultFuncNum=1
+#welcomeStr=getWelcomeStr()
+#users=[]
+#defaultFuncNum=1
 
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
