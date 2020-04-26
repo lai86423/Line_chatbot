@@ -32,7 +32,7 @@ ws.export(filename='df')
 df = pd.read_csv('df.csv')
 # 以dataframe形式讀取資料
 #df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
-print(df)
+print("DF=",df)
 question = df[0]
 optionA = df[1]
 optionB = df[2]
