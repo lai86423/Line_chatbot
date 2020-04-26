@@ -28,8 +28,10 @@ gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
 sh = gc.open_by_url(survey_url)
 ws = sh.sheet1
+ws.export(filename='df')
+df = pd.read_csv('df.csv')
 # 以dataframe形式讀取資料
-df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
+#df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
 print(df)
 question = df[0]
 optionA = df[1]
