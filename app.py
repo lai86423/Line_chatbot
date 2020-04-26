@@ -48,7 +48,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    if event.message.text== 'text':
+    if event.message.type== 'text':
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)
@@ -69,12 +69,12 @@ def handle_message(event):
         #df3 = pd.read_csv('df.csv')
         #print("df=",df3)
 
-        if (df3==None):
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
-            print('No data found.')
-        else: 
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
-            print('要問的問題已下載完畢！')
+        #if (df3==None):
+        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
+        #    print('No data found.')
+        #else: 
+        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
+        #    print('要問的問題已下載完畢！')
         
         #line_bot_api.reply_message(event.reply_token, message)
     print("=======Reply Token=======")
