@@ -61,6 +61,7 @@ def handle_message(event):
         # 以dataframe形式讀取資料
         user_df = ws.get_as_df(start='A2', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
         print(user_df)
+        
         #ws2 = sh.sheet2
         # 輸出
         #ws.export(filename='df')
