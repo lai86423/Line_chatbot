@@ -85,14 +85,14 @@ def handle_message(event):
                 print("1:", sheet["optionA"][i], "\n2:", sheet["optionB"][i], "\n3:", sheet["optionC"][i],
                       "\n4:", sheet["optionD"][i], "\n")
 
-                option = "1:" + sheet["optionA"][i] + "\n2:" + sheet["optionB"][i] + "\n3:" + 
-                         sheet["optionC"][i] + "\n4:" + sheet["optionD"][i] + "\n"
+                option = ("1:" + sheet["optionA"][i] + "\n2:" + sheet["optionB"][i] + "\n3:" + 
+                         sheet["optionC"][i] + "\n4:" + sheet["optionD"][i] + "\n")
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=option))
                 isAsked = True
         else:
             if(event.message.text != str(sheet["answer"][i])):
                 feedback = sheet["feedback"][i]
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
                 isAsked = False
 
         #if user_id is None:
