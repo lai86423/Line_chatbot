@@ -57,7 +57,8 @@ def handle_message(event):
         survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
         sh = gc.open_by_url(survey_url)
         ws = sh.sheet1
-        ws2 = sh.sheet2
+        ws.update_value('A1', 'test')
+        #ws2 = sh.sheet2
         # 輸出
         ws.export(filename='df')
         # 讀取
