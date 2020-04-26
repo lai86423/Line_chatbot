@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-
+import numpy as np
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -7,15 +7,11 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-
 from googletrans import Translator
-
 import sys
 import datetime
+import pygsheets
 
-import pygsheets
-gc = pygsheets.authorize(service_file='question.json')
-import pygsheets
 
 app = Flask(__name__)
 
@@ -43,24 +39,46 @@ def callback():
         abort(400)
     return 'OK'
 
+#取得第一次交談時的歡迎詞
+welcomeStr=getWelcomeStr()
+users=[]
+defaultFuncNum=1
+
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    
+    if event.message.text== 'text':
+        #if user_id is None:
+        #    user_id = event.source.user_id
+        #    print("user_id =", user_id)
+        gc = pygsheets.authorize(service_account_file='question.json')
+        survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+        sh = gc.open_by_url(survey_url)
+        ws = sh.sheet1
+        ws2 = sh.sheet2
+        # 輸出
+        ws.export(filename='df')
+        # 讀取
+        df3 = pd.read_csv('df.csv')
+        print(df3)
+        line_bot_api.reply_message(event.reply_token, message)
+    print("=======Reply Token=======")
+    print(event.reply_token)
+    print("=========================")
+
+def question():
     gc = pygsheets.authorize(service_account_file='question.json')
     survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
     sh = gc.open_by_url(survey_url)
-
-    # Update a single cell.
-    #ws.update_value('A1', "Numbers on Stuff")
     ws = sh.sheet1
     ws.update_value('A1', 'test')
-    # Update the worksheet with the numpy array values. Beginning at cell 'A2'.
-    #ws.update_values('A2', my_numpy_array.to_list())
 
+def translate():
     translator = Translator()
+    lang = translator.detect(event.message.text)
+    print("Lang=",lang.lang)
     if event.message.type == 'text':
-        lang = translator.detect(event.message.text)
-        print("Lang=",lang.lang)
         if lang.lang == "zh-CN" :
             print("this is Chinese")
             translateMessage = translator.translate(event.message.text, dest='en')
@@ -77,14 +95,16 @@ def handle_message(event):
     else:
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
-    #print("event-----",event)
-    line_bot_api.reply_message(event.reply_token, message)
 
+def getWelcomeStr():
+    myResult='您好，歡迎來到資策會英文小教室。輸入數字切換功能：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
+    
+   return myResult
 
-    print("=======Reply Token=======")
-    print(event.reply_token)
-    print("=========================")
-
+def setFunction(FuncNum):
+    defaultFuncNum=FuncNum
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=''))
+    
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
