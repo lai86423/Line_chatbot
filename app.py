@@ -24,6 +24,17 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
+gc = pygsheets.authorize(service_account_file='question.json')
+survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+sh = gc.open_by_url(survey_url)
+ws = sh.sheet1
+# 讀取單一儲存格值
+val = ws.get_value('A1')
+print(val)
+# 以dataframe形式讀取資料
+user_df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
+print(type(user_df))
+
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -52,16 +63,8 @@ def handle_message(event):
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)
-        gc = pygsheets.authorize(service_account_file='question.json')
-        survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
-        sh = gc.open_by_url(survey_url)
-        ws = sh.sheet1
-        # 讀取單一儲存格值
-        val = ws.get_value('A1')
-        # 以dataframe形式讀取資料
-        user_df = ws.get_as_df(start='A2', index_colum=0, empty_value='', include_tailing_empty=False) # index 從 0 開始算
-        print(user_df)
         
+
         #ws2 = sh.sheet2
         # 輸出
         #ws.export(filename='df')
