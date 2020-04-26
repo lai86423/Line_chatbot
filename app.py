@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-import numpy as np
 from linebot import (
     LineBotApi, WebhookHandler
 )
@@ -7,6 +6,8 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+import numpy as np
+import pandas as pd
 from googletrans import Translator
 import sys
 import datetime
@@ -62,7 +63,7 @@ def handle_message(event):
         # 讀取
         df3 = pd.read_csv('df.csv')
         print(df3)
-        line_bot_api.reply_message(event.reply_token, message)
+        #line_bot_api.reply_message(event.reply_token, message)
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
@@ -74,7 +75,7 @@ def question():
     ws = sh.sheet1
     ws.update_value('A1', 'test')
 
-def translate():
+def translate(event):
     translator = Translator()
     lang = translator.detect(event.message.text)
     print("Lang=",lang.lang)
