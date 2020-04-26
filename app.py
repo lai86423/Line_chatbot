@@ -32,9 +32,26 @@ ws = sh.sheet1
 val = ws.get_value('A1')
 print(val)
 # 以dataframe形式讀取資料
-user_df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
-print(user_df[0][1])
-
+df = ws.get_as_df(start='A1', index_colum=0, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
+question = df[0]
+optionA = df[1]
+optionB = df[2]
+optionC = df[3]
+optionD = df[4]
+feedback = df[5]
+answer = df[6]
+sheet = {
+    "question": question,
+    "optionA": optionA,
+    "optionB": optionB,
+    "optionC": optionC,
+    "optionD": optionD,
+    "feedback": feedback,
+    "answer": answer
+}
+print("Sheet = ",sheet)
+num = len(sheet["question"])
+isAsked = False
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -59,12 +76,28 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    if event.message.type== 'text':
+    if event.message.type == 'text':
+        if( isAsked == False ):
+            for i in range(num):
+                print(sheet["question"][i])
+                question = sheet["question"][i]
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=question))  
+                print("1:", sheet["optionA"][i], "\n2:", sheet["optionB"][i], "\n3:", sheet["optionC"][i],
+                      "\n4:", sheet["optionD"][i], "\n")
+
+                option = "1:" + sheet["optionA"][i] + "\n2:" + sheet["optionB"][i] + "\n3:" + 
+                         sheet["optionC"][i] + "\n4:" + sheet["optionD"][i] + "\n"
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=option))
+                isAsked = True
+        else:
+            if(event.message.text != str(sheet["answer"][i])):
+                feedback = sheet["feedback"][i]
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback)
+                isAsked = False
+
         #if user_id is None:
         #    user_id = event.source.user_id
-        #    print("user_id =", user_id)
-        
-
+        #    print("user_id =", user_id)       
         #ws2 = sh.sheet2
         # 輸出
         #ws.export(filename='df')
