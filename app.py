@@ -50,7 +50,7 @@ sheet = {
 }
 num = len(sheet["question"])
 isAsked = False
-
+index = 0
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -75,6 +75,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     global isAsked
+    global index
     if event.message.type == 'text':
         if( isAsked == False ):
             for i in range(num):
@@ -88,21 +89,16 @@ def handle_message(event):
                 ask = option + question
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
                 isAsked = True
+                index = i
         else:
-            if(event.message.text != str(sheet["answer"][i])):
-                feedback = sheet["feedback"][i]
+            if(event.message.text != str(sheet["answer"][index])):
+                feedback = sheet["feedback"][index]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
                 isAsked = False
 
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)       
-        #ws2 = sh.sheet2
-        # 輸出
-        #ws.export(filename='df')
-        # 讀取
-        #df3 = pd.read_csv('df.csv')
-        #print("df=",df3)
 
         #if (df3==None):
         #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
