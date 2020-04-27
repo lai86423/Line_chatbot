@@ -33,15 +33,14 @@ df = pd.read_csv('df.csv')
 # 以dataframe形式讀取資料
 #df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
 print("DF=",df,type(df))
-print(df.iloc[:,0])
-print(df.ix[0])
-question = df.ix[0]
-optionA = df[1]
-optionB = df[2]
-optionC = df[3]
-optionD = df[4]
-feedback = df[5]
-answer = df[6]
+print("DF1",df.iloc[:,0],"DF2",df.iloc[:,1])
+question = df.iloc[:,0]
+optionA = df.iloc[:,1]
+optionB = df.iloc[:,2]
+optionC = df.iloc[:,3]
+optionD = df.iloc[:,4]
+feedback = df.iloc[:,5]
+answer = df.iloc[:,6]
 sheet = {
     "question": question,
     "optionA": optionA,
