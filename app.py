@@ -85,7 +85,7 @@ def handle_message(event):
             option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
                         sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
             question = sheet["question"][index]
-            ask = option + question
+            ask = question + option  
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
