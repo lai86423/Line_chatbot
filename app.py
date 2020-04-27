@@ -77,25 +77,24 @@ def handle_message(event):
     global isAsked
     global index
     if event.message.type == 'text':
-        if( isAsked == False ):
-            for i in range(num):
-                print(sheet["question"][i])
-                print("1:", sheet["optionA"][i], "\n2:", sheet["optionB"][i], "\n3:", sheet["optionC"][i],
-                      "\n4:", sheet["optionD"][i], "\n")
+        if( isAsked == False ):            
+            print(sheet["question"][index])
+            print("1:", sheet["optionA"][index], "\n2:", sheet["optionB"][index], "\n3:", sheet["optionC"][index],
+                    "\n4:", sheet["optionD"][index], "\n")
 
-                option = ("1:" + sheet["optionA"][i] + "\n2:" + sheet["optionB"][i] + "\n3:" + 
-                         sheet["optionC"][i] + "\n4:" + sheet["optionD"][i] + "\n")
-                question = sheet["question"][i]
-                ask = option + question
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
-                isAsked = True
-                index = i
+            option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
+                        sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
+            question = sheet["question"][index]
+            ask = option + question
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
+            isAsked = True
+            
         else:
             if(event.message.text != str(sheet["answer"][index])):
                 feedback = sheet["feedback"][index]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
                 isAsked = False
-
+                index += 1
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)       
