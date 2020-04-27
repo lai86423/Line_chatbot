@@ -48,7 +48,6 @@ sheet = {
     "feedback": feedback,
     "answer": answer
 }
-print("Sheet = ",sheet)
 num = len(sheet["question"])
 isAsked = False
 
@@ -80,14 +79,14 @@ def handle_message(event):
         if( isAsked == False ):
             for i in range(num):
                 print(sheet["question"][i])
-                question = sheet["question"][i]
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=question))  
                 print("1:", sheet["optionA"][i], "\n2:", sheet["optionB"][i], "\n3:", sheet["optionC"][i],
                       "\n4:", sheet["optionD"][i], "\n")
 
                 option = ("1:" + sheet["optionA"][i] + "\n2:" + sheet["optionB"][i] + "\n3:" + 
                          sheet["optionC"][i] + "\n4:" + sheet["optionD"][i] + "\n")
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=option))
+                question = sheet["question"][i]
+                ask = option + question
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
                 isAsked = True
         else:
             if(event.message.text != str(sheet["answer"][i])):
