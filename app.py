@@ -32,8 +32,6 @@ ws.export(filename='df')
 df = pd.read_csv('df.csv')
 # 以dataframe形式讀取資料
 #df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
-print("Question",df.loc[:,['Question']])
-print("DF",df.iloc[:,0])
 question = df.iloc[:,0]
 optionA = df.iloc[:,1]
 optionB = df.iloc[:,2]
@@ -77,6 +75,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
+    global isAsked
     if event.message.type == 'text':
         if( isAsked == False ):
             for i in range(num):
