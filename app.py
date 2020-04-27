@@ -85,7 +85,7 @@ def handle_message(event):
             option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
                         sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
             question = sheet["question"][index]
-            ask = question + option  
+            ask = question + "\n" + option  
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
@@ -93,6 +93,11 @@ def handle_message(event):
             if(event.message.text != str(sheet["answer"][index])):
                 feedback = sheet["feedback"][index]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
+                isAsked = False
+                index += 1
+            else:
+                print('答對了！你真棒！')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
                 isAsked = False
                 index += 1
         #if user_id is None:
