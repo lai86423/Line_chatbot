@@ -49,8 +49,10 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-global isAsked = False
-global index = 0
+global isAsked
+global index
+isAsked = False
+index = 0
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -156,12 +158,12 @@ def handle_postback(event):
     print("postback(answer) = ", answer)
     if(answer != str(sheet["answer"][index])):
         feedback = sheet["feedback"][index]
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
         isAsked = False
         index += 1
     else:
         print('答對了！你真棒！')
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
         index += 1
 
