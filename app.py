@@ -49,10 +49,11 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-global isAsked
-global index
+
 isAsked = False
 index = 0
+global isAsked
+global index
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
