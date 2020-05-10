@@ -49,8 +49,8 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-isAsked = False
-index = 0
+global isAsked = False
+global index = 0
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -74,8 +74,8 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    global isAsked
-    global index
+    #global isAsked
+    #global index
     if event.message.type == 'text':
         if( isAsked == False ):            
             print(sheet["question"][index])
