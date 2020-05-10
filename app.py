@@ -99,7 +99,7 @@ def handle_message(event):
                     actions = [
                             PostbackTemplateAction(
                                 label = 'option A', 
-                                text = "(A)" 
+                                text = ("(A)" + sheet["optionA"][index]),
                                 data = 'A'
                             )
                             # PostbackTemplateAction(
