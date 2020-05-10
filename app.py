@@ -155,7 +155,7 @@ def handle_message(event):
 def handle_postback(event):
     global isAsked
     global index
-    print("isAsked = ", isAsked)
+    print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
     print("postback(answer) = ", answer)
