@@ -98,25 +98,25 @@ def handle_message(event):
                     #thumbnail_image_url = '顯示在開頭的大圖片網址',
                     actions = [
                             PostbackTemplateAction(
-                                label = 'option A', 
-                                text = ("(A)" + sheet["optionA"][index]),
+                                label = ("(A)" + sheet["optionA"][index]), 
+                                text = "(A)",
                                 data = 'A'
                             )
-                            # PostbackTemplateAction(
-                            #     label = 'option B',
-                            #     text = "(B):" + sheet["optionB"][index]
-                            #     data = 'B'
-                            # ),
-                            # PostbackTemplateAction(
-                            #     label = 'option C',
-                            #     text = "(C):" + sheet["optionC"][index]
-                            #     data = 'C'
-                            # ),
-                            # PostbackTemplateAction(
-                            #     label = 'option D',
-                            #     text = "(D):" + sheet["optionD"][index]
-                            #     data = 'D'
-                            # )
+                            PostbackTemplateAction(
+                                label = "(B):" + sheet["optionB"][index],
+                                text = "(B)",
+                                data = 'B'
+                            ),
+                            PostbackTemplateAction(
+                                label = "(C):" + sheet["optionC"][index],
+                                text = "(C)",
+                                data = 'C'
+                            ),
+                            PostbackTemplateAction(
+                                label = "(D):" + sheet["optionD"][index],
+                                text = "(D)",
+                                data = 'D'
+                            )
                     ]
                 )
             )
@@ -151,7 +151,7 @@ def handle_message(event):
     print("=========================")
 def handle_postback(event):
     ts = event.postback.data
-    print(ts)
+    print("postback = ", ts)
     # if(event.message.text != str(sheet["answer"][index])):
     #     feedback = sheet["feedback"][index]
     #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
