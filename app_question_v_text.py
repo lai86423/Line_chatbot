@@ -86,54 +86,20 @@ def handle_message(event):
                         sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
             question = sheet["question"][index]
             ask = question + "\n" + option  
-            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
-
-            buttons_template = TemplateSendMessage (
-                alt_text = 'Buttons Template',
-                template = ButtonsTemplate(
-                    title = '出題小老師',
-                    text = question,
-                    #thumbnail_image_url = '顯示在開頭的大圖片網址',
-                    actions = [
-                            PostbackTemplateAction(
-                                label = ("(A) " + sheet["optionA"][index]), 
-                                text = "(A)",
-                                data = 'A'
-                            ),
-                            PostbackTemplateAction(
-                                label = "(B) " + sheet["optionB"][index],
-                                text = "(B)",
-                                data = 'B'
-                            ),
-                            PostbackTemplateAction(
-                                label = "(C) " + sheet["optionC"][index],
-                                text = "(C)",
-                                data = 'C'
-                            ),
-                            PostbackTemplateAction(
-                                label = "(D) " + sheet["optionD"][index],
-                                text = "(D)",
-                                data = 'D'
-                            )
-                    ]
-                )
-            )
-            line_bot_api.reply_message(event.reply_token, buttons_template)
-            
-        # else:
-        #     if(event.message.text != str(sheet["answer"][index])):
-        #         feedback = sheet["feedback"][index]
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
-        #         isAsked = False
-        #         index += 1
-        #     else:
-        #         print('答對了！你真棒！')
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
-        #         isAsked = False
-        #         index += 1
-        
+        else:
+            if(event.message.text != str(sheet["answer"][index])):
+                feedback = sheet["feedback"][index]
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
+                isAsked = False
+                index += 1
+            else:
+                print('答對了！你真棒！')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
+                isAsked = False
+                index += 1
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)       
@@ -145,25 +111,10 @@ def handle_message(event):
         #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
         #    print('要問的問題已下載完畢！')
         
-        #line_bot_api.reply_message(event.reply_token, text='hi.')
+        line_bot_api.reply_message(event.reply_token, text='hi.')
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
-    
-@handler.add(PostbackEvent)
-def handle_postback(event):
-    answer = event.postback.data
-    print("postback(answer) = ", answer)
-    if(answer != str(sheet["answer"][index])):
-        feedback = sheet["feedback"][index]
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
-        isAsked = False
-        index += 1
-    else:
-        print('答對了！你真棒！')
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
-        isAsked = False
-        index += 1
 
 def question():
     gc = pygsheets.authorize(service_account_file='question.json')
