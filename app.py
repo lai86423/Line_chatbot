@@ -77,17 +77,49 @@ def handle_message(event):
     global isAsked
     global index
     if event.message.type == 'text':
-        # if( isAsked == False ):            
-        #     print(sheet["question"][index])
-        #     print("1:", sheet["optionA"][index], "\n2:", sheet["optionB"][index], "\n3:", sheet["optionC"][index],
-        #             "\n4:", sheet["optionD"][index], "\n")
+        if( isAsked == False ):            
+            print(sheet["question"][index])
+            print("1:", sheet["optionA"][index], "\n2:", sheet["optionB"][index], "\n3:", sheet["optionC"][index],
+                    "\n4:", sheet["optionD"][index], "\n")
 
-        #     option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
-        #                 sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
-        #     question = sheet["question"][index]
-        #     ask = question + "\n" + option  
-        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
-        #     isAsked = True
+            option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
+                        sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
+            question = sheet["question"][index]
+            ask = question + "\n" + option  
+            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
+            isAsked = True
+            
+            buttons_template = TemplateSendMessage (
+                alt_text='Buttons Template',
+                template=ButtonsTemplate(
+                    title = '出題小老師',
+                    text = question,
+                    #thumbnail_image_url = '顯示在開頭的大圖片網址',
+                    actions = [
+                            PostbackTemplateAction(
+                                label = 'option A', 
+                                text = "(A)" + sheet["optionA"][index]
+                                data = 'A'
+                            ),
+                            PostbackTemplateAction(
+                                label = 'option B',
+                                text = "(B):" + sheet["optionB"][index]
+                                data = 'B'
+                            ),
+                            PostbackTemplateAction(
+                                label = 'option C',
+                                text = "(C):" + sheet["optionC"][index]
+                                data = 'C'
+                            ),
+                            PostbackTemplateAction(
+                                label = 'option D',
+                                text = "(D):" + sheet["optionD"][index]
+                                data = 'D'
+                            )
+                    ]
+                )
+            )
+            line_bot_api.reply_message(event.reply_token, buttons_template)
             
         # else:
         #     if(event.message.text != str(sheet["answer"][index])):
@@ -100,32 +132,7 @@ def handle_message(event):
         #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
         #         isAsked = False
         #         index += 1
-        #if event.message.text == "Buttons Template":
-        buttons_template = TemplateSendMessage (
-            alt_text='Buttons Template',
-            template=ButtonsTemplate(
-
-                title = '這是ButtonsTemplate',
-                text = 'ButtonsTemplate可以傳送text,uri',
-                #thumbnail_image_url = '顯示在開頭的大圖片網址',
-                actions = [
-                        MessageTemplateAction(
-                            label = 'ButtonsTemplate',
-                            text = 'ButtonsTemplate'
-                        ),
-                        URITemplateAction(
-                            label = 'VIDEO1',
-                            uri = 'https://john850512.wordpress.com/2019/02/02/python-line%E5%AE%A2%E8%A3%BD%E5%8C%96%E5%9B%9E%E8%A6%86%E8%A8%8A%E6%81%AF/'
-                        ),
-                        PostbackTemplateAction(
-                            label = 'postback',
-                            text = 'postback text',
-                            data = 'postback1'
-                        )
-                ]
-            )
-        )
-        line_bot_api.reply_message(event.reply_token, buttons_template)
+        
         #if user_id is None:
         #    user_id = event.source.user_id
         #    print("user_id =", user_id)       
@@ -141,6 +148,19 @@ def handle_message(event):
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
+def handle_postback(event):
+    ts = event.postback.data
+    print(ts)
+    # if(event.message.text != str(sheet["answer"][index])):
+    #     feedback = sheet["feedback"][index]
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
+    #     isAsked = False
+    #     index += 1
+    # else:
+    #     print('答對了！你真棒！')
+    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
+    #     isAsked = False
+    #     index += 1
 
 def question():
     gc = pygsheets.authorize(service_account_file='question.json')
