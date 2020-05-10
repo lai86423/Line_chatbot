@@ -101,7 +101,7 @@ def handle_message(event):
                                 label = ("(A)" + sheet["optionA"][index]), 
                                 text = "(A)",
                                 data = 'A'
-                            )
+                            ),
                             PostbackTemplateAction(
                                 label = "(B):" + sheet["optionB"][index],
                                 text = "(B)",
