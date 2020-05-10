@@ -89,33 +89,34 @@ def handle_message(event):
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
+
             buttons_template = TemplateSendMessage (
-                alt_text='Buttons Template',
-                template=ButtonsTemplate(
+                alt_text = 'Buttons Template',
+                template = ButtonsTemplate(
                     title = '出題小老師',
                     text = question,
                     #thumbnail_image_url = '顯示在開頭的大圖片網址',
                     actions = [
                             PostbackTemplateAction(
                                 label = 'option A', 
-                                text = "(A)" + sheet["optionA"][index]
+                                text = ("(A)" + sheet["optionA"][index])
                                 data = 'A'
-                            ),
-                            PostbackTemplateAction(
-                                label = 'option B',
-                                text = "(B):" + sheet["optionB"][index]
-                                data = 'B'
-                            ),
-                            PostbackTemplateAction(
-                                label = 'option C',
-                                text = "(C):" + sheet["optionC"][index]
-                                data = 'C'
-                            ),
-                            PostbackTemplateAction(
-                                label = 'option D',
-                                text = "(D):" + sheet["optionD"][index]
-                                data = 'D'
                             )
+                            # PostbackTemplateAction(
+                            #     label = 'option B',
+                            #     text = "(B):" + sheet["optionB"][index]
+                            #     data = 'B'
+                            # ),
+                            # PostbackTemplateAction(
+                            #     label = 'option C',
+                            #     text = "(C):" + sheet["optionC"][index]
+                            #     data = 'C'
+                            # ),
+                            # PostbackTemplateAction(
+                            #     label = 'option D',
+                            #     text = "(D):" + sheet["optionD"][index]
+                            #     data = 'D'
+                            # )
                     ]
                 )
             )
