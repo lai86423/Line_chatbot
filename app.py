@@ -80,11 +80,11 @@ def handle_message(event):
     if event.message.type == 'text':
         if( isAsked == False ):            
             print(sheet["question"][index])
-            print("1:", sheet["optionA"][index], "\n2:", sheet["optionB"][index], "\n3:", sheet["optionC"][index],
-                    "\n4:", sheet["optionD"][index], "\n")
+            print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
+                    "\n4:", sheet["option4"][index], "\n")
 
-            option = ("1:" + sheet["optionA"][index] + "\n2:" + sheet["optionB"][index] + "\n3:" + 
-                        sheet["optionC"][index] + "\n4:" + sheet["optionD"][index] + "\n")
+            option = ("1:" + sheet["option1"][index] + "\n2:" + sheet["option2"][index] + "\n3:" + 
+                        sheet["option3"][index] + "\n4:" + sheet["option4"][index] + "\n")
             question = sheet["question"][index]
             ask = question + "\n" + option  
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
