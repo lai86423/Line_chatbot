@@ -123,17 +123,6 @@ def handle_message(event):
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
-        # else:
-        #     if(event.message.text != str(sheet["answer"][index])):
-        #         feedback = sheet["feedback"][index]
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=feedback))
-        #         isAsked = False
-        #         index += 1
-        #     else:
-        #         print('答對了！你真棒！')
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
-        #         isAsked = False
-        #         index += 1
         
         #if user_id is None:
         #    user_id = event.source.user_id
@@ -169,7 +158,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index <= num:
+    if index < num:
         index += 1
     else:
         index = 0
