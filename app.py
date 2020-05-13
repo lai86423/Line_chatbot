@@ -22,16 +22,20 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 # Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
+#------------------------------------------------
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
 sh = gc.open_by_url(survey_url)
 ws = sh.sheet1
-ws.export(filename='df')
-df = pd.read_csv('df.csv')
-# 以dataframe形式讀取資料
-#df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
+ws.export(filename='df') #先把google sheet存下來
+data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
+isAsked = False
+index = 0
+Num =10
+df = data.sample(frac =1) #Random打亂資料再取n筆題
+print(df)
 question = df.iloc[:,0]
 option1 = df.iloc[:,1]
 option2 = df.iloc[:,2]
@@ -49,9 +53,9 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-print("Q num = ",num)
-isAsked = False
-index = 0
+print("Num num = ",Num,num)
+
+#------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -90,7 +94,6 @@ def handle_message(event):
             #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
-
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
                 template = ButtonsTemplate(
@@ -122,20 +125,7 @@ def handle_message(event):
                 )
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
-            
-        
-        #if user_id is None:
-        #    user_id = event.source.user_id
-        #    print("user_id =", user_id)       
-
-        #if (df3==None):
-        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
-        #    print('No data found.')
-        #else: 
-        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
-        #    print('要問的問題已下載完畢！')
-        
-        #line_bot_api.reply_message(event.reply_token, text='hi.')
+     
     print("=======Reply Token=======")
     print(event.reply_token)
     print("=========================")
@@ -144,7 +134,8 @@ def handle_message(event):
 def handle_postback(event):
     global isAsked
     global index
-    global num
+    global Num
+    global 
     print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
@@ -158,9 +149,10 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < num:
+    if index < Num:
         index += 1
     else:
+        df = data.sample(n=6) #Random打亂資料再取n筆題
         index = 0
 
 def question():
@@ -192,14 +184,12 @@ def translate(event):
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
 
-def getWelcomeStr():
-    myResult='您好，歡迎來到資策會英文小教室。輸入數字切換功能：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
-    
-    #return myResult
+#def getWelcomeStr():
+#    myResult='您好，歡迎來到資策會英文小教室。輸入數字切換功能：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
 
-def setFunction(FuncNum,event):
-    defaultFuncNum=FuncNum
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=''))
+#def setFunction(FuncNum,event):
+#    defaultFuncNum=FuncNum
+#    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=''))
     
 import os
 if __name__ == "__main__":
