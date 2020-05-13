@@ -9,10 +9,11 @@ from linebot.models import *
 import numpy as np
 import pandas as pd
 from googletrans import Translator
-import sys
-import datetime
-import pygsheets
 
+##出題小達人 
+import sys 
+import datetime 
+import pygsheets 
 
 app = Flask(__name__)
 
@@ -22,6 +23,9 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 # Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
+#------------------------------------------
+##出題小達人此處開始讀檔 初始參數
+
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
@@ -30,7 +34,7 @@ sh = gc.open_by_url(survey_url)
 ws = sh.sheet1
 ws.export(filename='df')
 df = pd.read_csv('df.csv')
-# 以dataframe形式讀取資料
+#以dataframe形式讀取資料
 #df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
 question = df.iloc[:,0]
 optionA = df.iloc[:,1]
@@ -51,6 +55,8 @@ sheet = {
 num = len(sheet["question"])
 isAsked = False
 index = 0
+
+#----------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -66,12 +72,9 @@ def callback():
         abort(400)
     return 'OK'
 
-#取得第一次交談時的歡迎詞
-#welcomeStr=getWelcomeStr()
-#users=[]
-#defaultFuncNum=1
-
+#----------------------------------------------------
 # 處理訊息
+## 出題小達人功能
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     global isAsked
@@ -100,16 +103,6 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text='答對了！你真棒！'))
                 isAsked = False
                 index += 1
-        #if user_id is None:
-        #    user_id = event.source.user_id
-        #    print("user_id =", user_id)       
-
-        #if (df3==None):
-        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='No data found.'))
-        #    print('No data found.')
-        #else: 
-        #    line_bot_api.reply_message(event.reply_token, TextSendMessage(text='要問的問題已下載完畢！'))
-        #    print('要問的問題已下載完畢！')
         
         line_bot_api.reply_message(event.reply_token, text='hi.')
     print("=======Reply Token=======")
@@ -123,36 +116,28 @@ def question():
     ws = sh.sheet1
     ws.update_value('A1', 'test')
 
-def translate(event):
-    translator = Translator()
-    lang = translator.detect(event.message.text)
-    print("Lang=",lang.lang)
-    if event.message.type == 'text':
-        if lang.lang == "zh-CN" :
-            print("this is Chinese")
-            translateMessage = translator.translate(event.message.text, dest='en')
-            print(translateMessage.text)
-            message = TextSendMessage(text=translateMessage.text)
-        elif lang.lang =="en":
-            print("this is English")
-            translateMessage = translator.translate(event.message.text, dest='zh-tw')
-            print(translateMessage.text)
-            message = TextSendMessage(text=translateMessage.text)
-        else:
-            print("I can't translate this kind of message")
-            message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
-    else:
-        message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
-    print("message=",message)
-
-def getWelcomeStr():
-    myResult='您好，歡迎來到資策會英文小教室。輸入數字切換功能：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
-    
-    #return myResult
-
-def setFunction(FuncNum,event):
-    defaultFuncNum=FuncNum
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=''))
+#-------------------------------------------------------
+# def translate(event):
+#     translator = Translator()
+#     lang = translator.detect(event.message.text)
+#     print("Lang=",lang.lang)
+#     if event.message.type == 'text':
+#         if lang.lang == "zh-CN" :
+#             print("this is Chinese")
+#             translateMessage = translator.translate(event.message.text, dest='en')
+#             print(translateMessage.text)
+#             message = TextSendMessage(text=translateMessage.text)
+#         elif lang.lang =="en":
+#             print("this is English")
+#             translateMessage = translator.translate(event.message.text, dest='zh-tw')
+#             print(translateMessage.text)
+#             message = TextSendMessage(text=translateMessage.text)
+#         else:
+#             print("I can't translate this kind of message")
+#             message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
+#     else:
+#         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
+#     print("message=",message)
     
 import os
 if __name__ == "__main__":
