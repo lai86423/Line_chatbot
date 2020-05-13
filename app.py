@@ -49,7 +49,7 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-
+print("Q num = ",num)
 isAsked = False
 index = 0
 # 監聽所有來自 /callback 的 Post Request
@@ -155,20 +155,24 @@ def handle_message(event):
 def handle_postback(event):
     global isAsked
     global index
+    global num
     print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
     print("postback(answer) = ", answer)
-    if(answer != str(sheet["answer"][index])):
+    if answer != str(sheet["answer"][index]):
         feedback = sheet["feedback"][index]
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-        isAsked = False
-        index += 1
+        isAsked = False       
     else:
         print('答對了！你真棒！')
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
+
+    if index <= num:
         index += 1
+    else:
+        index = 0
 
 def question():
     gc = pygsheets.authorize(service_account_file='question.json')
