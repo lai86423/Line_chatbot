@@ -33,7 +33,6 @@ ws.export(filename='df') #先把google sheet存下來
 data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
 isAsked = False
 index = 0
-Num =10
 df = data.sample(frac =1) #Random打亂資料再取n筆題
 print(df)
 question = df.iloc[:,0]
@@ -53,7 +52,7 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-print("Num num = ",Num,num)
+print("num = ",num)
 
 #------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -134,8 +133,6 @@ def handle_message(event):
 def handle_postback(event):
     global isAsked
     global index
-    global Num
-    global 
     print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
@@ -149,7 +146,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < Num:
+    if index < num:
         index += 1
     else:
         df = data.sample(n=6) #Random打亂資料再取n筆題
