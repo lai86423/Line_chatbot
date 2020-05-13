@@ -33,18 +33,18 @@ df = pd.read_csv('df.csv')
 # 以dataframe形式讀取資料
 #df = ws.get_as_df(index_colum=None, empty_value='', include_tailing_empty=False,numerize=False) # index 從 0 開始算
 question = df.iloc[:,0]
-optionA = df.iloc[:,1]
-optionB = df.iloc[:,2]
-optionC = df.iloc[:,3]
-optionD = df.iloc[:,4]
+option1 = df.iloc[:,1]
+option2 = df.iloc[:,2]
+option3 = df.iloc[:,3]
+option4 = df.iloc[:,4]
 feedback = df.iloc[:,5]
 answer = df.iloc[:,6]
 sheet = {
     "question": question,
-    "optionA": optionA,
-    "optionB": optionB,
-    "optionC": optionC,
-    "optionD": optionD,
+    "option1": option1,
+    "option2": option2,
+    "option3": option3,
+    "option4": option4,
     "feedback": feedback,
     "answer": answer
 }
@@ -99,24 +99,24 @@ def handle_message(event):
                     #thumbnail_image_url = '顯示在開頭的大圖片網址',
                     actions = [
                             PostbackTemplateAction(
-                                label = ("(A) " + sheet["optionA"][index]), 
-                                text = "(A)",
-                                data = 'A'
+                                label = ("(1) " + sheet["option1"][index]), 
+                                text = "(1)",
+                                data = '1'
                             ),
                             PostbackTemplateAction(
-                                label = "(B) " + sheet["optionB"][index],
-                                text = "(B)",
-                                data = 'B'
+                                label = "(2) " + sheet["option2"][index],
+                                text = "(2)",
+                                data = '2'
                             ),
                             PostbackTemplateAction(
-                                label = "(C) " + sheet["optionC"][index],
-                                text = "(C)",
-                                data = 'C'
+                                label = "(3) " + sheet["option3"][index],
+                                text = "(3)",
+                                data = '3'
                             ),
                             PostbackTemplateAction(
-                                label = "(D) " + sheet["optionD"][index],
-                                text = "(D)",
-                                data = 'D'
+                                label = "(4) " + sheet["option4"][index],
+                                text = "(4)",
+                                data = '4'
                             )
                     ]
                 )
