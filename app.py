@@ -199,17 +199,17 @@ def setLevel(levelinput):
     if (levelinput=='1'):
         level = 1
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入將開始出題～～')
+        myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入將開始出題～～")
     elif (levelinput=='2'):
         level = 2
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 2 中級\n 請任意輸入將開始出題～～')    
+        myResult= ("目前程度切換至Level 2 中級\n 請任意輸入將開始出題～～")    
     elif (levelinput=='3'):
         level = 3
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 3 高級\n 請任意輸入將開始出題～～')  
+        myResult= ("目前程度切換至Level 3 高級\n 請任意輸入將開始出題～～")  
     else:
-        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定題目程度指令'
+        myResult="您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定題目程度指令"
 
     print(myResult)    
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
