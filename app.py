@@ -9,20 +9,20 @@ from linebot.models import *
 import numpy as np
 import pandas as pd
 from googletrans import Translator
+
+##出題小老師  import-----------------------------------------------
 import sys
 import datetime
 import pygsheets
 
-
 app = Flask(__name__)
 
-# LINE 聊天機器人的基本資料
-# # Channel Access Token
+#Channel Access Token
 line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
-# Channel Secret  
+#Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
-#------------------------------------------------
+##出題小老師  初始抓資料＆資料處理------------------------------------------------
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
@@ -34,7 +34,7 @@ data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
 isAsked = False
 index = 0
 df = data.sample(frac =1) #Random打亂資料再取n筆題
-print(df)
+#print(df)
 question = df.iloc[:,0]
 option1 = df.iloc[:,1]
 option2 = df.iloc[:,2]
@@ -52,9 +52,9 @@ sheet = {
     "answer": answer
 }
 num = len(sheet["question"])
-print("num = ",num)
+#print("num = ",num)
 
-#------------------------------------------------
+##------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -70,12 +70,7 @@ def callback():
         abort(400)
     return 'OK'
 
-#取得第一次交談時的歡迎詞
-#welcomeStr=getWelcomeStr()
-#users=[]
-#defaultFuncNum=1
-
-# 處理訊息
+##出題小老師  處理訊息------------------------------------------------
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     global isAsked
@@ -91,12 +86,11 @@ def handle_message(event):
                         sheet["option3"][index] + "\n4:" + sheet["option4"][index] + "\n")
             question = sheet["question"][index]
             ask = question + "\n" + option  
-            #line_bot_api.reply_message(event.reply_token, TextSendMessage(text=ask))  
             isAsked = True
             
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
-                template = ButtonsTemplate(
+                template = ButtonsTemplate (
                     title = '出題小老師',
                     text = question,
                     #thumbnail_image_url = '顯示在開頭的大圖片網址',
@@ -124,20 +118,20 @@ def handle_message(event):
                     ]
                 )
             )
-            line_bot_api.reply_message(event.reply_token, buttons_template)
-     
-    print("=======Reply Token=======")
-    print(event.reply_token)
-    print("=========================")
-    
+            line_bot_api.reply_message(event.reply_token, buttons_template)   
+    #print("=======Reply Token=======")
+    #print(event.reply_token)
+    #print("=========================")
+
+##出題小老師  回饋判斷------------------------------------------------
 @handler.add(PostbackEvent)
 def handle_postback(event):
     global isAsked
     global index
-    print("correct answer = ",str(sheet["answer"][index]))
-    print("index = ", index)
+    #print("correct answer = ",str(sheet["answer"][index]))
+    #print("index = ", index)
     answer = event.postback.data
-    print("postback(answer) = ", answer)
+    #print("postback(answer) = ", answer)
     if answer != str(sheet["answer"][index]):
         feedback = sheet["feedback"][index]
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
@@ -152,14 +146,9 @@ def handle_postback(event):
     else:
         df = data.sample(n=6) #Random打亂資料再取n筆題
         index = 0
-    print("index after = ", index)
+    #print("index after = ", index)
 
-def question():
-    gc = pygsheets.authorize(service_account_file='question.json')
-    survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
-    sh = gc.open_by_url(survey_url)
-    ws = sh.sheet1
-    ws.update_value('A1', 'test')
+##出題小老師 End------------------------------------------------
 
 def translate(event):
     translator = Translator()
