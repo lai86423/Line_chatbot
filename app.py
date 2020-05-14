@@ -92,6 +92,7 @@ def handle_message(event):
         if (isChangingLevel == True):   
             setLevel(event)
         elif (replytext =='?'):
+            isAsked = False
             setLevel(event)
         else:
             if( isAsked == False ):     
@@ -174,6 +175,7 @@ def setLevel(event):
     global qNum
     global level
     global isChangingLevel
+    global isAsked
     levelinput = event.message.text
     if (levelinput=='1'):
         level = 1
