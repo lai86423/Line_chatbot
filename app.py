@@ -165,30 +165,7 @@ def handle_postback(event):
         index = 0
     print("index after = ", index)
 
-##出題小老師 End------------------------------------------------
-
-def translate(event):
-    translator = Translator()
-    lang = translator.detect(event.message.text)
-    print("Lang=",lang.lang)
-    if event.message.type == 'text':
-        if lang.lang == "zh-CN" :
-            print("this is Chinese")
-            translateMessage = translator.translate(event.message.text, dest='en')
-            print(translateMessage.text)
-            message = TextSendMessage(text=translateMessage.text)
-        elif lang.lang =="en":
-            print("this is English")
-            translateMessage = translator.translate(event.message.text, dest='zh-tw')
-            print(translateMessage.text)
-            message = TextSendMessage(text=translateMessage.text)
-        else:
-            print("I can't translate this kind of message")
-            message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
-    else:
-        message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
-    print("message=",message)
-
+##出題小老師  設定Level------------------------------------------------
 def setLevel(event):
     print("---Changing Level---")
     global data
@@ -219,8 +196,30 @@ def setLevel(event):
     sheet,qNum = getSheet()
     print("sheet",sheet)
     print("qNum",qNum)
-
     
+##出題小老師  End------------------------------------------------
+
+def translate(event):
+    translator = Translator()
+    lang = translator.detect(event.message.text)
+    print("Lang=",lang.lang)
+    if event.message.type == 'text':
+        if lang.lang == "zh-CN" :
+            print("this is Chinese")
+            translateMessage = translator.translate(event.message.text, dest='en')
+            print(translateMessage.text)
+            message = TextSendMessage(text=translateMessage.text)
+        elif lang.lang =="en":
+            print("this is English")
+            translateMessage = translator.translate(event.message.text, dest='zh-tw')
+            print(translateMessage.text)
+            message = TextSendMessage(text=translateMessage.text)
+        else:
+            print("I can't translate this kind of message")
+            message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
+    else:
+        message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
+    print("message=",message)    
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
