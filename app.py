@@ -86,13 +86,13 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
-    global isChangingLevel
     replytext = event.message.text
     #myId = event.source.user_id
     if event.message.type == 'text':   
-        if (isChangingLevel == True or replytext =='?'):   
-                isChangingLevel = True
-                setLevel(event)
+        if (isChangingLevel == True):   
+            setLevel(event)
+        elif (replytext =='?'):
+            setLevel(event)
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -187,7 +187,8 @@ def setLevel(event):
         level = 3
         isChangingLevel = False
         myResult= ("目前程度切換至Level 3 高級\n 請任意輸入將開始出題～～")  
-    else:
+    else:       
+        isChangingLevel = True
         myResult="您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3:高級？：列出設定題目程度指令"
     
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
