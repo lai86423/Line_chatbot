@@ -31,7 +31,7 @@ GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
-#sh = gc.open_by_url(survey_url)
+sh = gc.open_by_url(survey_url)
 def getData(level):
     ws = sh.sheet1
     ws.export(filename='df') #先把google sheet存下來
@@ -60,7 +60,7 @@ def getSheet():
     print("df = ",df)
     print("num = ",qutionNum)
     return sheet,qutionNum
-    
+
 data = getData(level)
 sheet,qutionNum = getData
 ##------------------------------------------------
