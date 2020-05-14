@@ -24,8 +24,9 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##出題小老師  初始抓資料＆資料處理------------------------------------------------
 #users = np.array(('0','0',0)) #userID,level,point
-level = 1
+level = 0
 isAsked = False
+isChangingLevel = True
 index = 0
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
@@ -64,6 +65,7 @@ def getSheet():
 data = getData(level)
 sheet,qNum = getSheet()
 ##------------------------------------------------
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -84,15 +86,15 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
+    replytext = event.message.text
     #myId = event.source.user_id
-    if event.message.type == 'text':       
-        # if level == 0:
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0))) 
-        # elif level ==1: #level
-        #         level = event.message.text
-        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(level)) 
-        # else:
-            #print("users[0]",users[0])
+    if event.message.type == 'text':   
+        if (isChangingLevel == True or replytext =='?'):    
+            if level == 0:
+                setLevel('0')
+            else: #level
+                setLevel(replytext)
+        else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
                 print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
@@ -188,14 +190,34 @@ def translate(event):
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
 
-def setLevel(level):
-    users[1] = level
-    if (users[1]==0):
-        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定指令'
+def setLevel(levelinput):
+    global data
+    global sheet
+    global qNum
+    global level
+    global isChangingLevel
+    if (levelinput=='1'):
+        level = 1
+        isChangingLevel = False
+        myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入將開始出題～～')
+    elif (levelinput=='2'):
+        level = 2
+        isChangingLevel = False
+        myResult= ("目前程度切換至Level 2 中級\n 請任意輸入將開始出題～～')    
+    elif (levelinput=='3'):
+        level = 3
+        isChangingLevel = False
+        myResult= ("目前程度切換至Level 3 高級\n 請任意輸入將開始出題～～')  
     else:
-        myResult= ("目前程度切換至Level"+str(users[1])+'\n請任意輸入將開始出題～～')
-    print(myResult)
-    return myResult
+        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定題目程度指令'
+
+    print(myResult)    
+    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    data = getData(level)
+    sheet,qNum = getSheet()
+    print("sheet",sheet)
+    print("qNum",qNum)
+
     
 import os
 if __name__ == "__main__":
