@@ -86,6 +86,7 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
+    global isChangingLevel
     replytext = event.message.text
     #myId = event.source.user_id
     if event.message.type == 'text':   
@@ -196,7 +197,7 @@ def setLevel(event):
     sheet,qNum = getSheet()
     print("sheet",sheet)
     print("qNum",qNum)
-    
+
 ##出題小老師  End------------------------------------------------
 
 def translate(event):
