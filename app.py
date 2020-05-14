@@ -56,13 +56,13 @@ def getSheet():
         "feedback": feedback,
         "answer": answer
     }
-    qutionNum = len(sheet["question"])
+    qNum = len(sheet["question"])
     print("df = ",df)
-    print("num = ",qutionNum)
-    return sheet,qutionNum
+    print("num = ",qNum)
+    return sheet,qNum
 
 data = getData(level)
-sheet,qutionNum = getData
+sheet,qNum = getSheet()
 ##------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -157,7 +157,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < qutionNum:
+    if index < qNum:
         index += 1
     else:
         getSheet()
