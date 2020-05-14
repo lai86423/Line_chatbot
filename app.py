@@ -187,11 +187,13 @@ def translate(event):
     print("message=",message)
 
 def setLevel(level,event):
-        users[1] = int(level)
-        if (users[1]==0):
-            myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
-        else:
-            myResult= ("目前程度切換至Level"+str(users[1])+'\n請任意輸入將開始出題～～')
+
+    users[1] = int(level)
+    if (users[1]==0):
+        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
+    else:
+        myResult= ("目前程度切換至Level"+str(users[1])+'\n請任意輸入將開始出題～～')
+    print(myResult)
     return myResult
     
 import os
