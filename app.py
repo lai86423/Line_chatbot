@@ -147,7 +147,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if ind]]]]]]]]].ex < num:
+    if index < num:
         index += 1
     else:
         df = data.sample(n=6) #Random打亂資料再取n筆題
