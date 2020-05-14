@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 
-users = np.zeros(3) #userID,level,point
+users = np.array(('0',0,0)) #userID,level,point
 print("users",users)
-userID = 7678329847234
+userID = '7678329847234fgbfgb'
 userID2 = 8979798798
 df = pd.read_excel("test.xlsx", header = None)
 question = df[0]
@@ -31,7 +31,7 @@ def setLevel(level):
     users[1] = level
 
 while True:
-    if users[0]== 0:
+    if users[0]== '0':
         users[0]=userID
         myResult= ("目前程度切換至Level"+str(int(users[1]))+'\n請任意輸入將開始出題～～')
         #myResult += 

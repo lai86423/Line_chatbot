@@ -23,7 +23,7 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##出題小老師  初始抓資料＆資料處理------------------------------------------------
-users = np.zeros(3) #userID,level,point
+users = np.array(('0',0,0)) #userID,level,point
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
@@ -79,7 +79,7 @@ def handle_message(event):
     global index
     myId = event.source.user_id
     if event.message.type == 'text':       
-        if(users[0]==0):
+        if(users[0]=='0'):
                 users[0] = myId
                 print('userID',users[0])
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0))) 
