@@ -33,7 +33,9 @@ def setLevel(level):
 while True:
     if users[0]== 0:
         users[0]=userID
-        level = input("Level?")
+        myResult= ("目前程度切換至Level"+str(int(users[1]))+'\n請任意輸入將開始出題～～')
+        #myResult += 
+        level = input(myResult)
         setLevel(level)
 
     else:
