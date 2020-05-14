@@ -77,7 +77,7 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
-    myId = event.source.userId
+    myId = event.source.user_id
     if event.message.type == 'text':       
         if(users[0]==0):
                 users[0] = myId
