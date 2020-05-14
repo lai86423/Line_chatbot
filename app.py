@@ -82,7 +82,7 @@ def handle_message(event):
         if(users[0]==0):
                 users[0] = myId
                 print('userID',users[0])
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0)) 
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0))) 
         #if(users[1]==0): #level
         #    else:
         #        print(type(event.message.text == float)
@@ -90,7 +90,7 @@ def handle_message(event):
         #            level = event.message.text
         #            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(level)) 
         else:
-            print("attack message!")
+            print("users[0]",users[0])
             if( isAsked == False ):     
                 print(sheet["question"][index])
                 print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
