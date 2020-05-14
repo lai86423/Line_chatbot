@@ -90,10 +90,7 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True or replytext =='?'):    
-            if level == 0:
-                setLevel('0')
-            else: #level
-                setLevel(replytext)
+                setLevel()
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -190,12 +187,13 @@ def translate(event):
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
 
-def setLevel(levelinput):
+def setLevel(event):
     global data
     global sheet
     global qNum
     global level
     global isChangingLevel
+    levelinput = event.message.text
     if (levelinput=='1'):
         level = 1
         isChangingLevel = False
@@ -210,9 +208,10 @@ def setLevel(levelinput):
         myResult= ("目前程度切換至Level 3 高級\n 請任意輸入將開始出題～～")  
     else:
         myResult="您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定題目程度指令"
-
-    print(myResult)    
+    
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    print(myResult)    
+    
     data = getData(level)
     sheet,qNum = getSheet()
     print("sheet",sheet)
