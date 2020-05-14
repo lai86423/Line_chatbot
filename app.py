@@ -81,6 +81,7 @@ def handle_message(event):
     global isAsked
     global index
     if event.message.type == 'text':
+        print("attack message!")
         if( isAsked == False ):            
             print(sheet["question"][index])
             print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
@@ -146,11 +147,12 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < num:
+    if ind]]]]]]]]].ex < num:
         index += 1
     else:
         df = data.sample(n=6) #Random打亂資料再取n筆題
         index = 0
+    print("index after = ", index)
 
 def question():
     gc = pygsheets.authorize(service_account_file='question.json')
