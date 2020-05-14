@@ -23,38 +23,45 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##出題小老師  初始抓資料＆資料處理------------------------------------------------
-users = np.array(('0',0,0)) #userID,level,point
+#users = np.array(('0','0',0)) #userID,level,point
+level = 1
+isAsked = False
+index = 0
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
 sh = gc.open_by_url(survey_url)
-ws = sh.sheet1
-ws.export(filename='df') #先把google sheet存下來
-data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
-isAsked = False
-index = 0
-df = data.sample(frac =1) #Random打亂資料再取n筆題
-print("df = ",df)
-question = df.iloc[:,0]
-option1 = df.iloc[:,1]
-option2 = df.iloc[:,2]
-option3 = df.iloc[:,3]
-option4 = df.iloc[:,4]
-feedback = df.iloc[:,5]
-answer = df.iloc[:,6]
-sheet = {
-    "question": question,
-    "option1": option1,
-    "option2": option2,
-    "option3": option3,
-    "option4": option4,
-    "feedback": feedback,
-    "answer": answer
-}
-num = len(sheet["question"])
-print("df = ",df)
-print("num = ",num)
+data = getData(level)
+sheet,qutionNum = getData
+def getData(level):
+    ws = sh.sheet1
+    ws.export(filename='df') #先把google sheet存下來
+    data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
+    return data
+def getSheet():    
+    df = data.sample(frac =1) #Random打亂資料再取n筆題
+    print("df = ",df)
+    question = df.iloc[:,0]
+    option1 = df.iloc[:,1]
+    option2 = df.iloc[:,2]
+    option3 = df.iloc[:,3]
+    option4 = df.iloc[:,4]
+    feedback = df.iloc[:,5]
+    answer = df.iloc[:,6]
+    sheet = {
+        "question": question,
+        "option1": option1,
+        "option2": option2,
+        "option3": option3,
+        "option4": option4,
+        "feedback": feedback,
+        "answer": answer
+    }
+    qutionNum = len(sheet["question"])
+    print("df = ",df)
+    print("num = ",qutionNum)
+    return sheet,qutionNum
 
 ##------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -77,19 +84,14 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
-    myId = event.source.user_id
+    #myId = event.source.user_id
     if event.message.type == 'text':       
-        if(users[0]=='0'):
-                users[0] = myId
-                print('userID',users[0])
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0))) 
-        #if(users[1]==0): #level
-        #    else:
-        #        print(type(event.message.text == float)
-        #        if (type(event.message.text == float):               
-        #            level = event.message.text
-        #            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(level)) 
-        else:
+        # if level == 0:
+        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(0))) 
+        # elif level ==1: #level
+        #         level = event.message.text
+        #         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = setLevel(level)) 
+        # else:
             print("users[0]",users[0])
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -155,10 +157,10 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < num:
+    if index < qutionNum:
         index += 1
     else:
-        df = data.sample(n=6) #Random打亂資料再取n筆題
+        getSheet()
         index = 0
     print("index after = ", index)
 
@@ -186,11 +188,10 @@ def translate(event):
         message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息呢～")
     print("message=",message)
 
-def setLevel(level,event):
-
-    users[1] = int(level)
+def setLevel(level):
+    users[1] = level
     if (users[1]==0):
-        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：翻譯小達人\n輸入2：出題小老師\n輸入？：列出設定指令'
+        myResult='您好，歡迎來到資策會Line Bot 英文小老師～ 輸入數字切換題目程度：\n輸入1：初級\n輸入2：\n輸入？：列出設定指令'
     else:
         myResult= ("目前程度切換至Level"+str(users[1])+'\n請任意輸入將開始出題～～')
     print(myResult)
