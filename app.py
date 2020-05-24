@@ -164,7 +164,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
         isAsked = False
 
-    if index < qNum:
+    if index < qNum - 1:
         index += 1
     else:
         index = 0
