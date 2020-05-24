@@ -147,6 +147,8 @@ def handle_postback(event):
     print("---Feedback---")
     global isAsked
     global index
+    global sheet
+    global qNum
     print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
