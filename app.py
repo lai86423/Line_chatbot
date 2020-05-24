@@ -163,7 +163,9 @@ def handle_postback(event):
     if index < qNum:
         index += 1
     else:
-        getSheet()
+        sheet,qNum = getSheet()
+        print("new sheet",sheet)
+        print("new qNum",qNum)
         index = 0
     print("index after = ", index)
 
