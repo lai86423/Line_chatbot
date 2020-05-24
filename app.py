@@ -40,7 +40,8 @@ def getData(level): #先把該level google sheet存下來
     data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
     return data
 def getSheet():  #打亂該sheet順序，並存成dictionary格式  
-    df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題
+    df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
+    #df = np.random.sample(data)
     print("df = ",df)
     question = df.iloc[:,0]
     option1 = df.iloc[:,1]
@@ -166,6 +167,7 @@ def handle_postback(event):
     if index < qNum:
         index += 1
     else:
+        index = 0
         sheet,qNum = getSheet()
         print("new sheet",sheet)
         print("new qNum",qNum)
