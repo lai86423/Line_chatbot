@@ -147,8 +147,6 @@ def handle_postback(event):
     print("---Feedback---")
     global isAsked
     global index
-    global sheet
-    global qNum
     print("correct answer = ",str(sheet["answer"][index]))
     print("index = ", index)
     answer = event.postback.data
@@ -165,9 +163,7 @@ def handle_postback(event):
     if index < qNum:
         index += 1
     else:
-        sheet,qNum = getSheet()
-        print("new sheet",sheet)
-        print("new qNum",qNum)
+        getSheet()
         index = 0
     print("index after = ", index)
 
