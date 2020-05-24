@@ -31,14 +31,15 @@ index = 0
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
-survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
 sh = gc.open_by_url(survey_url)
-def getData(level):
+
+def getData(level): #先把該level google sheet存下來
     ws = sh.sheet1
     ws.export(filename='df') #先把google sheet存下來
     data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
     return data
-def getSheet():    
+def getSheet():  #打亂該sheet順序，並存成dictionary格式  
     df = data.sample(frac =1) #Random打亂資料再取n筆題
     print("df = ",df)
     question = df.iloc[:,0]
@@ -58,8 +59,8 @@ def getSheet():
         "answer": answer
     }
     qNum = len(sheet["question"])
-    print("df = ",df)
-    print("num = ",qNum)
+    #print("df = ",df)
+    #print("num = ",qNum)
     return sheet,qNum
 
 data = getData(level)
