@@ -35,7 +35,10 @@ survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIR
 sh = gc.open_by_url(survey_url)
 
 def getData(level): #先把該level google sheet存下來
-    ws = sh.sheet1
+    if(level == 1):
+        ws = sh.sheet1
+    elif(level == 2):    
+        ws = sh.sheet2
     ws.export(filename='df') #先把google sheet存下來
     data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
     return data
