@@ -42,9 +42,9 @@ print("worksheet_list",worksheet_list)
 # ws1 = sh.worksheet('sheet_1')
 # ws2 = sh.worksheet('sheet_2')
 # ws3 = sh.worksheet('sheet_3')
-ws1 = sh.get_worksheet(0)
-ws2 = sh.get_worksheet(1)
-ws3 = sh.get_worksheet(2)
+ws1 = worksheet_list[0]
+ws2 = worksheet_list[1]
+ws3 = worksheet_list[2]
 #ws2 = sh.sheet2
 ws1.export(filename='df1') 
 ws2.export(filename='df2') 
