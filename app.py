@@ -21,10 +21,10 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
+#users = np.array(('0','0',0)) #userID,level,point
 
 ##出題小老師  初始抓資料＆資料處理------------------------------------------------
-#users = np.array(('0','0',0)) #userID,level,point
-level = 0
+level = 1 #預設level 1
 isAsked = False
 isChangingLevel = True
 index = 0
@@ -33,19 +33,26 @@ GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
 sh = gc.open_by_url(survey_url)
+ws1 = sh.sheet1
+ws2 = sh.sheet2
+ws1.export(filename='df1') 
+ws2.export(filename='df2') 
+data1 = pd.read_csv('df1.csv') #type: <class 'pandas.core.frame.DataFrame'>
+data2 = pd.read_csv('df2.csv')
+#data = data1 #預設level 1
+# def getData(level): #先把該level google sheet存下來
+#     if(level == 1):
+#     elif(level == 2): 
+#     return data
 
-def getData(level): #先把該level google sheet存下來
-    if(level == 1):
-        ws = sh.sheet1
-    elif(level == 2):    
-        ws = sh.sheet2
-    ws.export(filename='df') #先把google sheet存下來
-    data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
-    return data
 def getSheet():  #打亂該sheet順序，並存成dictionary格式  
+    if(level == 1):
+        data = data1
+    elif(level == 2):
+        data = data2
     df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
     #df = np.random.sample(data)
-    print("df = ",df)
+    print("getSheet df = ",df)
     question = df.iloc[:,0]
     option1 = df.iloc[:,1]
     option2 = df.iloc[:,2]
@@ -67,7 +74,6 @@ def getSheet():  #打亂該sheet順序，並存成dictionary格式
     #print("num = ",qNum)
     return sheet,qNum
 
-data = getData(level)
 sheet,qNum = getSheet()
 ##------------------------------------------------
 
@@ -204,11 +210,14 @@ def setLevel(event):
     
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     print(myResult)    
-    
-    data = getData(level)
+    # if(level == 1):
+    #     sheet,qNum = getSheet(data1)
+    # elif(level == 2):
+    #     sheet,qNum = getSheet(data2)
     sheet,qNum = getSheet()
-    print("sheet",sheet)
-    print("qNum",qNum)
+    
+    print("level get sheet",sheet)
+    print("level get qNum",qNum)
 
 ##出題小老師  End------------------------------------------------
 
