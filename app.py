@@ -33,15 +33,15 @@ GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
 sh = gc.open_by_url(survey_url)
-ws1 = sh.sheet1
-ws2 = sh.sheet1
-ws3 = sh.sheet1
+# ws1 = sh.sheet1
+# ws2 = sh.sheet1
+# ws3 = sh.sheet1
 #取得所有工作表名稱
 worksheet_list = sh.worksheets()
 print("worksheet_list",worksheet_list)
-# ws1 = sh.worksheet("sheet1")
-# ws2 = sh.worksheet("sheet2")
-# ws3 = sh.worksheet("sheet3")
+ws1 = sh.worksheet('sheet_1')
+ws2 = sh.worksheet('sheet_2')
+ws3 = sh.worksheet('sheet_3')
 #ws2 = sh.sheet2
 ws1.export(filename='df1') 
 ws2.export(filename='df2') 
