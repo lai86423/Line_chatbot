@@ -109,10 +109,10 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True):   
-            setLevel(event,"N")
+            setLevel("N")
         elif (replytext =='?'):
             isAsked = False
-            setLevel(event,"N")
+            setLevel("N")
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -171,7 +171,7 @@ def handle_postback(event):
 
     if(isSettingLevel==True):
         levelinput = event.postback.data
-        setLevel(event,levelinput)
+        setLevel(levelinput)
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
