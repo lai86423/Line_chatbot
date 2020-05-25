@@ -33,12 +33,17 @@ GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
 survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
 sh = gc.open_by_url(survey_url)
-ws1 = sh.sheet1
-ws2 = sh.sheet2
+#ws1 = sh.sheet1
+ws1 = sh.worksheet("sheet1")
+ws2 = sh.worksheet("sheet2")
+ws3 = sh.worksheet("sheet3")
+#ws2 = sh.sheet2
 ws1.export(filename='df1') 
 ws2.export(filename='df2') 
+ws3.export(filename='df3') 
 data1 = pd.read_csv('df1.csv') #type: <class 'pandas.core.frame.DataFrame'>
 data2 = pd.read_csv('df2.csv')
+data3 = pd.read_csv('df3.csv')
 #data = data1 #預設level 1
 # def getData(level): #先把該level google sheet存下來
 #     if(level == 1):
@@ -46,10 +51,13 @@ data2 = pd.read_csv('df2.csv')
 #     return data
 
 def getSheet():  #打亂該sheet順序，並存成dictionary格式  
-    if(level == 1):
-        data = data1
+    if(level == 3):
+        data = data3
     elif(level == 2):
         data = data2
+    else:
+        data = data3
+
     df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
     #df = np.random.sample(data)
     print("getSheet df = ",df)
