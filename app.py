@@ -109,10 +109,10 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True):   
-            setLevel(event)
+            setLevel(event,"N")
         elif (replytext =='?'):
             isAsked = False
-            setLevel(event)
+            setLevel(event,"N")
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
