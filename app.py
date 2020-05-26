@@ -109,18 +109,10 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True):   
-            myResult = setLevel("N")
-            if(myResult=="N"):
-                levelButton(event)
-            else:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+            levelButton(event)
         elif (replytext =='?'):
             isAsked = False
-            myResult = setLevel("N")
-            if(myResult=="N"):
-                levelButton(event)
-            else:
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+            levelButton(event)
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -180,13 +172,13 @@ def handle_postback(event):
     if(isSettingLevel==True):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
-        # print("myResult",myResult)
-        # if myResult == 'N' :
-        #     print("level setting")
-        #     levelButton(event)
-        # else:
-        #     print("level change")
-        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+        print("myResult",myResult)
+        if myResult == 'N' :
+            print("level setting errorrr")
+            levelButton(event)
+        else:
+            print("level change")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
