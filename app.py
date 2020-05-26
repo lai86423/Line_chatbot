@@ -114,22 +114,22 @@ def handle_message(event):
             buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = '歡迎來到資策會Line Bot 英文小老師',
+                        title = '歡迎來到資策會LineBot英文小老師',
                         text = '請點選題目程度~',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "初級", 
-                                    text = "初",
+                                    text = "初級",
                                     data = 'L'
                                 ),
                                 PostbackTemplateAction(
                                     label = "中級",
-                                    text = "中",
+                                    text = "中級",
                                     data = 'M'
                                 ),
                                 PostbackTemplateAction(
                                     label = "高級",
-                                    text = "高",
+                                    text = "高級",
                                     data = 'H'
                                 )
                         ]
@@ -228,25 +228,23 @@ def setLevel(levelinput):
     global qNum
     global level
     global isChangingLevel
-    global isAsked
-    #global isSettingLevel
-    #levelinput = event.message.text
+   
     if (levelinput=='L'):
         level = 1
         isChangingLevel = False
         #isSettingLevel = False
-        myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入 將開始出題～～")
+        myResult= ("目前程度切換至初級 \n 請任意輸入 將開始出題～～")
         
     elif (levelinput=='M'):
         level = 2
         isChangingLevel = False
         #isSettingLevel = False
-        myResult= ("目前程度切換至Level 2 中級\n 請任意輸入 將開始出題～～")    
+        myResult= ("目前程度切換至中級\n 請任意輸入 將開始出題～～")    
     elif (levelinput=='H'):
         level = 3
         isChangingLevel = False
         #isSettingLevel = False
-        myResult= ("目前程度切換至Level 3 高級\n 請任意輸入 將開始出題～～")  
+        myResult= ("目前程度切換至高級\n 請任意輸入 將開始出題～～")  
     else:       
         isChangingLevel = True
         #isSettingLevel = True
