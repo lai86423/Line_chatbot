@@ -236,12 +236,13 @@ def setLevel(levelinput):
         #myResult="您好，歡迎來到資策會Line Bot 英文小老師～\n 請輸入以下指令切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3: 高級\n？：列出設定題目程度指令"
         myResult = "N"
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
-  
-    print("myResult",myResult)    
-    sheet,qNum = getSheet()
     
-    print("level get sheet",sheet)
-    print("level get qNum",qNum)
+    if isSettingLevel == False:
+        sheet,qNum = getSheet()
+        print("level get sheet",sheet)
+        print("level get qNum",qNum)
+    
+    #print("myResult",myResult)    
     return myResult
 
 def levelButton(event):
