@@ -111,10 +111,11 @@ def handle_message(event):
     if event.message.type == 'text':   
         if (isChangingLevel == True or replytext =='?'):   
             isChangingLevel = True
+            isAsked = False
             buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = '歡迎來到資策會LineBot英文小老師',
+                        title = '歡迎來到資策會LineBot英文小老師！',
                         text = '請點選題目程度~',
                         actions = [
                                 PostbackTemplateAction(
@@ -136,8 +137,6 @@ def handle_message(event):
                     )
                 )
             line_bot_api.reply_message(event.reply_token, buttons_template)  
-        elif (replytext =='?'):
-            isAsked = False
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
