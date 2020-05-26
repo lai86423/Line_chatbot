@@ -174,7 +174,7 @@ def handle_postback(event):
     if(isSettingLevel==True):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
-        if myResult == "N" :
+        if myResult == 'N' :
             print("level setting")
             levelButton(event)
         else:
@@ -232,10 +232,10 @@ def setLevel(levelinput):
         isChangingLevel = True
         isSettingLevel = True
         #myResult="您好，歡迎來到資策會Line Bot 英文小老師～\n 請輸入以下指令切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3: 高級\n？：列出設定題目程度指令"
-        return "N"
+        return 'N'
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
   
-    print(myResult)    
+    print("myResult",myResult)    
     sheet,qNum = getSheet()
     
     print("level get sheet",sheet)
