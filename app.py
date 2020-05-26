@@ -109,6 +109,7 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True or replytext =='?'):   
+            isChangingLevel = True
             buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
@@ -252,7 +253,7 @@ def setLevel(levelinput):
         myResult = "N"
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     
-    if isSettingLevel == False:
+    if isChangingLevel == False:
         sheet,qNum = getSheet()
         print("level get sheet",sheet)
         print("level get qNum",qNum)
