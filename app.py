@@ -109,10 +109,12 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingLevel == True):   
-            setLevel("N")
+            myResult = setLevel("N")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
         elif (replytext =='?'):
             isAsked = False
-            setLevel("N")
+            myResult = setLevel("N")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -171,7 +173,11 @@ def handle_postback(event):
 
     if(isSettingLevel==True):
         levelinput = event.postback.data
-        setLevel(levelinput)
+        myResult = setLevel(levelinput) 
+        if myResult == False :
+            levelButton(event)
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
@@ -195,7 +201,7 @@ def handle_postback(event):
         print("index after = ", index)
 
 ##出題小老師  設定Level------------------------------------------------
-def setLevel(event,levelinput):
+def setLevel(levelinput):
     print("---Changing Level---")
     global data
     global sheet
@@ -225,16 +231,17 @@ def setLevel(event,levelinput):
         isChangingLevel = True
         isSettingLevel = True
         #myResult="您好，歡迎來到資策會Line Bot 英文小老師～\n 請輸入以下指令切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3: 高級\n？：列出設定題目程度指令"
-        levelButton()
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+        return False 
+    #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
   
     print(myResult)    
     sheet,qNum = getSheet()
     
     print("level get sheet",sheet)
     print("level get qNum",qNum)
+    return myResult
 
-def levelButton():
+def levelButton(event):
     buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
@@ -261,6 +268,7 @@ def levelButton():
                     )
                 )
     line_bot_api.reply_message(event.reply_token, buttons_template)  
+    #return buttons_template
 ##出題小老師  End------------------------------------------------
 
 def translate(event):
