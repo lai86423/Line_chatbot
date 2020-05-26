@@ -162,44 +162,44 @@ def handle_message(event):
 
 ##出題小老師  回饋判斷------------------------------------------------
 @handler.add(PostbackEvent)
-def handle_postback(event):
-    print("---Feedback---")
-    global isAsked
-    global index
-    global sheet
-    global qNum
+# def handle_postback(event):
+#     print("---Feedback---")
+#     global isAsked
+#     global index
+#     global sheet
+#     global qNum
 
-    if(isSettingLevel==True):
-        levelinput = event.postback.data
-        myResult = setLevel(levelinput) 
-        print("myResult",myResult)
-        if myResult == 'N' :
-            print("level setting errorrr")
-            levelButton(event)
-        else:
-            print("level change")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
-    else:    
-        print("correct answer = ",str(sheet["answer"][index]))
-        print("index = ", index)
-        answer = event.postback.data
-        if answer != str(sheet["answer"][index]):
-            feedback = sheet["feedback"][index]
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-            isAsked = False       
-        else:
-            print('答對了！你真棒！')
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
-            isAsked = False
+#     if(isSettingLevel==True):
+#         levelinput = event.postback.data
+#         myResult = setLevel(levelinput) 
+#         print("myResult",myResult)
+#         if myResult == 'N' :
+#             print("level setting errorrr")
+#             levelButton(event)
+#         else:
+#             print("level change")
+#             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+#     else:    
+#         print("correct answer = ",str(sheet["answer"][index]))
+#         print("index = ", index)
+#         answer = event.postback.data
+#         if answer != str(sheet["answer"][index]):
+#             feedback = sheet["feedback"][index]
+#             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
+#             isAsked = False       
+#         else:
+#             print('答對了！你真棒！')
+#             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
+#             isAsked = False
 
-        if index < qNum - 1:
-            index += 1
-        else:
-            index = 0
-            sheet,qNum = getSheet()
-            print("new sheet",sheet)
-            print("new qNum",qNum)
-        print("index after = ", index)
+#         if index < qNum - 1:
+#             index += 1
+#         else:
+#             index = 0
+#             sheet,qNum = getSheet()
+#             print("new sheet",sheet)
+#             print("new qNum",qNum)
+#         print("index after = ", index)
 
 ##出題小老師  設定Level------------------------------------------------
 def setLevel(levelinput):
