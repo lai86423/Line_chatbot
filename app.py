@@ -21,26 +21,45 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
+#users = np.array(('0','0',0)) #userID,level,point
 
 ##出題小老師  初始抓資料＆資料處理------------------------------------------------
-#users = np.array(('0','0',0)) #userID,level,point
-level = 0
+level = 1 #預設level 1
 isAsked = False
 isChangingLevel = True
 index = 0
 GDriveJSON = 'question.json'
 GSpreadSheet = 'cilab_ChatBot_test'
 gc = pygsheets.authorize(service_account_file='question.json')
-survey_url = 'https://docs.google.com/spreadsheets/d/1O1aZsPhihNoG1fF_H1vj59ZLB_Dve7sgwcsGoRj3oh0/edit#gid=0'
+survey_url = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
 sh = gc.open_by_url(survey_url)
-def getData(level):
-    ws = sh.sheet1
-    ws.export(filename='df') #先把google sheet存下來
-    data = pd.read_csv('df.csv') #type: <class 'pandas.core.frame.DataFrame'>
-    return data
-def getSheet():    
-    df = data.sample(frac =1) #Random打亂資料再取n筆題
-    print("df = ",df)
+
+#取得所有工作表名稱
+worksheet_list = sh.worksheets()
+print("worksheet_list",worksheet_list)
+ws1 = worksheet_list[0]
+ws2 = worksheet_list[1]
+ws3 = worksheet_list[2]
+
+ws1.export(filename='df1') 
+ws2.export(filename='df2') 
+ws3.export(filename='df3') 
+data1 = pd.read_csv('df1.csv') #type: <class 'pandas.core.frame.DataFrame'>
+data2 = pd.read_csv('df2.csv')
+data3 = pd.read_csv('df3.csv')
+
+
+def getSheet():  #打亂該sheet順序，並存成dictionary格式  
+    if(level == 3):
+        data = data3
+    elif(level == 2):
+        data = data2
+    else:
+        data = data1
+
+    df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
+    #df = np.random.sample(data)
+    print("getSheet df = ",df)
     question = df.iloc[:,0]
     option1 = df.iloc[:,1]
     option2 = df.iloc[:,2]
@@ -58,11 +77,8 @@ def getSheet():
         "answer": answer
     }
     qNum = len(sheet["question"])
-    print("df = ",df)
-    print("num = ",qNum)
     return sheet,qNum
 
-data = getData(level)
 sheet,qNum = getSheet()
 ##------------------------------------------------
 
@@ -86,14 +102,38 @@ def callback():
 def handle_message(event):  
     global isAsked
     global index
+    global isChangingLevel
     replytext = event.message.text
     #myId = event.source.user_id
     if event.message.type == 'text':   
-        if (isChangingLevel == True):   
-            setLevel(event)
-        elif (replytext =='?'):
+        if (isChangingLevel == True or replytext =='?'):   
+            isChangingLevel = True
             isAsked = False
-            setLevel(event)
+            buttons_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        title = '歡迎來到資策會LineBot英文小老師！',
+                        text = '請點選題目程度~',
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "初級", 
+                                    text = "初級",
+                                    data = 'L'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "中級",
+                                    text = "中級",
+                                    data = 'M'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "高級",
+                                    text = "高級",
+                                    data = 'H'
+                                )
+                        ]
+                    )
+                )
+            line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -141,67 +181,105 @@ def handle_message(event):
     #print(event.reply_token)
     #print("=========================")
 
-##出題小老師  回饋判斷------------------------------------------------
+#出題小老師  回饋判斷------------------------------------------------
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
     global isAsked
     global index
-    print("correct answer = ",str(sheet["answer"][index]))
-    print("index = ", index)
-    answer = event.postback.data
-    #print("postback(answer) = ", answer)
-    if answer != str(sheet["answer"][index]):
-        feedback = sheet["feedback"][index]
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-        isAsked = False       
-    else:
-        print('答對了！你真棒！')
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
-        isAsked = False
+    global sheet
+    global qNum
 
-    if index < qNum:
-        index += 1
-    else:
-        getSheet()
-        index = 0
-    print("index after = ", index)
+    if(isChangingLevel==True):
+        levelinput = event.postback.data
+        myResult = setLevel(levelinput) 
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    else:    
+        print("correct answer = ",str(sheet["answer"][index]))
+        print("index = ", index)
+        answer = event.postback.data
+        if answer != str(sheet["answer"][index]):
+            feedback = sheet["feedback"][index]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
+            isAsked = False       
+        else:
+            print('答對了！你真棒！')
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
+            isAsked = False
+
+        if index < qNum - 1:
+            index += 1
+        else:
+            index = 0
+            sheet,qNum = getSheet()
+            print("new sheet",sheet)
+            print("new qNum",qNum)
+        print("index after = ", index)
 
 ##出題小老師  設定Level------------------------------------------------
-def setLevel(event):
+def setLevel(levelinput):
     print("---Changing Level---")
     global data
     global sheet
     global qNum
     global level
     global isChangingLevel
-    global isAsked
-    levelinput = event.message.text
-    if (levelinput=='1'):
+   
+    if (levelinput=='L'):
         level = 1
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入 將開始出題～～")
-    elif (levelinput=='2'):
+        myResult= ("目前程度切換至初級 \n 請任意輸入 將開始出題～～")
+        
+    elif (levelinput=='M'):
         level = 2
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 2 中級\n 請任意輸入 將開始出題～～")    
-    elif (levelinput=='3'):
+        myResult= ("目前程度切換至中級\n 請任意輸入 將開始出題～～")    
+    elif (levelinput=='H'):
         level = 3
         isChangingLevel = False
-        myResult= ("目前程度切換至Level 3 高級\n 請任意輸入 將開始出題～～")  
+        myResult= ("目前程度切換至高級\n 請任意輸入 將開始出題～～")  
     else:       
         isChangingLevel = True
-        myResult="您好，歡迎來到資策會Line Bot 英文小老師～\n 請輸入以下指令切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3: 高級\n？：列出設定題目程度指令"
+        myResult = "N"
     
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
-    print(myResult)    
-    
-    data = getData(level)
-    sheet,qNum = getSheet()
-    print("sheet",sheet)
-    print("qNum",qNum)
+    if isChangingLevel == False:
+        sheet,qNum = getSheet()
+        print("level get sheet",sheet)
+        print("level get qNum",qNum)
+      
+    return myResult
+
+def levelButton(event):
+    buttons_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        title = '請選擇出題小老師題目程度～',
+                        #text = question,
+                        #thumbnail_image_url = '顯示在開頭的大圖片網址',
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "初級", 
+                                    text = "初",
+                                    data = 'L'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "中級",
+                                    text = "中",
+                                    data = 'M'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "高級",
+                                    text = "高",
+                                    data = 'H'
+                                )
+                        ]
+                    )
+                )
+    line_bot_api.reply_message(event.reply_token, buttons_template)  
 
 ##出題小老師  End------------------------------------------------
+
+
 
 def translate(event):
     translator = Translator()
