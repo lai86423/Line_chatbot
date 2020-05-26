@@ -113,55 +113,55 @@ def handle_message(event):
         elif (replytext =='?'):
             isAsked = False
             levelButton(event)
-        else:
-            if( isAsked == False ):     
-                print(sheet["question"][index])
-                print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
-                        "\n4:", sheet["option4"][index], "\n")
+        # else:
+        #     if( isAsked == False ):     
+        #         print(sheet["question"][index])
+        #         print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
+        #                 "\n4:", sheet["option4"][index], "\n")
 
-                option = ("1:" + sheet["option1"][index] + "\n2:" + sheet["option2"][index] + "\n3:" + 
-                            sheet["option3"][index] + "\n4:" + sheet["option4"][index] + "\n")
-                question = sheet["question"][index]
-                ask = question + "\n" + option  
-                isAsked = True
+        #         option = ("1:" + sheet["option1"][index] + "\n2:" + sheet["option2"][index] + "\n3:" + 
+        #                     sheet["option3"][index] + "\n4:" + sheet["option4"][index] + "\n")
+        #         question = sheet["question"][index]
+        #         ask = question + "\n" + option  
+        #         isAsked = True
                 
-                buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '出題小老師',
-                        text = question,
-                        #thumbnail_image_url = '顯示在開頭的大圖片網址',
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = ("(1) " + sheet["option1"][index]), 
-                                    text = "(1)",
-                                    data = '1'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(2) " + sheet["option2"][index],
-                                    text = "(2)",
-                                    data = '2'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(3) " + sheet["option3"][index],
-                                    text = "(3)",
-                                    data = '3'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(4) " + sheet["option4"][index],
-                                    text = "(4)",
-                                    data = '4'
-                                )
-                        ]
-                    )
-                )
-                line_bot_api.reply_message(event.reply_token, buttons_template)   
+        #         buttons_template = TemplateSendMessage (
+        #             alt_text = 'Buttons Template',
+        #             template = ButtonsTemplate (
+        #                 title = '出題小老師',
+        #                 text = question,
+        #                 #thumbnail_image_url = '顯示在開頭的大圖片網址',
+        #                 actions = [
+        #                         PostbackTemplateAction(
+        #                             label = ("(1) " + sheet["option1"][index]), 
+        #                             text = "(1)",
+        #                             data = '1'
+        #                         ),
+        #                         PostbackTemplateAction(
+        #                             label = "(2) " + sheet["option2"][index],
+        #                             text = "(2)",
+        #                             data = '2'
+        #                         ),
+        #                         PostbackTemplateAction(
+        #                             label = "(3) " + sheet["option3"][index],
+        #                             text = "(3)",
+        #                             data = '3'
+        #                         ),
+        #                         PostbackTemplateAction(
+        #                             label = "(4) " + sheet["option4"][index],
+        #                             text = "(4)",
+        #                             data = '4'
+        #                         )
+        #                 ]
+        #             )
+        #         )
+        #         line_bot_api.reply_message(event.reply_token, buttons_template)   
     #print("=======Reply Token=======")
     #print(event.reply_token)
     #print("=========================")
 
 ##出題小老師  回饋判斷------------------------------------------------
-@handler.add(PostbackEvent)
+#@handler.add(PostbackEvent)
 # def handle_postback(event):
 #     print("---Feedback---")
 #     global isAsked
