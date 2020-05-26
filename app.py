@@ -110,11 +110,17 @@ def handle_message(event):
     if event.message.type == 'text':   
         if (isChangingLevel == True):   
             myResult = setLevel("N")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+            if(myResult=="N"):
+                levelButton(event)
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
         elif (replytext =='?'):
             isAsked = False
             myResult = setLevel("N")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+            if(myResult=="N"):
+                levelButton(event)
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
         else:
             if( isAsked == False ):     
                 print(sheet["question"][index])
@@ -174,13 +180,13 @@ def handle_postback(event):
     if(isSettingLevel==True):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
-        print("myResult",myResult)
-        if myResult == 'N' :
-            print("level setting")
-            levelButton(event)
-        else:
-            print("level change")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+        # print("myResult",myResult)
+        # if myResult == 'N' :
+        #     print("level setting")
+        #     levelButton(event)
+        # else:
+        #     print("level change")
+        #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
@@ -212,27 +218,27 @@ def setLevel(levelinput):
     global level
     global isChangingLevel
     global isAsked
-    global isSettingLevel
+    #global isSettingLevel
     #levelinput = event.message.text
     if (levelinput=='L'):
         level = 1
         isChangingLevel = False
-        isSettingLevel = False
+        #isSettingLevel = False
         myResult= ("目前程度切換至Level 1 初級 \n 請任意輸入 將開始出題～～")
         
     elif (levelinput=='M'):
         level = 2
         isChangingLevel = False
-        isSettingLevel = False
+        #isSettingLevel = False
         myResult= ("目前程度切換至Level 2 中級\n 請任意輸入 將開始出題～～")    
     elif (levelinput=='H'):
         level = 3
         isChangingLevel = False
-        isSettingLevel = False
+        #isSettingLevel = False
         myResult= ("目前程度切換至Level 3 高級\n 請任意輸入 將開始出題～～")  
     else:       
         isChangingLevel = True
-        isSettingLevel = True
+        #isSettingLevel = True
         #myResult="您好，歡迎來到資策會Line Bot 英文小老師～\n 請輸入以下指令切換題目程度：\n輸入1：初級\n輸入2：中級\n輸入3: 高級\n？：列出設定題目程度指令"
         myResult = "N"
     #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
