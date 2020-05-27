@@ -138,11 +138,7 @@ def handle_message(event):
                 print(sheet["question"][index_L])
                 print("1:", sheet["option1"][index_L], "\n2:", sheet["option2"][index_L], "\n3:", sheet["option3"][index_L],
                         "\n4:", sheet["option4"][index_L], "\n")
-
-                #option = ("1:" + sheet["option1"][index_L] + "\n2:" + sheet["option2"][index_L] + "\n3:" + 
-                            #sheet["option3"][index_L] + "\n4:" + sheet["option4"][index_L] + "\n")
                 question = sheet["question"][index_L]
-                #ask = question + "\n" + option  
                 isAsked_L = True
                 
                 buttons_template = TemplateSendMessage (
@@ -150,7 +146,12 @@ def handle_message(event):
                     template = ButtonsTemplate (
                         title = '聽力測驗',
                         text = question,
-                        #thumbnail_image_url = '顯示在開頭的大圖片網址',
+                        thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
+                        defaultAction = (
+                             type = "uri",
+                             label = "View detail",
+                             uri = "https://developers.line.biz/en/reference/messaging-api/#buttons"
+                         ),
                         actions = [
                                 PostbackTemplateAction(
                                     label = ("(1) " + sheet["option1"][index_L]), 
