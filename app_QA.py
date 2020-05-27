@@ -147,7 +147,7 @@ def handle_message(event):
                     template = ButtonsTemplate (
                         title = '出題小老師',
                         text = question,
-                        thumbnail_image_url='https://ibb.co/CzcTvt1',
+                        thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
                         # defaultAction = (
                         #     type = "uri",
                         #     label = "View detail",
