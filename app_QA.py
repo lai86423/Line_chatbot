@@ -148,11 +148,11 @@ def handle_message(event):
                         title = '出題小老師',
                         text = question,
                         thumbnail_image_url='https://ibb.co/CzcTvt1',
-                        defaultAction = (
-                            type = "uri",
-                            label = "View detail",
-                            uri = "https://developers.line.biz/en/reference/messaging-api/#buttons"
-                        ),
+                        # defaultAction = (
+                        #     type = "uri",
+                        #     label = "View detail",
+                        #     uri = "https://developers.line.biz/en/reference/messaging-api/#buttons"
+                        # ),
                         #thumbnail_image_url = '顯示在開頭的大圖片網址',
                         actions = [
                                 PostbackTemplateAction(
