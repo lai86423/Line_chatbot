@@ -112,7 +112,7 @@ def handle_message(event):
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
                         title = '歡迎來到資策會LineBot聽力測驗！',
-                        text = '請點選題目程度~',
+                        text = '請點選題目~',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "初級", 
@@ -135,9 +135,6 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
             if( isAsked_L == False ):     
-                print(sheet["question"][index_L])
-                print("1:", sheet["option1"][index_L], "\n2:", sheet["option2"][index_L], "\n3:", sheet["option3"][index_L],
-                        "\n4:", sheet["option4"][index_L], "\n")
                 question = sheet["question"][index_L]
                 isAsked_L = True
                 
