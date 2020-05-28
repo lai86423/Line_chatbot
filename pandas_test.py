@@ -1,5 +1,11 @@
 import numpy as np
 import pandas as pd
+import json
+str1 = '{"id": 123, "Name": "wsrsw", "Email": "wsrsw@example.com"}'
+j = json.loads(str1)
+
+print(j)
+print(type(j))
 
 users = np.array(('0',0,0)) #userID,level,point
 print("users",users)
