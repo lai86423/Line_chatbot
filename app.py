@@ -144,15 +144,13 @@ def handle_message(event):
                 buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = '聽力測驗',
-                        text = question,
+                        title = question,
+                        text = '點我聽題目',
                         thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
                         default_action = {
-                            #type = 'uri',
                             "type": "uri",
                             "label": "View detail",
                             "uri": "https://developers.line.biz/en/reference/messaging-api/#buttons"
-                            #uri = "https://developers.line.biz/en/reference/messaging-api/#buttons"
                         },
                         actions = [
                                 PostbackTemplateAction(
@@ -169,11 +167,6 @@ def handle_message(event):
                                     label = "(3) " + sheet["option3"][index_L],
                                     text = "(3)",
                                     data = '3'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(4) " + sheet["option4"][index_L],
-                                    text = "(4)",
-                                    data = '4'
                                 )
                         ]
                     )
