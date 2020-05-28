@@ -148,10 +148,10 @@ def handle_message(event):
                         text = question,
                         thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
                         defaultAction = (
-                             type = uri,
+                             type = 'uri',
                              label = "View detail",
                              uri = "https://developers.line.biz/en/reference/messaging-api/#buttons"
-                         ),
+                        ),
                         actions = [
                                 PostbackTemplateAction(
                                     label = ("(1) " + sheet["option1"][index_L]), 
