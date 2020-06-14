@@ -25,6 +25,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##聽力  初始抓資料＆資料處理------------------------------------------------
 level_L = 1 #預設level 1
+star_num = 0
 isAsked_L = False
 isChangingLevel_L = True
 index_L = 0
@@ -111,8 +112,9 @@ def handle_message(event):
             buttons_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = '歡迎來到資策會LineBot聽力測驗！',
-                        text = '請點選題目~',
+                        title = '聽力練習',
+                        text = '總是聽不懂別人在說什麼嗎?',
+                        thumbnail_image_url='https://upload.cc/i1/2020/06/08/jhziMK.png',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "初級", 
@@ -181,6 +183,7 @@ def handle_postback(event):
     global index_L
     global sheet
     global qNum
+    global star_num
 
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
@@ -191,17 +194,28 @@ def handle_postback(event):
         print("index_L = ", index_L)
         answer = event.postback.data
         if answer != str(sheet["answer"][index_L]):
-            feedback = sheet["feedback"][index_L]
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
+            if(index_L >= qNum - 1): #做完本輪題庫數目
+                print('恭喜你做完這次的聽力練習了!')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你做完這次的聽力練習了!\n你獲得的星星是'+ star_num +'顆哦!!你好棒!'))
+            else:
+                feedback = sheet["feedback"][index_L]
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
             isAsked_L = False       
         else:
-            print('答對了！你真棒！')
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
+            star_num += 1
+            if(index_L >= qNum - 1):#做完本輪題庫數目
+                print('恭喜你做完這次的聽力練習了!')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你做完這次的聽力練習了!\n你獲得的星星是'+ star_num +'顆哦!!你好棒!'))
+            
+            else:
+                print('恭喜你答對了!給你一個小星星!')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
+
             isAsked_L = False
 
         if index_L < qNum - 1:
             index_L += 1
-        else:
+        else:#做完本輪題庫數目
             index_L = 0
             sheet,qNum = getSheet(level_L)
             print("new sheet",sheet)
