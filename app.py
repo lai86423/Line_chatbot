@@ -196,7 +196,8 @@ def handle_postback(event):
         if answer != str(sheet["answer"][index_L]):
             if(index_L >= qNum - 1): #做完本輪題庫數目
                 print('恭喜你做完這次的聽力練習了!')
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你做完這次的聽力練習了!\n你獲得的星星是'+ star_num +'顆哦!!你好棒!'))
+                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
             else:
                 feedback = sheet["feedback"][index_L]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
@@ -205,8 +206,8 @@ def handle_postback(event):
             star_num += 1
             if(index_L >= qNum - 1):#做完本輪題庫數目
                 print('恭喜你做完這次的聽力練習了!')
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你做完這次的聽力練習了!\n你獲得的星星是'+ star_num +'顆哦!!你好棒!'))
-            
+                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
             else:
                 print('恭喜你答對了!給你一個小星星!')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
