@@ -152,10 +152,11 @@ def handle_message(event):
                         "contents": [
                             {
                             "type": "text",
-                            "text": "請問APPLE的意思是?",
-                            "size": "lg",
+                            "text": "請選擇題目類型",
+                            "size": "xl",
                             "align": "start",
-                            "gravity": "top"
+                            "weight": "bold",
+                            "color": "#000000"
                             }
                         ]
                         },
@@ -167,10 +168,21 @@ def handle_message(event):
                             "type": "button",
                             "action": {
                                 "type": "message",
-                                "label": "1.蘋果",
-                                "text": "1.蘋果"
+                                "label": "詞彙練習",
+                                "text": "詞彙練習"
                             },
-                            "color": "#46549B",
+                            "color": "#001774",
+                            "style": "primary",
+                            "gravity": "center"
+                            },
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "message",
+                                "label": "文法練習",
+                                "text": "文法練習"
+                            },
+                            "color": "#FF595D",
                             "margin": "md",
                             "style": "primary"
                             },
@@ -178,22 +190,10 @@ def handle_message(event):
                             "type": "button",
                             "action": {
                                 "type": "message",
-                                "label": "2.鳳梨",
-                                "text": "2.鳳梨"
+                                "label": "克漏字練習",
+                                "text": "克漏字練習"
                             },
-                            "color": "#7E318E",
-                            "margin": "md",
-                            "style": "primary",
-                            "gravity": "top"
-                            },
-                            {
-                            "type": "button",
-                            "action": {
-                                "type": "message",
-                                "label": "3.葡萄",
-                                "text": "3.葡萄"
-                            },
-                            "color": "#CD2774",
+                            "color": "#FFB54A",
                             "margin": "md",
                             "style": "primary"
                             }
