@@ -159,45 +159,6 @@ def handle_message(event):
                             "color": "#000000"
                             }
                         ]
-                        },
-                        "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                            "type": "button",
-                            "action": {
-                                "type": "message",
-                                "label": "詞彙練習",
-                                "text": "詞彙練習"
-                            },
-                            "color": "#001774",
-                            "style": "primary",
-                            "gravity": "center"
-                            },
-                            {
-                            "type": "button",
-                            "action": {
-                                "type": "message",
-                                "label": "文法練習",
-                                "text": "文法練習"
-                            },
-                            "color": "#FF595D",
-                            "margin": "md",
-                            "style": "primary"
-                            },
-                            {
-                            "type": "button",
-                            "action": {
-                                "type": "message",
-                                "label": "克漏字練習",
-                                "text": "克漏字練習"
-                            },
-                            "color": "#FFB54A",
-                            "margin": "md",
-                            "style": "primary"
-                            }
-                        ]
                         }
                     }
                 }
