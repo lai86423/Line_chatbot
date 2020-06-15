@@ -141,27 +141,26 @@ def handle_message(event):
                 isAsked_L = True
                 
                 index = {
-                    "type": "flex",
-                    "altText": "Flex Message",
-                    "contents": {
-                        "type": "bubble",
-                        "direction": "ltr",
-                        "header": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                            "type": "text",
-                            "text": "請選擇題目類型",
-                            "size": "xl",
-                            "align": "start",
-                            "weight": "bold",
-                            "color": "#000000"
+                            "type": "flex",
+                            "altText": "this is a flex message",
+                            "contents": {
+                                "type": "bubble",
+                                "body": {
+                                "type": "box",
+                                "layout": "vertical",
+                                "contents": [
+                                    {
+                                    "type": "text",
+                                    "text": "hello"
+                                    },
+                                    {
+                                    "type": "text",
+                                    "text": "world"
+                                    }
+                                ]
+                                }
                             }
-                        ]
                         }
-                    }
-                }
                 line_bot_api.reply_message(event.reply_token,FlexSendMessage(alt_text = 'index',contents = index))
                 # buttons_template = TemplateSendMessage (
                 #     alt_text = 'Buttons Template',
