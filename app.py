@@ -140,37 +140,100 @@ def handle_message(event):
                 question = sheet["question"][index_L]
                 isAsked_L = True
                 
-                buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = question,
-                        text = '點我聽題目',
-                        thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
-                        default_action = {
-                            "type": "uri",
-                            "label": "View detail",
-                            "uri": "https://developers.line.biz/en/reference/messaging-api/#buttons"
-                        },
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = ("(1) " + sheet["option1"][index_L]), 
-                                    text = "(1)",
-                                    data = '1'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(2) " + sheet["option2"][index_L],
-                                    text = "(2)",
-                                    data = '2'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(3) " + sheet["option3"][index_L],
-                                    text = "(3)",
-                                    data = '3'
-                                )
+                index = {
+                    "type": "flex",
+                    "altText": "Flex Message",
+                    "contents": {
+                        "type": "bubble",
+                        "direction": "ltr",
+                        "header": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                            "type": "text",
+                            "text": "請問APPLE的意思是?",
+                            "size": "lg",
+                            "align": "start",
+                            "gravity": "top"
+                            }
                         ]
-                    )
-                )
-                line_bot_api.reply_message(event.reply_token, buttons_template)   
+                        },
+                        "body": {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "message",
+                                "label": "1.蘋果",
+                                "text": "1.蘋果"
+                            },
+                            "color": "#46549B",
+                            "margin": "md",
+                            "style": "primary"
+                            },
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "message",
+                                "label": "2.鳳梨",
+                                "text": "2.鳳梨"
+                            },
+                            "color": "#7E318E",
+                            "margin": "md",
+                            "style": "primary",
+                            "gravity": "top"
+                            },
+                            {
+                            "type": "button",
+                            "action": {
+                                "type": "message",
+                                "label": "3.葡萄",
+                                "text": "3.葡萄"
+                            },
+                            "color": "#CD2774",
+                            "margin": "md",
+                            "style": "primary"
+                            }
+                        ]
+                        }
+                    }
+                }
+                line_bot_api.reply_message(event.reply_token,FlexSendMessage(alt_text = 'index',contents = index))
+                # buttons_template = TemplateSendMessage (
+                #     alt_text = 'Buttons Template',
+                #     template = ButtonsTemplate (
+                #         title = question,
+                #         text = '點我聽題目',
+                #         thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
+                #         default_action = {
+                #             "type": "uri",
+                #             "label": "View detail",
+                #             "uri": "https://developers.line.biz/en/reference/messaging-api/#buttons"
+                #         },
+                #         actions = [
+                #                 PostbackTemplateAction(
+                #                     label = ("(1) " + sheet["option1"][index_L]), 
+                #                     text = "(1)",
+                #                     data = '1'
+                #                 ),
+                #                 PostbackTemplateAction(
+                #                     label = "(2) " + sheet["option2"][index_L],
+                #                     text = "(2)",
+                #                     data = '2'
+                #                 ),
+                #                 PostbackTemplateAction(
+                #                     label = "(3) " + sheet["option3"][index_L],
+                #                     text = "(3)",
+                #                     data = '3'
+                #                 )
+                #         ]
+                #     )
+                # )
+                #line_bot_api.reply_message(event.reply_token, buttons_template)   
+
     #print("=======Reply Token=======")
     #print(event.reply_token)
     #print("=========================")
@@ -218,6 +281,7 @@ def handle_postback(event):
             index_L += 1
         else:#做完本輪題庫數目
             index_L = 0
+            star_num = 0
             sheet,qNum = getSheet(level_L)
             print("new sheet",sheet)
             print("new qNum",qNum)
