@@ -196,7 +196,11 @@ def handle_message(event):
                         )
                     )
                 )
-
+                message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+                line_bot_api.reply_message(
+                    event.reply_token,
+                    message
+                )
 
                 # buttons_template = TemplateSendMessage (
                 #     alt_text = 'Buttons Template',
