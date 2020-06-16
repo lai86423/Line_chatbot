@@ -167,35 +167,34 @@ def handle_message(event):
                                         style = 'primary'
                                     )
                                 ]
+                            )
+                        ),
+                        BubbleContainer (
+                            direction='ltr',
+                            header = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                                ]
                             ),
-                            BubbleContainer (
-                                direction='ltr',
-                                header = BoxComponent(
-                                    layout='vertical',
-                                    contents=[
-                                        TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
-                                    ]
-                                ),
-                                body = BoxComponent(
-                                    layout='vertical',
-                                    contents=[
-                                        TextComponent(text='選項(1)', size='xl', align = 'center')
-                                    ]
-                                ),
-                                footer = BoxComponent(
-                                    layout='horizontal',
-                                    contents=[
-                                        ButtonComponent(
-                                            action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
-                                            color = '#46549B',
-                                            style = 'primary'
-                                        )
-                                    ]
-                                )
+                            body = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    TextComponent(text='選項(1)', size='xl', align = 'center')
+                                ]
+                            ),
+                            footer = BoxComponent(
+                                layout='horizontal',
+                                contents=[
+                                    ButtonComponent(
+                                        action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
+                                        color = '#46549B',
+                                        style = 'primary'
+                                    )
+                                ]
                             )
                         )
-                    ]
-                    
+                    ]                    
                 )
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
