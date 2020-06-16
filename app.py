@@ -174,14 +174,14 @@ def handle_message(event):
                             header = BoxComponent(
                                 layout='vertical',
                                 contents=[
-                                    TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
-                                ]
-                            ),
-                            body = BoxComponent(
-                                layout='vertical',
-                                contents=[
                                     TextComponent(text='選項(1)', size='xl', align = 'center')
                                 ]
+                            ),
+                            hero = ImageComponent(
+                                url='https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200',
+                                size='full'
+                                aspect_ratio= '1.51:1',
+                                aspect_mode='fit'
                             ),
                             footer = BoxComponent(
                                 layout='horizontal',
