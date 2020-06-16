@@ -178,7 +178,7 @@ def handle_message(event):
                                 ]
                             ),
                             hero = ImageComponent(
-                                url='https://w0.pngwave.com/png/942/532/apple-pie-fruit-food-granny-smith-apple-png-clip-art.png',
+                                url='https://static.pptstore.net/picture/26/52/ed94055fb3ffc5c56b60_s.jpg',
                                 size='full',
                                 aspect_ratio= '1.51:1',
                                 aspect_mode='fit'
@@ -252,41 +252,6 @@ def handle_message(event):
                     message
                 )
 
-                # buttons_template = TemplateSendMessage (
-                #     alt_text = 'Buttons Template',
-                #     template = ButtonsTemplate (
-                #         title = question,
-                #         text = '點我聽題目',
-                #         thumbnail_image_url='https://upload.cc/i1/2020/05/27/Hdyx42.jpg',
-                #         default_action = {
-                #             "type": "uri",
-                #             "label": "View detail",
-                #             "uri": "https://developers.line.biz/en/reference/messaging-api/#buttons"
-                #         },
-                #         actions = [
-                #                 PostbackTemplateAction(
-                #                     label = ("(1) " + sheet["option1"][index_L]), 
-                #                     text = "(1)",
-                #                     data = '1'
-                #                 ),
-                #                 PostbackTemplateAction(
-                #                     label = "(2) " + sheet["option2"][index_L],
-                #                     text = "(2)",
-                #                     data = '2'
-                #                 ),
-                #                 PostbackTemplateAction(
-                #                     label = "(3) " + sheet["option3"][index_L],
-                #                     text = "(3)",
-                #                     data = '3'
-                #                 )
-                #         ]
-                #     )
-                # )
-                # line_bot_api.reply_message(event.reply_token, buttons_template)   
-    #print("=======Reply Token=======")
-    #print(event.reply_token)
-    #print("=========================")
-
 #聽力測驗  回饋判斷------------------------------------------------
 @handler.add(PostbackEvent)
 def handle_postback(event):
@@ -347,16 +312,16 @@ def setLevel(levelinput):
     if (levelinput=='L'):
         level_L = 1
         isChangingLevel_L = False
-        myResult= ("目前程度切換至初級 \n 請任意輸入～")
+        myResult= ("目前程度切換至初級 \n 以下將開始出題")
         
     elif (levelinput=='M'):
         level_L = 2
         isChangingLevel_L = False
-        myResult= ("目前程度切換至中級\n 請任意輸入～")    
+        myResult= ("目前程度切換至中級\n 以下將開始出題")    
     elif (levelinput=='H'):
         level_L = 3
         isChangingLevel_L = False
-        myResult= ("目前程度切換至高級\n 請任意輸入～")  
+        myResult= ("目前程度切換至高級\n 以下將開始出題")  
     else:       
         isChangingLevel_L = True
         myResult = "N"
