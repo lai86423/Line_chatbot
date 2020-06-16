@@ -178,7 +178,7 @@ def handle_message(event):
                                 ]
                             ),
                             hero = ImageComponent(
-                                url='https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200',
+                                url="https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200",
                                 size='full',
                                 aspect_ratio= '1.51:1',
                                 aspect_mode='fit'
@@ -189,6 +189,31 @@ def handle_message(event):
                                     ButtonComponent(
                                         action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
                                         color = '#46549B',
+                                        style = 'primary'
+                                    )
+                                ]
+                            )
+                        ),
+                        BubbleContainer (
+                            direction='ltr',
+                            header = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    TextComponent(text='選項(2)', size='xl', align = 'center')
+                                ]
+                            ),
+                            hero = ImageComponent(
+                                url='https://www.planetorganic.com/images/products/large/1874.jpg',
+                                size='full',
+                                aspect_ratio= '1.51:1',
+                                aspect_mode='fit'
+                            ),
+                            footer = BoxComponent(
+                                layout='horizontal',
+                                contents=[
+                                    ButtonComponent(
+                                        action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
+                                        color = '#7E318E',
                                         style = 'primary'
                                     )
                                 ]
