@@ -109,57 +109,96 @@ def handle_message(event):
         if (isChangingLevel_L == True or replytext =='?'):   
             isChangingLevel_L = True
             isAsked_L = False
-            QAsort_bubble = BubbleContainer (
-                header = BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
-                    ]
-                ),
-                body = BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        ButtonComponent(
-                            action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
-                            color = '#001774',
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
-                            color = '#FF595D',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_cloze', data = '3', text = '克漏字練習'),
-                            color = '#FFB54A',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        )
-                    ]
+            buttons_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        title = '聽力練習',
+                        text = '總是聽不懂別人在說什麼嗎?',
+                        thumbnail_image_url='https://upload.cc/i1/2020/06/08/jhziMK.png',
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "初級", 
+                                    text = "初級",
+                                    data = 'L'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "中級",
+                                    text = "中級",
+                                    data = 'M'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "高級",
+                                    text = "高級",
+                                    data = 'H'
+                                )
+                        ]
+                    )
                 )
-            )   
-            
-            #line_bot_api.reply_message(event.reply_token, buttons_template)  
-            message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
-            line_bot_api.reply_message(
-                event.reply_token,
-                message
-            )
+            line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
             if( isAsked_L == False ):     
                 question = sheet["question"][index_L]
                 isAsked_L = True
                 
-                
-        # message = FlexSendMessage(alt_text="hello", contents=bubble)
-        # line_bot_api.reply_message(
-        #     event.reply_token,
-        #     message
-        # )
+                QA_bubble = CarouselContainer (
+                    BubbleContainer (
+                        direction='ltr',
+                        header = BoxComponent(
+                            layout='vertical',
+                            contents=[
+                                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                            ]
+                        ),
+                        body = BoxComponent(
+                            layout='vertical',
+                            contents=[
+                                ButtonComponent(
+                                    action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                                    color = '#3B9A9C',
+                                    margin = 'lg',
+                                    style = 'primary'
+                                ),
+                                TextComponent(text='選出聽到的答案', size='md', align = 'center'),
+                                SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
+                                ButtonComponent(
+                                    action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
+                                    color = '#F29C2B',
+                                    margin = 'xxl',
+                                    style = 'primary'
+                                )
+
+                            ]
+                        )
+                    ),
+                    BubbleContainer (
+                        direction='ltr',
+                        header = BoxComponent(
+                            layout='vertical',
+                            contents=[
+                                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                            ]
+                        ),
+                        body = BoxComponent(
+                            layout='vertical',
+                            contents=[
+                                TextComponent(text='選項(1)', size='xl', align = 'center')
+                            ]
+                        ),
+                        footer = BoxComponent(
+                            layout='horizontal',
+                            contents=[
+                                ButtonComponent(
+                                    action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
+                                    color = '#46549B',
+                                    style = 'primary'
+                                )
+                            ]
+                        )
+                    ),
+
+                )
+
+
                 # buttons_template = TemplateSendMessage (
                 #     alt_text = 'Buttons Template',
                 #     template = ButtonsTemplate (
@@ -190,8 +229,7 @@ def handle_message(event):
                 #         ]
                 #     )
                 # )
-                #line_bot_api.reply_message(event.reply_token, buttons_template)   
-
+                # line_bot_api.reply_message(event.reply_token, buttons_template)   
     #print("=======Reply Token=======")
     #print(event.reply_token)
     #print("=========================")
@@ -256,16 +294,16 @@ def setLevel(levelinput):
     if (levelinput=='L'):
         level_L = 1
         isChangingLevel_L = False
-        myResult= ("目前程度切換至初級 \n 請任意輸入 將開始出題～～")
+        myResult= ("目前程度切換至初級 \n 請任意輸入～")
         
     elif (levelinput=='M'):
         level_L = 2
         isChangingLevel_L = False
-        myResult= ("目前程度切換至中級\n 請任意輸入 將開始出題～～")    
+        myResult= ("目前程度切換至中級\n 請任意輸入～")    
     elif (levelinput=='H'):
         level_L = 3
         isChangingLevel_L = False
-        myResult= ("目前程度切換至高級\n 請任意輸入 將開始出題～～")  
+        myResult= ("目前程度切換至高級\n 請任意輸入～")  
     else:       
         isChangingLevel_L = True
         myResult = "N"
@@ -311,3 +349,45 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+
+
+# QAsort_bubble = BubbleContainer (
+#                 header = BoxComponent(
+#                     layout='vertical',
+#                     contents=[
+#                         TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
+#                     ]
+#                 ),
+#                 body = BoxComponent(
+#                     layout='vertical',
+#                     contents=[
+#                         ButtonComponent(
+#                             action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
+#                             color = '#001774',
+#                             style = 'primary',
+#                             gravity = 'center'
+#                         ),
+#                         ButtonComponent(
+#                             action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
+#                             color = '#FF595D',
+#                             margin = 'md',           
+#                             style = 'primary',
+#                             gravity = 'center'
+#                         ),
+#                         ButtonComponent(
+#                             action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
+#                             color = '#FFB54A',
+#                             margin = 'md',           
+#                             style = 'primary',
+#                             gravity = 'center'
+#                         )
+#                     ]
+#                 )
+#             )   
+            
+#             #line_bot_api.reply_message(event.reply_token, buttons_template)  
+#             message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
+#             line_bot_api.reply_message(
+#                 event.reply_token,
+#                 message
+#             )
