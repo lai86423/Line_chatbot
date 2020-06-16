@@ -110,11 +110,10 @@ def handle_message(event):
             isChangingLevel_L = True
             isAsked_L = False
             QAsort_bubble = BubbleContainer (
-                direction='ltr',
                 header = BoxComponent(
                     layout='vertical',
                     contents=[
-                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000'),                   
+                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
                     ]
                 ),
                 body = BoxComponent(
