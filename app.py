@@ -138,63 +138,39 @@ def handle_message(event):
         else:
             if( isAsked_L == False ):     
                 question = sheet["question"][index_L]
-                isAsked_L = True
-                
+                isAsked_L = True              
                 QA_bubble = CarouselContainer (
-                    BubbleContainer (
-                        direction='ltr',
-                        header = BoxComponent(
-                            layout='vertical',
-                            contents=[
-                                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
-                            ]
-                        ),
-                        body = BoxComponent(
-                            layout='vertical',
-                            contents=[
-                                ButtonComponent(
-                                    action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
-                                    color = '#3B9A9C',
-                                    margin = 'lg',
-                                    style = 'primary'
-                                ),
-                                TextComponent(text='選出聽到的答案', size='md', align = 'center'),
-                                SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
-                                ButtonComponent(
-                                    action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
-                                    color = '#F29C2B',
-                                    margin = 'xxl',
-                                    style = 'primary'
-                                )
-
-                            ]
+                    contents = [
+                        BubbleContainer (
+                            direction='ltr',
+                            header = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                                ]
+                            ),
+                            body = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    ButtonComponent(
+                                        action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                                        color = '#3B9A9C',
+                                        margin = 'lg',
+                                        style = 'primary'
+                                    ),
+                                    TextComponent(text='選出聽到的答案', size='md', align = 'center'),
+                                    SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
+                                    ButtonComponent(
+                                        action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
+                                        color = '#F29C2B',
+                                        margin = 'xxl',
+                                        style = 'primary'
+                                    )
+                                ]
+                            )
                         )
-                    ),
-                    BubbleContainer (
-                        direction='ltr',
-                        header = BoxComponent(
-                            layout='vertical',
-                            contents=[
-                                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
-                            ]
-                        ),
-                        body = BoxComponent(
-                            layout='vertical',
-                            contents=[
-                                TextComponent(text='選項(1)', size='xl', align = 'center')
-                            ]
-                        ),
-                        footer = BoxComponent(
-                            layout='horizontal',
-                            contents=[
-                                ButtonComponent(
-                                    action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
-                                    color = '#46549B',
-                                    style = 'primary'
-                                )
-                            ]
-                        )
-                    )
+                    ]
+                    
                 )
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
