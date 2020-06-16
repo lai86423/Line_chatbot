@@ -121,20 +121,20 @@ def handle_message(event):
                     layout='vertical',
                     contents=[
                         ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_word', data = 'QAsort_word', text = '詞彙練習'),
+                            action = PostbackAction(label = 'QAsort_word', data = '1', text = '詞彙練習'),
                             color = '#001774',
                             style = 'primary',
                             gravity = 'center'
                         ),
                         ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_grammar', data = 'QAsort_grammar', text = '文法練習'),
+                            action = PostbackAction(label = 'QAsort_grammar', data = '2', text = '文法練習'),
                             color = '#FF595D',
                             margin = 'md',           
                             style = 'primary',
                             gravity = 'center'
                         ),
                         ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_cloze', data = 'QAsort_cloze', text = '克漏字練習'),
+                            action = PostbackAction(label = 'QAsort_cloze', data = '3', text = '克漏字練習'),
                             color = '##FFB54A',
                             margin = 'md',           
                             style = 'primary',
@@ -144,7 +144,7 @@ def handle_message(event):
                 )
             )
             #line_bot_api.reply_message(event.reply_token, buttons_template)  
-            message = FlexSendMessage(alt_text="hello", contents = QAsort_bubble)
+            message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
             line_bot_api.reply_message(
                 event.reply_token,
                 message
