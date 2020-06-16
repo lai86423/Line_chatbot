@@ -131,6 +131,13 @@ def handle_message(event):
                             margin = 'md',           
                             style = 'primary',
                             gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = 'QAsort_cloze', data = '3', text = '克漏字練習'),
+                            color = '#FFB54A',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
                         )
                     ]
                 )
