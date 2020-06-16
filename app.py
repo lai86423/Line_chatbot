@@ -131,13 +131,6 @@ def handle_message(event):
                             margin = 'md',           
                             style = 'primary',
                             gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
-                            color = '##FFB54A',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
                         )
                     ]
                 )
