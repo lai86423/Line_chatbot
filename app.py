@@ -179,7 +179,7 @@ def handle_message(event):
                             ),
                             hero = ImageComponent(
                                 url='https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200',
-                                size='full'
+                                size='full',
                                 aspect_ratio= '1.51:1',
                                 aspect_mode='fit'
                             ),
