@@ -115,8 +115,20 @@ def handle_message(event):
                     contents=[
                         TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
                     ]
+                ),
+                body = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        ButtonComponent(
+                            action = PostbackAction(label = 'QAsort_word', data = '1', text = '詞彙練習'),
+                            color = '#001774',
+                            style = 'primary',
+                            gravity = 'center'
+                        )
+                    ]
                 )
-            )
+            )   
+            
             #line_bot_api.reply_message(event.reply_token, buttons_template)  
             message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
             line_bot_api.reply_message(
