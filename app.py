@@ -115,31 +115,6 @@ def handle_message(event):
                     contents=[
                         TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
                     ]
-                ),
-                body = BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_word', data = '1', text = '詞彙練習'),
-                            color = '#001774',
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_grammar', data = '2', text = '文法練習'),
-                            color = '#FF595D',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_cloze', data = '3', text = '克漏字練習'),
-                            color = '##FFB54A',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        )
-                    ]
                 )
             )
             #line_bot_api.reply_message(event.reply_token, buttons_template)  
