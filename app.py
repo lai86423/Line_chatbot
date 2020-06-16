@@ -120,8 +120,22 @@ def handle_message(event):
                     layout='vertical',
                     contents=[
                         ButtonComponent(
-                            action = PostbackAction(label = 'QAsort_word', data = '1', text = '詞彙練習'),
+                            action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
                             color = '#001774',
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
+                            color = '#FF595D',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
+                            color = '##FFB54A',
+                            margin = 'md',           
                             style = 'primary',
                             gravity = 'center'
                         )
