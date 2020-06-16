@@ -178,7 +178,7 @@ def handle_message(event):
                                 ]
                             ),
                             hero = ImageComponent(
-                                url="https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200",
+                                url='https://w0.pngwave.com/png/942/532/apple-pie-fruit-food-granny-smith-apple-png-clip-art.png',
                                 size='full',
                                 aspect_ratio= '1.51:1',
                                 aspect_mode='fit'
@@ -212,8 +212,33 @@ def handle_message(event):
                                 layout='horizontal',
                                 contents=[
                                     ButtonComponent(
-                                        action = PostbackAction(label = '選項(1)', data = '1', text = '選項(1)'),
+                                        action = PostbackAction(label = '選項(2)', data = '2', text = '選項(2)'),
                                         color = '#7E318E',
+                                        style = 'primary'
+                                    )
+                                ]
+                            )
+                        ),
+                        BubbleContainer (
+                            direction='ltr',
+                            header = BoxComponent(
+                                layout='vertical',
+                                contents=[
+                                    TextComponent(text='選項(3)', size='xl', align = 'center')
+                                ]
+                            ),
+                            hero = ImageComponent(
+                                url='https://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/24172040/ING-grapes-2.jpg',
+                                size='full',
+                                aspect_ratio= '1.51:1',
+                                aspect_mode='fit'
+                            ),
+                            footer = BoxComponent(
+                                layout='horizontal',
+                                contents=[
+                                    ButtonComponent(
+                                        action = PostbackAction(label = '選項(3)', data = '3', text = '選項(3)'),
+                                        color = '#CD2774',
                                         style = 'primary'
                                     )
                                 ]
