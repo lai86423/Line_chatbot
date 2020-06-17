@@ -211,7 +211,51 @@ def QA_Word():
     return QA_word
 
 def QA_Sentence():
+    QA_sentence = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text='題目(16/20)', weight='bold', size='lg', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                ButtonComponent(
+                    action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                    color = '#3B9A9C',
+                    margin = 'lg',
+                    style = 'primary',
+                    flex = 10
+                ),
+                TextComponent(text='選出正確的應對句子', size='md', align = 'center'),
+                SeparatorComponent(margin='xl',color='#A89F9F'),
+                TextComponent(text='(1) Yes, I am.', size='lg',margin='sm', align = 'start'),
+                TextComponent(text='(2) Yes, she is.', size='lg',margin='sm', align = 'start'),
+                TextComponent(text='(3) Yes, they are.', size='lg',margin='sm', align = 'start'),
 
-
-    return QA_Sentence
+                ButtonComponent(
+                    action = PostbackAction(label = '(1)', data = '1', text = '(1)'),
+                    color = '#46549B',
+                    margin = 'xl',
+                    style = 'primary'
+                ),
+                    ButtonComponent(
+                    action = PostbackAction(label = '(2)', data = '2', text = '(2)'),
+                    color = '#7E318E',
+                    margin = 'md',
+                    style = 'primary'
+                ),
+                    ButtonComponent(
+                    action = PostbackAction(label = '(3)', data = '3', text = '(3)'),
+                    color = '#CD2774',
+                    margin = 'md',
+                    style = 'primary',
+                    gravity='top'
+                )
+            ]
+        )
+    )                       
+    return QA_sentence
 
