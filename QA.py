@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from googletrans import Translator
 
-def QA_img():
+def QA_Img():
     QA_img = CarouselContainer (
                         contents = [
                             BubbleContainer (
@@ -120,7 +120,7 @@ def QA_img():
                     )
     return QA_img   
 
-def QA_tail():
+def QA_Tail():
     QA_tail = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -140,13 +140,6 @@ def QA_tail():
                     flex = 10
                 ),
                 TextComponent(text='選出所聽到的單字的字尾音', size='md', align = 'center'),
-                SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
-                ButtonComponent(
-                    action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
-                    color = '#F29C2B',
-                    margin = 'xxl',
-                    style = 'primary'
-                ),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
                 ButtonComponent(
                     action = PostbackAction(label = '(1) f', data = '1', text = '(1) f'),
@@ -173,7 +166,7 @@ def QA_tail():
     return QA_tail
 
 def QA_Word():
-    QA_tail = BubbleContainer (
+    QA_word = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
             layout='vertical',
@@ -191,29 +184,22 @@ def QA_Word():
                     style = 'primary',
                     flex = 10
                 ),
-                TextComponent(text='選出所聽到的單字的字尾音', size='md', align = 'center'),
-                SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
-                ButtonComponent(
-                    action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
-                    color = '#F29C2B',
-                    margin = 'xxl',
-                    style = 'primary'
-                ),
+                TextComponent(text='選出所聽到的單字', size='md', align = 'center'),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
                 ButtonComponent(
-                    action = PostbackAction(label = '(1) f', data = '1', text = '(1) f'),
+                    action = PostbackAction(label = '(1) cool', data = '1', text = '(1) cool'),
                     color = '#46549B',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(2) b', data = '2', text = '(2) b'),
+                    action = PostbackAction(label = '(2) warm', data = '2', text = '(2) warm'),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(3) m', data = '3', text = '(3) m'),
+                    action = PostbackAction(label = '(3) hot', data = '3', text = '(3) hot'),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
@@ -222,7 +208,7 @@ def QA_Word():
             ]
         )
     )                       
-    return QA_tail
+    return QA_word
 
 def QA_Sentence():
 
