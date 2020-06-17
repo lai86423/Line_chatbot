@@ -121,7 +121,7 @@ def QA_img():
     return QA_img   
 
     def QA_tail():
-        BubbleContainer (
+        QA_tail = BubbleContainer (
             direction='ltr',
             header = BoxComponent(
                 layout='vertical',
