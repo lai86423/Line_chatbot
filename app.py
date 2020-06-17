@@ -140,7 +140,8 @@ def handle_message(event):
             if( isAsked_L == False ):     
                 question = sheet["question"][index_L]
                 isAsked_L = True              
-                QA_bubble = QA.QA_img()
+                #QA_bubble = QA.QA_img()
+                QA_bubble = QA.QA_tail()
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
                     event.reply_token,

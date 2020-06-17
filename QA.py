@@ -50,7 +50,7 @@ def QA_img():
                                     ]
                                 ),
                                 hero = ImageComponent(
-                                    url='https://static.pptstore.net/picture/26/52/ed94055fb3ffc5c56b60_s.jpg',
+                                    url='https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200',
                                     size='full',
                                     aspect_ratio= '1.51:1',
                                     aspect_mode='fit'
@@ -119,3 +119,67 @@ def QA_img():
                         ]                    
                     )
     return QA_img   
+
+    def QA_tail():
+        BubbleContainer (
+            direction='ltr',
+            header = BoxComponent(
+                layout='vertical',
+                contents=[
+                    TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                ]
+            ),
+            body = BoxComponent(
+                layout='vertical',
+                contents=[
+                    ButtonComponent(
+                        action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                        color = '#3B9A9C',
+                        margin = 'lg',
+                        style = 'primary',
+                        flex = 10
+                    ),
+                    TextComponent(text='選出所聽到的單字的字尾音', size='md', align = 'center'),
+                    SeparatorComponent(margin = 'xxl', color = '#A89F9F'),
+                    ButtonComponent(
+                        action = PostbackAction(label = '前往下一題', data = 'NextQ', text = '前往下一題'),
+                        color = '#F29C2B',
+                        margin = 'xxl',
+                        style = 'primary'
+                    ),
+                    SeparatorComponent(margin='xl',color='#A89F9F'),
+                    ButtonComponent(
+                        action = PostbackAction(label = '(1) f', data = '1', text = '(1) f'),
+                        color = '#46549B',
+                        margin = 'md',
+                        style = 'primary'
+                    ),
+                     ButtonComponent(
+                        action = PostbackAction(label = '(2) b', data = '2', text = '(2) b'),
+                        color = '#7E318E',
+                        margin = 'md',
+                        style = 'primary'
+                    ),
+                     ButtonComponent(
+                        action = PostbackAction(label = '(3) m', data = '3', text = '(3) m'),
+                        color = '#CD2774',
+                        margin = 'md',
+                        style = 'primary',
+                        gravity='top'
+                    )
+                ]
+            )
+        )
+                                           
+                        
+        return QA_tail
+
+    def QA_Word():
+
+
+        return QA_Word
+    def QA_Sentence():
+
+
+        return QA_Sentence
+
