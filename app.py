@@ -52,7 +52,7 @@ worksheet_list_L[7].export(filename='L2_sen')
 worksheet_list_L[8].export(filename='L3_img')
 worksheet_list_L[9].export(filename='L3_tail')
 worksheet_list_L[10].export(filename='L3_word')
-print("EXXXXX",worksheet_list_L[11].export(filename='L3_sen'))
+worksheet_list_L[11].export(filename='L3_sen')
 
 L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
 L1_tail = pd.read_csv('L1_tail.csv')
@@ -176,6 +176,8 @@ def handle_message(event):
                 if index_L < 5:
                     sheet = editSheet(data_img)
                 elif index_L < 10:
+                    sheet = editSheet(data_tail)
+                elif index_L < 10:
                     sheet = editSheet(data_word)
                 else:
                     sheet = editSheet(data_sen)     
@@ -203,10 +205,10 @@ def handle_postback(event):
     global star_num
     global pre_sheet
 
-    # if(isChangingLevel_L==True):
-    #     levelinput = event.postback.data
-    #     myResult = setLevel(levelinput) 
-    #     line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    if(isChangingLevel_L==True):
+        levelinput = event.postback.data
+        myResult = setLevel(levelinput) 
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     # else:    
     #     print("correct answer = ",str(sheet["answer"][index_L]))
     #     print("index_L = ", index_L)
