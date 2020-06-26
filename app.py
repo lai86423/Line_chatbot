@@ -87,6 +87,7 @@ def getSheet(Qlevel):
         data_sen = L1_sen 
 
     print("getSheet data_img = ",data_img)
+    print("getSheet data_tail = ",data_tail)
     print("getSheet data_word = ", data_word)
     print("getSheet data_sen = ", data_sen)
 
