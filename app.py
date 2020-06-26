@@ -55,12 +55,15 @@ worksheet_list_L[10].export(filename='L3_word')
 print("EXXXXX",worksheet_list_L[11].export(filename='L3_sen'))
 
 L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L1_tail = pd.read_csv('L1_tail.csv')
 L1_word = pd.read_csv('L1_word.csv')
 L1_sen = pd.read_csv('L1_sen.csv')
 L2_img = pd.read_csv('L2_img.csv') 
+L2_tail = pd.read_csv('L2_tail.csv') 
 L2_word = pd.read_csv('L2_word.csv')
 L2_sen = pd.read_csv('L2_sen.csv')
 L3_img = pd.read_csv('L3_img.csv') 
+L3_tail = pd.read_csv('L3_tail.csv') 
 L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
 ##-----------------------------------------------------------------------------------
@@ -112,8 +115,7 @@ def editSheet(data):
 
 data_img, data_tail, data_word, data_sen = getSheet(level_L)
 #sheet = editSheet(data_img) 
-##------------------------------------------------
-
+##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -128,8 +130,8 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-
-##聽力測驗  處理訊息------------------------------------------------
+##-----------------------------------------------------------------------------------
+#處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     global isAsked_L
@@ -189,9 +191,8 @@ def handle_message(event):
                     event.reply_token,
                     message
                 )
-
-#聽力測驗  回饋判斷------------------------------------------------
-@handler.add(PostbackEvent)
+##-----------------------------------------------------------------------------------
+#回饋判斷
 def handle_postback(event):
     print("---Feedback---")
     global isAsked_L
@@ -239,8 +240,8 @@ def handle_postback(event):
     #         sheet = editSheet(pre_sheet)
     #         print("new sheet",sheet)
     #     print("index_L after = ", index_L)
-
-##聽力測驗  設定Level------------------------------------------------
+##-----------------------------------------------------------------------------------
+#設定Level------------------------------------------------
 def setLevel(levelinput):
     print("---Changing Level---")
     global data_img, data_word, data_sen
