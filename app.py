@@ -24,31 +24,35 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_L,point
 
-##聽力  初始抓資料＆資料處理------------------------------------------------
-level_L = 1 #預設level 1
-type_L = 1
-qNum = 20 #每輪題目數量
-star_num = 0
-isAsked_L = False
+##聽力  變數------------------------------------------------
+level_L = 1 # 預設level 1
+type_L = 1 # 3種題目類型
+qNum = 20 # 每輪題目數量
+star_num = 0 #集點
+isAsked_L = False #出題與否
 isChangingLevel_L = True
-index_L = 0
+index_L = 0 #第幾題
+##-----------------------------------------------------------------------------------
+##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
 GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc = pygsheets.authorize(service_account_file='question.json') #檔案裡的google sheet js檔
 survey_url_L = 'https://docs.google.com/spreadsheets/d/1e1hCM0yFzwQkzfdzJGCioLCvnPNJHw9IPHqz4sSEsjg/edit#gid=0'
 sh_L = gc.open_by_url(survey_url_L)
-#取得所有工作表名稱
-worksheet_list_L = sh_L.worksheets()
+worksheet_list_L = sh_L.worksheets()#取得所有工作表名稱
 print("worksheet_list_L",worksheet_list_L)
 worksheet_list_L[0].export(filename='L1_img')
-worksheet_list_L[1].export(filename='L1_word')
-worksheet_list_L[2].export(filename='L1_sen')
-worksheet_list_L[3].export(filename='L2_img')
-worksheet_list_L[4].export(filename='L2_word')
-worksheet_list_L[5].export(filename='L2_sen')
-worksheet_list_L[6].export(filename='L3_img')
-worksheet_list_L[7].export(filename='L3_word')
-worksheet_list_L[8].export(filename='L3_sen')
+worksheet_list_L[1].export(filename='L1_tail')
+worksheet_list_L[2].export(filename='L1_word')
+worksheet_list_L[3].export(filename='L1_sen')
+worksheet_list_L[4].export(filename='L2_img')
+worksheet_list_L[5].export(filename='L2_tail')
+worksheet_list_L[6].export(filename='L2_word')
+worksheet_list_L[7].export(filename='L2_sen')
+worksheet_list_L[8].export(filename='L3_img')
+worksheet_list_L[9].export(filename='L3_tail')
+worksheet_list_L[10].export(filename='L3_word')
+print("EXXXXX",worksheet_list_L[11].export(filename='L3_sen'))
 
 L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
 L1_word = pd.read_csv('L1_word.csv')
@@ -59,35 +63,31 @@ L2_sen = pd.read_csv('L2_sen.csv')
 L3_img = pd.read_csv('L3_img.csv') 
 L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
-
-def getSheet(Qlevel,type_L):  #打亂該sheet順序，並存成dictionary格式  
+##-----------------------------------------------------------------------------------
+#四種問題類型
+def getSheet(Qlevel):   
     if(Qlevel == 3):
-        if type_L == 1:
-            data_img = L3_img
-        elif type_L == 2:
-            data_word = L3_word
-        else:
-            data_sen = L3_sen  
+        data_img = L3_img
+        data_tail = L3_tail
+        data_word = L3_word
+        data_sen = L3_sen  
+
     elif(Qlevel == 2):
-        if type_L == 1:
-            data_img = L2_img
-        elif type_L == 2:
-            data_word = L2_word
-        else:
-            data_sen = L2_sen 
+        data_img = L2_img
+        data_tail = L2_tail
+        data_word = L2_word
+        data_sen = L2_sen 
     else:
-        if type_L == 1:
-            data_img = L1_img
-        elif type_L == 2:
-            data_word = L1_word
-        else:
-            data_sen = L1_sen 
+        data_img = L1_img
+        data_tail = L1_tail
+        data_word = L1_word
+        data_sen = L1_sen 
 
     print("getSheet data_img = ",data_img)
     print("getSheet data_word = ", data_word)
     print("getSheet data_sen = ", data_sen)
 
-    return data_img, data_word, data_sen
+    return data_img, data_tail, data_word, data_sen
 
 def editSheet(data):
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
@@ -110,7 +110,7 @@ def editSheet(data):
     #qNum = len(sheet["question"])
     return sheet
 
-data_img, data_word, data_sen = getSheet(level_L,type_L)
+data_img, data_tail, data_word, data_sen = getSheet(level_L)
 #sheet = editSheet(data_img) 
 ##------------------------------------------------
 
@@ -243,10 +243,10 @@ def handle_postback(event):
 ##聽力測驗  設定Level------------------------------------------------
 def setLevel(levelinput):
     print("---Changing Level---")
-    global sheet
+    global data_img, data_word, data_sen
     global level_L
     global isChangingLevel_L
-    global pre_sheet
+    #global pre_sheet
     if (levelinput=='L'):
         level_L = 1
         isChangingLevel_L = False
@@ -265,7 +265,7 @@ def setLevel(levelinput):
         myResult = "N"
     
     if isChangingLevel_L == False:
-        data_img, data_word, data_sen = getSheet(level_L,type_L)
+        data_img, data_tail, data_word, data_sen = getSheet(level_L,type_L)
         #sheet = editSheet(pre_sheet)
         #print("level_L get sheet",sheet)
       
