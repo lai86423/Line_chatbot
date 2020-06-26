@@ -115,7 +115,7 @@ def editSheet(data):
     return sheet
 
 data_img, data_tail, data_word, data_sen = getSheet(level_L)
-#sheet = editSheet(data_img) 
+sheet = editSheet(data_img) 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -138,6 +138,7 @@ def handle_message(event):
     global isAsked_L
     global index_L
     global isChangingLevel_L
+    global sheet
     replytext = event.message.text
     #myId = event.source.user_id
     if event.message.type == 'text':   
@@ -209,45 +210,45 @@ def handle_postback(event):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
-    # else:    
-    #     print("correct answer = ",str(sheet["answer"][index_L]))
-    #     print("index_L = ", index_L)
-    #     answer = event.postback.data
-    #     if answer != str(sheet["answer"][index_L]):
-    #         if(index_L >= qNum - 1): #做完本輪題庫數目
-    #             print('恭喜你做完這次的聽力練習了!')
-    #             end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
-    #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
-    #         else:
-    #             feedback = sheet["feedback"][index_L]
-    #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-    #         isAsked_L = False       
-    #     else:
-    #         star_num += 1
-    #         if(index_L >= qNum - 1):#做完本輪題庫數目
-    #             print('恭喜你做完這次的聽力練習了!')
-    #             end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
-    #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
-    #         else:
-    #             print('恭喜你答對了!給你一個小星星!')
-    #             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
+    else:    
+        print("correct answer = ",str(sheet["answer"][index_L]))
+        print("index_L = ", index_L)
+        answer = event.postback.data
+        if answer != str(sheet["answer"][index_L]):
+            if(index_L >= qNum - 1): #做完本輪題庫數目
+                print('恭喜你做完這次的聽力練習了!')
+                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
+            else:
+                feedback = sheet["feedback"][index_L]
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
+            isAsked_L = False       
+        else:
+            star_num += 1
+            if(index_L >= qNum - 1):#做完本輪題庫數目
+                print('恭喜你做完這次的聽力練習了!')
+                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
+            else:
+                print('恭喜你答對了!給你一個小星星!')
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
 
-    #         isAsked_L = False
+            isAsked_L = False
 
-    #     if index_L < qNum - 1:
-    #         index_L += 1
-    #     else:#做完本輪題庫數目
-    #         index_L = 0
-    #         star_num = 0
-    #         pre_sheet = getSheet(level_L,type_L)
-    #         sheet = editSheet(pre_sheet)
-    #         print("new sheet",sheet)
-    #     print("index_L after = ", index_L)
+        if index_L < qNum - 1:
+            index_L += 1
+        else:#做完本輪題庫數目
+            index_L = 0
+            star_num = 0
+            pre_sheet = getSheet(level_L,type_L)
+            sheet = editSheet(pre_sheet)
+            print("new sheet",sheet)
+        print("index_L after = ", index_L)
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
 def setLevel(levelinput):
     print("---Changing Level---")
-    global data_img, data_word, data_sen
+    global data_img, data_tail, data_word, data_sen
     global level_L
     global isChangingLevel_L
     #global pre_sheet
@@ -269,7 +270,7 @@ def setLevel(levelinput):
         myResult = "N"
     
     if isChangingLevel_L == False:
-        data_img, data_tail, data_word, data_sen = getSheet(level_L,type_L)
+        data_img, data_tail, data_word, data_sen = getSheet(level_L)
         #sheet = editSheet(pre_sheet)
         #print("level_L get sheet",sheet)
       
