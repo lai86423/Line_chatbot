@@ -32,34 +32,43 @@ isChangingLevel_L = True
 index_L = 0
 GDriveJSON = 'question.json'
 GSpreadSheet_L = 'cilab_ChatBot_listening'
-gc = pygsheets.authorize(service_account_file='question.json')
+gc = pygsheets.authorize(service_account_file='question.json') #檔案裡的google sheet js檔
 survey_url_L = 'https://docs.google.com/spreadsheets/d/1e1hCM0yFzwQkzfdzJGCioLCvnPNJHw9IPHqz4sSEsjg/edit#gid=0'
 sh_L = gc.open_by_url(survey_url_L)
-
 #取得所有工作表名稱
 worksheet_list_L = sh_L.worksheets()
 print("worksheet_list_L",worksheet_list_L)
-ws1_L = worksheet_list_L[0]
-ws2_L = worksheet_list_L[1]
-ws3_L = worksheet_list_L[2]
+worksheet_list_L[0].export(filename='L1_img')
+worksheet_list_L[1].export(filename='L1_word')
+worksheet_list_L[2].export(filename='L1_sen')
+L2_img = worksheet_list_L[3].export(filename='L2_img')
+L2_word = worksheet_list_L[4].export(filename='L2_word')
+L2_sen = worksheet_list_L[5].export(filename='L2_sen')
+L3_img = worksheet_list_L[6].export(filename='L3_img')
+L3_word = worksheet_list_L[7].export(filename='L3_word')
+L3_sen = worksheet_list_L[8].export(filename='L3_sen')
 
-ws1_L.export(filename='df1_L') 
-ws2_L.export(filename='df2_L') 
-ws3_L.export(filename='df3_L') 
-data1_L = pd.read_csv('df1_L.csv') #type: <class 'pandas.core.frame.DataFrame'>
-data2_L = pd.read_csv('df2_L.csv')
-data3_L = pd.read_csv('df3_L.csv')
+L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L1_word = pd.read_csv('L1_word.csv')
+L1_sen = pd.read_csv('L1_sen.csv')
+L2_img = pd.read_csv('L2_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L2_word = pd.read_csv('L2_word.csv')
+L2_sen = pd.read_csv('L2_sen.csv')
+L3_img = pd.read_csv('L3_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L3_word = pd.read_csv('L3_word.csv')
+L3_sen = pd.read_csv('L3_sen.csv')
 
-def getSheet(Qlevel):  #TODO 傳變數level,判斷是聽力還是出題小老師 #打亂該sheet順序，並存成dictionary格式  
+def getSheet(Qlevel):  #打亂該sheet順序，並存成dictionary格式  
     if(Qlevel == 3):
-        data = data3_L
+        data = L3_img
     elif(Qlevel == 2):
-        data = data2_L
+        data = L2_img
     else:
-        data = data1_L
-
+        data = L1_img
+    print("getSheet data = ",data)
     df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
     #df = np.random.sample(data)
+    
     print("getSheet df = ",df)
     question = df.iloc[:,0]
     option1 = df.iloc[:,1]
@@ -139,7 +148,8 @@ def handle_message(event):
         else:
             if( isAsked_L == False ):     
                 question = sheet["question"][index_L]
-                isAsked_L = True              
+                isAsked_L = True
+                print("Queation = ",question)              
                 #QA_bubble = QA.QA_Img()
                 #QA_bubble = QA.QA_Tail()
                 #QA_bubble = QA.QA_Word()
