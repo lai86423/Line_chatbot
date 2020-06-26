@@ -26,6 +26,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##聽力  初始抓資料＆資料處理------------------------------------------------
 level_L = 1 #預設level 1
+type_L = 1
 star_num = 0
 isAsked_L = False
 isChangingLevel_L = True
@@ -41,42 +42,61 @@ print("worksheet_list_L",worksheet_list_L)
 worksheet_list_L[0].export(filename='L1_img')
 worksheet_list_L[1].export(filename='L1_word')
 worksheet_list_L[2].export(filename='L1_sen')
-L2_img = worksheet_list_L[3].export(filename='L2_img')
-L2_word = worksheet_list_L[4].export(filename='L2_word')
-L2_sen = worksheet_list_L[5].export(filename='L2_sen')
-L3_img = worksheet_list_L[6].export(filename='L3_img')
-L3_word = worksheet_list_L[7].export(filename='L3_word')
-L3_sen = worksheet_list_L[8].export(filename='L3_sen')
+worksheet_list_L[3].export(filename='L2_img')
+worksheet_list_L[4].export(filename='L2_word')
+worksheet_list_L[5].export(filename='L2_sen')
+worksheet_list_L[6].export(filename='L3_img')
+worksheet_list_L[7].export(filename='L3_word')
+worksheet_list_L[8].export(filename='L3_sen')
 
 L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
 L1_word = pd.read_csv('L1_word.csv')
 L1_sen = pd.read_csv('L1_sen.csv')
-L2_img = pd.read_csv('L2_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L2_img = pd.read_csv('L2_img.csv') 
 L2_word = pd.read_csv('L2_word.csv')
 L2_sen = pd.read_csv('L2_sen.csv')
-L3_img = pd.read_csv('L3_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
+L3_img = pd.read_csv('L3_img.csv') 
 L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
 
-def getSheet(Qlevel):  #打亂該sheet順序，並存成dictionary格式  
+def getSheet(Qlevel,type_L):  #打亂該sheet順序，並存成dictionary格式  
     if(Qlevel == 3):
-        data = L3_img
+        if type_L == 1:
+            data_img = L3_img
+        elif type_L == 2:
+            data_word = L3_word
+        else:
+            data_sen = L3_sen  
     elif(Qlevel == 2):
-        data = L2_img
+        if type_L == 1:
+            data_img = L2_img
+        elif type_L == 2:
+            data_word = L2_word
+        else:
+            data_sen = L2_sen 
     else:
-        data = L1_img
-    print("getSheet data = ",data)
-    df = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題   
-    #df = np.random.sample(data)
-    
-    print("getSheet df = ",df)
-    question = df.iloc[:,0]
-    option1 = df.iloc[:,1]
-    option2 = df.iloc[:,2]
-    option3 = df.iloc[:,3]
-    option4 = df.iloc[:,4]
-    feedback = df.iloc[:,5]
-    answer = df.iloc[:,6]
+        if type_L == 1:
+            data_img = L1_img
+        elif type_L == 2:
+            data_word = L1_word
+        else:
+            data_sen = L1_sen 
+
+    print("getSheet data_img = ",data_img)
+    print("getSheet data_word = ", data_word)
+    print("getSheet data_sen = ", data_sen)
+
+    return data_img, data_word, data_sen
+
+def editSheet(data):
+    pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
+    question = pre_sheet.iloc[:,0]
+    option1 = pre_sheet.iloc[:,1]
+    option2 = pre_sheet.iloc[:,2]
+    option3 = pre_sheet.iloc[:,3]
+    option4 = pre_sheet.iloc[:,4]
+    feedback = pre_sheet.iloc[:,5]
+    answer = pre_sheet.iloc[:,6]
     sheet = {
         "question": question,
         "option1": option1,
@@ -86,10 +106,11 @@ def getSheet(Qlevel):  #打亂該sheet順序，並存成dictionary格式
         "feedback": feedback,
         "answer": answer
     }
-    qNum = len(sheet["question"])
-    return sheet,qNum
+    #qNum = len(sheet["question"])
+    return sheet
 
-sheet,qNum = getSheet(level_L)
+data_img, data_word, data_sen = getSheet(level_L,type_L)
+#sheet = editSheet(data_img) 
 ##------------------------------------------------
 
 # 監聽所有來自 /callback 的 Post Request
@@ -146,10 +167,18 @@ def handle_message(event):
                 )
             line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
-            if( isAsked_L == False ):     
-                question = sheet["question"][index_L]
+            if( isAsked_L == False ):    
                 isAsked_L = True
-                print("Queation = ",question)              
+                if QA_count < 5:
+                    sheet = editSheet(data_img)
+                elif QA_count < 10:
+                    sheet = editSheet(data_word)
+                else:
+                    sheet = editSheet(data_sen)     
+                print("sheet = ",sheet)
+                #question = sheet["question"][index_L]
+                #print("Queation = ",question)              
+                
                 #QA_bubble = QA.QA_Img()
                 #QA_bubble = QA.QA_Tail()
                 #QA_bubble = QA.QA_Word()
@@ -167,8 +196,9 @@ def handle_postback(event):
     global isAsked_L
     global index_L
     global sheet
-    global qNum
+    #global qNum
     global star_num
+    global pre_sheet
 
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
@@ -204,7 +234,8 @@ def handle_postback(event):
         else:#做完本輪題庫數目
             index_L = 0
             star_num = 0
-            sheet,qNum = getSheet(level_L)
+            pre_sheet = getSheet(level_L,type_L)
+            sheet,qNum = editSheet(pre_sheet)
             print("new sheet",sheet)
             print("new qNum",qNum)
         print("index_L after = ", index_L)
@@ -213,10 +244,9 @@ def handle_postback(event):
 def setLevel(levelinput):
     print("---Changing Level---")
     global sheet
-    global qNum
     global level_L
     global isChangingLevel_L
-   
+    global pre_sheet
     if (levelinput=='L'):
         level_L = 1
         isChangingLevel_L = False
@@ -235,9 +265,9 @@ def setLevel(levelinput):
         myResult = "N"
     
     if isChangingLevel_L == False:
-        sheet,qNum = getSheet(level_L)
+        pre_sheet = getSheet(level_L,type_L)
+        sheet = editSheet(pre_sheet)
         print("level_L get sheet",sheet)
-        print("level_L get qNum",qNum)
       
     return myResult
 
@@ -246,8 +276,6 @@ def levelButton(event):
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
                         title = '請選擇出題小老師題目程度～',
-                        #text = question,
-                        #thumbnail_image_url = '顯示在開頭的大圖片網址',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "初級", 
