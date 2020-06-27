@@ -10,7 +10,10 @@ import numpy as np
 import pandas as pd
 from googletrans import Translator
 
-def QA_Img():
+def QA_Img(sheet,subindex):
+    question = sheet["question"][subindex]
+    #sheet["option1"][index]
+    print("Queation = ",question)  #question 是 url 網址
     QA_img = CarouselContainer (
                         contents = [
                             BubbleContainer (
@@ -25,7 +28,7 @@ def QA_Img():
                                     layout='vertical',
                                     contents=[
                                         ButtonComponent(
-                                            action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                                            action = URIAction(label = '聽題目', uri = question),
                                             color = '#3B9A9C',
                                             margin = 'lg',
                                             style = 'primary'
@@ -120,7 +123,7 @@ def QA_Img():
                     )
     return QA_img   
 
-def QA_Tail():
+def QA_Tail(sheet,subindex):
     QA_tail = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -165,7 +168,7 @@ def QA_Tail():
     )              
     return QA_tail
 
-def QA_Word():
+def QA_Word(sheet,subindex):
     QA_word = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -210,7 +213,7 @@ def QA_Word():
     )                       
     return QA_word
 
-def QA_Sentence():
+def QA_Sentence(sheet,subindex):
     QA_sentence = BubbleContainer (
         direction='ltr',
         header = BoxComponent(

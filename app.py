@@ -32,6 +32,7 @@ star_num = 0 #集點
 isAsked_L = False #出題與否
 isChangingLevel_L = True
 index_L = 0 #第幾題
+subindex = 0
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -138,7 +139,7 @@ def handle_message(event):
     global isAsked_L
     global index_L
     global isChangingLevel_L
-    global sheet
+    global sheet,subindex
     replytext = event.message.text
     #myId = event.source.user_id
     if event.message.type == 'text':   
@@ -175,22 +176,26 @@ def handle_message(event):
             if( isAsked_L == False ):   
                 print("選完階級！")
                 isAsked_L = True
+                print("index_L",index_L)
+                subindex = index_L%5
+                print("index_L%5+1",subindex)
                 if index_L < 5:
                     sheet = editSheet(data_img)
+                    QA_bubble = QA.QA_Img(sheet,subindex)
                 elif index_L < 10:
                     sheet = editSheet(data_tail)
+                    QA_bubble = QA.QA_Tail(sheet,subindex)
                 elif index_L < 10:
                     sheet = editSheet(data_word)
+                    QA_bubble = QA.QA_Word(sheet,subindex)
                 else:
-                    sheet = editSheet(data_sen)     
+                    sheet = editSheet(data_sen) 
+                    QA_bubble = QA.QA_Sentence(sheet,subindex)    
                 print("sheet = ",sheet)
+                print("QA_bubble = ",QA_bubble)
                 #question = sheet["question"][index_L]
                 #print("Queation = ",question)              
                 
-                #QA_bubble = QA.QA_Img()
-                #QA_bubble = QA.QA_Tail()
-                #QA_bubble = QA.QA_Word()
-                QA_bubble = QA.QA_Sentence()
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
                     event.reply_token,
@@ -203,7 +208,7 @@ def handle_postback(event):
     print("---Feedback---")
     global isAsked_L
     global index_L
-    global sheet
+    global sheet,subindex
     global qNum
     global star_num
     global data_img, data_tail, data_word, data_sen
@@ -213,16 +218,17 @@ def handle_postback(event):
         myResult = setLevel(levelinput) 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
     else:    
-        print("correct answer = ",str(sheet["answer"][index_L]))
-        print("index_L = ", index_L)
+        print("correct answer = ",str(sheet["answer"][subindex]))
+        print("answer index_L = ", index_L)
+        print("answer subindex = ", subindex)
         answer = event.postback.data
-        if answer != str(sheet["answer"][index_L]):
+        if answer != str(sheet["answer"][subindex]):
             if(index_L >= qNum - 1): #做完本輪題庫數目
                 print('恭喜你做完這次的聽力練習了!')
                 end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
             else:
-                feedback = sheet["feedback"][index_L]
+                feedback = sheet["feedback"][subindex]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
             isAsked_L = False       
         else:
