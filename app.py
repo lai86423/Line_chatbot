@@ -70,28 +70,28 @@ L3_sen = pd.read_csv('L3_sen.csv')
 #四種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
-        data_img = L3_img
-        data_tail = L3_tail
-        data_word = L3_word
-        data_sen = L3_sen  
+        sheet_img = L3_img
+        sheet_tail = L3_tail
+        sheet_word = L3_word
+        sheet_sen = L3_sen  
 
     elif(Qlevel == 2):
-        data_img = L2_img
-        data_tail = L2_tail
-        data_word = L2_word
-        data_sen = L2_sen 
+        sheet_img = L2_img
+        sheet_tail = L2_tail
+        sheet_word = L2_word
+        sheet_sen = L2_sen 
     else:
-        data_img = L1_img
-        data_tail = L1_tail
-        data_word = L1_word
-        data_sen = L1_sen 
+        sheet_img = L1_img
+        sheet_tail = L1_tail
+        sheet_word = L1_word
+        sheet_sen = L1_sen 
 
-    print("getSheet data_img = ",data_img)
-    print("getSheet data_tail = ",data_tail)
-    print("getSheet data_word = ", data_word)
-    print("getSheet data_sen = ", data_sen)
+    print("getSheet sheet_img = ",sheet_img)
+    print("getSheet sheet_tail = ",sheet_tail)
+    print("getSheet sheet_word = ", sheet_word)
+    print("getSheet sheet_sen = ", sheet_sen)
 
-    return data_img, data_tail, data_word, data_sen
+    return sheet_img, sheet_tail, sheet_word, sheet_sen
 
 def editSheet(data):
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
@@ -173,6 +173,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
             if( isAsked_L == False ):   
+                print("選完階級！")
                 isAsked_L = True
                 if index_L < 5:
                     sheet = editSheet(data_img)
@@ -204,7 +205,7 @@ def handle_postback(event):
     global sheet
     global qNum
     global star_num
-    global pre_sheet
+    global data_img, data_tail, data_word, data_sen
 
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
@@ -240,8 +241,8 @@ def handle_postback(event):
         else:#做完本輪題庫數目
             index_L = 0
             star_num = 0
-            pre_sheet = getSheet(level_L,type_L)
-            sheet = editSheet(pre_sheet)
+            data_img, data_tail, data_word, data_sen = getSheet(level_L)
+            sheet = editSheet(data_img) 
             print("new sheet",sheet)
         print("index_L after = ", index_L)
 ##-----------------------------------------------------------------------------------
