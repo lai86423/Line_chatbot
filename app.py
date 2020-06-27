@@ -198,7 +198,7 @@ def handle_message(event):
                 )
 ##-----------------------------------------------------------------------------------
 #回饋判斷
-@handler.add(MessageEvent, message=TextMessage)
+@handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
     global isAsked_L
