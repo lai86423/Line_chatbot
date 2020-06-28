@@ -185,7 +185,7 @@ def handle_message(event):
                 elif index_L < 10:
                     sheet = editSheet(data_tail)
                     QA_bubble = QA.QA_Tail(sheet,subindex)
-                elif index_L < 10:
+                elif index_L < 15:
                     sheet = editSheet(data_word)
                     QA_bubble = QA.QA_Word(sheet,subindex)
                 else:
