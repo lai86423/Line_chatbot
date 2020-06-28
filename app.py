@@ -42,8 +42,8 @@ survey_url_L = 'https://docs.google.com/spreadsheets/d/1e1hCM0yFzwQkzfdzJGCioLCv
 sh_L = gc.open_by_url(survey_url_L)
 worksheet_list_L = sh_L.worksheets()#取得所有工作表名稱
 print("worksheet_list_L",worksheet_list_L)
-print(worksheet_list_L[0][0])
-worksheet_list_L[0].export(filename=worksheet_list_L[0][0])
+print("worksheet_",sh_L.worksheet_by_title('L1_tail'))
+sh_L.worksheet_by_title('L1_tail').export(filename=worksheet_list_L[0])
 worksheet_list_L[1].export(filename='L1_tail')
 worksheet_list_L[2].export(filename='L1_word')
 worksheet_list_L[3].export(filename='L1_sen')
