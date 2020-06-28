@@ -16,7 +16,7 @@ def QA_Img(sheet,subindex):
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
     print("option3 = ",sheet["option3"][subindex])
-    print("Queation = ",question)  #question 是 url 網址
+    print("Question = ",question)  #question 是 url 網址
     QA_img = CarouselContainer (
                         contents = [
                             BubbleContainer (
@@ -56,7 +56,7 @@ def QA_Img(sheet,subindex):
                                     ]
                                 ),
                                 hero = ImageComponent(
-                                    url='https://sw.cool3c.com/article/2018/69de900a-b708-4a5d-8048-c1c89b6819e2.jpg?lossless=1&fm=webp&fit=max&w=1200&h=1200',
+                                    url=sheet["option1"][subindex],
                                     size='full',
                                     aspect_ratio= '1.51:1',
                                     aspect_mode='fit'

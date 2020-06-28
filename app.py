@@ -87,11 +87,6 @@ def getSheet(Qlevel):
         sheet_word = L1_word
         sheet_sen = L1_sen 
 
-    print("getSheet sheet_img = ",sheet_img)
-    print("getSheet sheet_tail = ",sheet_tail)
-    print("getSheet sheet_word = ", sheet_word)
-    print("getSheet sheet_sen = ", sheet_sen)
-
     return sheet_img, sheet_tail, sheet_word, sheet_sen
 
 def editSheet(data):
