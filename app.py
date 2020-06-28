@@ -238,9 +238,9 @@ def handle_postback(event):
         else:#做完本輪題庫數目
             index_L = 0
             star_num = 0
-            data_img, data_tail, data_word, data_sen = getSheet(level_L)
-            sheet = editSheet(data_img) 
-            print("new sheet",sheet)
+            #data_img, data_tail, data_word, data_sen = getSheet(level_L)
+            #sheet = editSheet(data_img) 
+            #print("new sheet",sheet)
         print("index_L after = ", index_L)
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
