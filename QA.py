@@ -154,19 +154,19 @@ def QA_Tail(sheet,subindex):
                 TextComponent(text='選出所聽到的單字的字尾音', size='md', align = 'center'),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
                 ButtonComponent(
-                    action = PostbackAction("(1) " +label = sheet["option1"][subindex], data = '1', text = "(1) " +label = sheet["option1"][subindex]),
+                    action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " + sheet["option1"][subindex]),
                     color = '#46549B',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(2) " +label = sheet["option2"][subindex], data = '2', text = "(2) " +label = sheet["option2"][subindex]),
+                    action = PostbackAction(label = "(2) " + sheet["option2"][subindex], data = '2', text = "(2) " + sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(3) " +label = sheet["option3"][subindex], data = '3', text = "(3) " +label = sheet["option3"][subindex]),
+                    action = PostbackAction(label = "(3) " + sheet["option3"][subindex], data = '3', text = "(3) " + sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
