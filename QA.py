@@ -12,7 +12,7 @@ from googletrans import Translator
 
 def QA_Img(sheet,subindex):
     question = sheet["question"][subindex]
-    print("option1 = ",sheet["option1"][index])
+    print("option1 = ",sheet["option1"][subindex])
     print("Queation = ",question)  #question 是 url 網址
     QA_img = CarouselContainer (
                         contents = [
