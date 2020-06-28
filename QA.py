@@ -205,19 +205,19 @@ def QA_Word(sheet,subindex):
                 TextComponent(text='選出所聽到的單字', size='md', align = 'center'),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
                 ButtonComponent(
-                    action = PostbackAction(label = '(1) cool', data = '1', text = '(1) cool'),
+                    action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " +sheet["option1"][subindex]),
                     color = '#46549B',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(2) warm', data = '2', text = '(2) warm'),
+                    action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(3) hot', data = '3', text = '(3) hot'),
+                    action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
@@ -249,24 +249,24 @@ def QA_Sentence(sheet,subindex):
                 ),
                 TextComponent(text='選出正確的應對句子', size='md', align = 'center'),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
-                TextComponent(text='(1) Yes, I am.', size='lg',margin='sm', align = 'start'),
-                TextComponent(text='(2) Yes, she is.', size='lg',margin='sm', align = 'start'),
-                TextComponent(text='(3) Yes, they are.', size='lg',margin='sm', align = 'start'),
+                TextComponent(text="(1) " +sheet["option1"][subindex], size='lg',margin='sm', align = 'start'),
+                TextComponent(text="(2) " +sheet["option2"][subindex], size='lg',margin='sm', align = 'start'),
+                TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start'),
 
                 ButtonComponent(
-                    action = PostbackAction(label = '(1)', data = '1', text = '(1)'),
+                    action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " +sheet["option1"][subindex]),
                     color = '#46549B',
                     margin = 'xl',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(2)', data = '2', text = '(2)'),
+                    action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = '(3)', data = '3', text = '(3)'),
+                    action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
