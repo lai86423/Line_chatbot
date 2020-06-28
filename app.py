@@ -40,9 +40,6 @@ GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc = pygsheets.authorize(service_account_file='question.json') #檔案裡的google sheet js檔
 survey_url_L = 'https://docs.google.com/spreadsheets/d/1e1hCM0yFzwQkzfdzJGCioLCvnPNJHw9IPHqz4sSEsjg/edit#gid=0'
 sh_L = gc.open_by_url(survey_url_L)
-worksheet_list_L = sh_L.worksheets()#取得所有工作表名稱
-print("worksheet_list_L",worksheet_list_L)
-print("worksheet_",sh_L.worksheet_by_title('L1_img'))
 sh_L.worksheet_by_title('L1_img').export(filename='L1_img')
 sh_L.worksheet_by_title('L1_tail').export(filename='L1_tail')
 sh_L.worksheet_by_title('L1_word').export(filename='L1_word')

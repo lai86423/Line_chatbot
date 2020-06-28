@@ -81,7 +81,7 @@ def QA_Img(sheet,subindex):
                                     ]
                                 ),
                                 hero = ImageComponent(
-                                    url='https://www.planetorganic.com/images/products/large/1874.jpg',
+                                    url=sheet["option2"][subindex],
                                     size='full',
                                     aspect_ratio= '1.51:1',
                                     aspect_mode='fit'
@@ -106,7 +106,7 @@ def QA_Img(sheet,subindex):
                                     ]
                                 ),
                                 hero = ImageComponent(
-                                    url='https://s3.amazonaws.com/finecooking.s3.tauntonclud.com/app/uploads/2017/04/24172040/ING-grapes-2.jpg',
+                                    url=sheet["option3"][subindex],
                                     size='full',
                                     aspect_ratio= '1.51:1',
                                     aspect_mode='fit'
