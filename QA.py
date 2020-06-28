@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from googletrans import Translator
 
-def QA_Img(sheet,subindex):
+def QA_Img(sheet,index_L,subindex):
     question = sheet["question"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
@@ -24,7 +24,7 @@ def QA_Img(sheet,subindex):
                                 header = BoxComponent(
                                     layout='vertical',
                                     contents=[
-                                        TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                                        TextComponent(text="題目("+ index_L+1 +"/20)", weight='bold', size='lg', align = 'center')                   
                                     ]
                                 ),
                                 body = BoxComponent(
@@ -126,7 +126,7 @@ def QA_Img(sheet,subindex):
                     )
     return QA_img   
 
-def QA_Tail(sheet,subindex):
+def QA_Tail(sheet,index_L,subindex):
     question = sheet["question"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
@@ -138,7 +138,7 @@ def QA_Tail(sheet,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ index_L+1 +"/20)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
@@ -177,7 +177,7 @@ def QA_Tail(sheet,subindex):
     )              
     return QA_tail
 
-def QA_Word(sheet,subindex):
+def QA_Word(sheet,index_L,subindex):
     question = sheet["question"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
@@ -189,7 +189,7 @@ def QA_Word(sheet,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text='題目(1/20)', weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ index_L+1 +"/20)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
@@ -228,20 +228,25 @@ def QA_Word(sheet,subindex):
     )                       
     return QA_word
 
-def QA_Sentence(sheet,subindex):
+def QA_Sentence(sheet,index_L,subindex):
+    question = sheet["question"][subindex]
+    print("option1 = ",sheet["option1"][subindex])
+    print("option2 = ",sheet["option2"][subindex])
+    print("option3 = ",sheet["option3"][subindex])
+    print("Question = ",question)  #question 是 url 網址
     QA_sentence = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text='題目(16/20)', weight='bold', size='lg', align = 'center')                   
+                TextComponent(text= "題目("+ index_L+1 +"/20)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
             layout='vertical',
             contents=[
                 ButtonComponent(
-                    action = URIAction(label = '聽題目', uri = 'https://linecorp.com'),
+                    action = URIAction(label = '聽題目', uri = question),
                     color = '#3B9A9C',
                     margin = 'lg',
                     style = 'primary',
@@ -254,19 +259,19 @@ def QA_Sentence(sheet,subindex):
                 TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start'),
 
                 ButtonComponent(
-                    action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " +sheet["option1"][subindex]),
+                    action = PostbackAction(label = "(1)", data = '1', text = "(1) " +sheet["option1"][subindex]),
                     color = '#46549B',
                     margin = 'xl',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
+                    action = PostbackAction(label = "(2)", data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
+                    action = PostbackAction(label = "(3)", data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',

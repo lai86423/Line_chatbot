@@ -172,19 +172,19 @@ def handle_message(event):
                 isAsked_L = True
                 print("index_L",index_L)
                 subindex = index_L%5
-                print("index_L%5+1",subindex)
+                print("subindex = ",subindex)
                 if index_L < 5:
                     sheet = editSheet(data_img)
-                    QA_bubble = QA.QA_Img(sheet,subindex)
+                    QA_bubble = QA.QA_Img(sheet,index_L,subindex)
                 elif index_L < 10:
                     sheet = editSheet(data_tail)
-                    QA_bubble = QA.QA_Tail(sheet,subindex)
+                    QA_bubble = QA.QA_Tail(sheet,index_L,subindex)
                 elif index_L < 15:
                     sheet = editSheet(data_word)
-                    QA_bubble = QA.QA_Word(sheet,subindex)
+                    QA_bubble = QA.QA_Word(sheet,index_L,subindex)
                 else:
                     sheet = editSheet(data_sen) 
-                    QA_bubble = QA.QA_Sentence(sheet,subindex)    
+                    QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)    
             
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
