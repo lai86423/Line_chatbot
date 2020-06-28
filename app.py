@@ -191,11 +191,7 @@ def handle_message(event):
                 else:
                     sheet = editSheet(data_sen) 
                     QA_bubble = QA.QA_Sentence(sheet,subindex)    
-                print("sheet = ",sheet)
-                print("QA_bubble = ",QA_bubble)
-                #question = sheet["question"][index_L]
-                #print("Queation = ",question)              
-                
+            
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(
                     event.reply_token,
