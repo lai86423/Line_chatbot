@@ -123,6 +123,8 @@ def QA_Img(sheet,subindex):
     return QA_img   
 
 def QA_Tail(sheet,subindex):
+    question = sheet["question"][subindex]
+    print("Queation = ",question)  #question 是 url 網址
     QA_tail = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
