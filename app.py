@@ -174,7 +174,7 @@ def handle_message(event):
                     header = BoxComponent(
                         layout='vertical',
                         contents=[
-                            TextComponent(text=question, weight='bold', size='lg', align = 'start',gravity='top')                   
+                            TextComponent(text=question, size='lg', align = 'start',gravity='top')                   
                         ]
                     ),
                     body = BoxComponent(
