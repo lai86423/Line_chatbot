@@ -220,7 +220,7 @@ def handle_postback(event):
             else:
                 feedback = sheet["feedback"][subindex]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-            isAsked_L = False       
+                isAsked_L = False       
         else:
             star_num += 1
             if(index_L >= qNum - 1):#做完本輪題庫數目
@@ -230,8 +230,7 @@ def handle_postback(event):
             else:
                 print('恭喜你答對了!給你一個小星星!')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
-
-            isAsked_L = False
+                isAsked_L = False
 
         if index_L < qNum - 1:
             index_L += 1
@@ -270,7 +269,7 @@ def setLevel(levelinput):
     if isChangingLevel_L == False:
         data_img, data_tail, data_word, data_sen = getSheet(level_L)
         #sheet = editSheet(pre_sheet)
-        #print("level_L get sheet",sheet)
+        print("level_L get sheet",sheet)
       
     return myResult
 
