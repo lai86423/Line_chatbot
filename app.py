@@ -153,7 +153,7 @@ def handle_message(event):
                 )
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
-            
+
         ##-----------選完階級選出題類型
         elif(isChangingType == True):
             QAsort_bubble = typeButton()
@@ -280,44 +280,7 @@ def setLevel(levelinput):
         data_Word, data_Grammar, data_Cloze = getSheet(level)
       
     return myResult
-
-def typeButton():
-    QAsort_bubble = BubbleContainer (
-                header = BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
-                    ]
-                ),
-                body = BoxComponent(
-                    layout='vertical',
-                    contents=[
-                        ButtonComponent(
-                            action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
-                            color = '#001774',
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
-                            color = '#FF595D',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        ),
-                        ButtonComponent(
-                            action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
-                            color = '#FFB54A',
-                            margin = 'md',           
-                            style = 'primary',
-                            gravity = 'center'
-                        )
-                    ]
-                )
-            )   
-            
-    return QAsort_bubble
-
+##出題小老師  設定出題類型------------------------------------------------
 def setType(typeinput) :
     print("---Changing Level---")
     global sheet, qNum
@@ -341,7 +304,43 @@ def setType(typeinput) :
         myResult = "N"
     
     return myResult
-
+##出題小老師  出題類型ＵＩ------------------------------------------------
+def typeButton():
+    QAsort_bubble = BubbleContainer (
+                header = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
+                    ]
+                ),
+                body = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        ButtonComponent(
+                            action = PostbackAction(label = '詞彙練習', data = 'W', text = '詞彙練習'),
+                            color = '#001774',
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '文法練習', data = 'G', text = '文法練習'),
+                            color = '#FF595D',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '克漏字練習', data = 'C', text = '克漏字練習'),
+                            color = '#FFB54A',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
+                        )
+                    ]
+                )
+            )   
+            
+    return QAsort_bubble
 ##出題小老師  End------------------------------------------------
 
 
