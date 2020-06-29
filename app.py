@@ -26,6 +26,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 ##出題小老師  變數------------------------------------------------
 
 level = 1 #預設level 1
+star_num = 0 #集點
 isAsked = False
 isChangingLevel = True
 isChangingType = False
@@ -211,7 +212,7 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked, index, sheet, qNum
+    global isAsked, index, sheet, qNum, star_num
 
     if(isChangingLevel==True):
         levelinput = event.postback.data
@@ -232,7 +233,8 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
             isAsked = False       
         else:
-            print('答對了！你真棒！')
+            print('恭喜你答對了!給你一個小星星!')
+            star_num += 1
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
             isAsked = False
 

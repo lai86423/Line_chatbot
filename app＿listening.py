@@ -225,7 +225,7 @@ def handle_postback(event):
                 end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
             else:
-                print('恭喜你答對了!給你一個小星星!')
+                print('正確答案!')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 isAsked_L = False
 
