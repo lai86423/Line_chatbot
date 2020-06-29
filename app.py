@@ -235,7 +235,7 @@ def handle_postback(event):
         else:
             print('恭喜你答對了!給你一個小星星!')
             star_num += 1
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '答對了！你真棒！'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!'))
             isAsked = False
 
         if index < qNum - 1:
