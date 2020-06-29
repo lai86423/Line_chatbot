@@ -180,19 +180,19 @@ def handle_message(event):
                         layout='vertical',
                         contents=[
                             ButtonComponent(
-                                action = PostbackAction(label = "1. " +sheet["option1"][index], data = '1', text = "1. " +sheet["option1"][subindex]),
+                                action = PostbackAction(label = "1. " +sheet["option1"][index], data = '1', text = "1. " +sheet["option1"][index]),
                                 color = '#46549B',
                                 margin = 'md',
                                 style = 'primary'
                             ),
                                 ButtonComponent(
-                                action = PostbackAction(label = "2. " +sheet["option2"][index], data = '2', text = "2. " +sheet["option2"][subindex]),
+                                action = PostbackAction(label = "2. " +sheet["option2"][index], data = '2', text = "2. " +sheet["option2"][index]),
                                 color = '#7E318E',
                                 margin = 'md',
                                 style = 'primary'
                             ),
                                 ButtonComponent(
-                                action = PostbackAction(label = "3. " +sheet["option3"][index], data = '3', text = "3. " +sheet["option3"][subindex]),
+                                action = PostbackAction(label = "3. " +sheet["option3"][index], data = '3', text = "3. " +sheet["option3"][index]),
                                 color = '#CD2774',
                                 margin = 'md',
                                 style = 'primary',
