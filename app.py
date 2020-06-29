@@ -127,29 +127,30 @@ def handle_message(event):
             isChangingLevel = True
             isAsked = False
             buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '歡迎來到資策會LineBot英文小老師！',
-                        text = '請點選題目程度~',
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "初級", 
-                                    text = "初級",
-                                    data = 'L'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "中級",
-                                    text = "中級",
-                                    data = 'M'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "高級",
-                                    text = "高級",
-                                    data = 'H'
-                                )
-                        ]
-                    )
+                alt_text = 'Buttons Template',
+                template = ButtonsTemplate (
+                    title = '出題小老師',
+                    text = '想要自我檢測學習英文嗎?',
+                    thumbnail_image_url='https://upload.cc/i1/2020/05/18/V5TmMA.png',
+                    actions = [
+                            PostbackTemplateAction(
+                                label = "初級", 
+                                text = "初級",
+                                data = 'L'
+                            ),
+                            PostbackTemplateAction(
+                                label = "中級",
+                                text = "中級",
+                                data = 'M'
+                            ),
+                            PostbackTemplateAction(
+                                label = "高級",
+                                text = "高級",
+                                data = 'H'
+                            )
+                    ]
                 )
+            )
             line_bot_api.reply_message(event.reply_token, buttons_template)  
         else:
             if( isAsked == False ):
