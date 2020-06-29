@@ -161,48 +161,48 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token,message) 
             
         else:
-            if( isAsked == False ):
-                #sheet, qNum = editSheet(data_Word)    
-                print(sheet["question"][index])
+            if( isAsked == False ):                  
+                question = sheet["question"][index]
+                print(question)
                 print("1:", sheet["option1"][index], "\n2:", sheet["option2"][index], "\n3:", sheet["option3"][index],
                         "\n4:", sheet["option4"][index], "\n")
-
-                #option = ("1:" + sheet["option1"][index] + "\n2:" + sheet["option2"][index] + "\n3:" + 
-                            #sheet["option3"][index] + "\n4:" + sheet["option4"][index] + "\n")
-                question = sheet["question"][index]
-                #ask = question + "\n" + option  
                 isAsked = True
                 
-                buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '出題小老師',
-                        text = question,
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = ("(1) " + sheet["option1"][index]), 
-                                    text = "(1)",
-                                    data = '1'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(2) " + sheet["option2"][index],
-                                    text = "(2)",
-                                    data = '2'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(3) " + sheet["option3"][index],
-                                    text = "(3)",
-                                    data = '3'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "(4) " + sheet["option4"][index],
-                                    text = "(4)",
-                                    data = '4'
-                                )
+                QA_BubbleContainer = BubbleContainer (
+                    direction='ltr',
+                    header = BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            TextComponent(text=question, weight='bold', size='lg', align = 'start',gravity='top')                   
+                        ]
+                    ),
+                    body = BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            ButtonComponent(
+                                action = PostbackAction(label = "1. " +sheet["option1"][index], data = '1', text = "1. " +sheet["option1"][subindex]),
+                                color = '#46549B',
+                                margin = 'md',
+                                style = 'primary'
+                            ),
+                                ButtonComponent(
+                                action = PostbackAction(label = "2. " +sheet["option2"][index], data = '2', text = "2. " +sheet["option2"][subindex]),
+                                color = '#7E318E',
+                                margin = 'md',
+                                style = 'primary'
+                            ),
+                                ButtonComponent(
+                                action = PostbackAction(label = "3. " +sheet["option3"][index], data = '3', text = "3. " +sheet["option3"][subindex]),
+                                color = '#CD2774',
+                                margin = 'md',
+                                style = 'primary',
+                                gravity='top'
+                            )
                         ]
                     )
-                )
-                line_bot_api.reply_message(event.reply_token, buttons_template)   
+                )                       
+                message = FlexSendMessage(alt_text="QA_BubbleContainer", contents = QA_BubbleContainer)
+                line_bot_api.reply_message(event.reply_token,message)
     #print("=======Reply Token=======")
     #print(event.reply_token)
     #print("=========================")
@@ -211,19 +211,18 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked
-    global index
-    global sheet
-    global qNum
+    global isAsked, index, sheet, qNum
 
     if(isChangingLevel==True):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    
     elif(isChangingType == True):
         typeinput = event.postback.data
         typeResult = setType(typeinput) 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = typeResult))
+    
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
@@ -241,11 +240,6 @@ def handle_postback(event):
             index += 1
         else:
             index = 0
-            #data_Word, data_Grammar, data_Cloze = getSheet(level)
-            #sheet, qNum = editSheet(data_Word) 
-            #print("new sheet",sheet)
-            #print("new qNum",qNum)
-
         print("index after = ", index)
 
 ##出題小老師  設定Level------------------------------------------------
@@ -260,18 +254,18 @@ def setLevel(levelinput):
         level = 1
         isChangingLevel = False
         isChangingType = True
-        myResult= ("目前程度切換至初級 \n")
+        myResult= ("目前程度切換至初級")
         
     elif (levelinput=='M'):
         level = 2
         isChangingLevel = False
         isChangingType = True
-        myResult= ("目前程度切換至中級\n")    
+        myResult= ("目前程度切換至中級")    
     elif (levelinput=='H'):
         level = 3
         isChangingLevel = False
         isChangingType = True
-        myResult= ("目前程度切換至高級\n")  
+        myResult= ("目前程度切換至高級")  
     else:       
         isChangingLevel = True
         myResult = "N"
@@ -289,16 +283,16 @@ def setType(typeinput) :
     if (typeinput=='W'):
         sheet, qNum = editSheet(data_Word) 
         isChangingType = False
-        myResult= ("題目類型切換至詞彙練習 \n")
+        myResult= ("題目類型切換至詞彙練習")
         
     elif (typeinput=='G'):
         sheet, qNum = editSheet(data_Grammar) 
         isChangingType = False
-        myResult= ("題目類型切換至文法練習\n")    
+        myResult= ("題目類型切換至文法練習")    
     elif (typeinput=='C'):
         sheet, qNum = editSheet(data_Cloze) 
         isChangingType = False
-        myResult= ("題目類型切換至克漏字練習\n")  
+        myResult= ("題目類型切換至克漏字練習")  
     else:       
         isChangingType = True
         myResult = "N"

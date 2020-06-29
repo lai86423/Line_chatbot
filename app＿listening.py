@@ -187,10 +187,7 @@ def handle_message(event):
                     QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)    
             
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
-                line_bot_api.reply_message(
-                    event.reply_token,
-                    message
-                )
+                line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
 #回饋判斷
 @handler.add(PostbackEvent)
