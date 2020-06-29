@@ -28,6 +28,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 level = 1 #預設level 1
 isAsked = False
 isChangingLevel = True
+isChangingType = False
 index = 0
 # 初始抓資料＆資料處理------------------------------------------------
 GDriveJSON = 'question.json'
@@ -151,7 +152,14 @@ def handle_message(event):
                     ]
                 )
             )
-            line_bot_api.reply_message(event.reply_token, buttons_template)  
+            line_bot_api.reply_message(event.reply_token, buttons_template)
+            
+        ##-----------選完階級選出題類型
+        elif(isChangingType == True):
+            QAsort_bubble = typeButton()
+            message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
+            line_bot_api.reply_message(event.reply_token,message) 
+            
         else:
             if( isAsked == False ):
                 #sheet, qNum = editSheet(data_Word)    
@@ -212,6 +220,10 @@ def handle_postback(event):
         levelinput = event.postback.data
         myResult = setLevel(levelinput) 
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+    elif(isChangingType == True):
+        typeinput = event.postback.data
+        typeResult = setType(typeinput) 
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = typeResult))
     else:    
         print("correct answer = ",str(sheet["answer"][index]))
         print("index = ", index)
@@ -242,21 +254,24 @@ def setLevel(levelinput):
     global sheet, data_Word, data_Grammar, data_Cloze
     global qNum
     global level
-    global isChangingLevel
+    global isChangingLevel,isChangingType
    
     if (levelinput=='L'):
         level = 1
         isChangingLevel = False
-        myResult= ("目前程度切換至初級 \n 請任意輸入 將開始出題～～")
+        isChangingType = True
+        myResult= ("目前程度切換至初級 \n")
         
     elif (levelinput=='M'):
         level = 2
         isChangingLevel = False
-        myResult= ("目前程度切換至中級\n 請任意輸入 將開始出題～～")    
+        isChangingType = True
+        myResult= ("目前程度切換至中級\n")    
     elif (levelinput=='H'):
         level = 3
         isChangingLevel = False
-        myResult= ("目前程度切換至高級\n 請任意輸入 將開始出題～～")  
+        isChangingType = True
+        myResult= ("目前程度切換至高級\n")  
     else:       
         isChangingLevel = True
         myResult = "N"
@@ -266,33 +281,66 @@ def setLevel(levelinput):
       
     return myResult
 
-def levelButton(event):
-    buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '請選擇出題小老師題目程度～',
-                        #text = question,
-                        #thumbnail_image_url = '顯示在開頭的大圖片網址',
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "初級", 
-                                    text = "初",
-                                    data = 'L'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "中級",
-                                    text = "中",
-                                    data = 'M'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "高級",
-                                    text = "高",
-                                    data = 'H'
-                                )
-                        ]
-                    )
+def typeButton():
+    QAsort_bubble = BubbleContainer (
+                header = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
+                    ]
+                ),
+                body = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        ButtonComponent(
+                            action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
+                            color = '#001774',
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
+                            color = '#FF595D',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
+                            color = '#FFB54A',
+                            margin = 'md',           
+                            style = 'primary',
+                            gravity = 'center'
+                        )
+                    ]
                 )
-    line_bot_api.reply_message(event.reply_token, buttons_template)  
+            )   
+            
+    return QAsort_bubble
+
+def setType(typeinput) :
+    print("---Changing Level---")
+    global sheet, qNum
+    global isChangingType
+    
+    if (typeinput=='W'):
+        sheet, qNum = editSheet(data_Word) 
+        isChangingType = False
+        myResult= ("題目類型切換至詞彙練習 \n")
+        
+    elif (typeinput=='G'):
+        sheet, qNum = editSheet(data_Grammar) 
+        isChangingType = False
+        myResult= ("題目類型切換至文法練習\n")    
+    elif (typeinput=='C'):
+        sheet, qNum = editSheet(data_Cloze) 
+        isChangingType = False
+        myResult= ("題目類型切換至克漏字練習\n")  
+    else:       
+        isChangingType = True
+        myResult = "N"
+    
+    return myResult
 
 ##出題小老師  End------------------------------------------------
 

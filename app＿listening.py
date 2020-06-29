@@ -273,32 +273,6 @@ def setLevel(levelinput):
       
     return myResult
 
-def levelButton(event):
-    buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '請選擇出題小老師題目程度～',
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "初級", 
-                                    text = "初",
-                                    data = 'L'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "中級",
-                                    text = "中",
-                                    data = 'M'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "高級",
-                                    text = "高",
-                                    data = 'H'
-                                )
-                        ]
-                    )
-                )
-    line_bot_api.reply_message(event.reply_token, buttons_template)  
-
 ##  End------------------------------------------------
 
 import os
