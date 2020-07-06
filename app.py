@@ -180,7 +180,7 @@ def handle_postback(event):
 ##發音練習  設定Type------------------------------------------------
 def setType(Typeinput):
     print("---Changing Type---")
-    global sheet, data_Word, data_Choose, data_Cloze
+    global sheet, data_Word, data_Choose
     global qNum
     global Type
     global isChangingType,isAsked
@@ -193,13 +193,14 @@ def setType(Typeinput):
         data_Word, data_Choose = getSheet()
         sheet, qNum = editSheet(data_Word) 
         
+        
     elif (Typeinput=='T'):
         Type = 2
         isChangingType = False
         isAsked = False
         myResult= ("自行選擇發音題目") 
-        data_Choose = getSheet()
-        sheet, qNum = editSheet(data_Choose)     
+        data_Word, data_Choose = getSheet()
+        sheet, qNum = editSheet(data_Choose)   
     else:       
         isChangingType = True
         myResult = "N"
