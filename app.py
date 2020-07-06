@@ -29,7 +29,6 @@ Type = 1 #預設Type 1
 star_num = 0 #集點
 isAsked = False
 isChangingType = True
-isChangingType = False
 index = 0
 # 初始抓資料＆資料處理------------------------------------------------
 GDriveJSON = 'question.json'
