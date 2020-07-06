@@ -192,18 +192,19 @@ def setType(Typeinput):
         isChangingType = False
         isChangingType = True
         myResult= ("單字發音")
+        data_Word, data_Choose = getSheet()
+        sheet, qNum = editSheet(data_Word) 
         
     elif (Typeinput=='T'):
         Type = 2
         isChangingType = False
         isChangingType = True
-        myResult= ("自行選擇發音題目")     
+        myResult= ("自行選擇發音題目") 
+        data_Choose = getSheet()
+        sheet, qNum = editSheet(data_Choose)     
     else:       
         isChangingType = True
         myResult = "N"
-    
-    if isChangingType == False:
-        data_Word, data_Choose, data_Cloze = getSheet()
       
     return myResult
 ##發音練習  End------------------------------------------------
