@@ -93,8 +93,7 @@ def handle_message(event):
     #myId = event.source.user_id
     if event.message.type == 'text':   
         if (isChangingType == True or replytext =='?'):   
-            isChangingType = True
-            isAsked = False
+            isChangingType = True      
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
                 template = ButtonsTemplate (
@@ -185,12 +184,12 @@ def setType(Typeinput):
     global sheet, data_Word, data_Choose, data_Cloze
     global qNum
     global Type
-    global isChangingType,isChangingType
+    global isChangingType,isAsked
    
     if (Typeinput=='V'):
         Type = 1
         isChangingType = False
-        isChangingType = True
+        isAsked = False
         myResult= ("單字發音")
         data_Word, data_Choose = getSheet()
         sheet, qNum = editSheet(data_Word) 
@@ -198,7 +197,7 @@ def setType(Typeinput):
     elif (Typeinput=='T'):
         Type = 2
         isChangingType = False
-        isChangingType = True
+        isAsked = False
         myResult= ("自行選擇發音題目") 
         data_Choose = getSheet()
         sheet, qNum = editSheet(data_Choose)     
