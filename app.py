@@ -91,7 +91,7 @@ def handle_message(event):
     global sheet
     replytext = event.message.text
     #myId = event.source.user_id
-    if event.message.Type == 'text':   
+    if event.message.type == 'text':   
         if (isChangingType == True or replytext =='?'):   
             isChangingType = True
             isAsked = False
