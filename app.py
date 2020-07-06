@@ -44,12 +44,10 @@ Word = pd.read_csv('Word.csv') #Type: <class 'pandas.core.frame.DataFrame'>
 Choose = pd.read_csv('Choose.csv')
 
 
-def getSheet(Type):  #打亂該sheet順序，並存成dictionary格式  
-    if(Type == 2):
-        sheet_Word = Word
-
-    else:
-        sheet_Choose = Choose
+def getSheet():  #打亂該sheet順序，並存成dictionary格式  
+    
+    sheet_Word = Word
+    sheet_Choose = Choose
 
     return sheet_Word, sheet_Choose
 
@@ -65,7 +63,7 @@ def editSheet(data):
     qNum = len(sheet["question"])
     return sheet,qNum
 
-data_Word, data_Choose = getSheet(Type)
+data_Word, data_Choose = getSheet()
 sheet, qNum = editSheet(data_Word) 
 ##------------------------------------------------
 
@@ -205,7 +203,7 @@ def setType(Typeinput):
         myResult = "N"
     
     if isChangingType == False:
-        data_Word, data_Choose, data_Cloze = getSheet(Type)
+        data_Word, data_Choose, data_Cloze = getSheet()
       
     return myResult
 ##發音練習  End------------------------------------------------
