@@ -50,11 +50,11 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     #myId = event.source.user_id
-    global isAsked,isChangingTrans,isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
         if (isChangingTrans == True or replytext =='?'):   
             isChangingTrans = True
+            isAsked = False
             isEnded = False
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
@@ -83,24 +83,26 @@ def handle_message(event):
             translator = Translator()
             lang = translator.detect(event.message.text)
             print("Lang=",lang.lang)
-            if TransType == 2: 
-                #if lang.lang == "zh-CN" :
-                print("---- meaasge C to E -----")
-                translateMessage = translator.translate(event.message.text, dest='en')
-                print(translateMessage.text)
-                message = TextSendMessage(text=translateMessage.text)
-            elif TransType == 1:
-                #lang.lang =="en":
-                print("---- meaasge E to C -----")
-                translateMessage = translator.translate(event.message.text, dest='zh-tw')
-                print(translateMessage.text)
-                message = TextSendMessage(text=translateMessage.text)
+            if event.message.type == 'text':
+                if TransType == 2: 
+                    #if lang.lang == "zh-CN" :
+                    print("---- meaasge C to E -----")
+                    translateMessage = translator.translate(event.message.text, dest='en')
+                    print(translateMessage.text)
+                    message = TextSendMessage(text=translateMessage.text)
+                elif TransType == 1:
+                    #lang.lang =="en":
+                    print("---- meaasge E to C -----")
+                    translateMessage = translator.translate(event.message.text, dest='zh-tw')
+                    print(translateMessage.text)
+                    message = TextSendMessage(text=translateMessage.text)
+                else:
+                    print("I can't translate this kind of message")
+                    message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
             else:
-                print("I can't translate this kind of message")
-                message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
-        
+                message = TextSendMessage(text="抱歉！機器人無法翻譯這種訊息喔～")
             print("message=",message)    
-            #replytext = event.message.text
+            replytext = event.message.text
             line_bot_api.reply_message(event.reply_token,message)
         else:
             if(isEnded == False):
@@ -142,12 +144,10 @@ def handle_postback(event):
         if (levelinput=='ETC'):
             isChangingTrans = False
             TransType = 1
-            isAsked = False
             print("切換英翻中模式")
         
         elif (levelinput=='CTE'):
             isChangingTrans = False
-            isAsked = False
             TransType = 2
             print("切換英翻中模式")
                
