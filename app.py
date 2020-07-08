@@ -109,14 +109,14 @@ def handle_message(event):
                         layout='vertical',
                         contents=[
                             ButtonComponent(
-                                action = PostbackAction(label = '翻下一句', data = 'Next', text = '翻下一句'),
+                                action = PostbackAction(label = '翻下一句', data = 'Next', text = None),
                                 color = '#F1C175',
                                 style = 'primary',
                                 gravity = 'center',
                                 margin = 'md'
                             ),
                             ButtonComponent(
-                                action = PostbackAction(label = '結束翻譯', data = 'End', text = '結束翻譯'),
+                                action = PostbackAction(label = '結束翻譯', data = 'End', text = None),
                                 color = '#E18876',
                                 margin = 'md',           
                                 style = 'primary',
@@ -159,6 +159,7 @@ def handle_postback(event):
     
     elif(levelinput == 'End'):
         isEnded = True
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"))
 
 import os
 if __name__ == "__main__":
