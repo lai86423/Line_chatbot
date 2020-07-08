@@ -50,7 +50,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
     #myId = event.source.user_id
-    global isAsked,isChangingTrans,isEnded
+    global isAsked, isChangingTrans, isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
         if (isChangingTrans == True or replytext =='?'):   
