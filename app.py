@@ -82,28 +82,9 @@ def handle_message(event):
             
         elif( isAsked == False ):  
             isAsked = True                
-            translator = Translator()
-            #lang = translator.detect(event.message.text)
-            #print("Lang=",lang.lang)
-            if TransType == 2: 
-                #if lang.lang == "zh-CN" :
-                print("---- meaasge C to E -----")
-                translateMessage = translator.translate(event.message.text, dest='en')
-                print(translateMessage.text)
-                message = TextSendMessage(text=translateMessage.text)
-            elif TransType == 1:
-                #lang.lang =="en":
-                print("---- meaasge E to C -----")
-                translateMessage = translator.translate(event.message.text, dest='zh-tw')
-                print(translateMessage.text)
-                message = TextSendMessage(text=translateMessage.text)
-            else:
-                print("I can't translate this kind of message")
-                message = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
-        
-            print("message=",message)    
-            #replytext = event.message.text
+            message = translation(event.message.text)
             line_bot_api.reply_message(event.reply_token,message)
+            
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
             line_bot_api.reply_message(event.reply_token,message2)
@@ -111,7 +92,29 @@ def handle_message(event):
             if(isEnded == True):
                 message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
                 line_bot_api.reply_message(event.reply_token,message)
-            
+def translation(text):
+    translator = Translator()
+    #lang = translator.detect(event.message.text)
+    #print("Lang=",lang.lang)
+    if TransType == 2: 
+        #if lang.lang == "zh-CN" :
+        print("---- meaasge C to E -----")
+        translateMessage = translator.translate(text, dest='en')
+        print(translateMessage.text)
+        #message = TextSendMessage(text=translateMessage.text)
+    elif TransType == 1:
+        #lang.lang =="en":
+        print("---- meaasge E to C -----")
+        translateMessage = translator.translate(text, dest='zh-tw')
+        print(translateMessage.text)
+        #message = TextSendMessage(text=translateMessage.text)
+    else:
+        print("I can't translate this kind of message")
+        translateMessage = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
+
+    print("message=",translateMessage) 
+    return translateMessage   
+
 def Choose_NextStep():
     Translation_bubble = BubbleContainer (
                     body = BoxComponent(
