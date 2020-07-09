@@ -82,9 +82,9 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
         elif( isAsked == False ):  
-            message = translation(replytext)
-            print("tenasM = ",message)
-            #line_bot_api.reply_message(event.reply_token,message)
+            translatedMessage = translation(replytext)
+            print("tenasM = ",translatedMessage)
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text = translatedMessage))
 
             #Translation_bubble = Choose_NextStep()
             #message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
