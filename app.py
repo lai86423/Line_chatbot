@@ -54,7 +54,7 @@ def handle_message(event):
     replytext = event.message.text
     if event.message.type == 'text':   
         if (isChangingTrans == True or replytext =='?'):   
-            isChangingTrans = True
+            isChangingTrans = False
             isEnded = False
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
@@ -139,6 +139,7 @@ def handle_postback(event):
     global isAsked,TransType,isChangingTrans,isEnded
     levelinput = event.postback.data
     if(isChangingTrans==True):
+        isChangingTrans = True
         if (levelinput=='ETC'):
             isChangingTrans = False
             TransType = 1
