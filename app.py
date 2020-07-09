@@ -121,14 +121,14 @@ def Choose_NextStep():
                         layout='vertical',
                         contents=[
                             ButtonComponent(
-                                action = PostbackAction(label = '翻下一句', data = 'Next', text = '翻下一句'),
+                                action = PostbackAction(label = '翻下一句', data = 'Next', text = None),
                                 color = '#F1C175',
                                 style = 'primary',
                                 gravity = 'center',
                                 margin = 'md'
                             ),
                             ButtonComponent(
-                                action = PostbackAction(label = '結束翻譯', data = 'End', text = '結束翻譯'),
+                                action = PostbackAction(label = '結束翻譯', data = 'End', text = None),
                                 color = '#E18876',
                                 margin = 'md',           
                                 style = 'primary',
@@ -150,19 +150,24 @@ def handle_postback(event):
         if (levelinput=='ETC'):
             TransType = 1
             print("切換英翻中模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換為英文翻中文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
             isAsked = False
 
         elif (levelinput=='CTE'):
             TransType = 2
             print("切換中翻英模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換為中文翻英文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
             isAsked = False   
         else:       
             isChangingTrans = True
             isAsked = True
         
     if(levelinput == 'Next'):
+        if(TransType == 1):
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送英文單字或句子~"))
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
+      
         isAsked = False
     
     if(levelinput == 'End'):
