@@ -82,7 +82,7 @@ def handle_message(event):
             isAsked = True                
             translator = Translator()
             #lang = translator.detect(event.message.text)
-            print("Lang=",lang.lang)
+            #print("Lang=",lang.lang)
             if TransType == 2: 
                 #if lang.lang == "zh-CN" :
                 print("---- meaasge C to E -----")
