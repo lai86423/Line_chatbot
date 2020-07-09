@@ -49,7 +49,7 @@ def callback():
 ##翻譯小達人  處理訊息------------------------------------------------
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    #myId = event.source.user_id
+    myId = event.source.user_id
     global isAsked, isChangingTrans, isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
@@ -88,7 +88,7 @@ def handle_message(event):
 
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
-            line_bot_api.push_message(channel_id, message2)
+            line_bot_api.push_message(myId, message2)
             #line_bot_api.reply_message(event.reply_token,message2)
             isAsked = True 
         else:
