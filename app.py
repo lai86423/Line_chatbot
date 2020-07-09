@@ -110,8 +110,8 @@ def translation(text):
         print(translateMessage.text)
         #message = TextSendMessage(text=translateMessage.text)
 
-    print("message=",translateMessage) 
-    return translateMessage   
+    #print("message=",translateMessage) 
+    return translateMessage.text   
 
 def Choose_NextStep():
     Translation_bubble = BubbleContainer (
