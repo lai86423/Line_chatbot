@@ -78,7 +78,7 @@ def handle_message(event):
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
-        elif( isAsked == False ):  
+        if( isAsked == False ):  
             isAsked = True                
             translator = Translator()
             #lang = translator.detect(event.message.text)
