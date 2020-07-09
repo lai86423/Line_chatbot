@@ -86,9 +86,9 @@ def handle_message(event):
             print("tenasM = ",translatedMessage)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text = translatedMessage))
 
-            #Translation_bubble = Choose_NextStep()
-            #message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
-            #line_bot_api.reply_message(event.reply_token,message2)
+            Translation_bubble = Choose_NextStep()
+            message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
+            line_bot_api.reply_message(event.reply_token,message2)
             isAsked = True 
         else:
             if(isEnded == True):
