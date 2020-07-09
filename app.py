@@ -53,8 +53,10 @@ def handle_message(event):
     global isAsked, isChangingTrans, isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
-        if (isChangingTrans == True or replytext =='?'):  
+        if replytext =='?':
             isChangingTrans = True
+
+        if (isChangingTrans == True):  
             isEnded = False
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
@@ -78,7 +80,7 @@ def handle_message(event):
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
-        if( isAsked == False ):  
+        elif( isAsked == False ):  
             isAsked = True                
             translator = Translator()
             #lang = translator.detect(event.message.text)
@@ -137,9 +139,10 @@ def handle_message(event):
 def handle_postback(event):
     print("---Feedback---")
     global isAsked,TransType,isChangingTrans,isEnded
-    levelinput = event.postback.data
+    
     if(isChangingTrans==True):
         isChangingTrans = False
+        levelinput = event.postback.data
         if (levelinput=='ETC'):
             #isChangingTrans = False
             TransType = 1
