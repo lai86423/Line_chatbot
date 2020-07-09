@@ -68,12 +68,12 @@ def handle_message(event):
                     actions = [
                             PostbackTemplateAction(
                                 label = "英文翻中文", 
-                                text = "英文翻中文",
+                                #text = "英文翻中文",
                                 data = 'ETC'
                             ),
                             PostbackTemplateAction(
                                 label = "中文翻英文",
-                                text = "中文翻英文",
+                                #text = "中文翻英文",
                                 data = 'CTE'
                             )
                     ]
@@ -144,20 +144,19 @@ def Choose_NextStep():
 def handle_postback(event):
     print("---Feedback---")
     global isAsked,TransType,isChangingTrans,isEnded
-    
+    levelinput = event.postback.data
     if(isChangingTrans==True):
         isChangingTrans = False
-        levelinput = event.postback.data
         if (levelinput=='ETC'):
             TransType = 1
             print("切換英翻中模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換為英文翻中文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
             isAsked = False
 
         elif (levelinput=='CTE'):
             TransType = 2
-            print("切換英翻中模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
+            print("切換中翻英模式")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換為中文翻英文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
             isAsked = False   
         else:       
             isChangingTrans = True
