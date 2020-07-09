@@ -53,7 +53,7 @@ def handle_message(event):
     global isAsked, isChangingTrans, isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
-        if (isChangingTrans == True or replytext =='?'):   
+        if (isChangingTrans == True or replytext =='?'):  1 
             isChangingTrans = True
             isEnded = False
             buttons_template = TemplateSendMessage (
@@ -143,16 +143,16 @@ def handle_postback(event):
         if (levelinput=='ETC'):
             #isChangingTrans = False
             TransType = 1
-            isAsked = False
             print("切換英翻中模式")
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
-        
+            isAsked = False
+
         elif (levelinput=='CTE'):
             #isChangingTrans = False
-            isAsked = False
             TransType = 2
             print("切換英翻中模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))   
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
+            isAsked = False   
         else:       
             isChangingTrans = True
         
