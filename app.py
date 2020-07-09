@@ -25,7 +25,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##翻譯小達人  變數------------------------------------------------
 
-isAsked = False
+isAsked = True
 isChangingTrans = True
 isEnded = False
 TransType = 1 #(ETC= 1, CTE =2)
@@ -81,7 +81,7 @@ def handle_message(event):
         elif( isAsked == False ):  
             isAsked = True                
             translator = Translator()
-            lang = translator.detect(event.message.text)
+            #lang = translator.detect(event.message.text)
             print("Lang=",lang.lang)
             if TransType == 2: 
                 #if lang.lang == "zh-CN" :
@@ -109,14 +109,14 @@ def handle_message(event):
                         layout='vertical',
                         contents=[
                             ButtonComponent(
-                                action = PostbackAction(label = '翻下一句', data = 'Next', text = None),
+                                action = PostbackAction(label = '翻下一句', data = 'Next', text = '翻下一句'),
                                 color = '#F1C175',
                                 style = 'primary',
                                 gravity = 'center',
                                 margin = 'md'
                             ),
                             ButtonComponent(
-                                action = PostbackAction(label = '結束翻譯', data = 'End', text = None),
+                                action = PostbackAction(label = '結束翻譯', data = 'End', text = '結束翻譯'),
                                 color = '#E18876',
                                 margin = 'md',           
                                 style = 'primary',
