@@ -57,6 +57,7 @@ def handle_message(event):
             isChangingTrans = True
 
         if (isChangingTrans == True):  
+            isAsked = True
             isEnded = False
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
@@ -81,13 +82,13 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
         elif( isAsked == False ):  
-            isAsked = True                
             message = translation(replytext)
             line_bot_api.reply_message(event.reply_token,message)
 
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
             line_bot_api.reply_message(event.reply_token,message2)
+            isAsked = True 
         else:
             if(isEnded == True):
                 message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
@@ -158,6 +159,7 @@ def handle_postback(event):
             isAsked = False   
         else:       
             isChangingTrans = True
+            isAsked = True
         
     if(levelinput == 'Next'):
         isAsked = False
