@@ -82,9 +82,9 @@ def handle_message(event):
             
         elif( isAsked == False ):  
             isAsked = True                
-            message = translation(event.message.text)
+            message = translation(replytext)
             line_bot_api.reply_message(event.reply_token,message)
-            
+
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
             line_bot_api.reply_message(event.reply_token,message2)
@@ -108,9 +108,6 @@ def translation(text):
         translateMessage = translator.translate(text, dest='zh-tw')
         print(translateMessage.text)
         #message = TextSendMessage(text=translateMessage.text)
-    else:
-        print("I can't translate this kind of message")
-        translateMessage = TextSendMessage(text="抱歉！機器人無法翻譯這種語言喔～")
 
     print("message=",translateMessage) 
     return translateMessage   
