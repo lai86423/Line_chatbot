@@ -144,13 +144,14 @@ def handle_postback(event):
             TransType = 1
             isAsked = False
             print("切換英翻中模式")
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
         
         elif (levelinput=='CTE'):
             isChangingTrans = False
             isAsked = False
             TransType = 2
             print("切換英翻中模式")
-               
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))   
         else:       
             isChangingTrans = True
         
