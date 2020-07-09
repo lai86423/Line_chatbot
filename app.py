@@ -53,7 +53,7 @@ def handle_message(event):
     global isAsked, isChangingTrans, isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
-        if (isChangingTrans == True or replytext =='?'):  1 
+        if (isChangingTrans == True or replytext =='?'):  
             isChangingTrans = True
             isEnded = False
             buttons_template = TemplateSendMessage (
