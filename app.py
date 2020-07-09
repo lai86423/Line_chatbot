@@ -104,9 +104,16 @@ def handle_message(event):
             print("message=",message)    
             #replytext = event.message.text
             line_bot_api.reply_message(event.reply_token,message)
+            Translation_bubble = Choose_NextStep()
+            message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
+            line_bot_api.reply_message(event.reply_token,message2)
         else:
-            if(isEnded == False):
-                Translation_bubble = BubbleContainer (
+            if(isEnded == True):
+                message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
+                line_bot_api.reply_message(event.reply_token,message)
+            
+def Choose_NextStep():
+    Translation_bubble = BubbleContainer (
                     body = BoxComponent(
                         layout='vertical',
                         contents=[
@@ -127,12 +134,7 @@ def handle_message(event):
                         ]
                     )
                 )   
-                message = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
-                line_bot_api.reply_message(event.reply_token,message)
-            else:
-                message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
-                line_bot_api.reply_message(event.reply_token,message)
-            
+    return Translation_bubble
 
 #翻譯小達人  回饋判斷------------------------------------------------
 @handler.add(PostbackEvent)
@@ -144,14 +146,12 @@ def handle_postback(event):
         isChangingTrans = False
         levelinput = event.postback.data
         if (levelinput=='ETC'):
-            #isChangingTrans = False
             TransType = 1
             print("切換英翻中模式")
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
             isAsked = False
 
         elif (levelinput=='CTE'):
-            #isChangingTrans = False
             TransType = 2
             print("切換英翻中模式")
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的單字或句子傳送給我哦~"))
@@ -159,10 +159,10 @@ def handle_postback(event):
         else:       
             isChangingTrans = True
         
-    elif(levelinput == 'Next'):
+    if(levelinput == 'Next'):
         isAsked = False
     
-    elif(levelinput == 'End'):
+    if(levelinput == 'End'):
         isEnded = True
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"))
 
