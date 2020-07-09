@@ -85,9 +85,9 @@ def handle_message(event):
             message = translation(replytext)
             line_bot_api.reply_message(event.reply_token,message)
 
-            Translation_bubble = Choose_NextStep()
-            message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
-            line_bot_api.reply_message(event.reply_token,message2)
+            #Translation_bubble = Choose_NextStep()
+            #message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
+            #line_bot_api.reply_message(event.reply_token,message2)
             isAsked = True 
         else:
             if(isEnded == True):
@@ -99,15 +99,15 @@ def translation(text):
     #print("Lang=",lang.lang)
     if TransType == 2: 
         #if lang.lang == "zh-CN" :
-        print("---- meaasge C to E -----")
+        print("---- transmeaasge C to E -----")
         translateMessage = translator.translate(text, dest='en')
-        print(translateMessage.text)
+        print("trans =",translateMessage.text)
         #message = TextSendMessage(text=translateMessage.text)
     elif TransType == 1:
         #lang.lang =="en":
-        print("---- meaasge E to C -----")
+        print("---- transmeaasge E to C -----")
         translateMessage = translator.translate(text, dest='zh-tw')
-        print(translateMessage.text)
+        print("trans =",translateMessage.text)
         #message = TextSendMessage(text=translateMessage.text)
 
     #print("message=",translateMessage) 
