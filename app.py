@@ -65,12 +65,12 @@ def handle_message(event):
                     actions = [
                             PostbackTemplateAction(
                                 label = "英文翻中文", 
-                                #text = "英文翻中文",
+                                text = "英文翻中文",
                                 data = 'ETC'
                             ),
                             PostbackTemplateAction(
                                 label = "中文翻英文",
-                                #text = "中文翻英文",
+                                text = "中文翻英文",
                                 data = 'CTE'
                             )
                     ]
