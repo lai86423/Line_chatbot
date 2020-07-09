@@ -55,8 +55,9 @@ def handle_message(event):
     if event.message.type == 'text':   
         if replytext =='?':
             isChangingTrans = True
+            isEnded = False
 
-        if (isChangingTrans == True):  
+        if (isChangingTrans == True ):  
             isAsked = True
             isEnded = False
             buttons_template = TemplateSendMessage (
@@ -172,6 +173,7 @@ def handle_postback(event):
     
     if(levelinput == 'End'):
         isEnded = True
+        isAsked = False   
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"))
 
 import os
