@@ -165,10 +165,11 @@ def handle_postback(event):
             isAsked = True
         
     if(levelinput == 'Next'):
-        if(TransType == 1):
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送英文單字或句子~"))
-        else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
+        if(isEnded == False):
+            if(TransType == 1):
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送英文單字或句子~"))
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
       
         isAsked = False
     
