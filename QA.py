@@ -189,7 +189,7 @@ def QA_Word(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
