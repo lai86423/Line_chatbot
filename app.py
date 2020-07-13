@@ -171,7 +171,7 @@ def handle_postback(event):
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
       
-        isAsked = False
+            isAsked = False
     
     if(levelinput == 'End'):
         isEnded = True
