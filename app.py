@@ -94,9 +94,9 @@ def handle_message(event):
             isAsked = True 
         else:
             if(isEnded == True):
-                isAsked = True
-                message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
-                line_bot_api.reply_message(event.reply_token,message)
+                #isAsked = True
+                #message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
+                #line_bot_api.reply_message(event.reply_token,message)
 def translation(text):
     translator = Translator()
     #lang = translator.detect(event.message.text)
@@ -174,7 +174,7 @@ def handle_postback(event):
     
     if(levelinput == 'End'):
         isEnded = True
-        isAsked = False   
+        isAsked = True  
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"))
 
 import os
