@@ -90,7 +90,6 @@ def handle_message(event):
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
             line_bot_api.push_message(myId, message2)
-            #line_bot_api.reply_message(event.reply_token,message2)
             isAsked = True 
         else:
             if(isEnded == True):
@@ -152,13 +151,13 @@ def handle_postback(event):
         if (levelinput=='ETC'):
             TransType = 1
             print("切換英翻中模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的英文單字或句子傳送給我哦~"))
             isAsked = False
 
         elif (levelinput=='CTE'):
             TransType = 2
             print("切換中翻英模式")
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的單字或句子傳送給我哦~"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的中文字詞或句子傳送給我哦~"))
             isAsked = False   
         else:       
             isChangingTrans = True
