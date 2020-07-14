@@ -204,8 +204,10 @@ def handle_postback(event):
 
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
-        myResult = setLevel(levelinput) 
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = myResult))
+        level_bubble = setLevel(levelinput) 
+        message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
+        line_bot_api.reply_message(event.reply_token,message) 
+
     else:    
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
@@ -240,6 +242,40 @@ def handle_postback(event):
             #sheet = editSheet(data_img) 
             #print("new sheet",sheet)
         print("index_L after = ", index_L)
+def levelBubble(level):
+    if level == 1:
+        leveltext = '初'
+    elif level == 2:
+        leveltext ='中'
+    else:
+        leveltext ='高'
+    Bubble = BubbleContainer (
+                    header = BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
+                        ]
+                    ),
+                    body = BoxComponent(
+                        layout='vertical',
+                        contents=[
+                            TextComponent(text="你選擇的是"+leveltext+"級難易度！", size='xs', align = 'center',gravity = 'top'),
+                            SpacerComponent(size='xm'),
+                        ]  
+                    ),
+                    footer = BoxComponent(
+                        layout='horizontal',
+                        contents=[
+                            ButtonComponent(
+                                action = PostbackAction(label = '開始答題', data = 'Next', text = '開始答題'),
+                                color = '#F8AF62',
+                                style = 'primary'
+                            )
+                        ]
+
+                    )
+                )  
+    return Bubble 
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
 def setLevel(levelinput):
@@ -247,24 +283,23 @@ def setLevel(levelinput):
     global data_img, data_tail, data_word, data_sen
     global level_L
     global isChangingLevel_L
-    #global pre_sheet
+    
     if (levelinput=='L'):
         level_L = 1
-        isChangingLevel_L = False
-        myResult= ("目前程度切換至初級 \n 以下將開始出題")
+        myResult = levelBubble(level_L)
         
     elif (levelinput=='M'):
         level_L = 2
-        isChangingLevel_L = False
-        myResult= ("目前程度切換至中級\n 以下將開始出題")    
+        myResult = levelBubble(level_L)    
+
     elif (levelinput=='H'):
         level_L = 3
-        isChangingLevel_L = False
-        myResult= ("目前程度切換至高級\n 以下將開始出題")  
+        myResult = levelBubble(level_L)
+
     else:       
         isChangingLevel_L = True
         myResult = "N"
-    
+
     if isChangingLevel_L == False:
         data_img, data_tail, data_word, data_sen = getSheet(level_L)
         #sheet = editSheet(pre_sheet)
