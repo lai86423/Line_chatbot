@@ -197,7 +197,7 @@ def handle_message(event):
 def handle_postback(event):
     print("---Feedback---")
     global isAsked_L,isStart
-    global index_L, sheet,subindex
+    global index_L,sheet,subindex
     global qNum, star_num
     global data_img, data_tail, data_word, data_sen
 
@@ -260,6 +260,24 @@ def levelBubble(level):
             contents=[
                 TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
             ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="你選擇的是"+leveltext+"級難易度！", size='xs', align = 'center',gravity = 'top'),
+                SpacerComponent(size='xm')
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
+                    color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
         )
     )  
     return Bubble 
