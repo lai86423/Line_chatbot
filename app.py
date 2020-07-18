@@ -205,6 +205,7 @@ def handle_postback(event):
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
         level_bubble = setLevel(levelinput) 
+        print("level_bubble")
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
         line_bot_api.reply_message(event.reply_token,message) 
 
