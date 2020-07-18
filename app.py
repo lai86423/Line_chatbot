@@ -211,34 +211,24 @@ def handle_postback(event):
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
         answer = event.postback.data
-        if answer != str(sheet["answer"][subindex]):
-            if(index_L >= qNum - 1): #做完本輪題庫數目
-                print('恭喜你做完這次的聽力練習了!')
-                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
-            else:
+        if(index_L < qNum - 1): #做完本輪題庫數目
+            if answer != str(sheet["answer"][subindex]):
                 feedback = sheet["feedback"][subindex]
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
                 isAsked_L = False       
-        else:
-            star_num += 1
-            if(index_L >= qNum - 1):#做完本輪題庫數目
-                print('恭喜你做完這次的聽力練習了!')
-                end_feedbck =("恭喜你做完這次的聽力練習了!\n你獲得的星星是"+ str(star_num) +"顆哦!!你好棒!")
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = end_feedbck))
             else:
+                star_num += 1
                 print('正確答案!')
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 isAsked_L = False
-
-        if index_L < qNum - 1:
             index_L += 1
         else:#做完本輪題庫數目
-            index_L = 0
+            print('恭喜你做完這次的聽力練習了!star=',star_num)
             starBubble = totalStar()
             message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
             line_bot_api.reply_message(event.reply_token,message)
-            star_num = 0
+            #index_L = 0
+            #star_num = 0
             #data_img, data_tail, data_word, data_sen = getSheet(level_L)
             #sheet = editSheet(data_img) 
             #print("new sheet",sheet)
