@@ -321,7 +321,7 @@ def totalStar():
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="恭喜你獲得了" + star_num + "星星!" , size='xs', align = 'center'),
+                TextComponent(text="恭喜你獲得了" + str(star_num) + "星星!" , size='xs', align = 'center'),
                 SeparatorComponent(margin='md'),
                 ButtonComponent(
                     action = PostbackAction(label = "下一大題", data = 'next', text = "下一大題"),
