@@ -31,6 +31,7 @@ qNum = 10 # 每輪題目數量
 star_num = 0 #集點
 isAsked_L = False #出題與否
 isChangingLevel_L = True
+isStart = False
 index_L = 0 #第幾題
 subindex = 0
 ##-----------------------------------------------------------------------------------
@@ -168,7 +169,7 @@ def handle_message(event):
                     )
                 )
             line_bot_api.reply_message(event.reply_token, buttons_template)  
-        else:
+        elif isStart == True:
             if( isAsked_L == False ):   
                 print("選完階級！")
                 isAsked_L = True
@@ -195,11 +196,9 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked_L
-    global index_L
-    global sheet,subindex
-    global qNum
-    global star_num
+    global isAsked_L,isStart
+    global index_L, sheet,subindex
+    global qNum, star_num
     global data_img, data_tail, data_word, data_sen
 
     if(isChangingLevel_L==True):
@@ -210,7 +209,9 @@ def handle_postback(event):
         print("level postback message",message)
         line_bot_api.reply_message(event.reply_token,message) 
 
-    elif(event.postback.data == "start"):   
+    elif(event.postback.data == "start"):  
+        isStart = True
+    else: 
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
