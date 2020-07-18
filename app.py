@@ -208,11 +208,7 @@ def handle_postback(event):
         print("level_bubble")
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
         line_bot_api.reply_message(event.reply_token,message) 
-    elif(event.postback.data == "start"):
-        start_bubble = StartBubble()
-        message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
-        line_bot_api.reply_message(event.reply_token,message) 
-    else:    
+    elif(event.postback.data == "start"):   
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
@@ -272,7 +268,7 @@ def levelBubble(level):
             layout='horizontal',
             contents=[
                 ButtonComponent(
-                    action = PostbackAction(label = '開始答題', data = 'Next', text = '開始答題'),
+                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
                     color = '#F8AF62',
                     style = 'primary'
                 )
@@ -314,34 +310,6 @@ def setLevel(levelinput):
         print("level_L get sheet",sheet)
       
     return myResult
-def StartBubble():
-    Bubble = BubbleContainer (
-                    header = BoxComponent(
-                        layout='vertical',
-                        contents=[
-                            TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
-                        ]
-                    ),
-                    body = BoxComponent(
-                        layout='vertical',
-                        contents=[
-                            TextComponent(text="你選擇的是"+leveltext+"級難易度！", size='xs', align = 'center',gravity = 'top'),
-                            SpacerComponent(size='xm'),
-                        ]  
-                    ),
-                    footer = BoxComponent(
-                        layout='horizontal',
-                        contents=[
-                            ButtonComponent(
-                                action = PostbackAction(label = '開始答題', data = 'Next', text = '開始答題'),
-                                color = '#F8AF62',
-                                style = 'primary'
-                            )
-                        ]
-
-                    )
-                )  
-    return Bubble 
 
 ##  End------------------------------------------------
 
