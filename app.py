@@ -247,11 +247,11 @@ def handle_postback(event):
         print("index_L after = ", index_L)
 def levelBubble(level):
     if level == 1:
-        leveltext = '初'
+        leveltext = '初級難易度！'
     elif level == 2:
-        leveltext ='中'
+        leveltext ='中級難易度！'
     else:
-        leveltext ='高'
+        leveltext ='高級難易度！'
     print("leveltext",leveltext)   
     Bubble = BubbleContainer (
         direction='ltr',
@@ -264,7 +264,7 @@ def levelBubble(level):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="你選擇的是"+leveltext+"級難易度！", size='xs', align = 'center',gravity = 'top'),
+                TextComponent(text="你選擇的是"+ leveltext, size='xs', align = 'center', gravity = 'top'),
                 SpacerComponent(size='xm')
             ]  
         ),
