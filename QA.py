@@ -210,13 +210,13 @@ def QA_Word(sheet,index_L,subindex):
                     margin = 'md',
                     style = 'primary'
                 ),
-                    ButtonComponent(
+                ButtonComponent(
                     action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
-                    ButtonComponent(
+                ButtonComponent(
                     action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
