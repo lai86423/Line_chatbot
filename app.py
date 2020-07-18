@@ -175,13 +175,13 @@ def handle_message(event):
                 print("index_L",index_L)
                 subindex = index_L%5
                 print("subindex = ",subindex)
-                if index_L < 5:
+                if index_L < 3:
                     sheet = editSheet(data_img)
                     QA_bubble = QA.QA_Img(sheet,index_L,subindex)
-                elif index_L < 10:
+                elif index_L < 7:
                     sheet = editSheet(data_tail)
                     QA_bubble = QA.QA_Tail(sheet,index_L,subindex)
-                elif index_L < 15:
+                elif index_L < 10:
                     sheet = editSheet(data_word)
                     QA_bubble = QA.QA_Word(sheet,index_L,subindex)
                 else:
@@ -259,24 +259,6 @@ def levelBubble(level):
             contents=[
                 TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
             ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text="你選擇的是"+leveltext+"級難易度！", size='xs', align = 'center',gravity = 'top'),
-                SpacerComponent(size='xm')
-            ]  
-        ),
-        footer = BoxComponent(
-            layout='horizontal',
-            contents=[
-                ButtonComponent(
-                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
-                    color = '#F8AF62',
-                    style = 'primary'
-                )
-            ]
-
         )
     )  
     return Bubble 
