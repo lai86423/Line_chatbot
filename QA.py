@@ -24,7 +24,7 @@ def QA_Img(sheet,index_L,subindex):
                                 header = BoxComponent(
                                     layout='vertical',
                                     contents=[
-                                        TextComponent(text="題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                                        TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
                                     ]
                                 ),
                                 body = BoxComponent(
@@ -138,7 +138,7 @@ def QA_Tail(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1)+"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index_L+1)+"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
@@ -239,7 +239,7 @@ def QA_Sentence(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text= "題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text= "題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(

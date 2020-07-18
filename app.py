@@ -177,12 +177,9 @@ def handle_message(event):
                 subindex = index_L%5
                 print("subindex = ",subindex)
                 if index_L < 3:
-                    sheet = editSheet(data_img)
-                    QA_bubble = QA.QA_Img(sheet,index_L,subindex)
-                elif index_L < 7:
                     sheet = editSheet(data_tail)
                     QA_bubble = QA.QA_Tail(sheet,index_L,subindex)
-                elif index_L < 10:
+                elif index_L < 7:
                     sheet = editSheet(data_word)
                     QA_bubble = QA.QA_Word(sheet,index_L,subindex)
                 else:
@@ -204,9 +201,7 @@ def handle_postback(event):
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
         level_bubble = setLevel(levelinput) 
-        print("level_bubble",level_bubble)
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
-        print("level postback message",message)
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  
@@ -240,47 +235,15 @@ def handle_postback(event):
             index_L += 1
         else:#做完本輪題庫數目
             index_L = 0
+            starBubble = totalStar()
+            message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
+            line_bot_api.reply_message(event.reply_token,message)
             star_num = 0
             #data_img, data_tail, data_word, data_sen = getSheet(level_L)
             #sheet = editSheet(data_img) 
             #print("new sheet",sheet)
         print("index_L after = ", index_L)
-def levelBubble(level):
-    if level == 1:
-        leveltext = '初級難易度！'
-    elif level == 2:
-        leveltext ='中級難易度！'
-    else:
-        leveltext ='高級難易度！'
-    print("leveltext",leveltext)   
-    Bubble = BubbleContainer (
-        direction='ltr',
-        header = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
-            ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text="你選擇的是" + leveltext, size='xs', align = 'center', gravity = 'top'),
-                #SpacerComponent(size='xm')
-            ]  
-        ),
-        footer = BoxComponent(
-            layout='horizontal',
-            contents=[
-                ButtonComponent(
-                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
-                    color = '#F8AF62',
-                    style = 'primary'
-                )
-            ]
-
-        )
-    )  
-    return Bubble 
+        
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
 def setLevel(levelinput):
@@ -315,6 +278,77 @@ def setLevel(levelinput):
       
     return myResult
 
+##-----------------------------------------------------------------------------------
+#Bubble Template------------------------------------------------
+def levelBubble(level):
+    if level == 1:
+        leveltext = '初級難易度！'
+    elif level == 2:
+        leveltext ='中級難易度！'
+    else:
+        leveltext ='高級難易度！'
+    print("leveltext",leveltext)   
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="你選擇的是" + leveltext, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
+                    color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble 
+
+def totalStar():
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="獲得星星!!", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        hero= ImageComponent(
+            url="https://upload.cc/i1/2020/07/01/pDbGXh.png", size='full', aspect_ratio="1.51:1",aspect_mode="cover"
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="恭喜你獲得了" + star_num + "星星!" , size='xs', align = 'center'),
+                SeparatorComponent(margin='md'),
+                ButtonComponent(
+                    action = PostbackAction(label = "下一大題", data = 'next', text = "下一大題"),
+                    color = '#F1C175',
+                    margin = 'md',
+                    style = 'primary',
+                ),
+                ButtonComponent(
+                    action = PostbackAction(label = "我不答了", data = 'end', text = "我不答了"),
+                    color = '#E18876',
+                    margin = 'md',
+                    style = 'primary',
+                )
+            ]  
+        )
+    )  
+    return Bubble 
 ##  End------------------------------------------------
 
 import os
