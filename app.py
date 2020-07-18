@@ -264,8 +264,8 @@ def levelBubble(level):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="你選擇的是"+ leveltext, size='xs', align = 'center', gravity = 'top'),
-                SpacerComponent(size='xm')
+                TextComponent(text="你選擇的是", size='xs', align = 'center', gravity = 'top'),
+                #SpacerComponent(size='xm')
             ]  
         ),
         footer = BoxComponent(
