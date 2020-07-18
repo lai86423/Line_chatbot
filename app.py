@@ -211,7 +211,7 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         isStart = True
-    else: 
+    elif(isStart == True): 
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
@@ -264,7 +264,7 @@ def levelBubble(level):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="你選擇的是", size='xs', align = 'center', gravity = 'top'),
+                TextComponent(text="你選擇的是" + leveltext, size='xs', align = 'center', gravity = 'top'),
                 #SpacerComponent(size='xm')
             ]  
         ),
