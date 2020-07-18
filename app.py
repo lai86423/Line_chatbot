@@ -205,9 +205,11 @@ def handle_postback(event):
     if(isChangingLevel_L==True):
         levelinput = event.postback.data
         level_bubble = setLevel(levelinput) 
-        print("level_bubble")
+        print("level_bubble",level_bubble)
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
+        print("level postback message",message)
         line_bot_api.reply_message(event.reply_token,message) 
+
     elif(event.postback.data == "start"):   
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
@@ -249,6 +251,7 @@ def levelBubble(level):
         leveltext ='中'
     else:
         leveltext ='高'
+    print("leveltext",leveltext)   
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
