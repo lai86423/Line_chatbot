@@ -144,8 +144,8 @@ def handle_message(event):
             message = TextSendMessage(text="歡迎來到聽力練習！\n\n在這邊可以選擇適合你的難易度。\n\n題目分為發音、詞彙以及句子，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
             line_bot_api.push_message(myId, message)
             setlevel_bubble = levelBubble()
-            message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
-            line_bot_api.reply_message(event.reply_token, message)  
+            #message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
+            line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         elif isStart == True:
             if( isAsked_L == False ):   
                 print("選完階級！")
@@ -217,8 +217,9 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, message)  
     elif (event.postback.data == "changeLevel"): 
         setlevel_bubble = levelBubble()
-        message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
-        line_bot_api.reply_message(event.reply_token, message)  
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
+        #message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
+        line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
     elif (event.postback.data == "next2"):
         index_L = 0
         star_num = 0
@@ -388,45 +389,3 @@ import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
-
-# QAsort_bubble = BubbleContainer (
-#                 header = BoxComponent(
-#                     layout='vertical',
-#                     contents=[
-#                         TextComponent(text='請選擇題目類型', weight='bold', size='xl', color = '#000000')                   
-#                     ]
-#                 ),
-#                 body = BoxComponent(
-#                     layout='vertical',
-#                     contents=[
-#                         ButtonComponent(
-#                             action = PostbackAction(label = '詞彙練習', data = 'L', text = '詞彙練習'),
-#                             color = '#001774',
-#                             style = 'primary',
-#                             gravity = 'center'
-#                         ),
-#                         ButtonComponent(
-#                             action = PostbackAction(label = '文法練習', data = 'M', text = '文法練習'),
-#                             color = '#FF595D',
-#                             margin = 'md',           
-#                             style = 'primary',
-#                             gravity = 'center'
-#                         ),
-#                         ButtonComponent(
-#                             action = PostbackAction(label = '克漏字練習', data = 'H', text = '克漏字練習'),
-#                             color = '#FFB54A',
-#                             margin = 'md',           
-#                             style = 'primary',
-#                             gravity = 'center'
-#                         )
-#                     ]
-#                 )
-#             )   
-            
-#             #line_bot_api.reply_message(event.reply_token, buttons_template)  
-#             message = FlexSendMessage(alt_text="QAsort_bubble", contents = QAsort_bubble)
-#             line_bot_api.reply_message(
-#                 event.reply_token,
-#                 message
-#             )
