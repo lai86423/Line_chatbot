@@ -143,32 +143,9 @@ def handle_message(event):
             isAsked_L = False
             message = TextSendMessage(text="歡迎來到聽力練習！\n\n在這邊可以選擇適合你的難易度。\n\n題目分為發音、詞彙以及句子，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
             line_bot_api.push_message(myId, message)
-            buttons_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        title = '聽力練習',
-                        text = '總是聽不懂別人在說什麼嗎?',
-                        thumbnail_image_url='https://upload.cc/i1/2020/06/08/jhziMK.png',
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "初級", 
-                                    text = "初級",
-                                    data = 'L'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "中級",
-                                    text = "中級",
-                                    data = 'M'
-                                ),
-                                PostbackTemplateAction(
-                                    label = "高級",
-                                    text = "高級",
-                                    data = 'H'
-                                )
-                        ]
-                    )
-                )
-            line_bot_api.reply_message(event.reply_token, buttons_template)  
+            setlevel_bubble = levelBubble()
+            message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
+            line_bot_api.reply_message(event.reply_token, message)  
         elif isStart == True:
             if( isAsked_L == False ):   
                 print("選完階級！")
@@ -224,15 +201,30 @@ def handle_postback(event):
             index_L += 1
         else:#做完本輪題庫數目
             print('恭喜你做完這次的聽力練習了!star=',star_num)
-            starBubble = totalStar()
+            starBubble = totalStarBubble()
             message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
             line_bot_api.reply_message(event.reply_token,message)
+            isStart = False
             #index_L = 0
             #star_num = 0
             #data_img, data_tail, data_word, data_sen = getSheet(level_L)
             #sheet = editSheet(data_img) 
             #print("new sheet",sheet)
         print("index_L after = ", index_L)
+    elif (event.postback.data == "next"): 
+        changelevel_bubble = changeLevelBubble()
+        message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
+        line_bot_api.reply_message(event.reply_token, message)  
+    elif (event.postback.data == "changeLevel"): 
+        setlevel_bubble = levelBubble()
+        message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
+        line_bot_api.reply_message(event.reply_token, message)  
+    elif (event.postback.data == "next2"):
+        index_L = 0
+        star_num = 0
+        data_img, data_tail, data_word, data_sen = getSheet(level_L)
+        sheet = editSheet(data_img) 
+        isStart = True
         
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
@@ -244,17 +236,17 @@ def setLevel(levelinput):
     
     if (levelinput=='L'):
         level_L = 1
-        myResult = levelBubble(level_L)
+        myResult = readyBubble(level_L)
         isChangingLevel_L = False
         
     elif (levelinput=='M'):
         level_L = 2
-        myResult = levelBubble(level_L)    
+        myResult = readyBubble(level_L)    
         isChangingLevel_L = False
 
     elif (levelinput=='H'):
         level_L = 3
-        myResult = levelBubble(level_L)
+        myResult = readyBubble(level_L)
         isChangingLevel_L = False
 
     else:       
@@ -270,7 +262,35 @@ def setLevel(levelinput):
 
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
-def levelBubble(level):
+def levelBubble():
+    level_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        title = '聽力練習',
+                        text = '總是聽不懂別人在說什麼嗎?',
+                        thumbnail_image_url='https://upload.cc/i1/2020/06/08/jhziMK.png',
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "初級", 
+                                    text = "初級",
+                                    data = 'L'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "中級",
+                                    text = "中級",
+                                    data = 'M'
+                                ),
+                                PostbackTemplateAction(
+                                    label = "高級",
+                                    text = "高級",
+                                    data = 'H'
+                                )
+                        ]
+                    )
+                )
+    return level_template
+
+def readyBubble(level):
     if level == 1:
         leveltext = '初級難易度！'
     elif level == 2:
@@ -306,7 +326,7 @@ def levelBubble(level):
     )  
     return Bubble 
 
-def totalStar():
+def totalStarBubble():
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -331,6 +351,29 @@ def totalStar():
                 ),
                 ButtonComponent(
                     action = PostbackAction(label = "我不答了", data = 'end', text = "我不答了"),
+                    color = '#E18876',
+                    margin = 'md',
+                    style = 'primary',
+                )
+            ]  
+        )
+    )  
+    return Bubble 
+
+def changeLevelBubble():
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = "更換難易度", data = 'changeLevel', text = "更換難易度"),
+                    color = '#F1C175',
+                    margin = 'md',
+                    style = 'primary',
+                ),
+                ButtonComponent(
+                    action = PostbackAction(label = "不用，繼續下一大題", data = 'next2', text = "不用，繼續下一大題"),
                     color = '#E18876',
                     margin = 'md',
                     style = 'primary',
