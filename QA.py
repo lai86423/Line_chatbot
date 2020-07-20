@@ -24,7 +24,7 @@ def QA_Img(sheet,index_L,subindex):
                                 header = BoxComponent(
                                     layout='vertical',
                                     contents=[
-                                        TextComponent(text="題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                                        TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
                                     ]
                                 ),
                                 body = BoxComponent(
@@ -138,7 +138,7 @@ def QA_Tail(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1)+"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index_L+1)+"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
@@ -189,7 +189,7 @@ def QA_Word(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
@@ -210,13 +210,13 @@ def QA_Word(sheet,index_L,subindex):
                     margin = 'md',
                     style = 'primary'
                 ),
-                    ButtonComponent(
+                ButtonComponent(
                     action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
-                    ButtonComponent(
+                ButtonComponent(
                     action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
@@ -239,7 +239,7 @@ def QA_Sentence(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text= "題目("+ str(index_L+1) +"/20)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text= "題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
