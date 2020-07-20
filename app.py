@@ -217,7 +217,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, message)  
     elif (event.postback.data == "changeLevel"): 
         setlevel_bubble = levelBubble()
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
+        #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
         #message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
         line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
     elif (event.postback.data == "next2"):
