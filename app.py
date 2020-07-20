@@ -33,6 +33,7 @@ isAsked_L = False #出題與否
 isChangingLevel_L = True
 isStart = False
 index_L = 0 #第幾題
+isInit_L = True
 subindex = 0
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
@@ -131,18 +132,20 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    global isAsked_L
+    global isAsked_L,isInit_L
     global index_L
     global isChangingLevel_L
     global sheet,subindex
     replytext = event.message.text
     myId = event.source.user_id
     if event.message.type == 'text':   
-        if (isChangingLevel_L == True or replytext =='?'):   
+        if(isInit_L == True or replytext =='?'):
             isChangingLevel_L = True
-            isAsked_L = False
             message = TextSendMessage(text="歡迎來到聽力練習！\n\n在這邊可以選擇適合你的難易度。\n\n題目分為發音、詞彙以及句子，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
             line_bot_api.push_message(myId, message)
+            isInit==False
+        if (isChangingLevel_L == True):   
+            isAsked_L = False
             setlevel_bubble = levelBubble()
             #message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
@@ -216,8 +219,8 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, message)  
 
     elif (event.postback.data == "changeLevel"): 
-        setlevel_bubble = levelBubble()
-        line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+        #setlevel_bubble = levelBubble()
+        #line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         isChangingLevel_L = True
 
     elif (event.postback.data == "next2"):
