@@ -170,7 +170,7 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked_L,isStart
+    global isAsked_L,isStart,isChangingLevel_L
     global index_L,sheet,subindex
     global qNum, star_num
     global data_img, data_tail, data_word, data_sen
@@ -205,17 +205,13 @@ def handle_postback(event):
             message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
             line_bot_api.reply_message(event.reply_token,message)
             isStart = False
-            #index_L = 0
-            #star_num = 0
-            #data_img, data_tail, data_word, data_sen = getSheet(level_L)
-            #sheet = editSheet(data_img) 
-            #print("new sheet",sheet)
+            
         print("index_L after = ", index_L)
     elif (event.postback.data == "next"): 
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
-        
+
     elif (event.postback.data == "changeLevel"): 
         setlevel_bubble = levelBubble()
         line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
