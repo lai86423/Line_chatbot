@@ -215,10 +215,12 @@ def handle_postback(event):
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
+        
     elif (event.postback.data == "changeLevel"): 
         setlevel_bubble = levelBubble()
         line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         isChangingLevel_L = True
+
     elif (event.postback.data == "next2"):
         index_L = 0
         star_num = 0
