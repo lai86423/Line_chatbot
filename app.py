@@ -151,17 +151,17 @@ def handle_message(event):
                 print("選完階級！")
                 isAsked_L = True
                 print("index_L",index_L)
-                subindex = index_L%5
+                #subindex = index_L%
                 print("subindex = ",subindex)
                 if index_L < 3:
                     sheet = editSheet(data_tail)
-                    QA_bubble = QA.QA_Tail(sheet,index_L,subindex)
+                    QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
                 elif index_L < 7:
                     sheet = editSheet(data_word)
-                    QA_bubble = QA.QA_Word(sheet,index_L,subindex)
+                    QA_bubble = QA.QA_Word(sheet,index_L,index_L-3)
                 else:
                     sheet = editSheet(data_sen) 
-                    QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)    
+                    QA_bubble = QA.QA_Sentence(sheet,index_L,index_L-7)    
             
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
@@ -208,6 +208,9 @@ def handle_postback(event):
             
         print("index_L after = ", index_L)
     elif (event.postback.data == "next"): 
+        index_L = 0
+        star_num = 0
+        print("答題分數顯示完 圖數和分數歸零----",index_L,star_num)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
@@ -218,10 +221,6 @@ def handle_postback(event):
         isChangingLevel_L = True
 
     elif (event.postback.data == "next2"):
-        index_L = 0
-        star_num = 0
-        data_img, data_tail, data_word, data_sen = getSheet(level_L)
-        sheet = editSheet(data_img) 
         isStart = True
         
 ##-----------------------------------------------------------------------------------
@@ -254,7 +253,7 @@ def setLevel(levelinput):
     if isChangingLevel_L == False:
         data_img, data_tail, data_word, data_sen = getSheet(level_L)
         #sheet = editSheet(pre_sheet)
-        print("level_L get sheet",sheet)
+        print("更換難易度後 更新取得新的隨機題目----level_L get sheet",sheet)
       
     return myResult
 
