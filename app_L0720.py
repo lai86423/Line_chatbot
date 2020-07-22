@@ -147,6 +147,7 @@ def handle_message(event):
         if (isChangingLevel_L == True):   
             isAsked_L = False
             setlevel_bubble = levelBubble()
+            #message = FlexSendMessage(alt_text="setlevel_bubble", contents = setlevel_bubble)
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         elif isStart == True:
             if( isAsked_L == False ):   
@@ -178,7 +179,8 @@ def handle_postback(event):
     global data_img, data_tail, data_word, data_sen
 
     if(isChangingLevel_L==True):
-        level_bubble = setLevel(event.postback.data) 
+        levelinput = event.postback.data
+        level_bubble = setLevel(levelinput) 
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
         line_bot_api.reply_message(event.reply_token,message) 
 
