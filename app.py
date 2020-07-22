@@ -244,19 +244,19 @@ def setLevel(levelinput):
     return myResult
 
 def Question():
-        print("選完階級！開始出題")
-        print("index_L",index_L)
-        if index_L < 3:
-            sheet = editSheet(data_tail)
-            QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
-        elif index_L < 7:
-            subindex = index_L-3
-            sheet = editSheet(data_word)
-            QA_bubble = QA.QA_Word(sheet,index_L,subindex)
-        else:
-            subindex = index_L-7
-            sheet = editSheet(data_sen) 
-            QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)
+    print("選完階級！開始出題")
+    print("index_L",index_L)
+    if index_L < 3:
+        sheet = editSheet(data_tail)
+        QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
+    elif index_L < 7:
+        subindex = index_L-3
+        sheet = editSheet(data_word)
+        QA_bubble = QA.QA_Word(sheet,index_L,subindex)
+    else:
+        subindex = index_L-7
+        sheet = editSheet(data_sen) 
+        QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
