@@ -149,24 +149,11 @@ def handle_message(event):
             setlevel_bubble = levelBubble()
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         elif isStart == True:
-            if( isAsked_L == False ):   
-                print("選完階級！")
+            if( isAsked_L == False ): 
                 isAsked_L = True
-                print("index_L",index_L)
-                if index_L < 3:
-                    sheet = editSheet(data_tail)
-                    QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
-                elif index_L < 7:
-                    subindex = index_L-3
-                    sheet = editSheet(data_word)
-                    QA_bubble = QA.QA_Word(sheet,index_L,subindex)
-                else:
-                    subindex = index_L-7
-                    sheet = editSheet(data_sen) 
-                    QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)    
-            
-                message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
-                line_bot_api.reply_message(event.reply_token, message)
+                QA_bubble = Question()
+            message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+            line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
 #回饋判斷
 @handler.add(PostbackEvent)
@@ -217,8 +204,6 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token, message)  
 
     elif (event.postback.data == "changeLevel"): 
-        #setlevel_bubble = levelBubble()
-        #line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         isChangingLevel_L = True
 
     elif (event.postback.data == "next2"):
@@ -258,6 +243,21 @@ def setLevel(levelinput):
       
     return myResult
 
+def Question():
+        print("選完階級！開始出題")
+        print("index_L",index_L)
+        if index_L < 3:
+            sheet = editSheet(data_tail)
+            QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
+        elif index_L < 7:
+            subindex = index_L-3
+            sheet = editSheet(data_word)
+            QA_bubble = QA.QA_Word(sheet,index_L,subindex)
+        else:
+            subindex = index_L-7
+            sheet = editSheet(data_sen) 
+            QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)
+    return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
 def levelBubble():
