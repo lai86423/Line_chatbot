@@ -208,12 +208,12 @@ def handle_postback(event):
 
     elif (event.postback.data == "next2"):
         isStart = True
-        if( isAsked_L == False ): 
-            print("restart QA_bubble")
-            isAsked_L = True
-            QA_bubble = Question()
-            message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
-            line_bot_api.reply_message(event.reply_token, message)
+        print("restart isAsked_L",isAsked_L)
+        print("restart QA_bubble")
+        isAsked_L = True
+        QA_bubble = Question()
+        message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+        line_bot_api.reply_message(event.reply_token, message)
         
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
