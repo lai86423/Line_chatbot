@@ -157,11 +157,13 @@ def handle_message(event):
                     sheet = editSheet(data_tail)
                     QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
                 elif index_L < 7:
+                    subindex = index_L-3
                     sheet = editSheet(data_word)
-                    QA_bubble = QA.QA_Word(sheet,index_L,index_L-3)
+                    QA_bubble = QA.QA_Word(sheet,index_L,subindex)
                 else:
+                    subindex = index_L-7
                     sheet = editSheet(data_sen) 
-                    QA_bubble = QA.QA_Sentence(sheet,index_L,index_L-7)    
+                    QA_bubble = QA.QA_Sentence(sheet,index_L,subindex)    
             
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
