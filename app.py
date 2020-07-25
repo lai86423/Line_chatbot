@@ -19,9 +19,9 @@ import pygsheets
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('Ay6xk+FmKxu4tFPtdzXBMR/V8Mf1GnwNi07Vt9QgOHCHwUCd3x8pdRMu7rTHR1/QWlcVcaaHRzfi9gARYXgNqm7WT7M7YoeWJv+NFkl+iZg5K0jAERYZud6HpNmpVXm6TEIf7ZY1DxnH55E77umPawdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
-handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
+handler = WebhookHandler('533dbc0dab0d92eea7a87b05cb7e49a6')
 #users = np.array(('0','0',0)) #userID,level_L,point
 
 ##聽力  變數------------------------------------------------
@@ -162,8 +162,8 @@ def handle_postback(event):
     print("---Feedback---")
     global isAsked_L,isStart,isChangingLevel_L
     global index_L,sheet,subindex
-    global qNum, star_num, count
-    global data_img, data_tail, dㄦta_word, data_sen
+    global qNum, star_num
+    global data_img, data_tail, data_word, data_sen, count
 
     if(isChangingLevel_L==True):
         level_bubble = setLevel(event.postback.data) 
@@ -182,6 +182,7 @@ def handle_postback(event):
             print('index_L: ', index_L)
             if answer != str(sheet["answer"][subindex]):
                 feedback = sheet["feedback"][subindex]
+                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
                 if(count != 0):
                     isStart = False
                     wrongBubble = tryagainBubble()
@@ -205,6 +206,7 @@ def handle_postback(event):
                 correctBubble = rightBubble()
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
+                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 isAsked_L = False
             print('after count: ', count)
             print('after index_L: ', index_L)
@@ -407,7 +409,7 @@ def changeLevelBubble():
         )
     )  
     return Bubble 
-    
+
 def rightBubble(): 
     Bubble = BubbleContainer (
         direction='ltr',

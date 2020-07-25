@@ -19,9 +19,9 @@ import pygsheets
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('Ay6xk+FmKxu4tFPtdzXBMR/V8Mf1GnwNi07Vt9QgOHCHwUCd3x8pdRMu7rTHR1/QWlcVcaaHRzfi9gARYXgNqm7WT7M7YoeWJv+NFkl+iZg5K0jAERYZud6HpNmpVXm6TEIf7ZY1DxnH55E77umPawdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
-handler = WebhookHandler('533dbc0dab0d92eea7a87b05cb7e49a6')
+handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_L,point
 
 ##聽力  變數------------------------------------------------
@@ -162,8 +162,8 @@ def handle_postback(event):
     print("---Feedback---")
     global isAsked_L,isStart,isChangingLevel_L
     global index_L,sheet,subindex
-    global qNum, star_num
-    global data_img, data_tail, data_word, data_sen, count
+    global qNum, star_num, count
+    global data_img, data_tail, dㄦta_word, data_sen
 
     if(isChangingLevel_L==True):
         level_bubble = setLevel(event.postback.data) 
@@ -182,7 +182,6 @@ def handle_postback(event):
             print('index_L: ', index_L)
             if answer != str(sheet["answer"][subindex]):
                 feedback = sheet["feedback"][subindex]
-                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
                 if(count != 0):
                     isStart = False
                     wrongBubble = tryagainBubble()
@@ -206,7 +205,6 @@ def handle_postback(event):
                 correctBubble = rightBubble()
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
-                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 isAsked_L = False
             print('after count: ', count)
             print('after index_L: ', index_L)
@@ -439,8 +437,15 @@ def tryagainBubble():
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="答案不對哦！", weight='bold', size='xl', align = 'center')                   
+                TextComponent(text="再接再厲!!", weight='bold', size='xl', align = 'center')                   
             ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+                contents=[
+                    TextComponent(text="答案不對哦~你再想想看!", margin='xs', align = 'center',gravity='top'),
+   
+                ]
         ),
         footer = BoxComponent(
             layout='horizontal',
@@ -448,6 +453,35 @@ def tryagainBubble():
                 ButtonComponent(
                     action = PostbackAction(label = '再試一次', data = 'start', text = '再試一次'),
                     color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+
+def tryagainBubble_2(feedback):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= '再接再勵', weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= feedback, margin='xs', align = 'center',gravity='top')                   
+            ]
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '下一題', data = 'start', text = '下一題'),
+                    color = '#45E16E',
                     style = 'primary'
                 )
             ]
