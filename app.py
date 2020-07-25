@@ -407,6 +407,30 @@ def changeLevelBubble():
         )
     )  
     return Bubble 
+    
+def rightBubble(): 
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="恭喜答對了！", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '下一題', data = 'start', text = '下一題'),
+                    color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+
 def tryagainBubble():
     Bubble = BubbleContainer (
         direction='ltr',
