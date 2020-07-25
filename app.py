@@ -19,9 +19,9 @@ import pygsheets
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('Ay6xk+FmKxu4tFPtdzXBMR/V8Mf1GnwNi07Vt9QgOHCHwUCd3x8pdRMu7rTHR1/QWlcVcaaHRzfi9gARYXgNqm7WT7M7YoeWJv+NFkl+iZg5K0jAERYZud6HpNmpVXm6TEIf7ZY1DxnH55E77umPawdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
-handler = WebhookHandler('533dbc0dab0d92eea7a87b05cb7e49a6')
+handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_L,point
 
 ##聽力  變數------------------------------------------------
