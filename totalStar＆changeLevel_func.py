@@ -40,3 +40,27 @@ def totalStar():
         )
     )  
     return Bubble 
+
+
+def changeLevelBubble():
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = "更換難易度", data = 'changeLevel', text = "更換難易度"),
+                    color = '#F1C175',
+                    margin = 'md',
+                    style = 'primary',
+                ),
+                ButtonComponent(
+                    action = PostbackAction(label = "不用，繼續下一大題", data = 'next2', text = "不用，繼續下一大題"),
+                    color = '#E18876',
+                    margin = 'md',
+                    style = 'primary',
+                )
+            ]  
+        )
+    )  
+    return Bubble 
