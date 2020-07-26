@@ -7,6 +7,35 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 
+def tryagainBubble_2(feedback):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= '再接再勵', weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= feedback, margin='xs', align = 'center',gravity='top')                   
+            ]
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '跳下一題', data = 'start', text = '下一題'),
+                    color = '#45E16E',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+
 def totalStar():
     Bubble = BubbleContainer (
         direction='ltr',

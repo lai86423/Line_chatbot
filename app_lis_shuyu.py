@@ -35,7 +35,7 @@ isStart = False
 index_L = 0 #第幾題
 isInit_L = True
 subindex = 0
-count = 1
+count = 2
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -69,7 +69,7 @@ L3_img = pd.read_csv('L3_img.csv')
 L3_tail = pd.read_csv('L3_tail.csv') 
 L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
-##----------------------------------------------------------------------------------
+##-----------------------------------------------------------------------------------
 #四種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
@@ -177,7 +177,7 @@ def handle_postback(event):
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
         answer = event.postback.data
-        if(index_L < qNum): #做完本輪題庫數目
+        if(index_L < qNum - 1): #做完本輪題庫數目
             print('count: ', count)
             print('index_L: ', index_L)
             if answer != str(sheet["answer"][subindex]):
@@ -194,47 +194,30 @@ def handle_postback(event):
                     loseBubble = nextBubble(feedback)
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    count = 1
+                    count = 2
                     index_L += 1
                 isAsked_L = False
             else:
                 isStart = False
                 star_num += count
-                #score += count
-                #lis_score += count
-                #print('score: ', score)
-                #print('lis_score: ', lis_score)
-                #user_sheet.update_cell(score_row, 2, score)
-                #user_sheet.update_cell(score_row, 4, lis_score)
-                #print('save!!!!!!!!!!')
+                count = 2
+                index_L += 1
                 print('正確答案!')
-                if(count == 1):
-                    reply = '你好棒!一次就答對了!'
-                elif(count == 0):
-                    reply = '好棒哦!你答對了!'
-                print(count, reply)
-                if(index_L == 9):
-                    reply = '好棒哦!你答對了!'
-                    correctBubble = finalBubble(reply)
-                else:
-                    correctBubble = rightBubble(reply)
+                correctBubble = rightBubble()
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
                 #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
-                index_L += 1
-                if(index_L < 10):
-                    isAsked_L = False
-                count = 1
+                isAsked_L = False
             print('after count: ', count)
             print('after index_L: ', index_L)
-    
-    elif(event.postback.data == "end"):
-        #print('恭喜你做完這次的聽力練習了!star=',star_num)
-        starBubble = totalStarBubble()
-        message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
-        line_bot_api.reply_message(event.reply_token,message)
-        isStart = False
-
+        else:#做完本輪題庫數目
+            print('恭喜你做完這次的聽力練習了!star=',star_num)
+            starBubble = totalStarBubble()
+            message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
+            line_bot_api.reply_message(event.reply_token,message)
+            isStart = False
+            
+        print("index_L after = ", index_L)
     elif (event.postback.data == "next"): 
         index_L = 0
         star_num = 0
@@ -427,20 +410,14 @@ def changeLevelBubble():
     )  
     return Bubble 
 
-def rightBubble(reply): 
+def rightBubble(): 
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="恭喜答對!!", weight='bold', size='xl', align = 'center')                   
+                TextComponent(text="恭喜答對了！", weight='bold', size='xl', align = 'center')                   
             ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text= reply, size='xs', align = 'center', gravity = 'top'),
-            ]  
         ),
         footer = BoxComponent(
             layout='horizontal',
@@ -462,14 +439,8 @@ def tryagainBubble():
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="請再想想!!", weight='bold', size='xl', align = 'center')                   
+                TextComponent(text="答案不對哦！", weight='bold', size='xl', align = 'center')                   
             ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text="答案不對哦~你再想想看!", size='xs', align = 'center', gravity = 'top'),
-            ]  
         ),
         footer = BoxComponent(
             layout='horizontal',
@@ -491,50 +462,15 @@ def nextBubble(feedback):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text= '再接再厲', weight='bold', size='xl', align = 'center')               
+                TextComponent(text= feedback, weight='bold', size='xl', align = 'center')                   
             ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text= feedback, size='xs', align = 'center', gravity = 'top'),
-            ]  
         ),
         footer = BoxComponent(
             layout='horizontal',
             contents=[
                 ButtonComponent(
-                    action = PostbackAction(label = '跳下一題', data = 'start', text = '下一題'),
-                    color = '#45E16E',
-                    style = 'primary'
-                )
-            ]
-
-        )
-    )  
-    return Bubble
-
-def finalBubble(reply):
-    Bubble = BubbleContainer (
-        direction='ltr',
-        header = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text= '恭喜答對!!', weight='bold', size='xl', align = 'center')               
-            ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text= '好棒哦!你答對了!', size='xs', align = 'center', gravity = 'top'),
-            ]  
-        ),
-        footer = BoxComponent(
-            layout='horizontal',
-            contents=[
-                ButtonComponent(
-                    action = PostbackAction(label = '結束作答', data = 'end', text = '結束作答'),
-                    color = '#E15B45',
+                    action = PostbackAction(label = '下一題', data = 'start', text = '下一題'),
+                    color = '#F8AF62',
                     style = 'primary'
                 )
             ]
