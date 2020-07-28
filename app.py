@@ -149,7 +149,7 @@ def handle_postback(event):
     global index_Q,sheet_Q,subindex_Q
     global qNum_Q, star_num_Q
     global data_Voc, data_Reading, data_Cloze, count_Q
-
+    print("postbackData = ",event.postback.data )
     if(isChangingLevel_Q==True):
         level_bubble = setLevel(event.postback.data) 
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
@@ -157,7 +157,7 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         isStart_Q = True
-        
+
     elif(isStart_Q == True): 
         print("correct answer = ",str(sheet_Q["answer"][subindex_Q]))
         print("answer index_Q = ", index_Q)
