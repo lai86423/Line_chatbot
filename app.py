@@ -157,6 +157,7 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         isStart_Q = True
+        
     elif(isStart_Q == True): 
         print("correct answer = ",str(sheet_Q["answer"][subindex_Q]))
         print("answer index_Q = ", index_Q)
@@ -167,7 +168,6 @@ def handle_postback(event):
             print('index_Q: ', index_Q)
             if answer != str(sheet_Q["answer"][subindex_Q]):
                 feedback = sheet_Q["feedback"][subindex_Q]
-                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
                 if(count_Q != 0):
                     isStart_Q = False
                     wrongBubble = tryagainBubble()
