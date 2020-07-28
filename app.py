@@ -148,7 +148,7 @@ def handle_postback(event):
     global isAsked_Q,isStart_Q,isChangingLevel_Q
     global index_Q,sheet_Q,subindex_Q
     global qNum_Q, star_num_Q
-    global data_img, data_tail, data_word, data_sen, count_Q
+    global data_Voc, data_Reading, data_Cloze, count_Q
 
     if(isChangingLevel_Q==True):
         level_bubble = setLevel(event.postback.data) 
@@ -185,13 +185,6 @@ def handle_postback(event):
             else:
                 isStart_Q = False
                 star_num_Q += count_Q
-                #score += count_Q
-                #lis_score += count_Q
-                #print('score: ', score)
-                #print('lis_score: ', lis_score)
-                #user_sheet.update_cell(score_row, 2, score)
-                #user_sheet.update_cell(score_row, 4, lis_score)
-                #print('save!!!!!!!!!!')
                 print('正確答案!')
                 if(count_Q == 1):
                     reply = '你好棒!一次就答對了!'
@@ -244,7 +237,7 @@ def handle_postback(event):
 #設定Level------------------------------------------------
 def setLevel(levelinput):
     print("---Changing Level---")
-    global data_img, data_tail, data_word, data_sen
+    global data_Voc, data_Reading, data_Cloze
     global level_Q
     global isChangingLevel_Q
     
@@ -268,7 +261,7 @@ def setLevel(levelinput):
         myResult = "N"
 
     if isChangingLevel_Q == False:
-        data_img, data_tail, data_word, data_sen = getSheet(level_Q)
+        data_Voc, data_Reading, data_Cloze = getSheet(level_Q)
         #sheet_Q = editSheet(pre_sheet)
         print("更換難易度後 更新取得新的隨機題目----level_Q get sheet_Q",sheet_Q)
       
@@ -278,15 +271,15 @@ def Question():
     print("選完階級！開始出題")
     print("index_Q",index_Q)
     if index_Q < 3:
-        sheet_Q = editSheet(data_tail)
+        sheet_Q = editSheet(data_Voc)
         QA_bubble = QA.QA_Tail(sheet_Q,index_Q,index_Q)
     elif index_Q < 7:
         subindex_Q = index_Q-3
-        sheet_Q = editSheet(data_word)
+        sheet_Q = editSheet(data_Reading)
         QA_bubble = QA.QA_Word(sheet_Q,index_Q,subindex_Q)
     else:
         subindex_Q = index_Q-7
-        sheet_Q = editSheet(data_sen) 
+        sheet_Q = editSheet(data_Cloze) 
         QA_bubble = QA.QA_Sentence(sheet_Q,index_Q,subindex_Q)
     return QA_bubble
 ##-----------------------------------------------------------------------------------
