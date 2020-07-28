@@ -14,7 +14,7 @@ import QA
 import sys
 import datetime
 import pygsheets
-
+import QA_Bubble
 
 app = Flask(__name__)
 
@@ -272,15 +272,15 @@ def Question():
     print("index_Q",index_Q)
     if index_Q < 3:
         sheet_Q = editSheet(data_Voc)
-        QA_bubble = QA.QA_Tail(sheet_Q,index_Q,index_Q)
+        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,index_Q)
     elif index_Q < 7:
         subindex_Q = index_Q-3
         sheet_Q = editSheet(data_Reading)
-        QA_bubble = QA.QA_Word(sheet_Q,index_Q,subindex_Q)
+        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     else:
         subindex_Q = index_Q-7
         sheet_Q = editSheet(data_Cloze) 
-        QA_bubble = QA.QA_Sentence(sheet_Q,index_Q,subindex_Q)
+        QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
