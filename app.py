@@ -137,6 +137,7 @@ def handle_message(event):
         elif isStart_Q == True:
             if( isAsked_Q == False ): 
                 isAsked_Q = True
+                print("QQQ")
                 QA_bubble = Question()
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
