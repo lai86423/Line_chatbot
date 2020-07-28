@@ -15,48 +15,48 @@ def Voc(sheet,index_L,subindex):
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
     print("option3 = ",sheet["option3"][subindex])
-    print("Question = ",question)  #question 是 url 網址
-
+    print("Question = ",question) 
     Bubble = BubbleContainer (
-                        contents = [
-                            BubbleContainer (
-                                direction='ltr',
-                                header = BoxComponent(
-                                    layout='vertical',
-                                    contents=[
-                                        TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
-                                    ]
-                                ),
-                                body = BoxComponent(
-                                    layout='vertical',
-                                    contents=[
-                                        TextComponent(text = question, size='xl', align = 'center',weight = 'bold'),
-                                        TextComponent(text = "選出上方意思的單字", margin='sm', size='md', align = 'center',color = '#9F9F9F'),
-                                        SeparatorComponent(margin = 'xl', color = '#A89F9F'),
-                                        ButtonComponent(
-                                            action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " + sheet["option1"][subindex]),
-                                            color = '#46549B',
-                                            margin = 'xl',
-                                            style = 'primary'
-                                        ),
-                                        ButtonComponent(
-                                            action = PostbackAction(label = "(2) " + sheet["option2"][subindex], data = '2', text = "(2) " + sheet["option2"][subindex]),
-                                            color = '#7E318E',
-                                            margin = 'md',
-                                            style = 'primary'
-                                        ),
-                                        ButtonComponent(
-                                            action = PostbackAction(label = "(3) " + sheet["option3"][subindex], data = '3', text = "(3) " + sheet["option3"][subindex]),
-                                            color = '#CD2774',
-                                            margin = 'md',
-                                            style = 'primary',
-                                            gravity='top'
-                                        )
-                                    ]
-                                )
-                            )
-                        ]                    
-                    )
+        direction='ltr',
+        contents = [
+            BubbleContainer (
+                direction='ltr',
+                header = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
+                    ]
+                ),
+                body = BoxComponent(
+                    layout='vertical',
+                    contents=[
+                        TextComponent(text = question, size='xl', align = 'center',weight = 'bold'),
+                        TextComponent(text = "選出上方意思的單字", margin='sm', size='md', align = 'center',color = '#9F9F9F'),
+                        SeparatorComponent(margin = 'xl', color = '#A89F9F'),
+                        ButtonComponent(
+                            action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " + sheet["option1"][subindex]),
+                            color = '#46549B',
+                            margin = 'xl',
+                            style = 'primary'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = "(2) " + sheet["option2"][subindex], data = '2', text = "(2) " + sheet["option2"][subindex]),
+                            color = '#7E318E',
+                            margin = 'md',
+                            style = 'primary'
+                        ),
+                        ButtonComponent(
+                            action = PostbackAction(label = "(3) " + sheet["option3"][subindex], data = '3', text = "(3) " + sheet["option3"][subindex]),
+                            color = '#CD2774',
+                            margin = 'md',
+                            style = 'primary',
+                            gravity='top'
+                        )
+                    ]
+                )
+            )
+        ]                    
+    )
     return Bubble   
 
 def Cloze(sheet,index_L,subindex):
