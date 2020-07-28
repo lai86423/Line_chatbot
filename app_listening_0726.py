@@ -26,7 +26,6 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##聽力  變數------------------------------------------------
 level_L = 1 # 預設level 1
-type_L = 1 # 3種題目類型
 qNum = 10 # 每輪題目數量
 star_num = 0 #集點
 isAsked_L = False #出題與否
@@ -70,7 +69,7 @@ L3_tail = pd.read_csv('L3_tail.csv')
 L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
 ##----------------------------------------------------------------------------------
-#四種問題類型
+#三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
         sheet_img = L3_img
