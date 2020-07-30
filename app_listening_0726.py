@@ -289,6 +289,7 @@ def setLevel(levelinput):
     return myResult
 
 def Question():
+    global subindex,sheet
     print("選完階級！開始出題")
     print("index_L",index_L)
     if index_L < 3:
