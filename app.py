@@ -81,30 +81,31 @@ def getSheet(Qlevel):
     return sheet_Voc, sheet_Reading, sheet_Cloze
 
 def editSheet(data):
+    print("data=",data)
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
     question = pre_sheet.iloc[:,0]
     option1 = pre_sheet.iloc[:,1]
     option2 = pre_sheet.iloc[:,2]
     option3 = pre_sheet.iloc[:,3]
     answer = pre_sheet.iloc[:,4]
-    if data != data_Reading:
-        sheet_Q = {
-            "question": question,
-            "option1": option1,
-            "option2": option2,
-            "option3": option3,
-            "answer": answer
-        }
-    else:
-        article = pre_sheet.iloc[:,5]
-        sheet_Q = {
-            "question": question,
-            "option1": option1,
-            "option2": option2,
-            "option3": option3,
-            "answer": answer,
-            "article": article
-        }
+ #   if data != data_Reading:
+    sheet_Q = {
+        "question": question,
+        "option1": option1,
+        "option2": option2,
+        "option3": option3,
+        "answer": answer
+    }
+    # else:
+    #     article = pre_sheet.iloc[:,5]
+    #     sheet_Q = {
+    #         "question": question,
+    #         "option1": option1,
+    #         "option2": option2,
+    #         "option3": option3,
+    #         "answer": answer,
+    #         "article": article
+    #     }
     #qNum_Q = len(sheet_Q["question"])
     return sheet_Q
 
