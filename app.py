@@ -269,7 +269,7 @@ def setLevel(levelinput):
     return myResult
 
 def Question():
-    global subindex_Q
+    global subindex_Q,sheet_Q
     print("選完階級！開始出題")
     print("index_Q",index_Q)
     print("subindex_Q = ", subindex_Q)
