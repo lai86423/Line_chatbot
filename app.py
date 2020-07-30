@@ -33,7 +33,7 @@ isChangingLevel_Q = True
 isStart_Q = False
 index_Q = 0 #第幾題
 isInit_Q = True
-subindex_Q = 0
+subindex_Q = index_Q
 count_Q = 1
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
@@ -167,7 +167,6 @@ def handle_postback(event):
         answer = event.postback.data
         if(index_Q < qNum_Q): #做完本輪題庫數目
             print('count_Q: ', count_Q)
-            print('index_Q: ', index_Q)
             if answer != correctAns:
                 if(count_Q != 0):
                     isStart_Q = False
@@ -270,6 +269,7 @@ def setLevel(levelinput):
     return myResult
 
 def Question():
+    global subindex_Q
     print("選完階級！開始出題")
     print("index_Q",index_Q)
     if index_Q < 3:
@@ -277,11 +277,11 @@ def Question():
         sheet_Q = editSheet(data_Voc)
         QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     elif index_Q < 7:
-        subindex_Q = index_Q-3
+        subindex_Q = index_Q - 3
         sheet_Q = editSheet(data_Cloze)
         QA_bubble = QA_Bubble.Cloze(sheet_Q,index_Q,subindex_Q)
     else:
-        subindex_Q = index_Q-7
+        subindex_Q = index_Q - 7
         sheet_Q = editSheet(data_Reading) 
         QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
     return QA_bubble
