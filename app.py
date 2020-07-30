@@ -93,7 +93,7 @@ def editSheet(data):
             "option1": option1,
             "option2": option2,
             "option3": option3,
-            "answer": answer,
+            "answer": answer
         }
     else:
         article = pre_sheet.iloc[:,5]
