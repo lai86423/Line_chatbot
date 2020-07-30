@@ -72,7 +72,7 @@ def Cloze(sheet,index_L,subindex):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text = question, size='lg', align = 'center',weight = 'regular',wrap='true'),
+                TextComponent(text = question, size='lg', align = 'center',wrap='true'),
                 TextComponent(text = "選出空格中合適的答案", margin='sm', size='md', align = 'center',color = '#9F9F9F'),
                 SeparatorComponent(margin = 'xl', color = '#A89F9F'),
                 ButtonComponent(
