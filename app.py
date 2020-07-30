@@ -273,6 +273,7 @@ def Question():
     print("選完階級！開始出題")
     print("index_Q",index_Q)
     if index_Q < 3:
+        subindex_Q = index_Q
         sheet_Q = editSheet(data_Voc)
         QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,index_Q)
     elif index_Q < 7:
