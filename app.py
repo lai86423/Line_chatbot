@@ -88,7 +88,8 @@ def editSheet(data):
     option2 = pre_sheet.iloc[:,2]
     option3 = pre_sheet.iloc[:,3]
     answer = pre_sheet.iloc[:,4]
- #   if data != data_Reading:
+    print("article",pre_sheet.iloc[:,5])
+    #if data != data_Reading:
     sheet_Q = {
         "question": question,
         "option1": option1,
