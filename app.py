@@ -160,15 +160,15 @@ def handle_postback(event):
         isStart_Q = True
 
     elif(isStart_Q == True): 
-        print("correct answer = ",str(sheet_Q["answer"][subindex_Q]))
+        correctAns = str(sheet_Q["answer"][subindex_Q])
+        print("correct answer = ",correctAns)
         print("answer index_Q = ", index_Q)
         print("answer subindex_Q = ", subindex_Q)
         answer = event.postback.data
         if(index_Q < qNum_Q): #做完本輪題庫數目
             print('count_Q: ', count_Q)
             print('index_Q: ', index_Q)
-            if answer != str(sheet_Q["answer"][subindex_Q]):
-                #feedback = sheet_Q["feedback"][subindex_Q]
+            if answer != correctAns:
                 if(count_Q != 0):
                     isStart_Q = False
                     wrongBubble = tryagainBubble()
@@ -177,7 +177,7 @@ def handle_postback(event):
                     count_Q -= 1
                 elif(count_Q == 0):
                     isStart_Q = False
-                    loseBubble = nextBubble(answer)
+                    loseBubble = nextBubble(correctAns)
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
                     count_Q = 1
@@ -477,7 +477,7 @@ def nextBubble(answer):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text= "好可惜哦~答案是("+str(answer)+")才對哦!", size='xs', align = 'center', gravity = 'top'),
+                TextComponent(text= "好可惜哦~答案是("+ answer +")才對哦!", size='xs', align = 'center', gravity = 'top'),
             ]  
         ),
         footer = BoxComponent(
