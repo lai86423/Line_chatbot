@@ -272,6 +272,7 @@ def Question():
     global subindex_Q
     print("選完階級！開始出題")
     print("index_Q",index_Q)
+    print("subindex_Q = ", subindex_Q)
     if index_Q < 3:
         subindex_Q = index_Q
         sheet_Q = editSheet(data_Voc)
