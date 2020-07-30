@@ -14,7 +14,7 @@ import QA
 import sys
 import datetime
 import pygsheets
-#TODO: 1.next bubble 的feedback 改成傳answer  2.變數全改 Ｌ
+#TODO: 1.next bubble 的feedback 改成傳answer  2.變數全改 Ｌ 3.題目跟答案比對確認 
 
 app = Flask(__name__)
 
