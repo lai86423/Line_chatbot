@@ -4,3 +4,4 @@ googletrans
 pygsheets
 numpy
 pandas
+setuptools 40.3.0
