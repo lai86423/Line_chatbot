@@ -277,7 +277,7 @@ def Question():
     elif index_Q < 7:
         subindex_Q = index_Q-3
         sheet_Q = editSheet(data_Reading)
-        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
+        QA_bubble = QA_Bubble.Cloze(sheet_Q,index_Q,subindex_Q)
     else:
         subindex_Q = index_Q-7
         sheet_Q = editSheet(data_Cloze) 
