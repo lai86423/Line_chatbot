@@ -89,29 +89,24 @@ def editSheet(data):
     option3 = pre_sheet.iloc[:,3]
     answer = pre_sheet.iloc[:,4]
     try:
-        print("article",pre_sheet.iloc[:,5])
+        print("article = ",pre_sheet.iloc[:,5])
+        article = pre_sheet.iloc[:,5]
+        sheet_Q = {
+            "question": question,
+            "option1": option1,
+            "option2": option2,
+            "option3": option3,
+            "answer": answer,
+            "article": article
+        }
     except:
-        pass
-    #
-    # if data != data_Reading:
-    
-    sheet_Q = {
-        "question": question,
-        "option1": option1,
-        "option2": option2,
-        "option3": option3,
-        "answer": answer
-    }
-    # else:
-    #     article = pre_sheet.iloc[:,5]
-    #     sheet_Q = {
-    #         "question": question,
-    #         "option1": option1,
-    #         "option2": option2,
-    #         "option3": option3,
-    #         "answer": answer,
-    #         "article": article
-    #     }
+        sheet_Q = {
+            "question": question,
+            "option1": option1,
+            "option2": option2,
+            "option3": option3,
+            "answer": answer
+        }
     #qNum_Q = len(sheet_Q["question"])
     return sheet_Q
 
