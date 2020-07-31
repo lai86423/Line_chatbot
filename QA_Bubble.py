@@ -150,57 +150,27 @@ def Reading(sheet,index_L,subindex):
     )                       
     return Bubble
 
-def QA_Sentence(sheet,index_L,subindex):
-    question = sheet["question"][subindex]
-    print("option1 = ",sheet["option1"][subindex])
-    print("option2 = ",sheet["option2"][subindex])
-    print("option3 = ",sheet["option3"][subindex])
-    print("Question = ",question)  #question 是 url 網址
-    Bubble = BubbleContainer (
-        direction='ltr',
-        header = BoxComponent(
-            layout='vertical',
-            contents=[
-                TextComponent(text= "題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
-            ]
-        ),
-        body = BoxComponent(
-            layout='vertical',
-            contents=[
-                ButtonComponent(
-                    action = URIAction(label = '聽題目', uri = question),
-                    color = '#3B9A9C',
-                    margin = 'lg',
-                    style = 'primary',
-                    flex = 10
-                ),
-                TextComponent(text='選出正確的應對句子', size='md', align = 'center'),
-                SeparatorComponent(margin='xl',color='#A89F9F'),
-                TextComponent(text="(1) " +sheet["option1"][subindex], size='lg',margin='sm', align = 'start'),
-                TextComponent(text="(2) " +sheet["option2"][subindex], size='lg',margin='sm', align = 'start'),
-                TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start'),
+def Article(sheet,subindex):
+    try:
+        article = sheet["article"][subindex]
+        print("article = ",article)
 
-                ButtonComponent(
-                    action = PostbackAction(label = "(1)", data = '1', text = "(1) " +sheet["option1"][subindex]),
-                    color = '#46549B',
-                    margin = 'xl',
-                    style = 'primary'
-                ),
-                    ButtonComponent(
-                    action = PostbackAction(label = "(2)", data = '2', text = "(2) " +sheet["option2"][subindex]),
-                    color = '#7E318E',
-                    margin = 'md',
-                    style = 'primary'
-                ),
-                    ButtonComponent(
-                    action = PostbackAction(label = "(3)", data = '3', text = "(3) " +sheet["option3"][subindex]),
-                    color = '#CD2774',
-                    margin = 'md',
-                    style = 'primary',
-                    gravity='top'
-                )
-            ]
-        )
-    )                       
+        Bubble = BubbleContainer (
+            direction='ltr',
+            header = BoxComponent(
+                layout='vertical',
+                contents=[
+                    TextComponent(text= "請閱讀底下短文", weight='bold', size='lg', gravity= 'top', align = 'start')                   
+                ]
+            ),
+            body = BoxComponent(
+                layout='vertical',
+                contents=[
+                    TextComponent(text= article, wrap = True)
+                ]
+            )
+        )         
+    except:
+        pass              
     return Bubble
 

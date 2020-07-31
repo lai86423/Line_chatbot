@@ -111,7 +111,7 @@ def editSheet(data):
     return sheet_Q
 
 data_Voc, data_Reading, data_Cloze = getSheet(level_Q)
-sheet_Q = editSheet(data_Voc) 
+sheet_Q = editSheet(data_Reading) 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -288,8 +288,10 @@ def Question():
     print("subindex_Q = ", subindex_Q)
     if index_Q < 3:
         subindex_Q = index_Q
-        sheet_Q = editSheet(data_Voc)
-        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
+        sheet_Q = editSheet(data_Reading) 
+        #sheet_Q = editSheet(data_Voc)
+        QA_bubble = QA_Bubble.Article(sheet_Q,subindex_Q)
+        #QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     elif index_Q < 7:
         subindex_Q = index_Q - 3
         sheet_Q = editSheet(data_Cloze)
