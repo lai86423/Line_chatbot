@@ -123,19 +123,19 @@ def Reading(sheet,index_L,subindex):
                 TextComponent(text = "(3) " +sheet["option3"][subindex], size='lg'),
                 SeparatorComponent(),
                 ButtonComponent(
-                    action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " +sheet["option1"][subindex]),
+                    action = PostbackAction(label = "(1) ", data = '1', text = "(1) " +sheet["option1"][subindex]),
                     color = '#46549B',
                     margin = 'md',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(2) " +sheet["option2"][subindex], data = '2', text = "(2) " +sheet["option2"][subindex]),
+                    action = PostbackAction(label = "(2) ", data = '2', text = "(2) " +sheet["option2"][subindex]),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(3) " +sheet["option3"][subindex], data = '3', text = "(3) " +sheet["option3"][subindex]),
+                    action = PostbackAction(label = "(3) ", data = '3', text = "(3) " +sheet["option3"][subindex]),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
