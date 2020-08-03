@@ -290,7 +290,8 @@ def Question():
         subindex_Q = index_Q
         sheet_Q = editSheet(data_Reading) 
         #sheet_Q = editSheet(data_Voc)
-        QA_bubble = QA_Bubble.Article(sheet_Q,subindex_Q)
+        QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
+        #QA_bubble = QA_Bubble.Article(sheet_Q,subindex_Q)
         #QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     elif index_Q < 7:
         subindex_Q = index_Q - 3

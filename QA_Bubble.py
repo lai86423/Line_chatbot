@@ -111,21 +111,17 @@ def Reading(sheet,index_L,subindex):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center',gravity='top')                   
             ]
         ),
         body = BoxComponent(
             layout='vertical',
             contents=[
-                ButtonComponent(
-                    action = URIAction(label = '聽題目', uri = question),
-                    color = '#3B9A9C',
-                    margin = 'lg',
-                    style = 'primary',
-                    flex = 10
-                ),
-                TextComponent(text='選出所聽到的單字', size='md', align = 'center'),
-                SeparatorComponent(margin='xl',color='#A89F9F'),
+                TextComponent(text = question, size='lg',margin= 'lg'),
+                TextComponent(text = "(1) " +sheet["option1"][subindex], size='lg'),
+                TextComponent(text = "(2) " +sheet["option2"][subindex], size='lg'),
+                TextComponent(text = "(3) " +sheet["option3"][subindex], size='lg'),
+                SeparatorComponent(),
                 ButtonComponent(
                     action = PostbackAction(label = "(1) " +sheet["option1"][subindex], data = '1', text = "(1) " +sheet["option1"][subindex]),
                     color = '#46549B',
