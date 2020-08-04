@@ -151,7 +151,7 @@ def handle_message(event):
             if( isAsked_Q == False ): 
                 isAsked_Q = True
                 print("QQQ")
-                QA_bubble = Question()
+                QA_bubble = Question(event)
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
@@ -243,7 +243,7 @@ def handle_postback(event):
         print("restart isAsked_Q",isAsked_Q)
         print("restart QA_bubble")
         isAsked_Q = True
-        QA_bubble = Question()
+        QA_bubble = Question(event)
         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
         line_bot_api.reply_message(event.reply_token, message)
         
@@ -281,17 +281,21 @@ def setLevel(levelinput):
       
     return myResult
 
-def Question():
+def Question(event):
     global subindex_Q,sheet_Q
-    print("選完階級！開始出題")
+    myId = event.source.user_id
+    print("選完階級開始出題")
     print("index_Q",index_Q)
     print("subindex_Q = ", subindex_Q)
     if index_Q < 3:
         subindex_Q = index_Q
         sheet_Q = editSheet(data_Reading) 
         #sheet_Q = editSheet(data_Voc)
+        #if(index_Q%3==0):
+        message = QA_Bubble.Article(sheet_Q,subindex_Q)
+        line_bot_api.push_message(myId, message)
         QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
-        #QA_bubble = QA_Bubble.Article(sheet_Q,subindex_Q)
+        #message = TextSendMessage(text="n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
         #QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     elif index_Q < 7:
         subindex_Q = index_Q - 3
