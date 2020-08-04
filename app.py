@@ -168,8 +168,8 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  
-        print("******subindex_Q index_Q%8 count_Q",subindex_Q,index_Q%8,count_Q)
-        if(subindex_Q >= 7 and index_Q%8 == 0 and count_Q == 0):
+        print("******subindex_Q index_Q%8 count_Q",index_Q,index_Q%8,count_Q)
+        if(index_Q >= 7 and index_Q%8 == 0 and count_Q == 1):
             print("article!?")
             sheet_article = editSheet(data_Reading) 
             QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
