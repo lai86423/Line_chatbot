@@ -175,8 +175,7 @@ def handle_postback(event):
             QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
             line_bot_api.push_message(myId, article)
-            #isStart_Q = True
-        
+
         isStart_Q = True
 
     elif(isStart_Q == True): 
@@ -212,6 +211,7 @@ def handle_postback(event):
                     reply = '好棒哦!你答對了!'
                 print(count_Q, reply)
                 if(index_Q == 9):
+                    print("last Q")
                     reply = '好棒哦!你答對了!'
                     correctBubble = finalBubble(reply)
 
@@ -220,7 +220,8 @@ def handle_postback(event):
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
                 index_Q += 1
-                isAsked_Q = False
+                if(index_Q < 10):
+                    isAsked_Q = False
                 count_Q = 1
             print('after count_Q: ', count_Q)
             print('after index_Q: ', index_Q)
