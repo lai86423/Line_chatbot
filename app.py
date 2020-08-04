@@ -151,7 +151,7 @@ def handle_message(event):
             if( isAsked_Q == False ): 
                 isAsked_Q = True
                 print("QQQ")
-                if(subindex_Q < 3 and index_Q%3 == 0 and count_Q == 0):
+                if(subindex_Q > 7 and index_Q%8 == 0 and count_Q == 0):
                     sheet_article = editSheet(data_Reading) 
                     QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
                     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
@@ -217,10 +217,8 @@ def handle_postback(event):
                     correctBubble = rightBubble(reply)
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
-                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 index_Q += 1
-                if(index_Q < 10):
-                    isAsked_Q = False
+                isAsked_Q = False
                 count_Q = 1
             print('after count_Q: ', count_Q)
             print('after index_Q: ', index_Q)
@@ -293,11 +291,8 @@ def Question():
     print("subindex_Q = ", subindex_Q)
     if index_Q < 3:
         subindex_Q = index_Q
-        sheet_Q = editSheet(data_Reading) 
-        #sheet_Q = editSheet(data_Voc)
-        QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
-        #message = TextSendMessage(text="n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
-        #QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
+        sheet_Q = editSheet(data_Voc)
+        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
     elif index_Q < 7:
         subindex_Q = index_Q - 3
         sheet_Q = editSheet(data_Cloze)
