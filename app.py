@@ -151,7 +151,7 @@ def handle_message(event):
             if( isAsked_Q == False ): 
                 isAsked_Q = True
                 print("QQQ")
-                if(subindex_Q < 3 and index_Q%3 ==0):
+                if(subindex_Q < 3 and index_Q%3 == 0 and count_Q == 0):
                     sheet_article = editSheet(data_Reading) 
                     QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
                     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
