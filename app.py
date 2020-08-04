@@ -151,7 +151,7 @@ def handle_message(event):
             if( isAsked_Q == False ): 
                 isAsked_Q = True
                 print("QQQ")
-                if(subindex_Q  7 and index_Q%3 ==0):
+                if(subindex_Q < 3 and index_Q%3 ==0):
                     sheet_Article = editSheet(data_Reading) 
                     article = QA_Bubble.Article(sheet_Article,subindex_Q)
                     line_bot_api.push_message(myId, article)
