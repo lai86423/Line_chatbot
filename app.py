@@ -35,6 +35,7 @@ index_Q = 0 #第幾題
 isInit_Q = True
 subindex_Q = index_Q
 count_Q = 1
+myId = event.source.user_id
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -134,7 +135,6 @@ def handle_message(event):
     global isChangingLevel_Q
     global sheet_Q,subindex_Q
     replytext = event.message.text
-    myId = event.source.user_id
     if event.message.type == 'text':   
         if(isInit_Q == True or replytext =='?'):
             isChangingLevel_Q = True
