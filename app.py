@@ -151,7 +151,7 @@ def handle_message(event):
             if( isAsked_Q == False ): 
                 isAsked_Q = True
                 print("QQQ")
-                if(subindex_Q > 7 and index_Q%3 ==0):
+                if(subindex_Q  7 and index_Q%3 ==0):
                     sheet_Article = editSheet(data_Reading) 
                     article = QA_Bubble.Article(sheet_Article,subindex_Q)
                     line_bot_api.push_message(myId, article)
@@ -287,7 +287,6 @@ def setLevel(levelinput):
 
 def Question():
     global subindex_Q,sheet_Q
-    myId = event.source.user_id
     print("選完階級開始出題")
     print("index_Q",index_Q)
     print("subindex_Q = ", subindex_Q)
