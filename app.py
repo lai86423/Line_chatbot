@@ -81,7 +81,6 @@ def getSheet(Qlevel):
     return sheet_Voc, sheet_Reading, sheet_Cloze
 
 def editSheet(data):
-    print("data=",data)
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
     question = pre_sheet.iloc[:,0]
     option1 = pre_sheet.iloc[:,1]
@@ -89,7 +88,6 @@ def editSheet(data):
     option3 = pre_sheet.iloc[:,3]
     answer = pre_sheet.iloc[:,4]
     try:
-        print("article = ",pre_sheet.iloc[:,5])
         article = pre_sheet.iloc[:,5]
         sheet_Q = {
             "question": question,
@@ -150,12 +148,6 @@ def handle_message(event):
         elif isStart_Q == True:
             if( isAsked_Q == False ): 
                 isAsked_Q = True
-                print("QQQ")
-                if(subindex_Q > 7 and index_Q%8 == 0 and count_Q == 0):
-                    sheet_article = editSheet(data_Reading) 
-                    QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
-                    article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-                    line_bot_api.push_message(myId, article)
                 QA_bubble = Question()
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
@@ -175,6 +167,11 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  
+        if(subindex_Q >= 7 and index_Q%8 == 0 and count_Q == 0):
+            sheet_article = editSheet(data_Reading) 
+            QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
+            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+            line_bot_api.push_message(myId, article)
         isStart_Q = True
 
     elif(isStart_Q == True): 
