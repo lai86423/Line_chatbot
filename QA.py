@@ -228,7 +228,7 @@ def QA_Word(sheet,index_L,subindex):
     )                       
     return QA_word
 
-def QA_Sentence(sheet,index_L,subindex):
+def QA_Sentence(sheet,index_L,subindex,describe):
     question = sheet["question"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
@@ -252,7 +252,7 @@ def QA_Sentence(sheet,index_L,subindex):
                     style = 'primary',
                     flex = 10
                 ),
-                TextComponent(text='選出正確的應對句子', size='md', align = 'center'),
+                TextComponent(text= describe, size='md', align = 'center'),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
                 TextComponent(text="(1) " +sheet["option1"][subindex], size='lg',margin='sm', align = 'start'),
                 TextComponent(text="(2) " +sheet["option2"][subindex], size='lg',margin='sm', align = 'start'),
