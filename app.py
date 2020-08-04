@@ -169,7 +169,7 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         print("******index_Q index_Q%8 count_Q",index_Q,index_Q%8,count_Q)
-        if(index_Q == 7 and index_Q%8 == 0 and count_Q == 1):
+        if(index_Q == 7 and count_Q == 1):
             print("article!?")
             sheet_article = editSheet(data_Reading) 
             QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
