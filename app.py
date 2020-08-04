@@ -168,11 +168,12 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  
-        if(subindex_Q >= 7 and index_Q%8 == 0 and count_Q == 0):
-            sheet_article = editSheet(data_Reading) 
-            QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
-            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-            line_bot_api.push_message(myId, article)
+        print("article")
+        #if(subindex_Q >= 7 and index_Q%8 == 0 and count_Q == 0):
+        sheet_article = editSheet(data_Reading) 
+        QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
+        article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+        line_bot_api.push_message(myId, article)
         isStart_Q = True
 
     elif(isStart_Q == True): 
