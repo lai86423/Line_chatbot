@@ -172,6 +172,7 @@ def handle_postback(event):
     elif(event.postback.data == "start"):  
         isStart = True
     elif(isStart == True): 
+        correctAns = str(sheet["answer"][subindex])
         print("correct answer = ",str(sheet["answer"][subindex]))
         print("answer index_L = ", index_L)
         print("answer subindex = ", subindex)
@@ -180,7 +181,7 @@ def handle_postback(event):
             print('count: ', count)
             print('index_L: ', index_L)
             if answer != str(sheet["answer"][subindex]):
-                feedback = sheet["feedback"][subindex]
+                #feedback = sheet["feedback"][subindex]
                 #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
                 if(count != 0):
                     isStart = False
@@ -190,7 +191,7 @@ def handle_postback(event):
                     count -= 1
                 elif(count == 0):
                     isStart = False
-                    loseBubble = nextBubble(feedback)
+                    loseBubble = nextBubble(correctAns)
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
                     count = 1
@@ -297,7 +298,7 @@ def Question():
             sheet = editSheet(data_tail)
             QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
         else: #高級前三題，題目不同
-            print("*****change ")
+            print("*****change ～～")
             sheet = editSheet(data_sen) 
             QA_bubble = QA.QA_Sentence(sheet,index_L,subindex,'依據音檔，選出最適當的答案')
     elif index_L < 7:
@@ -490,7 +491,7 @@ def tryagainBubble():
     )  
     return Bubble
 
-def nextBubble(feedback):
+def nextBubble(answer):
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -502,7 +503,7 @@ def nextBubble(feedback):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text= feedback, size='xs', align = 'center', gravity = 'top'),
+                TextComponent(text= "好可惜哦~答案是("+ answer +")才對哦!", size='xs', align = 'center', gravity = 'top'),
             ]  
         ),
         footer = BoxComponent(
