@@ -14,7 +14,7 @@ import QA
 import sys
 import datetime
 import pygsheets
-#TODO: 1.next bubble 的feedback 改成傳answer  2.變數全改 Ｌ 3.題目跟答案比對確認 
+#TODO: V 1.next bubble 的feedback 改成傳answer V 2.變數全改 Ｌ 3.題目跟答案比對確認 
 
 app = Flask(__name__)
 
@@ -26,15 +26,15 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 ##聽力  變數------------------------------------------------
 level_L = 1 # 預設level 1
-qNum = 10 # 每輪題目數量
-star_num = 0 #集點
+qNum_L = 10 # 每輪題目數量
+star_num_L = 0 #集點
 isAsked_L = False #出題與否
 isChangingLevel_L = True
-isStart = False
+isStart_L = False
 index_L = 0 #第幾題
 isInit_L = True
-subindex = 0
-count = 1
+subindex_L = 0
+count_L = 1
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -108,7 +108,7 @@ def editSheet(data):
         "feedback": feedback,
         "answer": answer
     }
-    #qNum = len(sheet["question"])
+    #qNum_L = len(sheet["question"])
     return sheet
 
 data_img, data_tail, data_word, data_sen = getSheet(level_L)
@@ -135,7 +135,7 @@ def handle_message(event):
     global isAsked_L,isInit_L
     global index_L
     global isChangingLevel_L
-    global sheet,subindex
+    global sheet,subindex_L
     replytext = event.message.text
     myId = event.source.user_id
     if event.message.type == 'text':   
@@ -148,7 +148,7 @@ def handle_message(event):
             isAsked_L = False
             setlevel_bubble = levelBubble()
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
-        elif isStart == True:
+        elif isStart_L == True:
             if( isAsked_L == False ): 
                 isAsked_L = True
                 QA_bubble = Question()
@@ -159,10 +159,10 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked_L,isStart,isChangingLevel_L
-    global index_L,sheet,subindex
-    global qNum, star_num
-    global data_img, data_tail, data_word, data_sen, count
+    global isAsked_L,isStart_L,isChangingLevel_L
+    global index_L,sheet,subindex_L
+    global qNum_L, star_num_L
+    global data_img, data_tail, data_word, data_sen, count_L
 
     if(isChangingLevel_L==True):
         level_bubble = setLevel(event.postback.data) 
@@ -170,49 +170,49 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  
-        isStart = True
-    elif(isStart == True): 
-        correctAns = str(sheet["answer"][subindex])
-        print("correct answer = ",str(sheet["answer"][subindex]))
+        isStart_L = True
+    elif(isStart_L == True): 
+        correctAns = str(sheet["answer"][subindex_L])
+        print("correct answer = ",str(sheet["answer"][subindex_L]))
         print("answer index_L = ", index_L)
-        print("answer subindex = ", subindex)
+        print("answer subindex_L = ", subindex_L)
         answer = event.postback.data
-        if(index_L < qNum): #做完本輪題庫數目
-            print('count: ', count)
+        if(index_L < qNum_L): #做完本輪題庫數目
+            print('count_L: ', count_L)
             print('index_L: ', index_L)
-            if answer != str(sheet["answer"][subindex]):
-                #feedback = sheet["feedback"][subindex]
+            if answer != str(sheet["answer"][subindex_L]):
+                #feedback = sheet["feedback"][subindex_L]
                 #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = feedback))
-                if(count != 0):
-                    isStart = False
+                if(count_L != 0):
+                    isStart_L = False
                     wrongBubble = tryagainBubble()
                     message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    count -= 1
-                elif(count == 0):
-                    isStart = False
+                    count_L -= 1
+                elif(count_L == 0):
+                    isStart_L = False
                     loseBubble = nextBubble(correctAns)
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    count = 1
+                    count_L = 1
                     index_L += 1
                 isAsked_L = False
             else:
-                isStart = False
-                star_num += count
-                #score += count
-                #lis_score += count
+                isStart_L = False
+                star_num_L += count_L
+                #score += count_L
+                #lis_score += count_L
                 #print('score: ', score)
                 #print('lis_score: ', lis_score)
                 #user_sheet.update_cell(score_row, 2, score)
                 #user_sheet.update_cell(score_row, 4, lis_score)
                 #print('save!!!!!!!!!!')
                 print('正確答案!')
-                if(count == 1):
+                if(count_L == 1):
                     reply = '你好棒!一次就答對了!'
-                elif(count == 0):
+                elif(count_L == 0):
                     reply = '好棒哦!你答對了!'
-                print(count, reply)
+                print(count_L, reply)
                 if(index_L == 9):
                     reply = '好棒哦!你答對了!'
                     correctBubble = finalBubble(reply)
@@ -224,21 +224,21 @@ def handle_postback(event):
                 index_L += 1
                 if(index_L < 10):
                     isAsked_L = False
-                count = 1
-            print('after count: ', count)
+                count_L = 1
+            print('after count_L: ', count_L)
             print('after index_L: ', index_L)
     
     elif(event.postback.data == "end"):
-        #print('恭喜你做完這次的聽力練習了!star=',star_num)
+        #print('恭喜你做完這次的聽力練習了!star=',star_num_L)
         starBubble = totalStarBubble()
         message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
         line_bot_api.reply_message(event.reply_token,message)
-        isStart = False
+        isStart_L = False
 
     elif (event.postback.data == "next"): 
         index_L = 0
-        star_num = 0
-        print("答題分數顯示完 圖數和分數歸零----",index_L,star_num)
+        star_num_L = 0
+        print("答題分數顯示完 圖數和分數歸零----",index_L,star_num_L)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
@@ -247,7 +247,7 @@ def handle_postback(event):
         isChangingLevel_L = True
 
     elif (event.postback.data == "next2"):
-        isStart = True
+        isStart_L = True
         print("restart isAsked_L",isAsked_L)
         print("restart QA_bubble")
         isAsked_L = True
@@ -290,7 +290,7 @@ def setLevel(levelinput):
     return myResult
 
 def Question():
-    global subindex,sheet
+    global subindex_L,sheet
     print("選完階級！開始出題")
     print("index_L",index_L)
     if index_L < 3:
@@ -300,15 +300,15 @@ def Question():
         else: #高級前三題，題目不同
             print("*****change ～～")
             sheet = editSheet(data_sen) 
-            QA_bubble = QA.QA_Sentence(sheet,index_L,subindex,'依據音檔，選出最適當的答案')
+            QA_bubble = QA.QA_Sentence(sheet,index_L,subindex_L,'依據音檔，選出最適當的答案')
     elif index_L < 7:
-        subindex = index_L-3
+        subindex_L = index_L-3
         sheet = editSheet(data_word)
-        QA_bubble = QA.QA_Word(sheet,index_L,subindex)
+        QA_bubble = QA.QA_Word(sheet,index_L,subindex_L)
     else:
-        subindex = index_L-7
+        subindex_L = index_L-7
         sheet = editSheet(data_sen) 
-        QA_bubble = QA.QA_Sentence(sheet,index_L,subindex,'選出正確的應對句子')
+        QA_bubble = QA.QA_Sentence(sheet,index_L,subindex_L,'選出正確的應對句子')
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
@@ -391,7 +391,7 @@ def totalStarBubble():
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="恭喜你獲得了" + str(star_num) + "顆星星!" , size='xs', align = 'center'),
+                TextComponent(text="恭喜你獲得了" + str(star_num_L) + "顆星星!" , size='xs', align = 'center'),
                 SeparatorComponent(margin='md'),
                 ButtonComponent(
                     action = PostbackAction(label = "下一大題", data = 'next', text = "下一大題"),
