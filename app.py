@@ -298,7 +298,6 @@ def Question():
             sheet = editSheet(data_tail)
             QA_bubble = QA.QA_Tail(sheet,index_L,index_L)
         else: #高級前三題，題目不同
-            print("*****change ～～")
             sheet = editSheet(data_sen) 
             QA_bubble = QA.QA_Sentence(sheet,index_L,subindex_L,'依據音檔，選出最適當的答案')
     elif index_L < 7:
@@ -316,9 +315,9 @@ def levelBubble():
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = '聽力練習',
-                        text = '總是聽不懂別人在說什麼嗎?',
-                        thumbnail_image_url='https://upload.cc/i1/2020/06/08/jhziMK.png',
+                        title = '解題小達人',
+                        text = '想要自我檢測學習英文嗎?',
+                        thumbnail_image_url='https://upload.cc/i1/2020/05/18/V5TmMA.png',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "初級", 
