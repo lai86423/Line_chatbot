@@ -62,11 +62,17 @@ L3_Voc = pd.read_csv('L3_Voc.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
 ##TODO 取得書用的id 表單----------------------------------------------------------------------------------
-gc_id = pygsheets.authorize(service_account_file='score.json')
-survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQXimJR7nXY_Sn7Zwb8mRp8/edit#gid=0'
-sh_id = gc_id.open_by_url(survey_url_id)
-sh_id.worksheet_by_title('user_score').export(filename='user_score')
-user_sheet = pd.read_csv('user_score.csv')
+# gc_id = pygsheets.authorize(service_account_file='score.json')
+# survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQXimJR7nXY_Sn7Zwb8mRp8/edit#gid=0'
+# sh_id = gc_id.open_by_url(survey_url_id)
+# sh_id.worksheet_by_title('user_score').export(filename='user_score')
+# user_sheet = pd.read_csv('user_score.csv')
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name("./score.json", scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open("user_score")
+user_sheet = spreadSheet.worksheet("user_score")
+user_data = user_sheet.get_all_values()
 print("id\n",user_sheet)
 user_data = user_sheet.get_all_values()
 print("user_data",user_data)
