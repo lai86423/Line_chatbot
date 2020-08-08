@@ -7,26 +7,26 @@ from linebot.exceptions import (
 )
 from linebot.models import *
 import sys
-import traceback
+#import traceback
 import numpy as np
 import pandas as pd
 from googletrans import Translator
-from openpyxl import load_workbook
-from openpyxl import Workbook
-import openpyxl
+#from openpyxl import load_workbook
+#from openpyxl import Workbook
+#import openpyxl
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import QA
 import QA_Bubble
-import datetime 
+#import datetime 
 import pygsheets
-from pydub import AudioSegment
-import speech_recognition as sr
+#from pydub import AudioSegment
+#import speech_recognition as sr
 import time
-import tempfile
-from gtts import gTTS
-from pygame import mixer
-import random
+#import tempfile
+#from gtts import gTTS
+#from pygame import mixer
+#import random
 
 app = Flask(__name__)
 
