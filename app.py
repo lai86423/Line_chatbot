@@ -67,7 +67,7 @@ survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQX
 sh_id = gc_id.open_by_url(survey_url_id)
 sh_id.worksheet_by_title('user_score').export(filename='user_score')
 user_ID_sheet = pd.read_csv('user_score.csv')
-print(user_ID_sheet)
+print("id",user_ID_sheet)
 
 #三種問題類型
 def getSheet(Qlevel):   
@@ -289,7 +289,7 @@ def setLevel(levelinput):
     if isChangingLevel_Q == False:
         data_Voc, data_Reading, data_Cloze = getSheet(level_Q)
         #sheet_Q = editSheet(pre_sheet)
-        print("更換難易度後 更新取得新的隨機題目----level_Q get sheet_Q",sheet_Q)
+        #print("更換難易度後 更新取得新的隨機題目----level_Q get sheet_Q",sheet_Q)
       
     return myResult
 
