@@ -61,14 +61,16 @@ L2_Cloze = pd.read_csv('L2_Cloze.csv')
 L3_Voc = pd.read_csv('L3_Voc.csv') 
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
-##----------------------------------------------------------------------------------
+##TODO 取得書用的id 表單----------------------------------------------------------------------------------
 gc_id = pygsheets.authorize(service_account_file='score.json')
 survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQXimJR7nXY_Sn7Zwb8mRp8/edit#gid=0'
 sh_id = gc_id.open_by_url(survey_url_id)
 sh_id.worksheet_by_title('user_score').export(filename='user_score')
-user_ID_sheet = pd.read_csv('user_score.csv')
-print("id",user_ID_sheet)
-
+user_sheet = pd.read_csv('user_score.csv')
+print("id\n",user_sheet)
+user_data = user_sheet.get_all_values()
+print("user_data",user_data)
+##----------------------------------------------------------------------------------
 #三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
@@ -140,6 +142,25 @@ def handle_message(event):
     global index_Q
     global isChangingLevel_Q
     global sheet_Q,subindex_Q
+    #-------�M��user data--------------------
+    for i in range(1,len(user_data)):
+        if (user_data[i][0] == event.source.user_id):
+            check_user = True
+            user_index = i + 1
+            break
+    if (check_user == False):
+        user_index = len(user_data) + 1
+        user_sheet.add_rows(1)
+        user_sheet.update_cell(user_index, 1, event.source.user_id)
+        user_sheet.update_cell(user_index, 2, 'null')
+        user_sheet.update_cell(user_index, 3, '0')
+        user_sheet.update_cell(user_index, 4, '0')
+        user_sheet.update_cell(user_index, 5, '0')
+        user_sheet.update_cell(user_index, 6, '0')
+        user_sheet.update_cell(user_index, 7, '0')
+        user_sheet.update_cell(user_index, 8, '1')
+        #user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
+    #---------------------------------------
     replytext = event.message.text
     myId = event.source.user_id
     if event.message.type == 'text':   
