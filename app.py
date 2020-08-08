@@ -16,6 +16,9 @@ import datetime
 import pygsheets
 import QA_Bubble
 
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+
 app = Flask(__name__)
 
 #Channel Access Token
@@ -68,7 +71,7 @@ L3_Cloze = pd.read_csv('L3_Cloze.csv')
 # sh_id.worksheet_by_title('user_score').export(filename='user_score')
 # user_sheet = pd.read_csv('user_score.csv')
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name("./score.json", scope)
+creds = ServiceAccountCredentials.from_json_keyfile_name("score.json", scope)
 client = gspread.authorize(creds)
 spreadSheet = client.open("user_score")
 user_sheet = spreadSheet.worksheet("user_score")
