@@ -62,6 +62,13 @@ L3_Voc = pd.read_csv('L3_Voc.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
 ##----------------------------------------------------------------------------------
+gc_id = pygsheets.authorize(service_account_file='score.json')
+survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQXimJR7nXY_Sn7Zwb8mRp8/edit#gid=0'
+sh_id = gc_id.open_by_url(survey_url_id)
+sh_id.worksheet_by_title('user_score').export(filename='user_score')
+user_ID_sheet = pd.read_csv('user_score.csv')
+print(user_ID_sheet)
+
 #三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
