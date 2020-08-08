@@ -6,4 +6,4 @@ pygsheets
 numpy
 pandas
 oauth2client==4.1.3
-pygsheets @ https://github.com/nithinmurali/pygsheets/archive/master.zip
+gspread
