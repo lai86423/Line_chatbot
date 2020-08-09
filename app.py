@@ -27,7 +27,28 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_Q,point
 
-##聽力  變數------------------------------------------------
+#-------user_id------
+user_data = []
+user_index = 0
+check_user = False
+check = False
+##TODO 聽力  變數------------------------------------------------
+# class User_Var_Q():
+#     def __init__(self,_id):
+#         self._id = _id
+#         self.level_Q = 1 # 預設level 1
+#         self.qNum_Q = 10 # 每輪題目數量
+#         self.star_num_Q = 0 #集點
+#         self.isAsked_Q = False #出題與否
+#         self.isChangingLevel_Q = True
+#         self.isStart_Q = False
+#         self.index_Q = 0 #第幾題
+#         self.isInit_Q = True
+#         self.subindex_Q = self.index_Q
+#         self.count_Q = 1
+
+
+allUser = [] 
 level_Q = 1 # 預設level 1
 qNum_Q = 10 # 每輪題目數量
 star_num_Q = 0 #集點
@@ -65,18 +86,13 @@ L3_Voc = pd.read_csv('L3_Voc.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
 ##TODO 取得書用的id 表單----------------------------------------------------------------------------------
-# gc_id = pygsheets.authorize(service_account_file='score.json')
-# survey_url_id = 'https://docs.google.com/spreadsheets/d/1I21M7kAvJAvnknsaG6r-gQXimJR7nXY_Sn7Zwb8mRp8/edit#gid=0'
-# sh_id = gc_id.open_by_url(survey_url_id)
-# sh_id.worksheet_by_title('user_score').export(filename='user_score')
-# user_sheet = pd.read_csv('user_score.csv')
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name("score.json", scope)
 client = gspread.authorize(creds)
 spreadSheet = client.open("user_score")
 user_sheet = spreadSheet.worksheet("user_score")
 user_data = user_sheet.get_all_values()
-print("id\n",user_sheet)
+#print("id\n",user_sheet)
 user_data = user_sheet.get_all_values()
 print("user_data",user_data)
 ##----------------------------------------------------------------------------------
@@ -123,11 +139,10 @@ def editSheet(data):
             "option3": option3,
             "answer": answer
         }
-    #qNum_Q = len(sheet_Q["question"])
     return sheet_Q
 
-data_Voc, data_Reading, data_Cloze = getSheet(level_Q)
-sheet_Q = editSheet(data_Reading) 
+data_Voc, data_Reading, data_Cloze = getSheet(1) #預設傳level = 1
+sheet_Q = editSheet(data_Voc) 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -151,6 +166,7 @@ def handle_message(event):
     global index_Q
     global isChangingLevel_Q
     global sheet_Q,subindex_Q
+    global check_user, user_sheet
     #-------�M��user data--------------------
     for i in range(1,len(user_data)):
         if (user_data[i][0] == event.source.user_id):
@@ -168,7 +184,13 @@ def handle_message(event):
         user_sheet.update_cell(user_index, 6, '0')
         user_sheet.update_cell(user_index, 7, '0')
         user_sheet.update_cell(user_index, 8, '1')
-        #user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
+        user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
+    #---------------------------------------
+    #----------------------��ϥΎ͸��------------------------------    
+    data_row = user_index - 1
+    user_ID = event.source.user_id
+    user = getUser(user_ID)
+    check_user = False
     #---------------------------------------
     replytext = event.message.text
     myId = event.source.user_id
@@ -189,6 +211,14 @@ def handle_message(event):
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
+def getUser(user_ID):
+    global allUser
+    user = next((item for item in allUser if item._id == user_ID), None)
+    if user is None:
+        user = User_Var_Q(user_ID)
+        allUser.append(user)
+    return user 
+
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
