@@ -33,7 +33,7 @@ user_index = 0
 check_user = False
 check = False
 ##TODO 聽力  變數------------------------------------------------
-class User_Var_Q():
+class userVar_Q():
     def __init__(self,_id):
         self._id = _id
         self.level_Q = 1 # 預設level 1
@@ -214,8 +214,9 @@ def getUser(user_ID):
     global allUser
     user = next((item for item in allUser if item._id == user_ID), None)
     if user is None:
-        user = User_Var_Q(user_ID)
+        user = userVar_Q(user_ID)
         allUser.append(user)
+        print("Alluser",allUser)
     return user 
 
 #回饋判斷
