@@ -33,19 +33,19 @@ user_index = 0
 check_user = False
 check = False
 ##TODO 聽力  變數------------------------------------------------
-# class User_Var_Q():
-#     def __init__(self,_id):
-#         self._id = _id
-#         self.level_Q = 1 # 預設level 1
-#         self.qNum_Q = 10 # 每輪題目數量
-#         self.star_num_Q = 0 #集點
-#         self.isAsked_Q = False #出題與否
-#         self.isChangingLevel_Q = True
-#         self.isStart_Q = False
-#         self.index_Q = 0 #第幾題
-#         self.isInit_Q = True
-#         self.subindex_Q = self.index_Q
-#         self.count_Q = 1
+class User_Var_Q():
+    def __init__(self,_id):
+        self._id = _id
+        self.level_Q = 1 # 預設level 1
+        self.qNum_Q = 10 # 每輪題目數量
+        self.star_num_Q = 0 #集點
+        self.isAsked_Q = False #出題與否
+        self.isChangingLevel_Q = True
+        self.isStart_Q = False
+        self.index_Q = 0 #第幾題
+        self.isInit_Q = True
+        self.subindex_Q = self.index_Q
+        self.count_Q = 1
 
 
 allUser = [] 
@@ -187,7 +187,6 @@ def handle_message(event):
         user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
     #---------------------------------------
     #----------------------��ϥΎ͸��------------------------------    
-    data_row = user_index - 1
     user_ID = event.source.user_id
     user = getUser(user_ID)
     check_user = False
