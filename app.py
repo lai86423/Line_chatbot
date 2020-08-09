@@ -32,20 +32,6 @@ user_data = []
 user_index = 0
 check_user = False
 check = False
-##TODO 聽力  變數------------------------------------------------
-class userVar_Q():
-    def __init__(self,_id):
-        self._id = _id
-        self.level_Q = 1 # 預設level 1
-        self.qNum_Q = 10 # 每輪題目數量
-        self.star_num_Q = 0 #集點
-        self.isAsked_Q = False #出題與否
-        self.isChangingLevel_Q = True
-        self.isStart_Q = False
-        self.index_Q = 0 #第幾題
-        self.isInit_Q = True
-        self.subindex_Q = self.index_Q
-        self.count_Q = 1
 
 
 allUser = [] 
@@ -141,8 +127,23 @@ def editSheet(data):
         }
     return sheet_Q
 
-data_Voc, data_Reading, data_Cloze = getSheet(1) #預設傳level = 1
-sheet_Q = editSheet(data_Voc) 
+##TODO 聽力  變數------------------------------------------------
+class userVar_Q():
+    def __init__(self,_id):
+        self._id = _id
+        self.level_Q = 1 # 預設level 1
+        self.qNum_Q = 10 # 每輪題目數量
+        self.star_num_Q = 0 #集點
+        self.isAsked_Q = False #出題與否
+        self.isChangingLevel_Q = True
+        self.isStart_Q = False
+        self.index_Q = 0 #第幾題
+        self.isInit_Q = True
+        self.subindex_Q = self.index_Q
+        self.count_Q = 1
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.level_Q) #預設傳level = 1
+        self.sheet_Q = editSheet(self.data_Voc) 
+
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -162,51 +163,26 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    global isAsked_Q,isInit_Q
-    global index_Q
-    global isChangingLevel_Q
-    global sheet_Q,subindex_Q
-    global check_user, user_sheet
-    #-------�M��user data--------------------
-    for i in range(1,len(user_data)):
-        if (user_data[i][0] == event.source.user_id):
-            check_user = True
-            user_index = i + 1
-            break
-    if (check_user == False):
-        user_index = len(user_data) + 1
-        user_sheet.add_rows(1)
-        user_sheet.update_cell(user_index, 1, event.source.user_id)
-        user_sheet.update_cell(user_index, 2, 'null')
-        user_sheet.update_cell(user_index, 3, '0')
-        user_sheet.update_cell(user_index, 4, '0')
-        user_sheet.update_cell(user_index, 5, '0')
-        user_sheet.update_cell(user_index, 6, '0')
-        user_sheet.update_cell(user_index, 7, '0')
-        user_sheet.update_cell(user_index, 8, '1')
-        user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
+    # global isAsked_Q,isInit_Q
+    # global index_Q
+    # global isChangingLevel_Q
+    # global sheet_Q,subindex_Q
+    user = getUser(event.source.user_id)
     #---------------------------------------
-    #----------------------��ϥΎ͸��------------------------------    
-    user_ID = event.source.user_id
-    user = getUser(user_ID)
-    check_user = False
-    #---------------------------------------
-    replytext = event.message.text
-    myId = event.source.user_id
     if event.message.type == 'text':   
-        if(isInit_Q == True or replytext =='?'):
-            isChangingLevel_Q = True
+        if(user.isInit_Q == True or event.message.text =='?'):
+            user.isChangingLevel_Q = True
             message = TextSendMessage(text="歡迎來到解題小達人！\n\n在這邊可以選擇適合你的難易度來挑戰，一組題目有10題。\n\n題目分為詞彙題、克漏字以及閱讀測驗，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
-            line_bot_api.push_message(myId, message)
-            isInit_Q=False
-        if(isChangingLevel_Q == True):   
-            isAsked_Q = False
+            line_bot_api.push_message(user._id, message)
+            user.isInit_Q=False
+        if(user.isChangingLevel_Q == True):   
+            user.isAsked_Q = False
             setlevel_bubble = levelBubble()
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
-        elif isStart_Q == True:
-            if( isAsked_Q == False ): 
-                isAsked_Q = True
-                QA_bubble = Question()
+        elif user.isStart_Q == True:
+            if( user.isAsked_Q == False ): 
+                user.isAsked_Q = True
+                QA_bubble = Question(user)
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
@@ -223,60 +199,57 @@ def getUser(user_ID):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked_Q,isStart_Q,isChangingLevel_Q
-    global index_Q,sheet_Q,subindex_Q
-    global qNum_Q, star_num_Q
-    global data_Voc, data_Reading, data_Cloze, count_Q
-    myId = event.source.user_id
+    # global isAsked_Q,isStart_Q,isChangingLevel_Q
+    # global index_Q,sheet_Q,subindex_Q
+    # global qNum_Q, star_num_Q
+    # global data_Reading, count_Q
+    user = getUser(event.source.user_id)
     print("postbackData = ",event.postback.data )
-    if(isChangingLevel_Q==True):
-        level_bubble = setLevel(event.postback.data) 
+    if(user.isChangingLevel_Q==True):
+        level_bubble = setLevel(event.postback.data,user) 
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
         line_bot_api.reply_message(event.reply_token,message) 
 
-    elif(event.postback.data == "start"):  
-        if(index_Q == 7 and count_Q == 1):
-            print("article!?")
-            sheet_article = editSheet(data_Reading) 
-            QA_bubble_article = QA_Bubble.Article(sheet_article,subindex_Q)
+    elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
+        if(user.index_Q == 7 and user.count_Q == 1):
+            sheet_article = editSheet(user.data_Reading) 
+            QA_bubble_article = QA_Bubble.Article(sheet_article,user.subindex_Q)
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-            line_bot_api.push_message(myId, article)
+            line_bot_api.push_message(event.source.user_id, article)
+        user.isStart_Q = True
 
-        isStart_Q = True
-
-    elif(isStart_Q == True): 
-        correctAns = str(sheet_Q["answer"][subindex_Q])
+    elif(user.isStart_Q == True): 
+        correctAns = str(user.sheet_Q["answer"][user.subindex_Q])
         print("correct answer = ",correctAns)
-        print("answer index_Q = ", index_Q)
-        print("answer subindex_Q = ", subindex_Q)
-        answer = event.postback.data
-        if(index_Q < qNum_Q): #做完本輪題庫數目
-            print('count_Q: ', count_Q)
-            if answer != correctAns:
-                if(count_Q != 0):
-                    isStart_Q = False
+        print("answer index_Q = ", user.index_Q)
+        print("answer subindex_Q = ", user.subindex_Q)
+        if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
+            #print('count_Q: ', user.count_Q)
+            if event.postback.data != correctAns:
+                if(user.count_Q != 0):
+                    user.isStart_Q = False
                     wrongBubble = tryagainBubble()
                     message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    count_Q -= 1
-                elif(count_Q == 0):
-                    isStart_Q = False
+                    user.count_Q -= 1
+                elif(user.count_Q == 0):
+                    user.isStart_Q = False
                     loseBubble = nextBubble(correctAns)
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    count_Q = 1
-                    index_Q += 1
-                isAsked_Q = False
+                    user.count_Q = 1
+                    user.index_Q += 1
+                user.isAsked_Q = False
             else:
-                isStart_Q = False
-                star_num_Q += count_Q
+                user.isStart_Q = False
+                user.star_num_Q += user.count_Q
                 print('正確答案!')
-                if(count_Q == 1):
+                if(user.count_Q == 1):
                     reply = '你好棒!一次就答對了!'
-                elif(count_Q == 0):
+                elif(user.count_Q == 0):
                     reply = '好棒哦!你答對了!'
-                print(count_Q, reply)
-                if(index_Q == 9):
+                #print(user.count_Q, reply)
+                if(user.index_Q == 9):
                     print("last Q")
                     reply = '好棒哦!你答對了!'
                     correctBubble = finalBubble(reply)
@@ -285,91 +258,88 @@ def handle_postback(event):
                     correctBubble = rightBubble(reply)
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
-                index_Q += 1
-                if(index_Q < 10):
-                    isAsked_Q = False
-                count_Q = 1
-            print('after count_Q: ', count_Q)
-            print('after index_Q: ', index_Q)
+                user.index_Q += 1
+                if(user.index_Q < 10):
+                    user.isAsked_Q = False
+                user.count_Q = 1
+            print('after count_Q: ', user.count_Q)
+            print('after index_Q: ', user.index_Q)
     
     elif(event.postback.data == "end"):
         #print('恭喜你做完這次的聽力練習了!star=',star_num_Q)
         starBubble = totalStarBubble()
         message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
         line_bot_api.reply_message(event.reply_token,message)
-        isStart_Q = False
+        user.isStart_Q = False
 
     elif (event.postback.data == "next"): 
-        index_Q = 0
-        star_num_Q = 0
-        print("答題分數顯示完 圖數和分數歸零----",index_Q,star_num_Q)
+        user.index_Q = 0
+        user.star_num_Q = 0
+        print("答題分數顯示完 圖數和分數歸零----",user.index_Q,user.star_num_Q)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
 
     elif (event.postback.data == "changeLevel"): 
-        isChangingLevel_Q = True
+        user.isChangingLevel_Q = True
 
     elif (event.postback.data == "next2"):
-        isStart_Q = True
-        print("restart isAsked_Q",isAsked_Q)
-        print("restart QA_bubble")
-        isAsked_Q = True
-        QA_bubble = Question()
+        user.isStart_Q = True
+        user.isAsked_Q = True
+        QA_bubble = Question(user)
         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
         line_bot_api.reply_message(event.reply_token, message)
         
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
-def setLevel(levelinput):
+def setLevel(levelinput,user):
     print("---Changing Level---")
-    global data_Voc, data_Reading, data_Cloze
-    global level_Q
-    global isChangingLevel_Q
-    
+    #global data_Voc, data_Reading, data_Cloze
+    #global level_Q
+    #global isChangingLevel_Q
     if (levelinput=='L'):
-        level_Q = 1
-        myResult = readyBubble(level_Q)
-        isChangingLevel_Q = False
+        user.level_Q = 1
+        myResult = readyBubble(user.level_Q)
+        user.isChangingLevel_Q = False
         
     elif (levelinput=='M'):
-        level_Q = 2
-        myResult = readyBubble(level_Q)    
-        isChangingLevel_Q = False
+        user.level_Q = 2
+        myResult = readyBubble(user.level_Q)    
+        user.isChangingLevel_Q = False
 
     elif (levelinput=='H'):
-        level_Q = 3
-        myResult = readyBubble(level_Q)
-        isChangingLevel_Q = False
+        user.level_Q = 3
+        myResult = readyBubble(user.level_Q)
+        user.isChangingLevel_Q = False
 
     else:       
-        isChangingLevel_Q = True
+        user.isChangingLevel_Q = True
         myResult = "N"
 
-    if isChangingLevel_Q == False:
-        data_Voc, data_Reading, data_Cloze = getSheet(level_Q)
+    if user.isChangingLevel_Q == False:
+        user.data_Voc, user.data_Reading, user.data_Cloze = getSheet(user.level_Q)
         #sheet_Q = editSheet(pre_sheet)
         #print("更換難易度後 更新取得新的隨機題目----level_Q get sheet_Q",sheet_Q)
       
     return myResult
 
-def Question():
-    global subindex_Q,sheet_Q
+def Question(user):
+    #global subindex_Q,sheet_Q
     print("選完階級開始出題")
     print("index_Q",index_Q)
     print("subindex_Q = ", subindex_Q)
-    if index_Q < 3:
-        subindex_Q = index_Q
-        sheet_Q = editSheet(data_Voc)
-        QA_bubble = QA_Bubble.Voc(sheet_Q,index_Q,subindex_Q)
-    elif index_Q < 7:
-        subindex_Q = index_Q - 3
-        sheet_Q = editSheet(data_Cloze)
-        QA_bubble = QA_Bubble.Cloze(sheet_Q,index_Q,subindex_Q)
+    if user.ndex_Q < 3:
+        user.subindex_Q = user.index_Q
+        user.sheet_Q = editSheet(user.data_Voc)
+        QA_bubble = QA_Bubble.Voc(user.sheet_Q,user.index_Q,user.subindex_Q)
+    elif user.index_Q < 7:
+        user.subindex_Q = user.index_Q - 3
+        user.sheet_Q = editSheet(user.data_Cloze)
+        QA_bubble = QA_Bubble.Cloze(user.sheet_Q,user.index_Q,user.subindex_Q)
     else:
-        subindex_Q = index_Q - 7
-        sheet_Q = editSheet(data_Reading) 
-        QA_bubble = QA_Bubble.Reading(sheet_Q,index_Q,subindex_Q)
+        user.subindex_Q = user.index_Q - 7
+        user.sheet_Q = editSheet(user.data_Reading) 
+        QA_bubble = QA_Bubble.Reading(user.sheet_Q,user.index_Q,user.subindex_Q)
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
