@@ -328,7 +328,7 @@ def Question(user):
     print("選完階級開始出題")
     print("index_Q",index_Q)
     print("subindex_Q = ", subindex_Q)
-    if user.ndex_Q < 3:
+    if user.index_Q < 3:
         user.subindex_Q = user.index_Q
         user.sheet_Q = editSheet(user.data_Voc)
         QA_bubble = QA_Bubble.Voc(user.sheet_Q,user.index_Q,user.subindex_Q)
