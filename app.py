@@ -35,16 +35,16 @@ check = False
 
 
 allUser = [] 
-level_Q = 1 # 預設level 1
-qNum_Q = 10 # 每輪題目數量
-star_num_Q = 0 #集點
-isAsked_Q = False #出題與否
-isChangingLevel_Q = True
-isStart_Q = False
-index_Q = 0 #第幾題
-isInit_Q = True
-subindex_Q = index_Q
-count_Q = 1
+# level_Q = 1 # 預設level 1
+# qNum_Q = 10 # 每輪題目數量
+# star_num_Q = 0 #集點
+# isAsked_Q = False #出題與否
+# isChangingLevel_Q = True
+# isStart_Q = False
+# index_Q = 0 #第幾題
+# isInit_Q = True
+# subindex_Q = index_Q
+# count_Q = 1
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -72,15 +72,15 @@ L3_Voc = pd.read_csv('L3_Voc.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
 ##TODO 取得書用的id 表單----------------------------------------------------------------------------------
-scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name("score.json", scope)
-client = gspread.authorize(creds)
-spreadSheet = client.open("user_score")
-user_sheet = spreadSheet.worksheet("user_score")
-user_data = user_sheet.get_all_values()
-#print("id\n",user_sheet)
-user_data = user_sheet.get_all_values()
-print("user_data",user_data)
+# scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+# creds = ServiceAccountCredentials.from_json_keyfile_name("score.json", scope)
+# client = gspread.authorize(creds)
+# spreadSheet = client.open("user_score")
+# user_sheet = spreadSheet.worksheet("user_score")
+# user_data = user_sheet.get_all_values()
+# #print("id\n",user_sheet)
+# user_data = user_sheet.get_all_values()
+# print("user_data",user_data)
 ##----------------------------------------------------------------------------------
 #三種問題類型
 def getSheet(Qlevel):   
