@@ -267,7 +267,7 @@ def handle_postback(event):
     
     elif(event.postback.data == "end"):
         #print('恭喜你做完這次的聽力練習了!star=',star_num_Q)
-        starBubble = totalStarBubble()
+        starBubble = totalStarBubble(user)
         message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
         line_bot_api.reply_message(event.reply_token,message)
         user.isStart_Q = False
@@ -407,7 +407,7 @@ def readyBubble(level):
     )  
     return Bubble 
 
-def totalStarBubble():
+def totalStarBubble(user):
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
@@ -422,7 +422,7 @@ def totalStarBubble():
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="恭喜你獲得了" + str(star_num_Q) + "顆星星!" , size='xs', align = 'center'),
+                TextComponent(text="恭喜你獲得了" + str(user.star_num_Q) + "顆星星!" , size='xs', align = 'center'),
                 SeparatorComponent(margin='md'),
                 ButtonComponent(
                     action = PostbackAction(label = "下一大題", data = 'next', text = "下一大題"),
