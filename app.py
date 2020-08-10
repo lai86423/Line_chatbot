@@ -27,12 +27,12 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_Q,point
 
-#-------user_id------
-user_data = []
-user_index = 0
-check_user = False
-check = False
-
+# #-------user_id------
+# user_data = []
+# user_index = 0
+# check_user = False
+# check = False
+# #---------------------
 
 allUser = [] 
 # level_Q = 1 # 預設level 1
