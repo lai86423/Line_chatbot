@@ -326,8 +326,8 @@ def setLevel(levelinput,user):
 def Question(user):
     #global subindex_Q,sheet_Q
     print("選完階級開始出題")
-    print("index_Q",index_Q)
-    print("subindex_Q = ", subindex_Q)
+    #print("index_Q",index_Q)
+    #print("subindex_Q = ", subindex_Q)
     if user.index_Q < 3:
         user.subindex_Q = user.index_Q
         user.sheet_Q = editSheet(user.data_Voc)
