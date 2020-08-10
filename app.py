@@ -234,7 +234,10 @@ def handle_postback(event):
                     user.count_Q -= 1
                 elif(user.count_Q == 0):
                     user.isStart_Q = False
-                    loseBubble = nextBubble("好可惜哦~答案是("+ answer +")才對哦!",'再接再厲')
+                    if(user.index_Q == 9):
+                        loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ answer +')才對哦!')
+                    else:    
+                        loseBubble = nextBubble('好可惜哦~答案是('+ answer +')才對哦!','再接再厲')
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
                     user.count_Q = 1
