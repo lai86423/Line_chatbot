@@ -64,7 +64,7 @@ sh_P.worksheet_by_title('d0').export(filename='d0')
 sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
-
+print(sheet_d0,sheet_r0)
 ##----------------------------------------------------------------------------------
 def getSheet_P(level): 
     global sh_P  
@@ -136,10 +136,10 @@ class userVar_P():
         self.isInit_P = True
         self.subindex_P = self.index_P
         self.count_P = 1
-        self.presheet_d, self.presheet_r = getSheet_P(self.level_P) #預設傳level = 1
-        self.sheet_d = editSheet(self.presheet_d,'d') 
-        self.sheet_r = editSheet(self.presheet_r,'r') 
-        print("self.sheet_d,sheet_r",self.sheet_d,self.sheet_r)
+        #self.presheet_d, self.presheet_r = getSheet_P(self.level_P) #預設傳level = 1
+        #self.sheet_d = editSheet(self.presheet_d,'d') 
+        #self.sheet_r = editSheet(self.presheet_r,'r') 
+        #print("self.sheet_d,sheet_r",self.sheet_d,self.sheet_r)
 
 def deterOutput(messege_id,sliceNum):
     print(messege_id[:sliceNum])
