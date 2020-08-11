@@ -33,18 +33,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 # check_user = False
 # check = False
 # #---------------------
-
 allUser = [] 
-# level_Q = 1 # 預設level 1
-# qNum_Q = 10 # 每輪題目數量
-# star_num_Q = 0 #集點
-# isAsked_Q = False #出題與否
-# isChangingLevel_Q = True
-# isStart_Q = False
-# index_Q = 0 #第幾題
-# isInit_Q = True
-# subindex_Q = index_Q
-# count_Q = 1
 ##-----------------------------------------------------------------------------------
 ##出題  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
@@ -81,6 +70,8 @@ L3_Cloze = pd.read_csv('L3_Cloze.csv')
 # #print("id\n",user_sheet)
 # user_data = user_sheet.get_all_values()
 # print("user_data",user_data)
+
+
 ##----------------------------------------------------------------------------------
 #三種問題類型
 def getSheet(Qlevel):   
@@ -292,6 +283,8 @@ def handle_postback(event):
         QA_bubble = Question(user)
         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
         line_bot_api.reply_message(event.reply_token, message)
+    elif (event.postback.data == "AllEnd"):
+        line_bot_api.reply_message(event.reply_token, "謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
@@ -434,7 +427,7 @@ def totalStarBubble(user):
                     style = 'primary',
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "我不答了", data = 'end', text = "我不答了"),
+                    action = PostbackAction(label = "我不答了", data = 'AllEnd', text = "我不答了"),
                     color = '#E18876',
                     margin = 'md',
                     style = 'primary',
