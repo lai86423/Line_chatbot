@@ -284,7 +284,7 @@ def handle_postback(event):
         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
         line_bot_api.reply_message(event.reply_token, message)
     elif (event.postback.data == "AllEnd"):
-        message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！"）
+        message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         line_bot_api.reply_message(event.reply_token, message)
         
 ##-----------------------------------------------------------------------------------
