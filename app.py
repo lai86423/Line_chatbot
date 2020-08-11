@@ -136,7 +136,8 @@ class userVar_P():
         self.isInit_P = True
         self.subindex_P = self.index_P
         self.count_P = 1
-        #self.presheet_d, self.presheet_r = getSheet_P(self.level_P) #預設傳level = 1
+        self.presheet_d, self.presheet_r = getSheet_P(self.level_P) #預設傳level = 1
+        print("self.presheet_d,presheet_r",self.presheet_d,self.presheet_r)
         #self.sheet_d = editSheet(self.presheet_d,'d') 
         #self.sheet_r = editSheet(self.presheet_r,'r') 
         #print("self.sheet_d,sheet_r",self.sheet_d,self.sheet_r)
