@@ -117,18 +117,18 @@ def editSheet(data):
 class userVar_L():
     def __init__(self,_id):
         self._id = _id
-        self.user.level_L = 1 # 預設level 1
+        self.level_L = 1 # 預設level 1
         self.qNum_L = 10 # 每輪題目數量
-        self.user.star_num_L = 0 #集點
-        self.user.isAsked_L = False #出題與否
-        self.user.isChangingLevel_L = True
-        self.user.isStart_L = False
-        self.user.index_L = 0 #第幾題
-        self.user.isInit_L = True
-        self.user.subindex_L = self.user.index_L
-        self.user.count_L = 1
-        self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.user.level_L) #預設傳level = 1
-        self.sheet_L = editSheet(self.data_Voc) 
+        self.star_num_L = 0 #集點
+        self.isAsked_L = False #出題與否
+        self.isChangingLevel_L = True
+        self.isStart_L = False
+        self.index_L = 0 #第幾題
+        self.isInit_L = True
+        self.subindex_L = self.index_L
+        self.count_L = 1
+        self.data_img, self.data_tail, self.data_word, self.data_sen = getSheet(self.level_L)
+        self.sheet_L = editSheet(self.data_img) 
 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
