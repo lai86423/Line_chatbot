@@ -153,7 +153,7 @@ def handle_message(event):
     # global user.index_L
     # global user.isChangingLevel_L
     # global user.sheet_L,user.subindex_L
-    user = event.source.user_id
+    user = getUser(event.source.user_id)
     if event.message.type == 'text':   
         if(user.isInit_L == True or event.message.text =='?'):
             user.isChangingLevel_L = True
