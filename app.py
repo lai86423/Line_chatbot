@@ -27,16 +27,16 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #TODO
 allUser = [] 
 ##聽力  變數------------------------------------------------
-user.level_L = 1 # 預設level 1
-qNum_L = 10 # 每輪題目數量
-user.star_num_L = 0 #集點
-user.isAsked_L = False #出題與否
-user.isChangingLevel_L = True
-user.isStart_L = False
-user.index_L = 0 #第幾題
-user.isInit_L = True
-user.subindex_L = 0
-user.count_L = 1
+# level_L = 1 # 預設level 1
+# qNum_L = 10 # 每輪題目數量
+# star_num_L = 0 #集點
+# isAsked_L = False #出題與否
+# isChangingLevel_L = True
+# isStart_L = False
+# index_L = 0 #第幾題
+# isInit_L = True
+# subindex_L = 0
+# count_L = 1
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
