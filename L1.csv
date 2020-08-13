@@ -1,0 +1,631 @@
+中文,英文,詞性(一),詞性（二）,字首
+上午,a.m.,n,,a
+一(個),a(an),art,,a
+關於,about,prep,,a
+害怕的,afraid,adj,,a
+在…之後,after,conj,,a
+下午,afternoon,n,,a
+再一次,again,adv,,a
+年齡,age,n,,a
+空氣,air,n,,a
+全部的,all,adj,,a
+和,and,conj,,a
+螞蟻,ant,n,,a
+蘋果,apple,n,,a
+四月,April,n,,a
+"手臂,武裝",arm,n,,a
+美術,art,n,,a
+問,ask,v,,a
+伯(叔)母,aunt,n,,a
+ 嬰兒,baby,n,,b
+在…後面,back,adv,,b
+ 壞的,bad,adj,,b
+ 袋子,bag,n,,b
+ 烘烤,bake,v,,b
+ 球,ball,n,,b
+ 香蕉,banana,n,,b
+蝙蝠,bat,n,,b
+ 熊,bear,n,,b
+床,bed,n,,b
+ 蜜蜂,bee,n,,b
+ 牛肉,beef,n,,b
+ 鈴,bell,n,,b
+ 皮帶,belt,n,,b
+ 大的,big,adj,,b
+腳踏車,bike,n,,b
+ 鳥,bird,n,,b
+ 咬,bite,v,n,b
+ 黑色(的) ,black,adj,,b
+ 藍色(的) ,blue,adj,,b
+ 船,boat,n,,b
+ 身體,body,n,,b
+ 書,book,n,,b
+ 書店,bookstore,n,,b
+ 老板,boss,n,,b
+ 敬禮,bow,v,,b
+ 盒子,box,n,,b
+ 男孩,boy,n,,b
+ 兄弟,brother,n,,b
+ 棕色(的),brown,adj,,b
+ 小蟲,bug,n,,b
+ 公車,bus,n,,b
+ 但是,but,conj,,b
+ 蛋糕,cake,n,,c
+ 打電話,call,v,,c
+ 能夠,can,aux,,c
+ 糖果,candy,n,,c
+ (無邊)帽 ,cap,n,,c
+ 車子,car,n,,c
+ 卡片,card,n,,c
+ 關心,care,v,n,c
+ 貓,cat,n,,c
+ 手機,cell phone,n,,c
+ 椅子,chair,n,,c
+ 乳酪,cheese,n,,c
+ 城市,city,n,,c
+ 拍手,clap,v,,c
+ 時鐘,clock,n,,c
+ 關上,close,v,,c
+ 大衣,coat,n,,c
+ 可樂,Coke,n,,c
+ 寒冷的,cold,adj,,c
+ 顏色,color,n,,c
+ 來,come,v,,c
+ 煮飯,cook,v,,c
+ 餅乾,cookie,n,,c
+ 涼爽的,cool,adj,,c
+ 沙發,couch,n,,c
+ 母牛,cow,n,,c
+ 哭,cry,v,,c
+ 茶杯,cup,n,,c
+ 切,cut,v,,c
+ 可愛的,cute,adj,,c
+ 跳舞,dance,v,n,d
+ 日期,date,n,,d
+ 日子,day,n,,d
+ 親愛的,dear,adj,,d
+書桌,desk,n,,d
+ 挖掘,dig,v,,d
+ 晚餐,dinner,n,,d
+" 盤子,菜餚",dish,n,,d
+ 做,do,v,,d
+ 醫生,doctor,n,,d
+ 狗,dog,n,,d
+ 洋娃娃,doll,n,,d
+ 門,door,n,,d
+ 點,dot,n,,d
+ 向下,down,adv,,d
+ 畫,draw,v,,d
+ 駕駛人,driver,n,,d
+ 乾的,dry,adj,,d
+ 鴨,duck,n,,d
+ 耳朵,ear,n,,e
+ 容易的,easy,adj,,e
+ 吃,eat,v,,e
+蛋,egg,n,,e
+ 八,eight,n,,e
+ 十八,eighteen,n,,e
+ 大象,elephant,n,,e
+ 十一,eleven,n,,e
+ 結束,end,v,,e
+ 進入,enter,v,,e
+ 橡皮擦,eraser,n,,e
+ 傍晚,evening,n,,e
+ 每一個(的),every,adj,,e
+ 每一個人,everyone,pron,,e
+ 每一個人,everybody,pron,,e
+ 每件事,eveyrthing,pron,,e
+ 除了…之外,except,prep,,e
+ 眼睛,eye,n,,e
+" 臉孔,面對",face,v,n,f
+ 家庭,family,n,,f
+" 扇子,擁護者",fan,n,,f
+ 遠的,far,adj,,f
+農夫,farmer,n,,f
+ 快的,fast,adj,,f
+ 胖的,father,adj,,f
+ 父親,father,n,,f
+ 少數的,few,adj,,f
+ 十五,fifteen,n,,f
+ 找到,find,v,,f
+ 很好的,fine,adj,,f
+ 手指,finger,n,,f
+" 火焰,開火",fire,v,n,f
+ 魚,fish,n,,f
+ 漁夫,fisherman,n,,f
+ 五,five,n,,f
+ 修理,fix,v,,f
+ 花朵,flower,n,,f
+ 笛,flute,n,,f
+ 飛,fly,v,,f
+ 食物,food,n,,f
+ 腳,foot,n,,f
+ 為了,for,prep,,f
+ 叉子,fork,n,,f
+ 四,four,n,,f
+ 十四,fourteen,n,,f
+ 狐狸,fox,n,,f
+" 空閒的,免費",free,adj,,f
+ 朋友,friend,n,,f
+ 青蛙,frog,n,,f
+ 樂趣,fun,n,,f
+好笑的,funny,adj,,f
+" 比賽,遊戲",game,n,,g
+ 瓦斯,gas,n,,g
+ 大門,gate,n,,g
+ 得到,get,v,,g
+ 禮物,gift,n,,g
+ 女孩,girl,n,,g
+ 給予,give,v,,g
+ 膠水,glue,n,,g
+ 去,go,v,,g
+ 山羊,goat,n,,g
+ 好的,good,adj,,g
+ 再見,goodbye,n,,g
+ 鵝,goose,n,,g
+ 公克,gram,n,,g
+ 祖父,grandfather,n,,g
+ 祖母,grandmother,n,,g
+ 灰色的,gray,adj,,g
+ 很棒的,great,adj,,g
+ 綠色(的) ,green,adj,,g
+ 種植,grow,v,,g
+ 傢伙,guy,n,,g
+ 頭髮,hair,n,,h
+ 火腿,ham,n,,h
+ 漢堡,hambruger,n,,h
+ 手,hand,n,,h
+ 快樂的,happy,adj,,h
+" 困難的,硬的",hard,adj,,h
+ 帽子,hat,n,,h
+ 討厭,hate,v,,h
+ 有,have,v,,h
+ 他,he,pron,,h
+ 頭,head,n,,h
+ 聽,hear,v,,h
+ 喂,hello,int,,h
+ 幫忙,help,v,,h
+ 母雞,hen,n,,h
+ 這裡,here,adv,,h
+ 嘿,hey,int,,h
+ 嗨,hi,int,,h
+ 高的,high,adj,,h
+ 徒步旅行,hike,v,n,h
+ 河馬,hippo,n,,h
+ 打擊,hit,v,n,h
+ 家,home,n,,h
+ 家庭作業,homework,n,,h
+(單腳)跳 ,hop,v,n,h
+ 希望,hope,v,n,h
+ 馬,horse,n,,h
+ 熱的,hot,adj,,h
+ 熱狗,hot dog,n,,h
+ 旅社,hotel,n,,h
+ 房屋,house,n,,h
+ 如何,how,adv,,h
+ 我,I,pron,,i
+ 冰,ice,n,,i
+ 冰淇淋,ice cream,n,,i
+ 主意,idea,n,,i
+ 在…裡面,in,prep,,i
+ 到…之內,into,prep,,i
+ 它,it,pron,,i
+ 夾克,jacket,n,,j
+ 牛仔褲,jeans,n,,j
+ 工作,job,n,,j
+ 慢跑,jog,n,,j
+ 歡樂,joy,v,n,j
+ 果汁,juice,n,,j
+ 跳躍,jump,v,n,j
+ 六月,June,n,,j
+ 保持,keep,v,,k
+ 鑰匙,key,n,,k
+ 踢,kick,v,n,k
+ 小孩,kid,n,,k
+ 種類,kind,n,,k
+ 國王,king,n,,k
+ 吻,kiss,v,n,k
+ 風箏,kite,n,,k
+ 膝蓋,knee,n,,k
+ 敲,knock,v,,k
+ 知道,know,v,,k
+ 無尾熊,koala,n,,k
+ 湖,lake,n,,l
+ 燈,lamp,n,,l
+ 土地,land,n,,l
+ 最後的,last,adj,,l
+ 懶惰的,lazy,adj,,l
+ 腿,leg,n,,l
+ 檸檬,lemon,n,,l
+ 較少的,less,adj,,l
+ 讓,let,v,,l
+ 信,letter,n,,l
+ 圖書館,library,n,,l
+ 蓋子,lid,n,,l
+ 說謊,lie,v,,l
+ 生活,life,n,,l
+" 燈光,輕的",light,n,adj,l
+ 喜歡,like,v,,l
+" 隊伍,線條",line,n,,l
+ 獅子,lion,n,,l
+ 嘴唇,lip,n,,l
+" 表,名單",list,n,,l
+ 聽,listen,v,,l
+ 小的,little,adj,,l
+ 長的,long,adj,,l
+ 看,look,v,,l
+ 大聲的,loud,adj,,l
+ 喜愛,love,v,,l
+ 低的,low,adj,,l
+ 瘋狂的,mad,adj,,m
+ 製作,make,v,,m
+ 男人,man,n,,m
+ 許多的,many,adj,,m
+ 地圖,map,n,,m
+ 做記號,mark,v,,m
+簽字筆,marker,n,,m
+ 面具,mask,n,,m
+ 墊子,mat,n,,m
+ 也許,maybe,adv,,m
+ 一餐,meal,n,,m
+ 肉,meat,n,,m
+ 遇見,meet,v,,m
+ 會議,meeting,n,,m
+ 牛奶,milk,n,,m
+ 小姐,Miss,n,,m
+ 想念,miss,v,,m
+ 錢,money,n,,m
+ 猴子,monkey,n,,m
+ 月亮,moon,n,,m
+ 拖地,mop,v,,m
+ 更多的,more,adj,,m
+ 早上,morning,n,,m
+ 母親,mother,n,,m
+ 老鼠,mouse,n,,m
+ 嘴巴,mouth,n,,m
+ 先生,Mr.,n,,m
+ 太太,Mrs.,n,,m
+ 女士,Ms.,n,,m
+ 許多,much,pron,,m
+ 泥巴,mud,n,,m
+ 音樂,music,n,,m
+ 名字,name,n,,n
+ 脖子,neck,n,,n
+ 需要,need,v,n,n
+ 新的,new,adj,,n
+" 消息,新聞",news,n,,n
+下一個,next,adj,,n
+ 好的,nice,adj,,n
+ 晚上,night,n,,n
+ 九,nine,n,,n
+ 十九,nineteen,n,,n
+ 第九,ninth,n,,n
+" 沒有,不是",no,n,adj,n
+ 點頭,nod,n,,n
+ 麵條,noodle,n,,n
+ 中午,noon,n,,n
+ 鼻子,nose,n,,n
+" 不,不是",not,adv,,n
+ 筆記,note,n,,n
+" 筆記本,筆電",notebook,n,,n
+ 現在,now,adv,,n
+ 號碼,number,n,,n
+ 護士,nurse,n,,n
+點鐘,o’clock,n,,o
+ 油,oil,n,,o
+ 可以,OK,n,,o
+ 老的,old,adj,,o
+在…上面,on,prep,,o
+ 一,one,n,,o
+" 打開,開放",open,v,,o
+ 或,or,conj,,o
+ 柳橙,orange,n,,o
+ 在外,out,adv,,o
+ 公牛,ox,n,,o
+ 下午,p.m.,n,,p
+ 包,pack,n,,p
+ 頁,page,n,,p
+ 長褲,pants,n,,p
+ 紙,paper,n,,p
+ 公園,park,n,,p
+ 部分,part,n,,p
+ 派對,party,n,,p
+ 通過,pass,v,,p
+ 經過,past,prep,adv,p
+ 付錢,pay,v,,p
+ 桃子,peach,n,,p
+ 梨子,pear,n,,p
+ 筆,pen,n,,p
+ 鉛筆,pencil,n,,p
+ 寵物,pet,n,,p
+ 相片,photo,n,,p
+ 鋼琴,piano,n,,p
+ 撿拾,pick,v,,p
+" 圖片,照片 ",picture,n,,p
+ 派,pie,n,,p
+ 豬,pig,n,,p
+ 大頭針,pin,n,,p
+ 粉紅色(的),pink,adj,,p
+ 管,pipe,n,,p
+ 披薩,pizza,n,,p
+ 計畫,plan,v,n,p
+ 玩,play,v,,p
+" 指著,得分 ",point,n,,p
+ 池塘,pond,n,,p
+ 游泳池,pool,n,,p
+" 貧困的,可憐的",poor,adj,,p
+ 爆米花,popcorn,n,,p
+ 受歡迎的,popular,adj,,p
+ 豬肉,pork,n,,p
+ 郵局,post office,n,,p
+ 明信片,postcard,n,,p
+" 罐,壺,鍋子",pot,n,,p
+ 祈禱,pray,v,,p
+ 拉,pull,v,,p
+ 紫色的,purple,adj,,p
+ 推,push,v,n,p
+ 放,put,v,,p
+ 皇后,queen,n,,q
+ 小考,quiz,n,,q
+ 兔子,rabbit,n,,r
+ 賽跑,race,n,,r
+ 收音機,radio,n,,r
+ 下雨,rain,v,,r
+ 彩虹,rainbow,n,,r
+ 下雨的,rainy,adj,,r
+"(大)老鼠,鼠輩",rat,n,,r
+ 讀,read,v,,r
+ 準備好的,ready,adj,,r
+ 真的,real,adj,,r
+ 真地,really,adv,,r
+ 紅色(的),red,adj,,r
+ 休息,rest,v,n,r
+ 米飯,rice,n,,r
+ 有錢的,rich,adj,,r
+ 騎,ride,v,n,r
+ 戒指,ring,n,,r
+ 河,river,n,,r
+ 道路,road,n,,r
+ 機器人,robot,n,,r
+ 中華民國,ROC,n,,r
+ 岩石,rock,n,,r
+ 滾,roll,v,n,r
+ 房間,room,n,,r
+ 繩子,rope,n,,r
+ 玫瑰,rose,n,,r
+ 划(船),row,v,,r
+ 規則,rule,n,,r
+ 尺,ruler,n,,r
+ 跑,run,v,,r
+ 悲傷的,sad,adj,,s
+ 安全的,safe,adj,,s
+ 航行,sail,v,,s
+ 沙拉,salad,n,,s
+ 出售,sale,v,,s
+ 鹽,salt,n,,s
+ 相同的,same,adj,,s
+ 三明治,sanwdich,n,,s
+" 節省,挽救 ",save,v,,s
+ 說,say,v,,s
+ 學校,school,n,,s
+ 海,sea,n,,s
+ 座位,seat,n,,s
+ 看,see,v,,s
+ 種子,seed,n,,s
+ 賣,sell,v,,s
+ 寄,send,v,,s
+ 七,seven,n,,s
+ 十七,seventeen,n,,s
+ 搖動,shake,v,,s
+ 鯊魚,shark,n,,s
+ 她,she,pron,,s
+ 綿羊,sheep,n,,s
+ 船,ship,n,,s
+ 襯衫,shirt,n,,s
+ 鞋子,shoe(s),n,,s
+商店,shop,n,,s
+ 短的,short,adj,,s
+ 短褲,shorts,n,,s
+肩膀,shoulder,n,,s
+ 喊叫,shout,v,n,s
+" 指示,表演",show,n,,s
+ 害羞的,shy,adj,,s
+ 生病的,sick,adj,,s
+"旁邊,邊,面",side,n,,s
+ 標誌,sign,n,,s
+ 唱歌,sing,v,,s
+ 歌手,singer,n,,s
+ 先生,sir,n,,s
+ 姊妹,sister,n,,s
+坐,sit,v,,s
+ 六,six,n,,s
+ 尺寸,size,n,,s
+ 溜冰,skate,v,,s
+ 裙子,skirt,n,,s
+ 天空,sky,n,,s
+睡覺,sleep,v,,s
+ 苗條的,slim,adj,,s
+ 慢的,slow,adj,,s
+ 小的,small,adj,,s
+聰明的,smart,adj,,s
+ 聞起來,smell,v,,s
+ 微笑,smile,v,n,s
+" 煙霧,抽菸",smoke,v,,s
+ 點心,snack,n,,s
+ 蛇,snake,n,,s
+ 下雪,snow,n,,s
+ 雪人,snowman,n,,s
+ 下雪的,snowy,adj,,s
+ 如此地,so,adv,,s
+ 足球,soccer,n,,s
+ 襪子,socks,n,,s
+ 沙發,sofa,n,,s
+ 軍人,soldier,n,,s
+ 一些,some,pron,,s
+ 兒子,son,n,,s
+ 歌曲,song,n,,s
+" 不久,即將",soon,adv,,s
+ 疼痛的,sore,adj,,s
+ 抱歉〈的〉,sorry,adj,,s
+" 聲音,聽起來",sound,v,n,s
+ 湯,soup,n,,s
+ 說,speak,v,,s
+ 蜘蛛,spider,n,,s
+湯匙,spoon,n,,s
+ 運動,sport,n,,s
+ 樓梯,stairs,n,,s
+郵票,stamp,n,,s
+ 站立,stand,v,,s
+ 星星,star,n,,s
+ 開始,start,v,,s
+停留,stay,v,,s
+ 停,stop,v,n,s
+商店,store,n,,s
+ 故事,story,n,,s
+學生,student,n,,s
+ 太陽,sun,n,,s
+ 晴朗的,sunny,adj,,s
+ 確定的,sure,adj,,s
+ 衝浪,surf,v,,s
+ 甜的,sweet,adj,,s
+ 游泳,swim,v,,s
+" 鞦韆,搖擺 ",swing,v,n,s
+ T恤,T-shirt,n,,t
+ 桌子,table,n,,t
+ 尾巴,tail,n,,t
+ 拿,take,v,,t
+ 說話,talk,v,,t
+ 高的,tall,adj,,t
+ 錄音帶,tape,n,,t
+ 品嚐,taste,v,,t
+ 計程車,taxi,n,,t
+ 茶,tea,n,,t
+ 教師,teacher,n,,t
+ 團隊,team,n,,t
+青少年,teenager,n,,t
+ 告訴,tell,v,,t
+ 十,ten,n,,t
+"考試,測試",test,v,n,t
+ 比…,than,conj,,t
+ 謝謝,thank,n,,t
+ 那個,that,pron,,t
+ 這/那 ,the,art,,t
+ 那時,then,adv,n,t
+ 那裡,there,n,,t
+ 這些,these,pron,,t
+ 他們,they,pron,,t
+ 瘦的,thin,adj,,t
+" 想,思考 ",think,v,,t
+ 十三,thirteen,n,,t
+ 第十三,thirteenth,n,,t
+ 這個,this,pron,,t
+ 那些,those,pron,,t
+ 三,three,n,,t
+ 丟,throw,v,,t
+ 星期四,Thursday,n,,t
+ 票券,ticket,n,,t
+整潔的,tidy,adj,,t
+" 領帶,捆,繫",tie,v,n,t
+ 疲倦的,tierd,adj,,t
+ 老虎,tiger,n,,t
+ 事情,thing,n,,t
+ 時間,time,n,,t
+ 到,to,prep,,t
+" 土司,烘烤",toast,n,,t
+ 今天,today,n,,t
+ 腳趾,toe,n,,t
+ 一起,together,adv,,t
+ 番茄,tomato,n,,t
+ 今晚,tonight,n,,t
+" 也,太... ",too,adv,,t
+ 牙齒,tooth,n,,t
+ 頂端,top,n,,t
+ 碰觸,touch,v,,t
+ 毛巾,towel,n,,t
+ 城鎮,town,n,,t
+ 玩具,toy,n,,t
+ 火車,train,n,,t
+ 垃圾,trash,n,,t
+" 請客,對待",treat,v,n,t
+ 樹,tree,n,,t
+"(短程)旅行
+",trip,n,,t
+ 麻煩,trouble,n,,t
+ 卡車,truck,n,,t
+ 真實的,true,adj,,t
+ 嘗試,try,v,,t
+" 浴缸,洗澡",tub,n,,t
+ 火雞,turkey,n,,t
+"轉動,轉彎",turn,v,,t
+ 烏龜,turtle,n,,t
+(電視)機 ,TV,n,,t
+ 十二,twelve,n,,t
+ 二十,twenty,n,,t
+ 二,two,n,,t
+ 雨傘,umbrella,n,,u
+" 伯(叔) 
+",uncle,n,,u
+ 向上,up,adv,,u
+ 美國,USA,n,,u
+ 使用,use,v,,u
+ 通常,usually,adv,,u
+ 非常,very,adv,,v
+ 背心,vest,n,,v
+ 錄影帶,video,n,,v
+ 小提琴,violin,n,,v
+ 等待,wait,v,n,w
+ 男服務生,waiter,n,,w
+ 醒來,wake,v,,w
+ 走路,walk,v,n,w
+ 牆壁,wall,n,,w
+ 想要,want,v,,w
+ 溫暖的,warm,adj,,w
+ 清洗,wash,v,,w
+ 看,watch,v,,w
+ 水,water,n,,w
+ 西瓜,watermelon,n,,w
+ 波浪,wave,n,,w
+" 道路,方法",way,n,,w
+ 我們,we,pron,,w
+ 弱的,weak,adj,,w
+ 穿,wear,v,,w
+ 星期,week,n,,w
+ 週末,weekend,n,,w
+ 受歡迎的,welcome,adj,,w
+ 好地,well,adv,,w
+ 濕的,wet,adj,,w
+ 鯨魚,whale,n,,w
+ 什麼,what,pron,,w
+ 何處,where,pron,,w
+ 哪一個,which,pron,,w
+ 白色(的) ,white,adj,,w
+ 誰,who,pron,,w
+ 為什麼,why,adv,,w
+ 妻子,wife,n,,w
+ 贏,win,v,n,w
+ 風,wind,n,,w
+ 窗戶,window,n,,w
+ 多風的,windy,adj,,w
+ 冬天,winter,n,,w
+ 明智的,wise,adj,,w
+ 祝福…,wish,v,,w
+ 和,with,prep,,w
+ 女人,woman,n,,w
+字,word,n,,w
+ 工作,work,v,n,w
+ 作業本,workbook,n,,w
+ 工人,worker,n,,w
+擔心,worry,v,n,w
+ 寫,writer,v,,w
+ 作家,writer,n,,w
+ 錯誤的,wrong,adj,,w
+ 庭院,yard,n,,y
+年,year,n,,y
+ 黃色(的),yellow,adj,,y
+ 是,yes,adv,,y
+ 昨天,yesterday,n,,y
+你(們),you,pron,,y
+ 好吃的,yummy,adj,,y
+ 斑馬,zebra,n,,z
+ 零,zero,n,,z
+動物園,zoo,n,,z

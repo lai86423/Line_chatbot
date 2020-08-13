@@ -24,20 +24,61 @@ sheet = {
         "part2": part2,
         "prefix": prefix
     }
-print(type(sheet["chinese"]))
-qNum_L = len(sheet["chinese"])
-print(qNum_L)
-rnds = [random.randint(1, qNum_L) for _ in range(3)]
-print(rnds)
+#print(type(sheet["chinese"]))
+q_num = len(sheet["chinese"])
+q_index = [random.randint(1, q_num) for _ in range(3)]
+#print(q_index)
 for i in range (3):
-    print(sheet["chinese"][rnds[i]])
-    print(sheet["english"][rnds[i]])
-    prefix = sheet["prefix"][rnds[i]]
-    print(prefix)
-    print(sheet["prefix"].index[sheet["prefix"]==prefix])
-    same_prefix = list(sheet["prefix"]).index(prefix)
+    q_chinese = sheet["chinese"][q_index[i]]
+    q_english = sheet["english"][q_index[i]]
+    
+    q_prefix = sheet["prefix"][q_index[i]]
+    q_part = sheet["part"][q_index[i]]
+    q_part2 = sheet["part2"][q_index[i]]
+    print(q_chinese,q_english,q_prefix,q_part,q_part2)
 
-    print("prefix same = ",same_prefix)
+    #get same title voc index 
+    same_prefix_index = sheet["prefix"].index[sheet["prefix"] == q_prefix]
+    #print(same_prefix_index)
+
+    #get same part of speech voc index 
+    same_part_index = sheet["part"].index[sheet["part"] == q_part]
+    same_part_index2 = sheet["part2"].index[sheet["part2"] == q_part]
+
+    #get same title and part of speech voc index
+    same_index = set(same_prefix_index) & set(same_part_index)
+    #print("same_index",same_index)
+
+    if str(q_part2)!='nan':
+        print("Not nan but same part--",q_part2)
+        same_part2_index = sheet["part"].index[sheet["part"] == q_part2]
+        same_part2_index2 = sheet["part2"].index[sheet["part2"] == q_part2]
+        print("same_part2_index",same_part2_index)
+        print("same_part2_index2",same_part2_index2)
+        same_index2 = set(same_prefix_index) & set(same_part2_index)
+        same_index3 = set(same_prefix_index) & set(same_part2_index2)
+        print("same_index2",same_index2)
+        print("same_index3",same_index3)
+
+    #print(same_part_index)
+    #for i in range (len(same_part_index2)):   
+        #print("same_part_index",sheet["english"][same_part_index[i]])
+        #print("same_part_index2",sheet["english"][same_part_index2[i]])
+
+    
+
+    #get two voc from same_index
+    solu_index = random.sample(same_index, 2) 
+    solu_prefix = sheet["english"][solu_index[0]]
+    solu_prefix2 = sheet["english"][solu_index[1]]
+    #print(solu_prefix,solu_prefix2) 
+
+
+
+
+    # same_prefix = list(sheet["prefix"]).index(prefix)
+    # same_prefix = [i for i,x in enumerate(list(sheet["prefix"])) if sheet["prefix"]==prefix]
+    # print("prefix same = ",same_prefix)
 
 # while True:
      
