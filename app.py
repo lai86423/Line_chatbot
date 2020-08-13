@@ -212,7 +212,7 @@ def handle_postback(event):
                     user.count_L -= 1
                 elif(user.count_L == 0):
                     user.isStart_L = False
-                    if(user.index_Q == 9):
+                    if(user.index_L == 9):
                         loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!')
                     else:    
                         loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲')
