@@ -201,7 +201,7 @@ def handle_postback(event):
         print("correct answer = ",str(user.sheet_L["answer"][user.subindex_L]))
         print("answer user.index_L = ", user.index_L)
         print("answer subuser.index_L = ", user.subindex_L)
-        if(user.index_L < qNum_L): #做完本輪題庫數目
+        if(user.index_L < user.qNum_L): #做完本輪題庫數目
             #print('user.count_L: ', user.count_L)
             if event.postback.data != correctAns:
                 if(user.count_L != 0):
