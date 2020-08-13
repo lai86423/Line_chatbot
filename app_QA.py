@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 from googletrans import Translator
 import QA
-##聽力測驗  import-----------------------------------------------
+##import-----------------------------------------------
 import sys
 import datetime
 import pygsheets

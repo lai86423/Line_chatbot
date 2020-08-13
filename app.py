@@ -13,7 +13,7 @@ import QA
 ##聽力測驗  import-----------------------------------------------
 import sys
 import datetime
-import pyguser.sheets
+import pygsheets
 #TODO: V 1.next bubble 的feedback 改成傳answer  2.變數全改 Ｌ 3.題目跟答案比對確認 
 
 app = Flask(__name__)
@@ -35,28 +35,28 @@ user.isChangingLevel_L = True
 user.isStart_L = False
 user.index_L = 0 #第幾題
 user.isInit_L = True
-user.subuser.index_L = 0
+user.subindex_L = 0
 user.count_L = 1
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'question.json'
 GSpreadSheet_L = 'cilab_ChatBot_listening'
-gc = pyguser.sheets.authorize(service_account_file='question.json') #檔案裡的google user.sheet js檔
-survey_url_L = 'https://docs.google.com/spreaduser.sheets/d/1e1hCM0yFzwQkzfdzJGCioLCvnPNJHw9IPHqz4sSEsjg/edit#gid=0'
+gc = pygsheets.authorize(service_account_file='question.json') #檔案裡的google user.sheet_L js檔
+survey_url_L = 'https://docs.google.com/spreadsheets/d/1e1hCM0yFzwQkzfdzJGCioLCvnPNJHw9IPHqz4sSEsjg/edit#gid=0'
 sh_L = gc.open_by_url(survey_url_L)
-sh_L.workuser.sheet_by_title('L1_img').export(filename='L1_img')
-sh_L.workuser.sheet_by_title('L1_tail').export(filename='L1_tail')
-sh_L.workuser.sheet_by_title('L1_word').export(filename='L1_word')
-sh_L.workuser.sheet_by_title('L1_sen').export(filename='L1_sen')
-sh_L.workuser.sheet_by_title('L2_img').export(filename='L2_img')
-sh_L.workuser.sheet_by_title('L2_tail').export(filename='L2_tail')
-sh_L.workuser.sheet_by_title('L2_word').export(filename='L2_word')
-sh_L.workuser.sheet_by_title('L2_sen').export(filename='L2_sen')
-sh_L.workuser.sheet_by_title('L3_img').export(filename='L3_img')
-sh_L.workuser.sheet_by_title('L3_tail').export(filename='L3_tail')
-sh_L.workuser.sheet_by_title('L3_word').export(filename='L3_word')
-sh_L.workuser.sheet_by_title('L3_sen').export(filename='L3_sen')
-#workuser.sheet_list_L[11].export(filename='L3_sen')
+sh_L.worksheet_by_title('L1_img').export(filename='L1_img')
+sh_L.worksheet_by_title('L1_tail').export(filename='L1_tail')
+sh_L.worksheet_by_title('L1_word').export(filename='L1_word')
+sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
+sh_L.worksheet_by_title('L2_img').export(filename='L2_img')
+sh_L.worksheet_by_title('L2_tail').export(filename='L2_tail')
+sh_L.worksheet_by_title('L2_word').export(filename='L2_word')
+sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
+sh_L.worksheet_by_title('L3_img').export(filename='L3_img')
+sh_L.worksheet_by_title('L3_tail').export(filename='L3_tail')
+sh_L.worksheet_by_title('L3_word').export(filename='L3_word')
+sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
+#worksheet_list_L[11].export(filename='L3_sen')
 
 L1_img = pd.read_csv('L1_img.csv') #type: <class 'pandas.core.frame.DataFrame'>
 L1_tail = pd.read_csv('L1_tail.csv')
@@ -74,34 +74,34 @@ L3_sen = pd.read_csv('L3_sen.csv')
 #三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
-        user.sheet_img = L3_img
-        user.sheet_tail = L3_tail
-        user.sheet_word = L3_word
-        user.sheet_sen = L3_sen  
+        sheet_img = L3_img
+        sheet_tail = L3_tail
+        sheet_word = L3_word
+        sheet_sen = L3_sen  
 
     elif(Qlevel == 2):
-        user.sheet_img = L2_img
-        user.sheet_tail = L2_tail
-        user.sheet_word = L2_word
-        user.sheet_sen = L2_sen 
+        sheet_img = L2_img
+        sheet_tail = L2_tail
+        sheet_word = L2_word
+        sheet_sen = L2_sen 
     else:
-        user.sheet_img = L1_img
-        user.sheet_tail = L1_tail
-        user.sheet_word = L1_word
-        user.sheet_sen = L1_sen 
+        sheet_img = L1_img
+        sheet_tail = L1_tail
+        sheet_word = L1_word
+        sheet_sen = L1_sen 
 
-    return user.sheet_img, user.sheet_tail, user.sheet_word, user.sheet_sen
+    return sheet_img, sheet_tail, sheet_word, sheet_sen
 
 def editSheet(data):
-    pre_user.sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
-    question = pre_user.sheet.iloc[:,0]
-    option1 = pre_user.sheet.iloc[:,1]
-    option2 = pre_user.sheet.iloc[:,2]
-    option3 = pre_user.sheet.iloc[:,3]
-    option4 = pre_user.sheet.iloc[:,4]
-    feedback = pre_user.sheet.iloc[:,5]
-    answer = pre_user.sheet.iloc[:,6]
-    user.sheet = {
+    presheet  = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
+    question = presheet .iloc[:,0]
+    option1 = presheet .iloc[:,1]
+    option2 = presheet .iloc[:,2]
+    option3 = presheet .iloc[:,3]
+    option4 = presheet .iloc[:,4]
+    feedback = presheet .iloc[:,5]
+    answer = presheet .iloc[:,6]
+    sheet = {
         "question": question,
         "option1": option1,
         "option2": option2,
@@ -110,11 +110,8 @@ def editSheet(data):
         "feedback": feedback,
         "answer": answer
     }
-    #qNum_L = len(user.sheet["question"])
-    return user.sheet
-
-#user.data_img, user.data_tail, user.data_word, user.data_sen = getSheet(user.level_L)
-#user.sheet = editSheet(user.data_img) 
+    #qNum_L = len(sheet["question"])
+    return sheet
 
 ##TODO 個人ＩＤ變數------------------------------------------------
 class userVar_L():
@@ -128,10 +125,10 @@ class userVar_L():
         self.user.isStart_L = False
         self.user.index_L = 0 #第幾題
         self.user.isInit_L = True
-        self.user.subuser.index_L = self.user.index_L
+        self.user.subindex_L = self.user.index_L
         self.user.count_L = 1
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.user.level_L) #預設傳level = 1
-        self.user.sheet_L = editSheet(self.data_Voc) 
+        self.sheet_L = editSheet(self.data_Voc) 
 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -155,7 +152,7 @@ def handle_message(event):
     # global user.isAsked_L,user.isInit_L
     # global user.index_L
     # global user.isChangingLevel_L
-    # global user.sheet,user.subuser.index_L
+    # global user.sheet_L,user.subindex_L
     user = event.source.user_id
     if event.message.type == 'text':   
         if(user.isInit_L == True or event.message.text =='?'):
@@ -188,7 +185,7 @@ def getUser(user_ID):
 def handle_postback(event):
     print("---Feedback---")
     # global user.isAsked_L,user.isStart_L,user.isChangingLevel_L
-    # global user.index_L,user.sheet,user.subuser.index_L
+    # global user.index_L,user.sheet_L,user.subindex_L
     # global qNum_L, user.star_num_L
     # global user.data_img, user.data_tail, user.data_word, user.data_sen, user.count_L
     user = getUser(event.source.user_id)
@@ -200,10 +197,10 @@ def handle_postback(event):
     elif(event.postback.data == "start"):  
         user.isStart_L = True
     elif(user.isStart_L == True): 
-        correctAns = str(user.sheet["answer"][user.subuser.index_L])
-        print("correct answer = ",str(user.sheet["answer"][user.subuser.index_L]))
+        correctAns = str(user.sheet_L["answer"][user.subindex_L])
+        print("correct answer = ",str(user.sheet_L["answer"][user.subindex_L]))
         print("answer user.index_L = ", user.index_L)
-        print("answer subuser.index_L = ", user.subuser.index_L)
+        print("answer subuser.index_L = ", user.subindex_L)
         if(user.index_L < qNum_L): #做完本輪題庫數目
             #print('user.count_L: ', user.count_L)
             if event.postback.data != correctAns:
@@ -307,24 +304,24 @@ def setLevel(levelinput,user):
     return myResult
 
 def Question(user):
-    # global user.subuser.index_L,user.sheet
+    # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題")
     if user.index_L < 3:
         if user.level_L != 3:
-            user.sheet = editSheet(user.data_tail)
-            QA_bubble = QA.QA_Tail(user.sheet,user.index_L,user.index_L)
+            user.sheet_L = editSheet(user.data_tail)
+            QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.index_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
-            user.sheet = editSheet(user.data_sen) 
-            QA_bubble = QA.QA_Sentence(user.sheet,user.index_L,user.subuser.index_L,'依據音檔，選出最適當的答案')
+            user.sheet_L = editSheet(user.data_sen) 
+            QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
-        user.subuser.index_L = user.index_L-3
-        user.sheet = editSheet(user.data_word)
-        QA_bubble = QA.QA_Word(user.sheet,user.index_L,user.subuser.index_L)
+        user.subindex_L = user.index_L-3
+        user.sheet_L = editSheet(user.data_word)
+        QA_bubble = QA.QA_Word(user.sheet_L,user.index_L,user.subindex_L)
     else:
-        user.subuser.index_L = user.index_L-7
-        user.sheet = editSheet(user.data_sen) 
-        QA_bubble = QA.QA_Sentence(user.sheet,user.index_L,user.subuser.index_L,'選出正確的應對句子')
+        user.subindex_L = user.index_L-7
+        user.sheet_L = editSheet(user.data_sen) 
+        QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'選出正確的應對句子')
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
