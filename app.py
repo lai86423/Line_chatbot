@@ -176,7 +176,7 @@ def getUser(user_ID):
     global allUser
     user = next((item for item in allUser if item._id == user_ID), None)
     if user is None:
-        user = userVar_Q(user_ID)
+        user = userVar_L(user_ID)
         allUser.append(user)
         print("Alluser",allUser)
     return user 
