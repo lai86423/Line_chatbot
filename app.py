@@ -337,15 +337,18 @@ def Question(user):
         print(q_chinese)
         option, user.VocAns = getVoc.getQA(q_english, option_english,option_english2)
         QA_bubble = QA_Bubble.Voc(user.index_Q, q_chinese, option)
+    
     elif user.index_Q < 7:
         user.isVoc = False
         user.subindex_Q = user.index_Q - 3
         user.sheet_Q = editSheet(user.data_Cloze)
         QA_bubble = QA_Bubble.Cloze(user.sheet_Q,user.index_Q,user.subindex_Q)
+
     else:
         user.subindex_Q = user.index_Q - 7
         user.sheet_Q = editSheet(user.data_Reading) 
         QA_bubble = QA_Bubble.Reading(user.sheet_Q,user.index_Q,user.subindex_Q)
+        
     return QA_bubble
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
