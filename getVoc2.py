@@ -8,8 +8,22 @@ GSpreadSheet_Q = 'Chatbot Voc1200'
 gc_Q = pygsheets.authorize(service_account_file='question.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
 sh_P = gc_Q.open_by_url(survey_url_P)
+
 sh_P.worksheet_by_title('L1(628)').export(filename='L1')
-sheet_L1 = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
+presheet = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
+
+def getSheet(level):
+    if level == 1:
+        sh_P.worksheet_by_title('L1(628)').export(filename='L1')
+        presheet = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
+    
+    elif level == 2:
+        sh_P.worksheet_by_title('L2(238)').export(filename='L2')
+        presheet = pd.read_csv('L2.csv') #type: <class 'pandas.core.frame.DataFrame'>
+    else:
+        sh_P.worksheet_by_title('L3(628)').export(filename='L3')
+        presheet = pd.read_csv('L3.csv') #type: <class 'pandas.core.frame.DataFrame'>
+    return presheet
 
 def getVoc(level_sheet):
     chinese = level_sheet.iloc[:,0]
@@ -70,6 +84,8 @@ def getOption(sheet, q_index):
     return q_chinese , q_english, option_english,option_english2
 
 if __name__ == "__main__":
-    sheet, q_index = getVoc(sheet_L1)
+    #level = 1
+    #presheet = getSheet(level)
+    sheet, q_index = getVoc(presheet)
     q_chinese , q_english, option_english,option_english2 = getOption(sheet, q_index)
     print("----get---",q_chinese , q_english, option_english,option_english2)

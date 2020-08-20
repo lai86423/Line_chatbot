@@ -11,18 +11,18 @@ sh_P = gc_Q.open_by_url(survey_url_P)
 sh_P.worksheet_by_title('L1(628)').export(filename='L1')
 sheet_L1 = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
 
-chinese = sheet_L1.iloc[:,0]
-english = sheet_L1.iloc[:,1]
-part = sheet_L1.iloc[:,2]
-part2 = sheet_L1.iloc[:,3]
-prefix = sheet_L1.iloc[:,4]
+# chinese = sheet_L1["chinese"]
+# english = sheet_L1.iloc[:,1]
+# part = sheet_L1.iloc[:,2]
+# part2 = sheet_L1.iloc[:,3]
+# prefix = sheet_L1.iloc[:,4]
 
 sheet = {
-        "chinese": chinese,
-        "english": english,
-        "part": part,
-        "part2": part2,
-        "prefix": prefix
+        "chinese": sheet_L1["chinese"],
+        "english": sheet_L1["english"],
+        "part": sheet_L1["part"],
+        "part2": sheet_L1["part2"],
+        "prefix": sheet_L1["prefix"]
     }
 #print(type(sheet["chinese"]))
 q_num = len(sheet["chinese"])

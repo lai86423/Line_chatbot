@@ -1,4 +1,4 @@
-中文,英文,詞性(一),詞性（二）,字首
+chinese,english,part,part2,prefix
 上午,a.m.,n,,a
 一(個),a(an),art,,a
 關於,about,prep,,a
@@ -528,7 +528,7 @@
 " 領帶,捆,繫",tie,v,n,t
  疲倦的,tierd,adj,,t
  老虎,tiger,n,,t
- 事情,tihng,n,,t
+ 事情,thing,n,,t
  時間,time,n,,t
  到,to,prep,,t
 " 土司,烘烤",toast,n,,t
