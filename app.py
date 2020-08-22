@@ -151,10 +151,6 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    # global isAsked_Q,isInit_Q
-    # global index_Q
-    # global isChangingLevel_Q
-    # global sheet_Q,subindex_Q
     user = getUser(event.source.user_id)
     #---------------------------------------
     if event.message.type == 'text':   

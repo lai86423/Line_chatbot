@@ -19,7 +19,7 @@ def getSheet(level):
         sh_P.worksheet_by_title('L2(238)').export(filename='L2')
         presheet = pd.read_csv('L2.csv') #type: <class 'pandas.core.frame.DataFrame'>
     else:
-        sh_P.worksheet_by_title('L3(628)').export(filename='L3')
+        sh_P.worksheet_by_title('L3(336)').export(filename='L3')
         presheet = pd.read_csv('L3.csv') #type: <class 'pandas.core.frame.DataFrame'>
     return presheet
 
@@ -90,7 +90,7 @@ def getQA(q_english, option_english,option_english2):
     
 if __name__ == "__main__":
     #VocQA = np.empty((3,3, dtype='str'))
-    presheet = getSheet(1)
+    presheet = getSheet(3)
     sheet = editSheet(presheet)
     for i in range (3):
         try:
