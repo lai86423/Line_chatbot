@@ -35,7 +35,7 @@ allUser = []
 GDriveJSON = 'question.json'
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='question.json')
-survey_url_Q = 'https://docs.google.com/spreadsheets/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/edit#gid=1137457968'
+survey_url_Q = 'https://drive.google.com/file/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/view?usp=sharing'
 sh_Q = gc_Q.open_by_url(survey_url_Q)
 sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
 sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
@@ -46,7 +46,6 @@ sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
 
 #type: <class 'pandas.core.frame.DataFrame'>
 L1_Reading = pd.read_csv('L1_Reading.csv')
-L1_Cloze = pd.read_csv('L1_Cloze.csv')
 L2_Reading = pd.read_csv('L2_Reading.csv') 
 L2_Cloze = pd.read_csv('L2_Cloze.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
