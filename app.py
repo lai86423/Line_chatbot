@@ -35,25 +35,20 @@ allUser = []
 GDriveJSON = 'question.json'
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='question.json')
-survey_url_Q = 'https://docs.google.com/spreadsheets/d/1Zf5Qr_dp5GjYZJbxuVKl283fIRKUgs2q9nYNBeTWKJ8/edit#gid=0'
+survey_url_Q = 'https://docs.google.com/spreadsheets/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/edit#gid=1137457968'
 sh_Q = gc_Q.open_by_url(survey_url_Q)
-sh_Q.worksheet_by_title('L1_Voc').export(filename='L1_Voc')
 sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
 sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
-sh_Q.worksheet_by_title('L2_Voc').export(filename='L2_Voc')
 sh_Q.worksheet_by_title('L2_Reading').export(filename='L2_Reading')
 sh_Q.worksheet_by_title('L2_Cloze').export(filename='L2_Cloze')
-sh_Q.worksheet_by_title('L3_Voc').export(filename='L3_Voc')
 sh_Q.worksheet_by_title('L3_Reading').export(filename='L3_Reading')
 sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
 
-L1_Voc = pd.read_csv('L1_Voc.csv') #type: <class 'pandas.core.frame.DataFrame'>
+#type: <class 'pandas.core.frame.DataFrame'>
 L1_Reading = pd.read_csv('L1_Reading.csv')
 L1_Cloze = pd.read_csv('L1_Cloze.csv')
-L2_Voc = pd.read_csv('L2_Voc.csv') 
 L2_Reading = pd.read_csv('L2_Reading.csv') 
 L2_Cloze = pd.read_csv('L2_Cloze.csv')
-L3_Voc = pd.read_csv('L3_Voc.csv') 
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
 
@@ -81,30 +76,6 @@ def getSheet(Qlevel):
 
 def editSheet(data):
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
-    # question = pre_sheet.iloc[:,0]
-    # option1 = pre_sheet.iloc[:,1]
-    # option2 = pre_sheet.iloc[:,2]
-    # option3 = pre_sheet.iloc[:,3]
-    # answer = pre_sheet.iloc[:,4]
-    # try:
-    #     #article = pre_sheet.iloc[:,5]
-    #     sheet_Q = {
-    #         "question": pre_sheet["question"],
-    #         "option1": pre_sheet["option1"],
-    #         "option2": pre_sheet["option2"],
-    #         "option3": pre_sheet["option3"],
-    #         "answer": pre_sheet["answer"],
-    #         "article": pre_sheet["article"]
-    #     }
-    # except:
-    #     sheet_Q = {
-    #         "question": pre_sheet["question"],
-    #         "option1": pre_sheet["option1"],
-    #         "option2": pre_sheet["option2"],
-    #         "option3": pre_sheet["option3"],
-    #         "answer": pre_sheet["answer"],
-    #     }
-
     print("header",pre_sheet.columns)
     header = pre_sheet.columns
     sheet_Q = {}
