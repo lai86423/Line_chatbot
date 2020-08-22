@@ -8,9 +8,8 @@ GSpreadSheet_Q = 'Chatbot Voc1200'
 gc_Q = pygsheets.authorize(service_account_file='question.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
 sh_P = gc_Q.open_by_url(survey_url_P)
-VocQA = []
 
-def getSheet(level):
+def getPresheet(level):
     if level == 1:
         sh_P.worksheet_by_title('L1(628)').export(filename='L1')
         presheet = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
@@ -21,14 +20,12 @@ def getSheet(level):
     else:
         sh_P.worksheet_by_title('L3(628)').export(filename='L3')
         presheet = pd.read_csv('L3.csv') #type: <class 'pandas.core.frame.DataFrame'>
-    return presheet
 
-def editSheet(level_sheet):
-    print("header",level_sheet.columns)
-    header = level_sheet.columns
+    print("header",presheet.columns)
+    header = presheet.columns
     sheet = {}
     for i in range (len(header)):
-        sheet[header[i]] = level_sheet[header[i]]
+        sheet[header[i]] = presheet[header[i]]
 
     return sheet
 
@@ -87,24 +84,16 @@ def getQA(q_english, option_english,option_english2):
     answer = option.index(q_english)
     return option, answer
 
-    
-if __name__ == "__main__":
-    #VocQA = np.empty((3,3, dtype='str'))
-    presheet = getSheet(1)
-    sheet = editSheet(presheet)
+def editSheet(sheet):
     for i in range (3):
-        try:
-            print(VocQA[i])
-        except: 
-            q_index, q_chinese, q_english = getVoc(sheet)
-            option_english,option_english2 = getOption(sheet, q_index)
-            print(q_chinese, q_english, option_english,option_english2)
-            option, answer = getQA(q_english, option_english,option_english2)
-            print(option, answer)
-            templist = [q_chinese, option, answer]
-            print(templist)
-            VocQA.append(templist)
-    print(VocQA)
-    #    VocQA[i][0] = q_chinese
-    #    VocQA[i][1] = option
-    #    VocQA[i][2] = answer
+       q_index, q_chinese, q_english = getVoc(sheet)
+       option_english,option_english2 = getOption(sheet, q_index)
+       print(q_chinese, q_english, option_english,option_english2)
+       option, answer = getQA(q_english, option_english,option_english2)
+       print(option, answer)
+
+if __name__ == "__main__":
+    presheet = getPresheet(1)
+    sheet = editSheet(presheet)
+    
+    

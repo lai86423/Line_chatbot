@@ -146,7 +146,7 @@ class userVar_Q():
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.level_Q) #預設傳level = 1
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
-        self.VocAns = 1
+        self.VocQA = []
 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -219,13 +219,14 @@ def handle_postback(event):
 
     elif(user.isStart_Q == True):
         if user.isVoc == True:
-            correctAns = user.VocAns 
-        
+            correctAns = str(user.VocQA[user.index_Q])
         else:
             correctAns = str(user.sheet_Q["answer"][user.subindex_Q])
+
         print("correct answer = ",correctAns)
         print("answer index_Q = ", user.index_Q)
         print("answer subindex_Q = ", user.subindex_Q)
+
         if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
             #print('count_Q: ', user.count_Q)
             if event.postback.data != correctAns:
@@ -331,12 +332,19 @@ def Question(user):
     print("選完階級開始出題")
     if user.index_Q < 3:
         user.isVoc = True
-        user.sheet_Q = getVoc.editSheet(user.data_Voc)
-        q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
-        option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
-        print(q_chinese)
-        option, user.VocAns = getVoc.getQA(q_english, option_english,option_english2)
-        QA_bubble = QA_Bubble.Voc(user.index_Q, q_chinese, option)
+        try:
+            print(user.VocQA[user.index_Q])
+            QA_bubble = QA_Bubble.Voc(user.index_Q, user.VocQA[user.index_Q])
+        except: 
+            user.sheet_Q = getVoc.editSheet(user.data_Voc)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
+            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            templist = [q_chinese, option, answer]
+            print(templist)
+            user.VocQA.append(templist)
+            print(user.VocQA[user.index_Q])
+            QA_bubble = QA_Bubble.Voc(user.index_Q, user.VocQA[user.index_Q])
     
     elif user.index_Q < 7:
         user.isVoc = False
@@ -350,6 +358,7 @@ def Question(user):
         QA_bubble = QA_Bubble.Reading(user.sheet_Q,user.index_Q,user.subindex_Q)
         
     return QA_bubble
+
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
 def levelBubble(pic_url,str1, str2):
