@@ -35,7 +35,7 @@ allUser = []
 GDriveJSON = 'question.json'
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='question.json')
-survey_url_Q = 'https://drive.google.com/file/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/view?usp=sharing'
+survey_url_Q = 'https://docs.google.com/spreadsheets/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/edit#gid=1449448532'
 sh_Q = gc_Q.open_by_url(survey_url_Q)
 sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
 sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
