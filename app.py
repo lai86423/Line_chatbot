@@ -29,12 +29,6 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,level_Q,point
 
-# #-------user_id------
-# user_data = []
-# user_index = 0
-# check_user = False
-# check = False
-# #---------------------
 allUser = [] 
 ##-----------------------------------------------------------------------------------
 ##出題  初始抓資料＆資料處理
@@ -62,16 +56,6 @@ L2_Cloze = pd.read_csv('L2_Cloze.csv')
 L3_Voc = pd.read_csv('L3_Voc.csv') 
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
-##TODO 取得書用的id 表單----------------------------------------------------------------------------------
-# scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-# creds = ServiceAccountCredentials.from_json_keyfile_name("score.json", scope)
-# client = gspread.authorize(creds)
-# spreadSheet = client.open("user_score")
-# user_sheet = spreadSheet.worksheet("user_score")
-# user_data = user_sheet.get_all_values()
-# #print("id\n",user_sheet)
-# user_data = user_sheet.get_all_values()
-# print("user_data",user_data)
 
 ##----------------------------------------------------------------------------------
 #三種問題類型
@@ -219,7 +203,7 @@ def handle_postback(event):
 
     elif(user.isStart_Q == True):
         if user.isVoc == True:
-            correctAns = str(user.VocQA[user.index_Q])
+            correctAns = str(user.VocQA[user.index_Q][2])
         else:
             correctAns = str(user.sheet_Q["answer"][user.subindex_Q])
 
