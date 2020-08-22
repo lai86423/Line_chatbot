@@ -84,7 +84,7 @@ def getVoc(sheet):
 def getQA(q_english, option_english,option_english2):
     option = [q_english, option_english,option_english2]
     random.shuffle(option)
-    answer = option.index(q_english)
+    answer + 1 = option.index(q_english)
     return option, answer
 
     
