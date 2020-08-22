@@ -44,8 +44,9 @@ sh_Q.worksheet_by_title('L2_Cloze').export(filename='L2_Cloze')
 sh_Q.worksheet_by_title('L3_Reading').export(filename='L3_Reading')
 sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
 
-#type: <class 'pandas.core.frame.DataFrame'>
+#type: <class 'pandas.core.frame.DataFrame'
 L1_Reading = pd.read_csv('L1_Reading.csv')
+L1_Cloze = pd.read_csv('L1_Cloze.csv')
 L2_Reading = pd.read_csv('L2_Reading.csv') 
 L2_Cloze = pd.read_csv('L2_Cloze.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
