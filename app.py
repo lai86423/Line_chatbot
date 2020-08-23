@@ -82,7 +82,7 @@ def editSheet(data):
     sheet_Q = {}
     for i in range (len(header)):
         sheet_Q[header[i]] = pre_sheet[header[i]]
-
+    print(sheet_Q)
     return sheet_Q
 
 ##TODO 個人ＩＤ變數------------------------------------------------
