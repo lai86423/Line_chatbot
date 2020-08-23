@@ -77,7 +77,7 @@ def getSheet(Qlevel):
 def editSheet(data):
     pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
     
-    print("header",pre_sheet.columns)
+    print("pre_sheet",pre_sheet)
     header = pre_sheet.columns
     sheet_Q = {}
     for i in range (len(header)):
