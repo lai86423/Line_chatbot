@@ -75,13 +75,13 @@ def getSheet(Qlevel):
     return sheet_Voc, sheet_Reading, sheet_Cloze
 
 def editSheet(data):
-    pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
-    pre_sheet = pre_sheet.reset_index(drop=True)
-    print("pre_sheet",pre_sheet)
-    header = pre_sheet.columns
+    #pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
+    #pre_sheet = pre_sheet.reset_index(drop=True)
+    #print("pre_sheet",pre_sheet)
+    header = data.columns
     sheet_Q = {}
     for i in range (len(header)):
-        sheet_Q[header[i]] = pre_sheet[header[i]]
+        sheet_Q[header[i]] = data[header[i]]
     print(sheet_Q)
     #sheet_Q.reset_index()
     return sheet_Q
