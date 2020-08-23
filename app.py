@@ -310,7 +310,7 @@ def Question(user):
     else:
         #user.subindex_Q = user.index_Q - 7
         if user.index_Q == 7:
-            user.subindex_Q = random.randrange(0,qNum_L = len(sheet["question"]),3)
+            user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]),3)
         else:
             user.subindex_Q = user.subindex_Q + 1
         user.sheet_Q = editSheet(user.data_Reading) 
