@@ -16,8 +16,8 @@ print("users",users)
 userID = '7678329847234fgbfgb'
 userID2 = 8979798798
 df = pd.read_excel("test.xlsx", header = None)
-df = df.sample(frac =1)
-df = df.reset_index(drop=True)
+#df = df.sample(frac =1)
+#df = df.reset_index(drop=True)
 
 question = df[0]
 optionA = df[1]
@@ -55,7 +55,9 @@ while True:
     else:
         print("users",users)
         for i in range(num):
-            print(sheet["question"][i])
+            subindex_Q = random.randrange(0,len(sheet["question"]),3)
+            print(subindex_Q)
+            #print(sheet["question"][i])
             print("1:", sheet["optionA"][i], "\n2:", sheet["optionB"][i], "\n3:", sheet["optionC"][i], "\n4:", sheet["optionD"][i], "\n")
             userAns = input("輸入答案:")
 

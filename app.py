@@ -313,6 +313,7 @@ def Question(user):
             user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]),3)
         else:
             user.subindex_Q = user.subindex_Q + 1
+        print("user.subindex_Q",user.subindex_Q)
         user.sheet_Q = editSheet(user.data_Reading) 
         QA_bubble = QA_Bubble.Reading(user.sheet_Q,user.index_Q,user.subindex_Q)
         
