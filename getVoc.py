@@ -3,11 +3,11 @@ import pandas as pd
 import pygsheets
 import random
 
-GSpreadSheet_Q = 'cilab_ChatBot_Voc1200'
+GSpreadSheet_P = 'cilab_ChatBot_Voc1200'
 GDriveJSON = 'formal.json'
-gc_Q = pygsheets.authorize(service_account_file='formal.json')
-survey_url_Q = 'https://drive.google.com/file/d/1Wkfw_pQ6oaUDGCWdc2hhA3AXlYORjZiB/view?usp=sharing'
-sh_Q = gc_Q.open_by_url(survey_url_Q)
+gc_P = pygsheets.authorize(service_account_file='formal.json')
+survey_url_P = 'https://drive.google.com/file/d/1Wkfw_pQ6oaUDGCWdc2hhA3AXlYORjZiB/view?usp=sharing'
+sh_P = gc_P.open(GSpreadSheet_P)
 VocQA = []
 
 def getSheet(level):
