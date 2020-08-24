@@ -164,9 +164,9 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
         if(user.index_Q == 7 and user.count_Q == 1):
-            sheet_article = editSheet(user.data_Reading) 
+            user.sheet_Q = editSheet(user.data_Reading) 
             user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]),3)
-            QA_bubble_article = QA_Bubble.Article(sheet_article,user.subindex_Q)
+            QA_bubble_article = QA_Bubble.Article(user.sheet_Q,user.subindex_Q)
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
             line_bot_api.push_message(event.source.user_id, article)
         user.isStart_Q = True
@@ -304,14 +304,13 @@ def Question(user):
     
     elif user.index_Q < 7:
         user.isVoc = False
-        user.subindex_Q = user.index_Q - 3
+        #user.subindex_Q = user.index_Q - 3 
         user.sheet_Q = editSheet(user.data_Cloze)
+        user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]))
         QA_bubble = QA_Bubble.Cloze(user.sheet_Q,user.index_Q,user.subindex_Q)
 
     else:
         #user.subindex_Q = user.index_Q - 7
-        
-        user.sheet_Q = editSheet(user.data_Reading) 
         if user.index_Q != 7:
             user.subindex_Q = user.subindex_Q + 1
         
