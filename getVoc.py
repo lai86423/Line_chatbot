@@ -4,10 +4,10 @@ import pygsheets
 import random
 
 GDriveJSON = 'question.json'
-GSpreadSheet_Q = 'Chatbot Voc1200'
-gc_Q = pygsheets.authorize(service_account_file='question.json')
+GSpreadSheet_P = 'Chatbot Voc1200'
+gc_P = pygsheets.authorize(service_account_file='question.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
-sh_P = gc_Q.open_by_url(survey_url_P)
+sh_P = gc_P.open_by_url(survey_url_P)
 # GSpreadSheet_P = 'ChatBot_Voc1200'
 # GDriveJSON = 'formal.json'
 # gc_P = pygsheets.authorize(service_account_file='formal.json')

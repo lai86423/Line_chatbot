@@ -33,10 +33,10 @@ allUser = []
 ##-----------------------------------------------------------------------------------
 ##出題  初始抓資料＆資料處理
 GDriveJSON = 'formal.json'
-GSpreadSheet_Q = 'ChatBot_QA'
+GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='formal.json')
-#survey_url_Q = 'https://drive.google.com/file/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/view?usp=sharing'
-sh_Q = gc_Q.open(GSpreadSheet_Q)
+survey_url_Q = 'https://docs.google.com/spreadsheets/d/1CBYTu0Lnnc0oUSSgTFvM4b6okDCaDrn5lklNxpw2Ms4/edit#gid=1137457968'
+sh_Q = gc_Q.open_by_url(survey_url_Q)
 sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
 sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
 sh_Q.worksheet_by_title('L2_Reading').export(filename='L2_Reading')
