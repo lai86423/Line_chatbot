@@ -6,8 +6,8 @@ import random
 GSpreadSheet_Q = 'cilab_ChatBot_Voc1200'
 GDriveJSON = 'formal.json'
 gc_Q = pygsheets.authorize(service_account_file='formal.json')
-#survey_url_Q = 'https://drive.google.com/file/d/1R2l0OQENJjnMhWK1M6fXxet-e12V-AsR/view?usp=sharing'
-sh_Q = gc_Q.open(GSpreadSheet_Q)
+#survey_url_Q = 'https://drive.google.com/file/d/1Wkfw_pQ6oaUDGCWdc2hhA3AXlYORjZiB/view?usp=sharing'
+sh_Q = gc_Q.open_by_url(survey_url_Q)
 VocQA = []
 
 def getSheet(level):
