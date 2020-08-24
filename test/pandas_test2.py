@@ -3,11 +3,11 @@ import pandas as pd
 import pygsheets
 import random
 
-GDriveJSON = 'question.json'
-GSpreadSheet_Q = 'Chatbot Voc1200'
-gc_Q = pygsheets.authorize(service_account_file='question.json')
+GDriveJSON = 'JSON.json'
+GSpreadSheet_Q = 'cilab_ChatBot_QA'
+gc_Q = pygsheets.authorize(service_account_file='JSON.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1CBYTu0Lnnc0oUSSgTFvM4b6okDCaDrn5lklNxpw2Ms4/edit#gid=1449448532'
-sh_P = gc_Q.open_by_url(survey_url_P)
+sh_P = gc_Q.open(GSpreadSheet_Q)
 sh_P.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
 sheet_L1 = pd.read_csv('L1_Cloze.csv') #type: <class 'pandas.core.frame.DataFrame'>
 
