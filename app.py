@@ -306,12 +306,13 @@ def Question(user):
         user.isVoc = False
         #user.subindex_Q = user.index_Q - 3 
         user.sheet_Q = editSheet(user.data_Cloze)
-        user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]))
+        if user.count_Q == 1:
+            user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]))
         QA_bubble = QA_Bubble.Cloze(user.sheet_Q,user.index_Q,user.subindex_Q)
 
     else:
         #user.subindex_Q = user.index_Q - 7
-        if user.index_Q != 7:
+        if (user.index_Q != 7 and user.count_Q == 1):
             user.subindex_Q = user.subindex_Q + 1
         
         print("user.subindex_Q",user.subindex_Q)
