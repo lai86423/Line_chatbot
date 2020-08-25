@@ -107,7 +107,7 @@ def QA_Word(index_L,word_list):
     return QA_word
 
 def QA_Sentence(sheet,index_L,subindex,describe):
-    question = sheet["question"][subindex]
+    question = sheet["question(audio_url)"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
     print("option3 = ",sheet["option3"][subindex])
