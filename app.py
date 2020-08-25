@@ -299,7 +299,7 @@ def Question(user):
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.index_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
-            user.sheet_L = editSheet(user.data_sen) 
+            user.sheet_L = editSheet(user.data_pho)
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
         # user.subindex_L = user.index_L - 3

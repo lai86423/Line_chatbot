@@ -11,11 +11,10 @@ import pandas as pd
 from googletrans import Translator
 
 def QA_Tail(sheet,index_L,subindex):
-    question = sheet["question"][subindex]
+    question = sheet["question(audio_url)"][subindex]
     print("option1 = ",sheet["option1"][subindex])
     print("option2 = ",sheet["option2"][subindex])
-    print("option3 = ",sheet["option3"][subindex])
-    print("Question = ",question)  #question 是 url 網址
+    #print("Question = ",question)  #question 是 url 網址
 
     QA_tail = BubbleContainer (
         direction='ltr',
@@ -48,13 +47,6 @@ def QA_Tail(sheet,index_L,subindex):
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
-                ),
-                    ButtonComponent(
-                    action = PostbackAction(label = "(3) " + sheet["option3"][subindex], data = '3', text = "(3) " + sheet["option3"][subindex]),
-                    color = '#CD2774',
-                    margin = 'md',
-                    style = 'primary',
-                    gravity='top'
                 )
             ]
         )
