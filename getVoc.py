@@ -8,11 +8,7 @@ GSpreadSheet_P = 'cilab_ChatBot_Voc1200'
 gc_P = pygsheets.authorize(service_account_file='question.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
 sh_P = gc_P.open_by_url(survey_url_P)
-# GSpreadSheet_P = 'ChatBot_Voc1200'
-# GDriveJSON = 'formal.json'
-# gc_P = pygsheets.authorize(service_account_file='formal.json')
-# survey_url_P = 'https://drive.google.com/file/d/1Wkfw_pQ6oaUDGCWdc2hhA3AXlYORjZiB/view?usp=sharing'
-# sh_P = gc_P.open(GSpreadSheet_P)
+
 VocQA = []
 
 def getSheet(level):
@@ -92,7 +88,13 @@ def getQA(q_english, option_english,option_english2):
     answer  = option.index(q_english) + 1
     return option, answer
 
-    
+def getAudio(sheet, q_index):
+    try:
+        q_audio = sheet["audio"][q_index]
+    except:
+        q_audio = None
+    return q_audio
+
 if __name__ == "__main__":
     #VocQA = np.empty((3,3, dtype='str'))
     presheet = getSheet(3)
@@ -106,7 +108,8 @@ if __name__ == "__main__":
             print(q_chinese, q_english, option_english,option_english2)
             option, answer = getQA(q_english, option_english,option_english2)
             print(option, answer)
-            templist = [q_chinese, option, answer]
+            q_audio = getAudio(sheet, q_index)
+            templist = [q_chinese, option, answer,q_audio]
             print(templist)
             VocQA.append(templist)
     print(VocQA)
