@@ -130,11 +130,11 @@ def QA_Sentence(sheet,index_L,subindex,describe):
                     style = 'primary',
                     flex = 10
                 ),
-                TextComponent(text= describe, size='md', align = 'center'),
+                TextComponent(text= describe, size='md', align = 'center',wrap= True),
                 SeparatorComponent(margin='xl',color='#A89F9F'),
-                TextComponent(text="(1) " +sheet["option1"][subindex], size='lg',margin='sm', align = 'start'),
-                TextComponent(text="(2) " +sheet["option2"][subindex], size='lg',margin='sm', align = 'start'),
-                TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start'),
+                TextComponent(text="(1) " +sheet["option1"][subindex], size='lg',margin='sm', align = 'start',wrap= True),
+                TextComponent(text="(2) " +sheet["option2"][subindex], size='lg',margin='sm', align = 'start',wrap= True),
+                TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start',wrap= True),
 
                 ButtonComponent(
                     action = PostbackAction(label = "(1)", data = '1', text = "(1) " +sheet["option1"][subindex]),

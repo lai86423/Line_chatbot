@@ -120,7 +120,7 @@ def Reading(sheet,index_L,subindex):
         body = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text = question, size='lg',margin= 'lg'),
+                TextComponent(text = question, size='lg',margin= 'lg',wrap= True),
                 TextComponent(text = "(1) " +sheet["option1"][subindex], size='lg',wrap=True),
                 TextComponent(text = "(2) " +sheet["option2"][subindex], size='lg',wrap=True),
                 TextComponent(text = "(3) " +sheet["option3"][subindex], size='lg',wrap=True),

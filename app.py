@@ -296,6 +296,7 @@ def Question(user):
     # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題")
     if user.index_L < 3:
+        user.subindex_L = user.index_L
         if user.level_L != 3:
             user.sheet_L = editSheet(user.data_pho)
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.index_L)
