@@ -302,14 +302,13 @@ def Question(user):
             user.sheet_L = editSheet(user.data_pho)
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
-        # user.subindex_L = user.index_L - 3
         # user.sheet_L = editSheet(user.data_word)
         # QA_bubble = QA.QA_Word(user.sheet_L,user.index_L,user.subindex_L)
-        
+        user.subindex_L = user.index_L - 3
         user.isWord = True
         try:
-            print(user.word_list[user.index_L])
-            QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.index_L])
+            print(user.word_list[user.subindex_L])
+            QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
         except: 
             user.sheet_L = getVoc.editSheet(user.data_word)
             q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_L)
@@ -319,8 +318,8 @@ def Question(user):
             templist = [q_audio, option, answer]
             print(templist)
             user.word_list.append(templist)
-            print(user.word_list[user.index_L])
-            QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.index_L])
+            print(user.word_list[user.subindex_L])
+            QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
     else:
         user.isWord = False
         user.subindex_L = user.index_L-7
