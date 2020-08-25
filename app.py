@@ -322,6 +322,7 @@ def Question(user):
             print(templist)
             user.word_list.append(templist)
             print("user.word_list",user.word_list[user.subindex_L])
+            print("user.word_list[2]",user.subindex_L,user.word_list[user.subindex_L][2])
             QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
     else:
         user.isWord = False
