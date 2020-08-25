@@ -92,7 +92,7 @@ def getAudio(sheet, q_index):
     try:
         q_audio = sheet["audio"][q_index]
     except:
-        q_audio = None
+        q_audio = '0'
     return q_audio
 
 if __name__ == "__main__":

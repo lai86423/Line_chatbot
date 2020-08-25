@@ -321,7 +321,7 @@ def Question(user):
             templist = [q_audio, option, answer]
             print(templist)
             user.word_list.append(templist)
-            print(user.word_list[user.subindex_L])
+            print("user.word_list",user.word_list[user.subindex_L])
             QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
     else:
         user.isWord = False
