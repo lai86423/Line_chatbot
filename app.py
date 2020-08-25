@@ -185,7 +185,7 @@ def handle_postback(event):
         user.isStart_L = True
     elif(user.isStart_L == True): 
         if user.isWord == True:
-            correctAns = str(user.word_list[user.index_L][2])
+            correctAns = str(user.word_list[user.subindex_L][2])
         else:
             correctAns = str(user.sheet_L["answer"][user.subindex_L])
         print("correct answer = ",str(user.sheet_L["answer"][user.subindex_L]))
@@ -322,7 +322,7 @@ def Question(user):
             print(templist)
             user.word_list.append(templist)
             print("user.word_list",user.word_list[user.subindex_L])
-            print("user.word_list[2]",user.subindex_L,user.word_list[user.subindex_L][2])
+            print("user.word_list[2]",user.subindex_L, user.word_list[user.subindex_L][2])
             QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
     else:
         user.isWord = False
