@@ -315,7 +315,7 @@ def Question(user):
             q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_L)
             option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
             option, answer = getVoc.getQA(q_english, option_english,option_english2)
-            q_audio = getAudio(user.sheet_L, q_index)
+            q_audio = getVoc.getAudio(user.sheet_L, q_index)
             templist = [q_audio, option, answer]
             print(templist)
             user.word_list.append(templist)
