@@ -34,24 +34,24 @@ GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
 sh_L = gc_L.open(GSpreadSheet_L)
 sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
-sh_L.worksheet_by_title('L1_word').export(filename='L1_word')
+#sh_L.worksheet_by_title('L1_word').export(filename='L1_word')
 sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
 sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
-sh_L.worksheet_by_title('L2_word').export(filename='L2_word')
+#sh_L.worksheet_by_title('L2_word').export(filename='L2_word')
 sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
 sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
-sh_L.worksheet_by_title('L3_word').export(filename='L3_word')
+#sh_L.worksheet_by_title('L3_word').export(filename='L3_word')
 sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
 
 #type: <class 'pandas.core.frame.DataFrame'>
 L1_pho = pd.read_csv('L1_pho.csv')
-L1_word = pd.read_csv('L1_word.csv')
+#L1_word = pd.read_csv('L1_word.csv')
 L1_sen = pd.read_csv('L1_sen.csv')
 L2_pho = pd.read_csv('L2_pho.csv') 
-L2_word = pd.read_csv('L2_word.csv')
+#L2_word = pd.read_csv('L2_word.csv')
 L2_sen = pd.read_csv('L2_sen.csv')
 L3_pho = pd.read_csv('L3_pho.csv') 
-L3_word = pd.read_csv('L3_word.csv')
+#L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
 ##----------------------------------------------------------------------------------
 #三種問題類型
