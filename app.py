@@ -299,7 +299,7 @@ def Question(user):
         user.subindex_L = user.index_L
         if user.level_L != 3:
             user.sheet_L = editSheet(user.data_pho)
-            QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.index_L)
+            QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
             user.sheet_L = editSheet(user.data_pho)

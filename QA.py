@@ -137,19 +137,19 @@ def QA_Sentence(sheet,index_L,subindex,describe):
                 TextComponent(text="(3) " +sheet["option3"][subindex], size='lg',margin='sm', align = 'start',wrap= True),
 
                 ButtonComponent(
-                    action = PostbackAction(label = "(1)", data = '1', text = "(1) " +sheet["option1"][subindex]),
+                    action = PostbackAction(label = "(1)", data = '1', text = "(1) "),
                     color = '#46549B',
                     margin = 'xl',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(2)", data = '2', text = "(2) " +sheet["option2"][subindex]),
+                    action = PostbackAction(label = "(2)", data = '2', text = "(2) " ),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                     ButtonComponent(
-                    action = PostbackAction(label = "(3)", data = '3', text = "(3) " +sheet["option3"][subindex]),
+                    action = PostbackAction(label = "(3)", data = '3', text = "(3) "),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
