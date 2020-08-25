@@ -320,7 +320,7 @@ def Question(user):
             print(templist)
             user.word_list.append(templist)
             print(user.word_list[user.index_L])
-            QA_bubble = QA_Bubble.Voc(user.index_L, user.word_list[user.index_L])
+            QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.index_L])
     else:
         user.isWord = False
         user.subindex_L = user.index_L-7
