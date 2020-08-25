@@ -245,6 +245,8 @@ def handle_postback(event):
     elif (event.postback.data == "next"): 
         user.index_L = 0
         user.star_num_L = 0
+        #TODO
+        user.word_list = []
         print("答題分數顯示完 圖數和分數歸零----",user.index_L,user.star_num_L)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
