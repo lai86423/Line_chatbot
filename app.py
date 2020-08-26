@@ -93,7 +93,7 @@ def editSheet(data):
     #     "answer": answer
     # }
 
-    pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
+    pre_sheet = data.sample(frac =0.5) #Random打亂資料再取n筆題 
     pre_sheet = pre_sheet.reset_index(drop=True)
     print("pre_sheet",pre_sheet)
     header = pre_sheet.columns
