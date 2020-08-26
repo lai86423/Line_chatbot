@@ -27,6 +27,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 allUser = [] 
 
+#TODO----S
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 GDriveJSON = 'JSON.json'
@@ -34,26 +35,23 @@ GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
 sh_L = gc_L.open(GSpreadSheet_L)
 sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
-#sh_L.worksheet_by_title('L1_voc').export(filename='L1_voc')
 sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
 sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
-#sh_L.worksheet_by_title('L2_voc').export(filename='L2_voc')
 sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
 sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
-#sh_L.worksheet_by_title('L3_voc').export(filename='L3_voc')
 sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
 
 #type: <class 'pandas.core.frame.DataFrame'>
 L1_pho = pd.read_csv('L1_pho.csv')
-#L1_word = pd.read_csv('L1_word.csv')
 L1_sen = pd.read_csv('L1_sen.csv')
 L2_pho = pd.read_csv('L2_pho.csv') 
-#L2_word = pd.read_csv('L2_word.csv')
 L2_sen = pd.read_csv('L2_sen.csv')
 L3_pho = pd.read_csv('L3_pho.csv') 
-#L3_word = pd.read_csv('L3_word.csv')
 L3_sen = pd.read_csv('L3_sen.csv')
+
+#TODO----E
 ##----------------------------------------------------------------------------------
+#TODO----S
 #三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
@@ -86,7 +84,9 @@ def editSheet(data):
     #qNum_L = len(sheet["question"])
     return sheet_L
 
-##TODO 個人ＩＤ變數------------------------------------------------
+#TODO----E
+
+#個人ＩＤ變數------------------------------------------------
 class userVar_L():
     def __init__(self,_id):
         self._id = _id
@@ -102,8 +102,11 @@ class userVar_L():
         self.count_L = 1
         self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
         self.sheet_L = editSheet(self.data_pho) 
+
+        #TODO----S
         self.isWord = False 
         self.word_list = []
+        #TODO----E
 
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -165,10 +168,12 @@ def handle_postback(event):
     elif(event.postback.data == "start"):  
         user.isStart_L = True
     elif(user.isStart_L == True): 
+        #TODO----S
         if user.isWord == True:
             correctAns = str(user.word_list[user.subindex_L][2])
         else:
             correctAns = str(user.sheet_L["answer"][user.subindex_L])
+        #TODO----E
         print("correct answer = ",correctAns)
         print("answer user.index_L = ", user.index_L)
         print("answer subuser.index_L = ", user.subindex_L)
@@ -226,12 +231,14 @@ def handle_postback(event):
     elif (event.postback.data == "next"): 
         user.index_L = 0
         user.star_num_L = 0
-        #TODO
+
+        #TODO----S
         user.word_list = []
         print("答題分數顯示完 圖數和分數歸零----",user.index_L,user.star_num_L)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
+        #TODO----E
 
     elif (event.postback.data == "changeLevel"): 
         user.isChangingLevel_L = True
@@ -273,6 +280,7 @@ def setLevel(levelinput,user):
 
     return myResult
 
+#TODO----S
 def Question(user):
     # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題")
@@ -315,6 +323,8 @@ def Question(user):
             user.sheet_L = editSheet(user.data_sen) 
         QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'選出正確的應對句子')
     return QA_bubble
+#TODO----E
+
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
 def levelBubble(pic_url,str1, str2):
