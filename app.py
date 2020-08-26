@@ -34,13 +34,13 @@ GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
 sh_L = gc_L.open(GSpreadSheet_L)
 sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
-#sh_L.worksheet_by_title('L1_word').export(filename='L1_word')
+#sh_L.worksheet_by_title('L1_voc').export(filename='L1_voc')
 sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
 sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
-#sh_L.worksheet_by_title('L2_word').export(filename='L2_word')
+#sh_L.worksheet_by_title('L2_voc').export(filename='L2_voc')
 sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
 sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
-#sh_L.worksheet_by_title('L3_word').export(filename='L3_word')
+#sh_L.worksheet_by_title('L3_voc').export(filename='L3_voc')
 sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
 
 #type: <class 'pandas.core.frame.DataFrame'>
@@ -70,12 +70,12 @@ def getSheet(Qlevel):
         #sheet_word = L1_word
         sheet_sen = L1_sen 
     
-    sheet_word = getVoc.getSheet(Qlevel)
+    sheet_word = getVoc.getSheet(Qlevel,sh_L)
     
     return sheet_pho, sheet_word, sheet_sen
 
 def editSheet(data):
-    pre_sheet = data.sample(frac =0.5) #Random打亂資料再取n筆題 
+    pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
     pre_sheet = pre_sheet.reset_index(drop=True)
     print("pre_sheet",pre_sheet)
     header = pre_sheet.columns
@@ -83,7 +83,6 @@ def editSheet(data):
     for i in range (len(header)):
         sheet_L[header[i]] = pre_sheet[header[i]]
     
-    #sheet_Q.reset_index()
     #qNum_L = len(sheet["question"])
     return sheet_L
 

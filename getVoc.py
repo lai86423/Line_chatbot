@@ -3,24 +3,24 @@ import pandas as pd
 import pygsheets
 import random
 
-GDriveJSON = 'JSON.json'
-GSpreadSheet_P = 'cilab_ChatBot_Voc1200'
-gc_P = pygsheets.authorize(service_account_file='question.json')
-survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
-sh_P = gc_P.open_by_url(survey_url_P)
+# GDriveJSON = 'JSON.json'
+# GSpreadSheet_P = 'cilab_ChatBot_Voc1200'
+# gc_P = pygsheets.authorize(service_account_file='question.json')
+# survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
+# sh_P = gc_P.open_by_url(survey_url_P)
 
 VocQA = []
 
-def getSheet(level):
+def getSheet(sh_P,level):
     if level == 1:
-        sh_P.worksheet_by_title('L1(628)').export(filename='L1')
+        sh_P.worksheet_by_title('L1_Voc').export(filename='L1')
         presheet = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
     
     elif level == 2:
-        sh_P.worksheet_by_title('L2(238)').export(filename='L2')
+        sh_P.worksheet_by_title('L2_Voc').export(filename='L2')
         presheet = pd.read_csv('L2.csv') #type: <class 'pandas.core.frame.DataFrame'>
     else:
-        sh_P.worksheet_by_title('L3(336)').export(filename='L3')
+        sh_P.worksheet_by_title('L3_Voc').export(filename='L3')
         presheet = pd.read_csv('L3.csv') #type: <class 'pandas.core.frame.DataFrame'>
     return presheet
 

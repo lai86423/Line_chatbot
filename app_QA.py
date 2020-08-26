@@ -16,6 +16,7 @@ import sys
 import datetime
 import pygsheets
 import QA_Bubble
+#TODO
 import getVoc
 
 import gspread
@@ -32,7 +33,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 allUser = [] 
 ##-----------------------------------------------------------------------------------
 ##出題  初始抓資料＆資料處理
-
+#TODO----S
 GDriveJSON = 'JSON.json'
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='JSON.json')
@@ -52,8 +53,9 @@ L2_Reading = pd.read_csv('L2_Reading.csv')
 L2_Cloze = pd.read_csv('L2_Cloze.csv')
 L3_Reading = pd.read_csv('L3_Reading.csv') 
 L3_Cloze = pd.read_csv('L3_Cloze.csv')
-
+#TODO----E
 ##----------------------------------------------------------------------------------
+#TODO----S
 #三種問題類型
 def getSheet(Qlevel):   
     if(Qlevel == 3):
@@ -75,15 +77,15 @@ def editSheet(data):
     #pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
     #pre_sheet = pre_sheet.reset_index(drop=True)
     #print("pre_sheet",pre_sheet)
+    #因為reading題型的題庫形式緊接三題連貫題目，就不像之前先打亂隨機取資料
     header = data.columns
     sheet_Q = {}
     for i in range (len(header)):
         sheet_Q[header[i]] = data[header[i]]
-    print(sheet_Q)
-    #sheet_Q.reset_index()
+    
     return sheet_Q
+#TODO----E
 
-##TODO 個人ＩＤ變數------------------------------------------------
 class userVar_Q():
     def __init__(self,_id):
         self._id = _id
@@ -98,10 +100,11 @@ class userVar_Q():
         self.subindex_Q = self.index_Q
         self.count_Q = 1
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.level_Q) #預設傳level = 1
+        #TODO----S
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
-
+        #TODO----E
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -161,19 +164,22 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
         if(user.index_Q == 7 and user.count_Q == 1):
+            #TODO----S
             user.sheet_Q = editSheet(user.data_Reading) 
             user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]),3)
             QA_bubble_article = QA_Bubble.Article(user.sheet_Q,user.subindex_Q)
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
             line_bot_api.push_message(event.source.user_id, article)
+            #TODO----E
         user.isStart_Q = True
 
     elif(user.isStart_Q == True):
+        #TODO----S
         if user.isVoc == True:
             correctAns = str(user.VocQA[user.index_Q][2])
         else:
             correctAns = str(user.sheet_Q["answer"][user.subindex_Q])
-
+        #TODO----E
         print("correct answer = ",correctAns)
         print("answer index_Q = ", user.index_Q)
         print("answer subindex_Q = ", user.subindex_Q)
@@ -280,6 +286,7 @@ def setLevel(levelinput,user):
       
     return myResult
 
+#TODO----S
 def Question(user):
     print("選完階級開始出題")
     if user.index_Q < 3:
@@ -315,7 +322,7 @@ def Question(user):
         QA_bubble = QA_Bubble.Reading(user.sheet_Q,user.index_Q,user.subindex_Q)
         
     return QA_bubble
-
+#TODO----E
 ##-----------------------------------------------------------------------------------
 #Bubble Template------------------------------------------------
 def levelBubble(pic_url,str1, str2):
