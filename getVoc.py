@@ -9,9 +9,13 @@ import random
 # survey_url_P = 'https://docs.google.com/spreadsheets/d/1G5gy7173hk3kcp8AFGM8EOUvb7Wa-KmU4V0dHJQQYEk/edit#gid=831684372'
 # sh_P = gc_P.open_by_url(survey_url_P)
 
+GDriveJSON = 'JSON.json'
+GSpreadSheet_L = 'cilab_ChatBot_listening'
+gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
+sh_L = gc_L.open(GSpreadSheet_L)
 VocQA = []
 
-def getSheet(sh_P,level):
+def getSheet(level,sh_P):
     if level == 1:
         sh_P.worksheet_by_title('L1_Voc').export(filename='L1')
         presheet = pd.read_csv('L1.csv') #type: <class 'pandas.core.frame.DataFrame'>
@@ -97,7 +101,7 @@ def getAudio(sheet, q_index):
 
 if __name__ == "__main__":
     #VocQA = np.empty((3,3, dtype='str'))
-    presheet = getSheet(3)
+    presheet = getSheet(3,sh_L)
     sheet = editSheet(presheet)
     for i in range (3):
         try:
