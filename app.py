@@ -100,7 +100,7 @@ def editSheet(data):
     sheet_L = {}
     for i in range (len(header)):
         sheet_L[header[i]] = pre_sheet[header[i]]
-    print(sheet_L)
+    
     #sheet_Q.reset_index()
     #qNum_L = len(sheet["question"])
     return sheet_L
@@ -299,6 +299,7 @@ def Question(user):
         user.subindex_L = user.index_L
         if user.level_L != 3:
             user.sheet_L = editSheet(user.data_pho)
+            print(user.sheet_L)
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
