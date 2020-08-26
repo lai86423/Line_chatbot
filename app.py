@@ -105,6 +105,7 @@ class userVar_Q():
         self.isVoc = False 
         self.VocQA = []
         #TODO----E
+        
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
