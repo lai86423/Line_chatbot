@@ -75,24 +75,6 @@ def getSheet(Qlevel):
     return sheet_pho, sheet_word, sheet_sen
 
 def editSheet(data):
-    # presheet  = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
-    # question = presheet .iloc[:,0]
-    # option1 = presheet .iloc[:,1]
-    # option2 = presheet .iloc[:,2]
-    # option3 = presheet .iloc[:,3]
-    # #option4 = presheet .iloc[:,4]
-    # feedback = presheet .iloc[:,5]
-    # answer = presheet .iloc[:,6]
-    # sheet = {
-    #     "question": question,
-    #     "option1": option1,
-    #     "option2": option2,
-    #     "option3": option3,
-    #     "option4": option4,
-    #     "feedback": feedback,
-    #     "answer": answer
-    # }
-
     pre_sheet = data.sample(frac =0.5) #Random打亂資料再取n筆題 
     pre_sheet = pre_sheet.reset_index(drop=True)
     print("pre_sheet",pre_sheet)
