@@ -1,10 +1,11 @@
 a-descriptionID,type,title,text,reply_list,reply_list2,reply_list3
-d00000,text,,"【公會姐姐】：
+d00000,image,,https://dlms.iiiedu.org.tw/eng/img/d00000.png,,,
+d00001,text,,"【公會姐姐】：
 歡迎你來到冒險者公會，勇者！
 請問您怎麼稱呼？",r00001,,
-d00001,text,,"【公會姐姐】：
+d00002,text,,"【公會姐姐】：
 勇者 $username 您好！",r00000,,
-d00002,button,請問我可以幫您什麼呢？,.,r00002,r00003,r00004
+d00003,button,請問我可以幫您什麼呢？,.,r00002,r00003,r00004
 d00100,text,,"【公會姐姐】：
 唉... 近年來天災人禍不斷，我們瑟賽斯大陸中的每一個領地都遇到了不少困難。",r00000,,
 d00101,text,,"【公會姐姐】：

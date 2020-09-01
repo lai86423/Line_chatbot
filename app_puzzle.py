@@ -29,17 +29,32 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 allUser = [] 
 ##-----------------------------------------------------------------------------------
-##出題  初始抓資料＆資料處理
-GDriveJSON = 'question.json'
+##-----------------------------------------------------------------------------------
+##解謎  初始抓資料＆資料處理
+GDriveJSON = 'JSON.json'
 GSpreadSheet_P = 'cilab_ChatBot_puzzle'
-gc_Q= pygsheets.authorize(service_account_file='question.json')
+gc_Q= pygsheets.authorize(service_account_file='JSON.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1nVIgWGQJRIQtMtZSv1HxyDb5FvthBNc0duN4Rlra8to/edit#gid=1732714016'
-sh_P = gc_Q.open_by_url(survey_url_P)
+sh_P = gc_Q.open(GSpreadSheet_P)
 sh_P.worksheet_by_title('d0').export(filename='d0')
 sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
-print(sheet_d0,sheet_r0)
+
+##----------------------------------------------------------------------------------
+class userVar_P():
+    def __init__(self,_id):
+        self._id = _id
+        self.isInit_P = True
+        self.isChangingLevel_P = True
+        self.sheet_type = 'text'
+        self.sheet_title = ''
+        self.sheet_text = ''
+        self.sheet_reply_list = []
+        self.level_P = 1
+        self.index_P = 0 #第幾題
+        self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
+
 ##----------------------------------------------------------------------------------
 def getSheet_P(level): 
     global sh_P  
@@ -62,38 +77,6 @@ def getSheet_P(level):
 
     return sheet_d, sheet_r
 
-def editSheet(data):
-    #pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
-    print("header",data.columns)
-    header = data.columns
-    sheet_P = {}
-    for i in range (len(header)):
-        sheet_P[header[i]] = data[header[i]]
-    return sheet_P
-
-##TODO 個人ＩＤ變數------------------------------------------------
-class userVar_P():
-    def __init__(self,_id):
-        self._id = _id
-        self.level_P = 1 # 預設level 1
-        self.qNum_P = 10 # 每輪題目數量
-        self.star_num_P = 0 #集點
-        self.isAsked_P = False #出題與否
-        self.isChangingLevel_P = True
-        self.isStart_P = False
-        self.index_P = 0 #第幾題
-        self.isInit_P = True
-        self.subindex_P = self.index_P
-        self.count_P = 1
-        self.presheet_d, self.presheet_r = getSheet_P(self.level_P) #預設傳level = 1
-        print("self.presheet_d,presheet_r",self.presheet_d,self.presheet_r)
-        self.sheet_d = editSheet(self.presheet_d,'d') 
-        self.sheet_r = editSheet(self.presheet_r,'r') 
-        print("self.sheet_d",self.sheet_d)
-        print("self.sheet_r",self.sheet_r)
-
-def deterOutput(messege_id,sliceNum):
-    print(messege_id[:sliceNum])
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -109,17 +92,19 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
+    
 ##-----------------------------------------------------------------------------------
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    # global isAsked_P,isInit_P
-    # global index_P
-    # global isChangingLevel_P
-    # global sheet_P,subindex_P
     user = getUser(event.source.user_id)
     #---------------------------------------
-    #if event.message.type == 'text':   
+    if event.message.type == 'text':   
+        if(user.isInit_P == True or event.message.text =='?'):
+            smallpuzzle('d00000',sheet_d0)
+            user.isChangingLevel_P = True
+            user.isInit_P = False
+        #if(user.isChangingLevel_Q == True): 
         
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
@@ -139,54 +124,58 @@ def handle_postback(event):
 
         
 ##-----------------------------------------------------------------------------------
+def smallpuzzle(event, id, sheet):
+    print("-------------------")
+    global sheet_type 
+    global sheet_title
+    global sheet_text
+    global sheet_reply_list
+    # id_three = id[3]
+    next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+    print("next id = ", next_id)
+
+    try:
+        id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
+        id_index = id_index[0]
+        print("id_index",id_index)
+
+        sheet_type = sheet["type"][id_index]
+        print("sheet_type",sheet_type)
+        
+        if sheet_type == 'image':   
+            sheet_text = sheet["text"][id_index]  
+            print("img= ",sheet_text)               
+            message = TextSendMessage(text=sheet_text)
+            line_bot_api.push_message(user._id, message)    
+            smallpuzzle(next_id , sheet)
+
+        elif sheet_type == 'text':
+            sheet_text = sheet["text"][id_index]
+            print("text= ",sheet_text)
+            message = TextSendMessage(text=sheet_text)
+            line_bot_api.push_message(user._id, message)
+            smallpuzzle(next_id , sheet)
+
+        elif sheet_type == 'button': 
+            sheet_title = sheet["title"][id_index]
+            for i in range (3):
+                if (str(sheet.iloc[id_index][4 + i]) != "") : 
+                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+
+            ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
+
+        elif sheet_type == 'confirm':
+            CofirmPuzzle(sheet,next_id)
+
+
+    except:
+        pass
+        # if next_id == 'd00209': #選題目階級
+        #     Postback('L')
+        # #elif index == 'd10029': 
+        # else:
+        #     pass
 #設定Level------------------------------------------------
-def setLevel(levelinput,user):
-    print("---Changing Level---")
-    #global data_Voc, data_Reading, data_Cloze
-    #global level_P
-    #global isChangingLevel_P
-    if (levelinput=='L'):
-        user.level_P = 1
-        myResult = readyBubble(user.level_P)
-        user.isChangingLevel_P = False
-        
-    elif (levelinput=='M'):
-        user.level_P = 2
-        myResult = readyBubble(user.level_P)    
-        user.isChangingLevel_P = False
-
-    elif (levelinput=='H'):
-        user.level_P = 3
-        myResult = readyBubble(user.level_P)
-        user.isChangingLevel_P = False
-
-    else:       
-        user.isChangingLevel_P = True
-        myResult = "N"
-
-    if user.isChangingLevel_P == False:
-        user.data_Voc, user.data_Reading, user.data_Cloze = getSheet(user.level_P)
-        
-    return myResult
-
-def Question(user):
-    #global subindex_P,sheet_P
-    print("選完階級開始出題")
-    #print("index_P",index_P)
-    #print("subindex_P = ", subindex_P)
-    if user.index_P < 3:
-        user.subindex_P = user.index_P
-        user.sheet_P = editSheet(user.data_Voc)
-        QA_bubble = QA_Bubble.Voc(user.sheet_P,user.index_P,user.subindex_P)
-    elif user.index_P < 7:
-        user.subindex_P = user.index_P - 3
-        user.sheet_P = editSheet(user.data_Cloze)
-        QA_bubble = QA_Bubble.Cloze(user.sheet_P,user.index_P,user.subindex_P)
-    else:
-        user.subindex_P = user.index_P - 7
-        user.sheet_P = editSheet(user.data_Reading) 
-        QA_bubble = QA_Bubble.Reading(user.sheet_P,user.index_P,user.subindex_P)
-    return QA_bubble
 
 ##  End------------------------------------------------
 
