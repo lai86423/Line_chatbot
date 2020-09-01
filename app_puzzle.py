@@ -47,9 +47,9 @@ class userVar_P():
         self._id = _id
         self.isInit_P = True
         self.isChangingLevel_P = True
-        self.sheet_type = 'text'
-        self.sheet_title = ''
-        self.sheet_text = ''
+        # self.sheet_type = 'text'
+        # self.sheet_title = ''
+        # self.sheet_text = ''
         self.sheet_reply_list = []
         self.level_P = 1
         self.index_P = 0 #第幾題
@@ -101,9 +101,9 @@ def handle_message(event):
     #---------------------------------------
     if event.message.type == 'text':   
         if(user.isInit_P == True or event.message.text =='?'):
-            smallpuzzle('d00000',sheet_d0)
+            smallpuzzle(event,'d00000',sheet_d0)
             user.isChangingLevel_P = True
-            user.isInit_P = False
+            #user.isInit_P = False
         #if(user.isChangingLevel_Q == True): 
         
 ##-----------------------------------------------------------------------------------
@@ -126,10 +126,7 @@ def handle_postback(event):
 ##-----------------------------------------------------------------------------------
 def smallpuzzle(event, id, sheet):
     print("-------------------")
-    global sheet_type 
-    global sheet_title
-    global sheet_text
-    global sheet_reply_list
+    user = getUser(event.source.user_id)
     # id_three = id[3]
     next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
     print("next id = ", next_id)
@@ -147,14 +144,14 @@ def smallpuzzle(event, id, sheet):
             print("img= ",sheet_text)               
             message = TextSendMessage(text=sheet_text)
             line_bot_api.push_message(user._id, message)    
-            smallpuzzle(next_id , sheet)
+            smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextSendMessage(text=sheet_text)
             line_bot_api.push_message(user._id, message)
-            smallpuzzle(next_id , sheet)
+            smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
