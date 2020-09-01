@@ -142,7 +142,7 @@ def smallpuzzle(event, id, sheet):
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)               
-            message = TextSendMessage(text=sheet_text)
+            message = ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text)
             line_bot_api.push_message(user._id, message)    
             smallpuzzle(event, next_id , sheet)
 
@@ -155,12 +155,15 @@ def smallpuzzle(event, id, sheet):
 
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
+            sheet_text = sheet["text"][id_index]
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
-            ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
-
+            replylist = ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
+            button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
+            line_bot_api.push_message(user._id, button_bubble)
+            
         elif sheet_type == 'confirm':
             CofirmPuzzle(sheet,next_id)
 
@@ -172,7 +175,43 @@ def smallpuzzle(event, id, sheet):
         # #elif index == 'd10029': 
         # else:
         #     pass
-#設定Level------------------------------------------------
+def ButtonPuzzle(sheet, reply, title):
+    replylist = []
+    print("ButtonPuzzle",reply)
+    for i in range(len(reply)):
+        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == reply[i]]
+        replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
+    print("replylist",replylist) 
+    return replylist
+
+
+def ButtonBubble(sheet_title, sheet_text, replylist):
+    level_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        title = sheet_title,
+                        text = sheet_text,
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = replylist[0][0], 
+                                    text = replylist[0][1],
+                                    data = replylist[0][2]
+                                ),
+                                PostbackTemplateAction(
+                                    label = replylist[1][0], 
+                                    text = replylist[1][1],
+                                    data = replylist[1][2]
+                                ),
+                                PostbackTemplateAction(
+                                    label = replylist[2][0], 
+                                    text = replylist[2][1],
+                                    data = replylist[2][2]
+                                )
+                        ]
+                    )
+                )
+    return level_template
+
 
 ##  End------------------------------------------------
 
