@@ -124,7 +124,7 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
 
     if pb_event == 0:
-    pass
+        pass
     #--Game State-----------------------------------
     elif pb_event == 1:
         smallpuzzle('d00100',sheet_d0)
