@@ -121,7 +121,7 @@ def getUser(user_ID):
 def handle_postback(event):
     user = getUser(event.source.user_id)
     pb_event = event.postback.data
-     print("postbackData = ",pb_event )
+    print("postbackData = ",pb_event )
 
     if pb_event == 0:
     pass
