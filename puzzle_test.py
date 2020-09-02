@@ -123,11 +123,11 @@ def Postback(pb_event):
     if pb_event == 0:
         pass
     #--Game State-----------------------------------
-    elif pb_event == 1:
+    elif pb_event == '1':
         smallpuzzle('d00100',sheet_d0)
-    elif pb_event == 2:
+    elif pb_event == '2':
         smallpuzzle('d00200',sheet_d0)
-    elif pb_event == 3:
+    elif pb_event == '3':
         pass
     #--Set Level-----------------------------------
     elif pb_event == 'L' or pb_event == 'M' or pb_event == 'H':
