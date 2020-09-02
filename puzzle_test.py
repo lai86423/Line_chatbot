@@ -90,6 +90,7 @@ def smallpuzzle(id, sheet):
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
             ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
+            print("Button= ",sheet_title)
 
         elif sheet_type == 'confirm':
             CofirmPuzzle(sheet,next_id)
@@ -108,7 +109,7 @@ def ButtonPuzzle(sheet, reply, title):
     for i in range(len(reply)):
         id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == reply[i]]
         replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
-    print("replylist",replylist)  
+    print("replylist",replylist[0][2])  
     #Button Bubble 
     #
 
@@ -183,7 +184,7 @@ def LoadQuestion():
 if __name__ == "__main__":
     #sheet_d, sheet_r = getSheet_P(1)
 
-    smallpuzzle('d00207',sheet_d0)
+    smallpuzzle('d00000',sheet_d0)
     # if(isAsk_P):
     #     smallpuzzle('d00000',sheet_d0)
     #RandomTest()

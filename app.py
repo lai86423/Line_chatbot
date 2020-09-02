@@ -156,6 +156,7 @@ def smallpuzzle(event, id, sheet):
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
+            print(sheet_title, sheet_text)
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
@@ -163,7 +164,7 @@ def smallpuzzle(event, id, sheet):
             replylist = ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.push_message(user._id, button_bubble)
-            
+
         elif sheet_type == 'confirm':
             CofirmPuzzle(sheet,next_id)
 
