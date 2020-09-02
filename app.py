@@ -50,7 +50,7 @@ class userVar_P():
         # self.sheet_type = 'text'
         # self.sheet_title = ''
         # self.sheet_text = ''
-        self.sheet_reply_list = []
+        #self.sheet_reply_list = []
         self.level_P = 1
         self.index_P = 0 #第幾題
         self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
