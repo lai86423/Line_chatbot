@@ -134,8 +134,9 @@ def handle_postback(event):
         pass
     #--Set Level-----------------------------------
     elif pb_event == 'L' or pb_event == 'M' or pb_event == 'H':
-        RandomTest()
-        setLevelStory(pb_event)
+        #RandomTest()
+        #setLevelStory(pb_event)
+        print("set level")
 
         
 ##-----------------------------------------------------------------------------------
