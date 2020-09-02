@@ -12,7 +12,20 @@ sh_P.worksheet_by_title('d0').export(filename='d0')
 sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
+allUser = []
 #print(sheet_d0,sheet_r0)
+class userVar_P():
+    def __init__(self,_id):
+        self._id = _id
+        self.isInit_P = True
+        self.isChangingLevel_P = True
+        # self.sheet_type = 'text'
+        # self.sheet_title = ''
+        # self.sheet_text = ''
+        #self.sheet_reply_list = []
+        self.level_P = 1
+        self.index_P = 0 #第幾題
+        self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
 
 def getSheet_P(level): 
     global sh_P  
@@ -36,13 +49,14 @@ def getSheet_P(level):
     return sheet_d, sheet_r
 
 ##----------------------------------------------------------------------------------
-sheet_type = 'text'
-sheet_title = ''
-sheet_text = ''
-sheet_reply_list = []
-level_P = 1
-index_P = 0 #第幾題
-levelsheet_d, levelsheet_r = getSheet_P(level_P)
+# sheet_type = 'text'
+# sheet_title = ''
+# sheet_text = ''
+# sheet_reply_list = []
+# level_P = 1
+# index_P = 0 #第幾題
+# isInit_P = True
+# levelsheet_d, levelsheet_r = getSheet_P(level_P)
 ##----------------------------------------------------------------------------------
 
 def editSheet(data):
@@ -54,12 +68,8 @@ def editSheet(data):
         sheet_P[header[i]] = data[header[i]]
     return sheet_P
 
-def smallpuzzle(id, sheet):
+def smallpuzzle(event,id, sheet):
     print("-------------------")
-    global sheet_type 
-    global sheet_title
-    global sheet_text
-    global sheet_reply_list
     # id_three = id[3]
     next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
     print("next id = ", next_id)
@@ -76,22 +86,25 @@ def smallpuzzle(id, sheet):
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)                   
-            smallpuzzle(next_id , sheet)
+            smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
-            smallpuzzle(next_id , sheet)
+            smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
+            sheet_text = sheet["text"][id_index]
+            sheet_reply_list = []
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
-            ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
-            print("Button= ",sheet_title)
-
+            replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
+            button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
+            Postback(button_bubble)
+        
         elif sheet_type == 'confirm':
             CofirmPuzzle(sheet,next_id)
 
@@ -103,56 +116,54 @@ def smallpuzzle(id, sheet):
         else:
             pass
 
-def ButtonPuzzle(sheet, reply, title):
+def ButtonPuzzle(reply, title):
     replylist = []
     print("ButtonPuzzle",reply)
     for i in range(len(reply)):
         id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == reply[i]]
         replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
-    print("replylist",replylist[0][2])  
-    #Button Bubble 
-    #
-
-    #smallpuzzle(id + 1 , sheet)
+    #print("replylist",replylist)  
+    return replylist
 
 def CofirmPuzzle(sheet,next_id):
     print("CofirmBubble")
-    smallpuzzle(next_id , sheet)
+    smallpuzzle(event, next_id , sheet)
 
 def Postback(pb_event):
     if pb_event == 0:
         pass
     #--Game State-----------------------------------
     elif pb_event == '1':
-        smallpuzzle('d00100',sheet_d0)
+        smallpuzzle(event,'d00100',sheet_d0)
+        smallpuzzle(event,'d00003',sheet_d0)
     elif pb_event == '2':
-        smallpuzzle('d00200',sheet_d0)
+        smallpuzzle(event,'d00200',sheet_d0)
     elif pb_event == '3':
         pass
     #--Set Level-----------------------------------
     elif pb_event == 'L' or pb_event == 'M' or pb_event == 'H':
         RandomTest()
-        setLevelStory(pb_event)
+        #setLevelStory(pb_event)
 
 def setLevelStory(pb_event):
-    global level_P, levelsheet_d, levelsheet_r
+    #global level_P, levelsheet_d, levelsheet_r
     print("setLevelStory")
     if pb_event == 'L':
         level_P = 1
         levelsheet_d, levelsheet_r = getSheet_P(level_P)
-        smallpuzzle('d10000' , levelsheet_d)
-        LoadQuestion()
+        smallpuzzle(event,'d10000' , levelsheet_d)
+        #LoadQuestion()
 
     elif pb_event == 'M':
         level_P = 2
         levelsheet_d, levelsheet_r = getSheet_P(level_P)
-        smallpuzzle('d20000' , levelsheet_d)
+        smallpuzzle(event,'d20000' , levelsheet_d)
         LoadQuestion()
 
     elif pb_event == 'H':
         level_P = 3
         levelsheet_d, levelsheet_r = getSheet_P(level_P)
-        smallpuzzle('d30000' , levelsheet_d)
+        smallpuzzle(event,'d30000' , levelsheet_d)
         LoadQuestion()
     
 
@@ -180,11 +191,31 @@ def LoadQuestion():
     #     #sheet_cloze
     # elif test_type_list[index_P] == 7:
         #shhet_reading
+def getUser(user_ID):
+    global allUser
+    user = next((item for item in allUser if item._id == user_ID), None)
+    if user is None:
+        user = userVar_P(user_ID)
+        allUser.append(user)
+        print("Alluser",allUser)
+    return user 
+
+def ButtonBubble(sheet_title, sheet_text, replylist):
+    print(sheet_title,sheet_text)
+    for i in range(3):
+        print(replylist[i][2],replylist[i][1])
+    ans = input("input 1 or 2 or 3 :")
+    return ans
 
 if __name__ == "__main__":
     #sheet_d, sheet_r = getSheet_P(1)
-
-    smallpuzzle('d00000',sheet_d0)
+    user = getUser("12345")
+    event = '123' 
+    if(user.isInit_P == True ):
+            smallpuzzle(event,'d00000',sheet_d0)
+            isChangingLevel_P = True
+            user.isInit_P = False
+            smallpuzzle(event, 'd00000',sheet_d0)
     # if(isAsk_P):
     #     smallpuzzle('d00000',sheet_d0)
     #RandomTest()

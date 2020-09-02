@@ -129,6 +129,7 @@ def handle_postback(event):
     elif pb_event == '1':
         print("pb_event 1")
         smallpuzzle(event,'d00100',sheet_d0)
+        smallpuzzle(event,'d00003',sheet_d0)
     elif pb_event == '2':
         print("pb_event 2")
         smallpuzzle(event,'d00200',sheet_d0)
@@ -174,13 +175,12 @@ def smallpuzzle(event, id, sheet):
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
-            print("sheet_title= ",sheet_title)
             sheet_reply_list =[]
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
-            print("sheet_reply_list", sheet_reply_list)
+            print("sheet_reply_list", sheet_reply_list)å
             replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
 
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
