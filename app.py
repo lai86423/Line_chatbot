@@ -130,7 +130,7 @@ def smallpuzzle(event, id, sheet):
     # id_three = id[3]
     next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
     print("next id = ", next_id)
-
+    
     try:
         id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
         id_index = id_index[0]
@@ -157,6 +157,7 @@ def smallpuzzle(event, id, sheet):
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
             print("sheet_title= ",sheet_title)
+            sheet_reply_list =[]
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
