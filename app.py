@@ -156,6 +156,7 @@ def smallpuzzle(event, id, sheet):
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
+            print("sheet_title= ",sheet_title)
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
