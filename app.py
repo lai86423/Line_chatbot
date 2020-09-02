@@ -127,11 +127,13 @@ def handle_postback(event):
         pass
     #--Game State-----------------------------------
     elif pb_event == 1:
-        smallpuzzle('d00100',sheet_d0)
+        print("pb_event 1")
+        smallpuzzle(event,'d00100',sheet_d0)
     elif pb_event == 2:
-        smallpuzzle('d00200',sheet_d0)
+        print("pb_event 2")
+        smallpuzzle(event,'d00200',sheet_d0)
     elif pb_event == 3:
-        pass
+        print("pb_event 3")
     #--Set Level-----------------------------------
     elif pb_event == 'L' or pb_event == 'M' or pb_event == 'H':
         #RandomTest()
