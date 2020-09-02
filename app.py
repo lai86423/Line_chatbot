@@ -160,6 +160,7 @@ def smallpuzzle(event, id, sheet):
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+
             print("sheet_reply_list", sheet_reply_list)
             replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
 
