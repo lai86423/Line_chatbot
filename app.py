@@ -156,12 +156,12 @@ def smallpuzzle(event, id, sheet):
         elif sheet_type == 'button': 
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
-            print(sheet_title, sheet_text)
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+            print("sheet_reply_list", sheet_reply_list)
+            replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
 
-            replylist = ButtonPuzzle(sheet, sheet_reply_list, sheet_title)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.push_message(user._id, button_bubble)
 
@@ -176,11 +176,12 @@ def smallpuzzle(event, id, sheet):
         # #elif index == 'd10029': 
         # else:
         #     pass
-def ButtonPuzzle(sheet, reply, title):
+
+def ButtonPuzzle(sheet_reply_list, title):
     replylist = []
-    print("ButtonPuzzle",reply)
-    for i in range(len(reply)):
-        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == reply[i]]
+    print("ButtonPuzzle",sheet_reply_list)
+    for i in range(len(sheet_reply_list)):
+        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
         replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
     print("replylist",replylist) 
     return replylist
