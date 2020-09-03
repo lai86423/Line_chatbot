@@ -82,19 +82,19 @@ def Cloze(sheet,index_L,subindex):
                 TextComponent(text = "選出空格中合適的答案", margin='sm', size='md', align = 'center',color = '#9F9F9F'),
                 SeparatorComponent(margin = 'xl', color = '#A89F9F'),
                 ButtonComponent(
-                    action = PostbackAction(label = "(1) " + option1, data = '1', text = "(1) " + option1),
+                    action = PostbackAction(label = "(1) " + option1, data = '1', text = "(1) " + option1, wrap=True),
                     color = '#46549B',
                     margin = 'xl',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(2) " + option2, data = '2', text = "(2) " + option2),
+                    action = PostbackAction(label = "(2) " + option2, data = '2', text = "(2) " + option2, wrap=True),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(3) " + option3, data = '3', text = "(3) " + option3),
+                    action = PostbackAction(label = "(3) " + option3, data = '3', text = "(3) " + option3, wrap=True),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
@@ -176,7 +176,7 @@ def Article(sheet,subindex):
             )
         )     
         return Bubble    
-        
+
     except:
         print("Article bubble except !")    
 
