@@ -174,9 +174,11 @@ def Article(sheet,subindex):
                     TextComponent(text= article, wrap = True)
                 ]
             )
-        )         
+        )     
+        return Bubble    
+        
     except:
         print("Article bubble except !")    
 
-    return Bubble
+    
 
