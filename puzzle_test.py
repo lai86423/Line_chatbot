@@ -2,6 +2,8 @@ import numpy as np
 import pandas as pd
 import pygsheets
 import random
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 GDriveJSON = 'JSON.json'
 GSpreadSheet_P = 'cilab_ChatBot_puzzle'
@@ -13,6 +15,17 @@ sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
 allUser = []
+
+#---------------
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open('cilab_ChatBot_QA')
+sheet_Reading = spreadSheet.worksheet("L1_Reading")
+data_Reading = sheet_Reading.get_all_values()
+print("data_Reading", data_Reading[1][0])
+
+#print(user_data["answer"][0])
 #print(sheet_d0,sheet_r0)
 class userVar_P():
     def __init__(self,_id):
@@ -212,10 +225,11 @@ if __name__ == "__main__":
     user = getUser("12345")
     event = '123' 
     if(user.isInit_P == True ):
-            smallpuzzle(event,'d00000',sheet_d0)
+            #smallpuzzle(event,'d00000',sheet_d0)
             isChangingLevel_P = True
             user.isInit_P = False
-            smallpuzzle(event, 'd00000',sheet_d0)
+            
+
     # if(isAsk_P):
     #     smallpuzzle('d00000',sheet_d0)
     #RandomTest()
