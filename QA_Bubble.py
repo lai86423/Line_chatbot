@@ -157,7 +157,7 @@ def Reading(sheet,index_L,subindex):
 
 def Article(sheet,subindex):
     try:
-        article = sheet[subindex_Q][5]
+        article = sheet[subindex][5]
         print("article = ",article)
 
         Bubble = BubbleContainer (
