@@ -127,9 +127,9 @@ def Reading(sheet,index_L,subindex):
             layout='vertical',
             contents=[
                 TextComponent(text = question, size='lg',margin= 'lg',wrap= True),
-                TextComponent(text = "(1) " +sheet["option1"][subindex], size='lg',wrap=True),
-                TextComponent(text = "(2) " +sheet["option2"][subindex], size='lg',wrap=True),
-                TextComponent(text = "(3) " +sheet["option3"][subindex], size='lg',wrap=True),
+                TextComponent(text = "(1) " + option1, size='lg',wrap=True),
+                TextComponent(text = "(2) " + option2, size='lg',wrap=True),
+                TextComponent(text = "(3) " + option3, size='lg',wrap=True),
                 SeparatorComponent(),
                 ButtonComponent(
                     action = PostbackAction(label = "(1) ", data = '1', text = "(1)" ),
