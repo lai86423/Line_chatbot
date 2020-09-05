@@ -224,7 +224,6 @@ def handle_postback(event):
                     reply = '你好棒!一次就答對了!'
                 elif(user.count_Q == 0):
                     reply = '好棒哦!你答對了!'
-                #print(user.count_Q, reply)
                 if(user.index_Q == 9):
                     print("last Q")
                     reply = '好棒哦!你答對了!'
