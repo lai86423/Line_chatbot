@@ -978,8 +978,10 @@ def Question_Q(user):
         user.isVoc = False
         #user.subindex_Q = user.index_Q - 3 
         user.sheet_Q = user.data_Cloze
+        print("data_Cloze len",len(np.transpose([user.sheet_Q])[0]))
         if user.count_Q == 1:
             user.subindex_Q = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
+            print("data_Cloze subindex_Q", user.subindex_Q)
         if (user.level_Q != 3):
             QA_bubble = QA_Bubble.Cloze(user.sheet_Q, user.index_Q, user.subindex_Q)
         else:
