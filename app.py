@@ -604,9 +604,9 @@ def handle_postback(event):
     global trans, quiz, listen, stt, score, qa_score, lis_score, trans_score, speech_score, game_score, function_status
     print('event.postback.data:', event.postback.data)
     if(function_status == 'quiz'):
-        print("---Feedback---")
+        print("---Feedback quiz---")
         user = getUser(event.source.user_id)
-        print("postbackData = ",event.postback.data )
+        print("postbackData quiz= ",event.postback.data )
         if(user.isChangingLevel_Q==True):
             level_bubble = setLevel_Q(event.postback.data,user) 
             message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
