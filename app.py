@@ -314,15 +314,15 @@ def handle_message(event):
     global user_sheet
     user = getUser(event.source.user_id)
     user_data = user_sheet.get_all_values()
-    print('!!!!!!!!!!!!!!!!!!user:', user_data)
+    #print('!!!!!!!!!!!!!!!!!!user:', user_data)
     for i in range(1,len(user_data)):
-        print('user_data[i][0]:',user_data[i][0])
-        print('id:', event.source.user_id)
-        print('user_data[i][0]:',user_data[i][1])
+        #print('user_data[i][0]:',user_data[i][0])
+        #print('id:', event.source.user_id)
+        #print('user_data[i][0]:',user_data[i][1])
         if (user_data[i][0] == event.source.user_id):
             check_user = True
             user_index = i + 1
-            print('find user!!!!')
+            #print('find user!!!!')
             break
     #print('check_user: ', check_user)
     if (check_user == False):
@@ -337,8 +337,8 @@ def handle_message(event):
         user_sheet.update_cell(user_index, 7, '0')
         user_sheet.update_cell(user_index, 8, '1')
         user_data.append([event.source.user_id, 'null', 0, 0, 0, 0, 0, 1])
-    print('user_update:',user_data)
-    print('user_index', user_index)
+    #print('user_update:',user_data)
+    #print('user_index', user_index)
     data_row = user_index - 1
     function_status = user_data[data_row][1]
     user.score = int(user_data[data_row][2])
