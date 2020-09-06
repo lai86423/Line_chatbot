@@ -613,7 +613,7 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token,message) 
 
         elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
-            if(user.index_Q == 7 and user.count_Q == 1):
+            if(user.index_Q == 7 and user.count_Q == 2):
                 user.sheet_Q = user.data_Reading
                 user.subindex_Q = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
                 QA_bubble_article = QA_Bubble.Article(user.sheet_Q,user.subindex_Q)
@@ -979,7 +979,7 @@ def Question_Q(user):
         #user.subindex_Q = user.index_Q - 3 
         user.sheet_Q = user.data_Cloze
         print("data_Cloze len",len(np.transpose([user.sheet_Q])[0]))
-        if user.count_Q == 1:
+        if user.count_Q == 2:
             user.subindex_Q = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
             print("data_Cloze subindex_Q", user.subindex_Q)
         if (user.level_Q != 3):
@@ -989,7 +989,7 @@ def Question_Q(user):
 
     else:
         #user.subindex_Q = user.index_Q - 7
-        if (user.index_Q != 7 and user.count_Q == 1):
+        if (user.index_Q != 7 and user.count_Q == 2):
             user.subindex_Q = user.subindex_Q + 1
         
         print("user.subindex_Q",user.subindex_Q)

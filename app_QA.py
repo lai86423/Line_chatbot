@@ -115,7 +115,7 @@ class userVar_Q():
         self.index_Q = 0 #第幾題
         self.isInit_Q = True
         self.subindex_Q = self.index_Q
-        self.count_Q = 1
+        self.count_Q = 2
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.level_Q) #預設傳level = 1
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
@@ -179,7 +179,7 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
 
     elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
-        if(user.index_Q == 7 and user.count_Q == 1):
+        if(user.index_Q == 7 and user.count_Q == 2):
             user.sheet_Q = user.data_Reading
             print("reading", len( np.transpose( [user.sheet_Q])[0] ) )
             user.subindex_Q = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
@@ -213,16 +213,16 @@ def handle_postback(event):
                         loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲')
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    user.count_Q = 1
+                    user.count_Q = 2
                     user.index_Q += 1
                 user.isAsked_Q = False
             else:
                 user.isStart_Q = False
                 user.star_num_Q += user.count_Q
                 print('正確答案!')
-                if(user.count_Q == 1):
+                if(user.count_Q == 2):
                     reply = '你好棒!一次就答對了!'
-                elif(user.count_Q == 0):
+                elif(user.count_Q == 1):
                     reply = '好棒哦!你答對了!'
                 if(user.index_Q == 9):
                     print("last Q")
@@ -236,7 +236,7 @@ def handle_postback(event):
                 user.index_Q += 1
                 if(user.index_Q < 10):
                     user.isAsked_Q = False
-                user.count_Q = 1
+                user.count_Q = 2
             print('after count_Q: ', user.count_Q)
             print('after index_Q: ', user.index_Q)
     
@@ -320,7 +320,7 @@ def Question(user):
         user.isVoc = False
         user.sheet_Q = user.data_Cloze
         print("data_Cloze len",len(np.transpose([user.sheet_Q])[0]))
-        if user.count_Q == 1:
+        if user.count_Q == 2:
             user.subindex_Q = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
         if (user.level_Q != 3):
             QA_bubble = QA_Bubble.Cloze(user.sheet_Q, user.index_Q, user.subindex_Q)
@@ -328,7 +328,7 @@ def Question(user):
             QA_bubble = QA_Bubble.Cloze_L3(user.sheet_Q, user.index_Q, user.subindex_Q)
 
     else:
-        if (user.index_Q != 7 and user.count_Q == 1):
+        if (user.index_Q != 7 and user.count_Q == 2):
             user.subindex_Q = user.subindex_Q + 1
         
         print("user.subindex_Q",user.subindex_Q)
