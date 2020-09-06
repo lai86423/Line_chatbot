@@ -192,7 +192,9 @@ def editSheet(data):
 # L3_Cloze = pd.read_csv('L3_Cloze.csv')
 
 ##----------------------------------------------------------------------------------
-
+GSpreadSheet_Q = 'cilab_ChatBot_QA'
+gc_Q = pygsheets.authorize(service_account_file='JSON.json')
+sh_Q = gc_Q.open(GSpreadSheet_Q)
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
 client = gspread.authorize(creds)
