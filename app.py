@@ -633,6 +633,7 @@ def handle_postback(event):
 
             if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
                 if event.postback.data != correctAns:
+                    print("QA ~~ != correctAns")
                     if(user.count_Q != 0):
                         user.isStart_Q = False
                         wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', '')
