@@ -643,9 +643,9 @@ def handle_postback(event):
                     elif(user.count_Q == 0):
                         user.isStart_Q = False
                         if(user.index_Q == 9):
-                            loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', '')
+                            loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
                         else:    
-                            loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', '')
+                            loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
                         message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_Q = 2
@@ -670,7 +670,7 @@ def handle_postback(event):
                     if(user.index_Q == 9):
                         print("last Q")
                         reply = '好棒哦!你答對了!'
-                        correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', '')
+                        correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
  
                     else:
                         correctBubble = rightBubble(reply)
@@ -734,16 +734,16 @@ def handle_postback(event):
                 if event.postback.data != correctAns:
                     if(user.count_L != 0):
                         user.isStart_L = False
-                        wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', '')
+                        wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_L -= 1
                     elif(user.count_L == 0):
                         user.isStart_L = False
                         if(user.index_L == 9):
-                            loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', '')
+                            loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
                         else:    
-                            loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', '')
+                            loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
                         message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.index_L += 1
@@ -770,7 +770,7 @@ def handle_postback(event):
                     #print(user.count_L, reply)
                     if(user.index_L == 9):
                         reply = '好棒哦!你答對了!'
-                        correctBubble = finalBubble('恭喜答對!!','好棒哦!你答對了!', '')
+                        correctBubble = finalBubble('恭喜答對!!','好棒哦!你答對了!', ' ')
                     else:
                         correctBubble = rightBubble(reply)
                     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
