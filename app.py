@@ -82,7 +82,7 @@ class userVar():
         self.subindex_Q = self.index_Q
         self.count_Q = 2
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
-        self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        self.sheet_Q = getVoc.editSheetQA(self.data_Voc)
         self.level_L = 1 # 預設level 1
         self.qNum_L = 10 # 每輪題目數量
         self.star_num_L = 0 #集點
