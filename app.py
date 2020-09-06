@@ -622,6 +622,7 @@ def handle_postback(event):
             user.isStart_Q = True
 
         elif(user.isStart_Q == True):
+            print("---QA correctAns scan---")
             if user.isVoc == True:
                 correctAns = str(user.VocQA[user.index_Q][2])
             else:
