@@ -171,25 +171,48 @@ def editSheet(data):
     return sheet_L
 ##-----------------------------------------------------------------------------------
 # 出題初始抓資料＆資料處理------------------------------------------------
-GDriveJSON = 'JSON.json'
-GSpreadSheet_Q = 'cilab_ChatBot_QA'
-gc_Q = pygsheets.authorize(service_account_file='JSON.json')
-sh_Q = gc_Q.open(GSpreadSheet_Q)
+# GDriveJSON = 'JSON.json'
+# GSpreadSheet_Q = 'cilab_ChatBot_QA'
+# gc_Q = pygsheets.authorize(service_account_file='JSON.json')
+# sh_Q = gc_Q.open(GSpreadSheet_Q)
 
-sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
-sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
-sh_Q.worksheet_by_title('L2_Reading').export(filename='L2_Reading')
-sh_Q.worksheet_by_title('L2_Cloze').export(filename='L2_Cloze')
-sh_Q.worksheet_by_title('L3_Reading').export(filename='L3_Reading')
-sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
+# sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
+# sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
+# sh_Q.worksheet_by_title('L2_Reading').export(filename='L2_Reading')
+# sh_Q.worksheet_by_title('L2_Cloze').export(filename='L2_Cloze')
+# sh_Q.worksheet_by_title('L3_Reading').export(filename='L3_Reading')
+# sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
 
-#type:<class 'pandas.core.frame.DataFrame'>
-L1_Reading = pd.read_csv('L1_Reading.csv')
-L1_Cloze = pd.read_csv('L1_Cloze.csv')
-L2_Reading = pd.read_csv('L2_Reading.csv') 
-L2_Cloze = pd.read_csv('L2_Cloze.csv')
-L3_Reading = pd.read_csv('L3_Reading.csv') 
-L3_Cloze = pd.read_csv('L3_Cloze.csv')
+# #type:<class 'pandas.core.frame.DataFrame'>
+# L1_Reading = pd.read_csv('L1_Reading.csv')
+# L1_Cloze = pd.read_csv('L1_Cloze.csv')
+# L2_Reading = pd.read_csv('L2_Reading.csv') 
+# L2_Cloze = pd.read_csv('L2_Cloze.csv')
+# L3_Reading = pd.read_csv('L3_Reading.csv') 
+# L3_Cloze = pd.read_csv('L3_Cloze.csv')
+
+##----------------------------------------------------------------------------------
+
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open('cilab_ChatBot_QA')
+sheet_L1_Cloze = spreadSheet.worksheet("L1_Cloze")
+L1_Cloze = sheet_L1_Cloze.get_all_values()
+sheet_L2_Cloze = spreadSheet.worksheet("L2_Cloze")
+L2_Cloze = sheet_L2_Cloze.get_all_values()
+sheet_L3_Cloze = spreadSheet.worksheet("L3_Cloze")
+L3_Cloze = sheet_L3_Cloze.get_all_values()
+
+sheet_L1_Reading = spreadSheet.worksheet("L1_Reading")
+L1_Reading = sheet_L1_Reading.get_all_values()
+sheet_L2_Reading = spreadSheet.worksheet("L2_Reading")
+L2_Reading = sheet_L2_Reading.get_all_values()
+sheet_L3_Reading = spreadSheet.worksheet("L3_Reading")
+L3_Reading = sheet_L3_Reading.get_all_values()
+
+##----------------------------------------------------------------------------------
+
 #三種問題類型
 def getSheetQA(Qlevel):   
     if(Qlevel == 3):
@@ -589,20 +612,18 @@ def handle_postback(event):
 
         elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
             if(user.index_Q == 7 and user.count_Q == 1):
-                #TODO----S
-                user.sheet_Q = editSheet(user.data_Reading) 
-                user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]),3)
+                user.sheet_Q = user.data_Reading
+                user.subindex_Q = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
                 QA_bubble_article = QA_Bubble.Article(user.sheet_Q,user.subindex_Q)
                 article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
                 line_bot_api.push_message(event.source.user_id, article)
-                #TODO----E
             user.isStart_Q = True
 
         elif(user.isStart_Q == True):
             if user.isVoc == True:
                 correctAns = str(user.VocQA[user.index_Q][2])
             else:
-                correctAns = str(user.sheet_Q['answer'][user.subindex_Q])
+                correctAns = str(user.sheet_Q[user.subindex_Q][4])
             print("correct answer = ",correctAns)
             print("answer index_Q = ", user.index_Q)
             print("answer subindex_Q = ", user.subindex_Q)
@@ -954,10 +975,13 @@ def Question_Q(user):
     elif user.index_Q < 7:
         user.isVoc = False
         #user.subindex_Q = user.index_Q - 3 
-        user.sheet_Q = editSheet(user.data_Cloze)
+        user.sheet_Q = user.data_Cloze
         if user.count_Q == 1:
-            user.subindex_Q = random.randrange(0,len(user.sheet_Q["question"]))
-        QA_bubble = QA_Bubble.Cloze(user.sheet_Q,user.index_Q,user.subindex_Q)
+            user.subindex_Q = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
+        if (user.level_Q != 3):
+            QA_bubble = QA_Bubble.Cloze(user.sheet_Q, user.index_Q, user.subindex_Q)
+        else:
+            QA_bubble = QA_Bubble.Cloze_L3(user.sheet_Q, user.index_Q, user.subindex_Q)
 
     else:
         #user.subindex_Q = user.index_Q - 7

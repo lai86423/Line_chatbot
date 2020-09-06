@@ -152,7 +152,7 @@ def Cloze_L3(sheet,index_L,subindex):
                 ),
                 ButtonComponent(
                     action = PostbackAction(label = "(4) " + option4, data = '4', text = "(4) " + option4, wrap=True),
-                    color = '#CD2774',
+                    color = '#FFBF00',
                     margin = 'md',
                     style = 'primary',
                     gravity='top'
