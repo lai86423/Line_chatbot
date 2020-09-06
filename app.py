@@ -636,7 +636,7 @@ def handle_postback(event):
                     print("QA ~~ != correctAns")
                     if(user.count_Q != 0):
                         user.isStart_Q = False
-                        wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', '')
+                        wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_Q -= 1
