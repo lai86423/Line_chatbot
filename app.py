@@ -324,7 +324,7 @@ def handle_message(event):
             user_index = i + 1
             print('find user!!!!')
             break
-    print('check_user: ', check_user)
+    #print('check_user: ', check_user)
     if (check_user == False):
         user_index = len(user_data) + 1
         user_sheet.add_rows(1)
@@ -348,17 +348,17 @@ def handle_message(event):
     user.game_score = int(user_data[data_row][6])
     start_S = int(user_data[data_row][7])
     check_user = False
-    print('after check_user: ', check_user)
-    print('check:', check)
-    print('event user_id: ', event.source.user_id)
-    print('user_id:', user_data[data_row][0])
-    print('user_index', user_index)
-    print('score: ', user.score)
-    print('qa_score: ', user.qa_score)
-    print('lis_score: ', user.lis_score)
-    print('speech_score: ', user.speech_score)
-    print('game_score: ', user.game_score)
-    print('start_S: ', start_S)
+    # print('after check_user: ', check_user)
+    # print('check:', check)
+    # print('event user_id: ', event.source.user_id)
+    # print('user_id:', user_data[data_row][0])
+    # print('user_index', user_index)
+    # print('score: ', user.score)
+    # print('qa_score: ', user.qa_score)
+    # print('lis_score: ', user.lis_score)
+    # print('speech_score: ', user.speech_score)
+    # print('game_score: ', user.game_score)
+    # print('start_S: ', start_S)
     ############################################
     if event.message.type == 'text':
         if(event.message.text == 'translation'):
@@ -632,7 +632,6 @@ def handle_postback(event):
             print("answer subindex_Q = ", user.subindex_Q)
 
             if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
-                #print('count_Q: ', user.count_Q)
                 if event.postback.data != correctAns:
                     if(user.count_Q != 0):
                         user.isStart_Q = False
@@ -757,7 +756,7 @@ def handle_postback(event):
                     user.star_num_L += user.count_L
                     user.score += user.count_L
                     user.lis_score += user.count_L
-                    print('score: ', user.score)
+                    print('score : ', user.score)
                     print('lis_score: ', user.lis_score)
                     user_sheet.update_cell(user_index, 3, user.score)
                     user_sheet.update_cell(user_index, 5, user.lis_score)
@@ -885,7 +884,7 @@ def getUser(user_ID):
     if user is None:
         user = userVar(user_ID)
         allUser.append(user)
-        print("Alluser",allUser)
+        #print("Alluser",allUser)
     return user
     
 ##出題小老師  出題類型ＵＩ------------------------------------------------
