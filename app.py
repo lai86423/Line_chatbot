@@ -260,7 +260,7 @@ scope_S = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/a
 creds_S = ServiceAccountCredentials.from_json_keyfile_name("./speak.json", scope_S)
 client_S = gspread.authorize(creds_S)
 spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
-random.seed(10)
+#random.seed(10)
 L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
 L1_voc_data = L1_voc_sheet.get_all_values()
 del(L1_voc_data[0])
@@ -602,11 +602,11 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_postback(event):
     global trans, quiz, listen, stt, score, qa_score, lis_score, trans_score, speech_score, game_score, function_status
-    print('event.postback.data:', event.postback.data)
+    #print('event.postback.data:', event.postback.data)
     if(function_status == 'quiz'):
-        print("---Feedback quiz---")
+        #print("---Feedback QA---")
         user = getUser(event.source.user_id)
-        print("postbackData quiz= ",event.postback.data )
+        print("---postbackData QA= ",event.postback.data )
         if(user.isChangingLevel_Q==True):
             level_bubble = setLevel_Q(event.postback.data,user) 
             message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
@@ -655,12 +655,12 @@ def handle_postback(event):
                     user.star_num_Q += user.count_Q
                     user.score += user.count_Q
                     user.qa_score += user.count_Q
-                    print('score: ', user.score)
-                    print('qa_score: ', user.qa_score)
+                    #print('score: ', user.score)
+                    #print('qa_score: ', user.qa_score)
                     user_sheet.update_cell(user_index, 3, user.score)
                     user_sheet.update_cell(user_index, 4, user.qa_score)
-                    print('save!!!!!!!!!!')
-                    print('正確答案!')
+                    #print('save!!!!!!!!!!')
+                    #print('正確答案!')
                     if(user.count_Q == 2):
                         reply = '你好棒!一次就答對了!'
                     elif(user.count_Q == 1):
@@ -670,7 +670,7 @@ def handle_postback(event):
                         print("last Q")
                         reply = '好棒哦!你答對了!'
                         correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', '')
-
+ 
                     else:
                         correctBubble = rightBubble(reply)
                     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
