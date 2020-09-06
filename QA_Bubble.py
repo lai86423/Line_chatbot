@@ -11,14 +11,14 @@ import pandas as pd
 from googletrans import Translator
 import random
 
-def Voc(index_L, VocQA):
-    # question = sheet["question"][subindex]
-    # print("option1 = ",sheet["option1"][subindex])
-    # print("option2 = ",sheet["option2"][subindex])
-    # print("option3 = ",sheet["option3"][subindex])
-    # print("Question = ",question)
-    q_chinese = VocQA[0]
-    option = VocQA[1]
+def Voc(index_L, sheet):
+    q_chinese = sheet[0]
+    option = sheet[1]
+    print("q_chinese = ",q_chinese)
+    print("option1 = ",option[0])
+    print("option2 = ",option[1])
+    print("option3 = ",option[2])
+    
     Bubble = BubbleContainer (
         direction='ltr',
         header = BoxComponent(
