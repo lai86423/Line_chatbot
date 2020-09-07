@@ -633,7 +633,7 @@ def handle_postback(event):
             if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
                 if event.postback.data != correctAns:
                     print("QA ~~ != correctAns")
-                    if(user.count_Q != 0):
+                    if(user.count_Q != 1):
                         user.isStart_Q = False
                         wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
@@ -731,7 +731,7 @@ def handle_postback(event):
             if(user.index_L < user.qNum_L): #做完本輪題庫數目
                 #print('user.count_L: ', user.count_L)
                 if event.postback.data != correctAns:
-                    if(user.count_L != 0):
+                    if(user.count_L != 1):
                         user.isStart_L = False
                         wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
