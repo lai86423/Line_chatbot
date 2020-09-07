@@ -199,13 +199,13 @@ def handle_postback(event):
 
         if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
             if event.postback.data != correctAns:
-                if(user.count_Q != 0):
+                if(user.count_Q != 1):
                     user.isStart_Q = False
                     wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start')
                     message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                     line_bot_api.reply_message(event.reply_token,message)
                     user.count_Q -= 1
-                elif(user.count_Q == 0):
+                elif(user.count_Q == 1):
                     user.isStart_Q = False
                     if(user.index_Q == 9):
                         loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!')
