@@ -83,6 +83,8 @@ class userVar():
         self.count_Q = 2
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        self.isVoc = False 
+        self.VocQA = []
         self.level_L = 1 # 預設level 1
         self.qNum_L = 10 # 每輪題目數量
         self.star_num_L = 0 #集點
@@ -112,9 +114,6 @@ class userVar():
         self.isChangingTrans = True
         self.isEnded = False
         self.TransType = 1
-        self.sheet_Q = getVoc.editSheet(self.data_Voc)
-        self.isVoc = False 
-        self.VocQA = []
 
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
@@ -1483,6 +1482,31 @@ def reset_s(user):
     user.speech = False
     user.stt_mes = ''
     user.QA_.clear()
+
+def reset(user):
+    self.isAsked_Q = False #出題與否
+    self.isChangingLevel_Q = True
+    self.isStart_Q = False
+    self.index_Q = 0 #第幾題
+    self.isInit_Q = True
+    self.subindex_Q = self.index_Q
+    self.count_Q = 2
+    self.isVoc = False 
+    self.VocQA = []
+    self.isAsked_L = False #出題與否
+    self.isChangingLevel_L = True
+    self.isStart_L = False
+    self.index_L = 0 #第幾題
+    self.isInit_L = True
+    self.subindex_L = self.index_L
+    self.count_L = 2
+    self.isWord = False 
+    self.word_list = []
+    self.isAsked_T = True
+    self.isChangingTrans = True
+    self.isEnded = False
+    self.TransType = 1
+
 
 import os
 if __name__ == "__main__":
