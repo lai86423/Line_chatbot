@@ -397,6 +397,7 @@ def handle_message(event):
             replytext = event.message.text
             myId = event.source.user_id
             reset_s(user)
+            reset(user)
             if event.message.type == 'text':   
                 if(user.isInit_Q == True or event.message.text =='?'):
                     user.isChangingLevel_Q = True
@@ -420,6 +421,7 @@ def handle_message(event):
             global isChangingLevel_L
             global sheet,subindex
             reset_s(user)
+            reset(user)
             replytext = event.message.text
             myId = event.source.user_id
             if event.message.type == 'text':   
@@ -442,6 +444,7 @@ def handle_message(event):
         elif(function_status == 'translation'):
             myId = event.source.user_id
             reset_s(user)
+            reset(user)
             replytext = event.message.text
             if event.message.type == 'text':
                 if(event.message.type == '?'):
@@ -488,6 +491,7 @@ def handle_message(event):
                         #line_bot_api.reply_message(event.reply_token,message)
     #---------------------發音處理訊息------------------
         # elif(function_status == 'speech'):
+        #     reset(user)
         #     myId = event.source.user_id
         #     print('start_s:', user.start_s)
         #     if(user.start_s == 1):
@@ -507,6 +511,7 @@ def handle_message(event):
 #----------------積分處理訊息------------------
         elif(function_status == 'score'):
             reset_s(user)
+            reset(user)
             score_bubble = total_score(user)
             message = FlexSendMessage(alt_text="score_bubble", contents = score_bubble)
             line_bot_api.reply_message(event.reply_token, message)
@@ -683,7 +688,6 @@ def handle_postback(event):
                 print('after index_Q: ', user.index_Q)
         
         elif(event.postback.data == "end"):
-            #print('恭喜你做完這次的聽力練習了!star=',star_num_Q)
             starBubble = totalStarBubble(user, user.star_num_Q)
             message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
             line_bot_api.reply_message(event.reply_token,message)
@@ -703,6 +707,8 @@ def handle_postback(event):
         elif (event.postback.data == "next2"):
             user.isStart_Q = True
             user.isAsked_Q = True
+            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_Q) #預設傳level = 1
+            user.sheet_Q = getVoc.editSheet(user.data_Voc)
             QA_bubble = Question_Q(user)
             message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
             line_bot_api.reply_message(event.reply_token, message)
@@ -958,6 +964,7 @@ def setLevel_Q(levelinput, user):
 
 def Question_Q(user):
     print("選完階級開始出題")
+
     if user.index_Q < 3:
         user.isVoc = True
         try:
