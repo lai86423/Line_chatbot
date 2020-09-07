@@ -639,7 +639,7 @@ def handle_postback(event):
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_Q -= 1
-                    elif(user.count_Q == 0):
+                    elif(user.count_Q == 1):
                         user.isStart_Q = False
                         if(user.index_Q == 9):
                             loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
@@ -737,7 +737,7 @@ def handle_postback(event):
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_L -= 1
-                    elif(user.count_L == 0):
+                    elif(user.count_L == 1):
                         user.isStart_L = False
                         if(user.index_L == 9):
                             loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
@@ -1484,28 +1484,28 @@ def reset_s(user):
     user.QA_.clear()
 
 def reset(user):
-    self.isAsked_Q = False #出題與否
-    self.isChangingLevel_Q = True
-    self.isStart_Q = False
-    self.index_Q = 0 #第幾題
-    self.isInit_Q = True
-    self.subindex_Q = self.index_Q
-    self.count_Q = 2
-    self.isVoc = False 
-    self.VocQA = []
-    self.isAsked_L = False #出題與否
-    self.isChangingLevel_L = True
-    self.isStart_L = False
-    self.index_L = 0 #第幾題
-    self.isInit_L = True
-    self.subindex_L = self.index_L
-    self.count_L = 2
-    self.isWord = False 
-    self.word_list = []
-    self.isAsked_T = True
-    self.isChangingTrans = True
-    self.isEnded = False
-    self.TransType = 1
+    user.isAsked_Q = False #出題與否
+    user.isChangingLevel_Q = True
+    user.isStart_Q = False
+    user.index_Q = 0 #第幾題
+    user.isInit_Q = True
+    user.subindex_Q = user.index_Q
+    user.count_Q = 2
+    user.isVoc = False 
+    user.VocQA = []
+    user.isAsked_L = False #出題與否
+    user.isChangingLevel_L = True
+    user.isStart_L = False
+    user.index_L = 0 #第幾題
+    user.isInit_L = True
+    user.subindex_L = user.index_L
+    user.count_L = 2
+    user.isWord = False 
+    user.word_list = []
+    user.isAsked_T = True
+    user.isChangingTrans = True
+    user.isEnded = False
+    user.TransType = 1
 
 
 import os
