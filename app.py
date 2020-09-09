@@ -259,25 +259,22 @@ def handle_postback(event):
     elif (event.postback.data == "next"): 
         user.index_L = 0
         user.star_num_L = 0
-
-        #TODO----S
         user.word_list = []
         print("答題分數顯示完 圖數和分數歸零----",user.index_L,user.star_num_L)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
         line_bot_api.reply_message(event.reply_token, message)  
-        #TODO----E
 
     elif (event.postback.data == "changeLevel"): 
         user.isChangingLevel_L = True
 
-    elif (event.postback.data == "next2"):
+    elif (event.postback.data == "next2"): #直接繼續答題 不換程度
         user.isStart_L = True
         user.isAsked_L = True
-        #TODO!!!
-        #QA_bubble = Question(user)
-        #message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
-        #line_bot_api.reply_message(event.reply_token, message)
+        QA_bubble = Question(user)
+        message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+        line_bot_api.reply_message(event.reply_token, message)
+
     elif (event.postback.data == "AllEnd"):
         message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         line_bot_api.reply_message(event.reply_token, message)    
@@ -318,7 +315,7 @@ def Question(user):
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
-                print("--user.subindex_L",user.subindex_L)
+                print("--## user.subindex_L",user.subindex_L)
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
