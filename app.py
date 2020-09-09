@@ -18,6 +18,7 @@ import getVoc
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import random
 
 app = Flask(__name__)
 
@@ -316,12 +317,13 @@ def Question(user):
         if user.level_L != 3:
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
-            print(user.sheet_L)
+                user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
+                user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
         user.count_type_L = 2
@@ -349,7 +351,8 @@ def Question(user):
         user.subindex_L = user.index_L-7
         user.count_type_L = 2
         if user.count_L == user.count_type_L :
-            user.sheet_L = user.data_sen 
+            user.sheet_L = user.data_sen
+            user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0])) 
         QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'選出正確的應對句子')
     return QA_bubble
 #TODO----E
