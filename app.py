@@ -311,7 +311,7 @@ def setLevel(levelinput,user):
 
 def Question(user):
     # global user.subindex_L,user.sheet_L
-    print("選完階級！開始出題")
+    print("選完階級！開始出題 index",user.index_L)
     if user.index_L < 3:
         user.count_type_L = 1
         if user.level_L != 3:
