@@ -297,6 +297,7 @@ def setLevel(levelinput,user):
         user.level_L = 3
         myResult = readyBubble(user.level_L)
         user.isChangingLevel_L = False
+        user.count_type_L = 2
 
     else:       
         user.isChangingLevel_L = True
