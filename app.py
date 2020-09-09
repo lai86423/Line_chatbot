@@ -197,7 +197,7 @@ def handle_postback(event):
             correctAns = str(user.word_list[user.subindex_L][2])
         else:
             #correctAns = str(user.sheet_L["answer"][user.subindex_L])
-            correctAns = str(user.sheet_L[user.subindex_Q][4])
+            correctAns = str(user.sheet_L[user.subindex_L][4])
         print("correct answer = ",correctAns)
         print("answer user.index_L = ", user.index_L)
         print("answer subuser.index_L = ", user.subindex_L)
