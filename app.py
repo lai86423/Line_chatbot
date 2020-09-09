@@ -217,7 +217,7 @@ def handle_postback(event):
                         loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲')
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
-                    user.count_L = count_type_L
+                    user.count_L = user.count_type_L
                     user.index_L += 1
                 user.isAsked_L = False
             else:
