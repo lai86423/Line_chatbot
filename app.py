@@ -32,7 +32,7 @@ allUser = []
 
 #TODO----S
 ##-----------------------------------------------------------------------------------
-# ##聽力  初始抓資料＆資料處理
+###聽力  初始抓資料＆資料處理
 # GDriveJSON = 'JSON.json'
 # GSpreadSheet_L = 'cilab_ChatBot_listening'
 # gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
