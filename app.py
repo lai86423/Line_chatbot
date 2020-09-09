@@ -274,9 +274,10 @@ def handle_postback(event):
     elif (event.postback.data == "next2"):
         user.isStart_L = True
         user.isAsked_L = True
-        QA_bubble = Question(user)
-        message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
-        line_bot_api.reply_message(event.reply_token, message)
+        #TODO!!!
+        #QA_bubble = Question(user)
+        #message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+        #line_bot_api.reply_message(event.reply_token, message)
     elif (event.postback.data == "AllEnd"):
         message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         line_bot_api.reply_message(event.reply_token, message)    
@@ -315,16 +316,16 @@ def Question(user):
         user.count_type_L = 1
         if user.level_L != 3:
             if user.count_L == user.count_type_L :
-                print("get sheet L & subindex random")
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
-            print("user.subindex_L",user.subindex_L)
+                print("--user.subindex_L",user.subindex_L)
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
+                print("--user.subindex_L",user.subindex_L)
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
         user.count_type_L = 2
