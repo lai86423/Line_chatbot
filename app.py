@@ -190,14 +190,13 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         user.isStart_L = True
+
     elif(user.isStart_L == True): 
-        #TODO----S
         if user.isWord == True:
             correctAns = str(user.word_list[user.subindex_L][2])
         else:
             #correctAns = str(user.sheet_L["answer"][user.subindex_L])
-            correctAns = str(user.sheet_Q[user.subindex_Q][4])
-        #TODO----E
+            correctAns = str(user.sheet_L[user.subindex_Q][4])
         print("correct answer = ",correctAns)
         print("answer user.index_L = ", user.index_L)
         print("answer subuser.index_L = ", user.subindex_L)
@@ -308,7 +307,6 @@ def setLevel(levelinput,user):
 
     return myResult
 
-#TODO----S
 def Question(user):
     # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題")
