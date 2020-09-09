@@ -192,7 +192,7 @@ def handle_postback(event):
 
     elif(event.postback.data == "start"):  
         user.isStart_L = True
-
+        print("postback 開始答題")
     elif(user.isStart_L == True): 
         if user.isWord == True:
             correctAns = str(user.word_list[user.subindex_L][2])
