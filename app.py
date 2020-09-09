@@ -241,8 +241,8 @@ def handle_postback(event):
                 if(user.index_L < 10):
                     user.isAsked_L = False
 
-                if user.index_L < 3 :
-                    user.count_type_L = 1
+                if user.index_L < 3 and user.level_L !=3:
+                        user.count_type_L = 1
                 else:
                     user.count_type_L = 2
                 user.count_L = user.count_type_L
