@@ -316,6 +316,7 @@ def Question(user):
         user.subindex_L = user.index_L
         if user.level_L != 3:
             if user.count_L == user.count_type_L :
+                print("get sheet L & subindex random")
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
