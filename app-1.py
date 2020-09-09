@@ -71,7 +71,6 @@ class userVar():
         self.trans_score = 0
         self.speech_score = 0
         self.game_score = 0
-        #QA
         self.level_Q = 1 # 預設level 1
         self.qNum_Q = 10 # 每輪題目數量
         self.star_num_Q = 0 #集點
@@ -86,7 +85,6 @@ class userVar():
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
-        #Listen
         self.level_L = 1 # 預設level 1
         self.qNum_L = 10 # 每輪題目數量
         self.star_num_L = 0 #集點
@@ -95,14 +93,12 @@ class userVar():
         self.isStart_L = False
         self.index_L = 0 #第幾題
         self.isInit_L = True
-        self.subindex_L = self.index_L 
+        self.subindex_L = self.index_L
+        self.count_L = 1
         self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        self.sheet_L = self.data_pho
+        self.sheet_L = editSheet(self.data_pho)
         self.isWord = False 
         self.word_list = []
-        self.count_type_L = 1
-        self.count_L = self.count_type_L
-        #
         self.start_s = 1
         self.star_num_s = 0
         self.index_S = 0
@@ -114,7 +110,6 @@ class userVar():
         self.speech = False
         self.stt_mes = ''
         self.QA_ = []
-        #Trans
         self.isAsked_T = True
         self.isChangingTrans = True
         self.isEnded = False
@@ -122,45 +117,25 @@ class userVar():
 
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
-# GDriveJSON = 'JSON.json'
-# GSpreadSheet_L = 'cilab_ChatBot_listening'
-# gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
-# sh_L = gc_L.open(GSpreadSheet_L)
-# sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
-# sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
-# sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
-# sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
-# sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
-# sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
-
-# #type: <class 'pandas.core.frame.DataFrame'>
-# L1_pho = pd.read_csv('L1_pho.csv')
-# L1_sen = pd.read_csv('L1_sen.csv')
-# L2_pho = pd.read_csv('L2_pho.csv')
-# L2_sen = pd.read_csv('L2_sen.csv')
-# L3_pho = pd.read_csv('L3_pho.csv') 
-# L3_sen = pd.read_csv('L3_sen.csv')
-
+GDriveJSON = 'JSON.json'
 GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
 sh_L = gc_L.open(GSpreadSheet_L)
-scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
-client = gspread.authorize(creds)
-spreadSheet = client.open('cilab_ChatBot_listening')
-sheet_L1_pho = spreadSheet.worksheet("L1_pho")
-L1_pho = sheet_L1_pho.get_all_values()
-sheet_L2_pho = spreadSheet.worksheet("L2_pho")
-L2_pho = sheet_L2_pho.get_all_values()
-sheet_L3_pho = spreadSheet.worksheet("L3_pho")
-L3_pho = sheet_L3_pho.get_all_values()
+sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
+sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
+sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
+sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
+sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
+sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
 
-sheet_L1_sen = spreadSheet.worksheet("L1_sen")
-L1_sen = sheet_L1_sen.get_all_values()
-sheet_L2_sen = spreadSheet.worksheet("L2_sen")
-L2_sen = sheet_L2_sen.get_all_values()
-sheet_L3_sen = spreadSheet.worksheet("L3_sen")
-L3_sen = sheet_L3_sen.get_all_values()
+#type: <class 'pandas.core.frame.DataFrame'>
+L1_pho = pd.read_csv('L1_pho.csv')
+L1_sen = pd.read_csv('L1_sen.csv')
+L2_pho = pd.read_csv('L2_pho.csv')
+L2_sen = pd.read_csv('L2_sen.csv')
+L3_pho = pd.read_csv('L3_pho.csv') 
+L3_sen = pd.read_csv('L3_sen.csv')
+
 ##----------------------------------------------------------------------------------
 #三種問題類型
 def getSheet(Qlevel):   
@@ -182,17 +157,17 @@ def getSheet(Qlevel):
     
     return sheet_pho, sheet_word, sheet_sen
 
-# def editSheet(data):
-#     pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
-#     pre_sheet = pre_sheet.reset_index(drop=True)
-#     print("pre_sheet",pre_sheet)
-#     header = pre_sheet.columns
-#     sheet_L = {}
-#     for i in range (len(header)):
-#         sheet_L[header[i]] = pre_sheet[header[i]]
+def editSheet(data):
+    pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
+    pre_sheet = pre_sheet.reset_index(drop=True)
+    print("pre_sheet",pre_sheet)
+    header = pre_sheet.columns
+    sheet_L = {}
+    for i in range (len(header)):
+        sheet_L[header[i]] = pre_sheet[header[i]]
     
-#     #qNum_L = len(sheet["question"])
-#     return sheet_L
+    #qNum_L = len(sheet["question"])
+    return sheet_L
 ##---------------------------------------------------------------------------
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
@@ -722,25 +697,24 @@ def handle_postback(event):
 
         elif(event.postback.data == "start"):  
             user.isStart_L = True
-
         elif(user.isStart_L == True): 
             if user.isWord == True:
                 correctAns = str(user.word_list[user.subindex_L][2])
-
             else:
-                correctAns = str(user.sheet_L[user.subindex_L][4])
+                correctAns = str(user.sheet_L["answer"][user.subindex_L])
             print("correct answer = ",correctAns)
             print("answer user.index_L = ", user.index_L)
             print("answer subuser.index_L = ", user.subindex_L)
             if(user.index_L < user.qNum_L): #做完本輪題庫數目
+                #print('user.count_L: ', user.count_L)
                 if event.postback.data != correctAns:
-                    if(user.count_L != user.count_type_L - 1):
+                    if(user.count_L != 1):
                         user.isStart_L = False
                         wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
                         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
                         line_bot_api.reply_message(event.reply_token,message)
                         user.count_L -= 1
-                    elif(user.count_L == user.count_type_L - 1):
+                    elif(user.count_L == 1):
                         user.isStart_L = False
                         if(user.index_L == 9):
                             loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')

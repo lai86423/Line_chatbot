@@ -31,7 +31,6 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 allUser = [] 
 
-#TODO----S
 ##-----------------------------------------------------------------------------------
 ###聽力  初始抓資料＆資料處理
 # GDriveJSON = 'JSON.json'
@@ -53,7 +52,6 @@ allUser = []
 # L3_pho = pd.read_csv('L3_pho.csv') 
 # L3_sen = pd.read_csv('L3_sen.csv')
 
-#TODO----E
 ##-------------------------------------------------------------------
 GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
@@ -98,17 +96,17 @@ def getSheet(Qlevel):
     
     return sheet_pho, sheet_word, sheet_sen
 
-def editSheet(data):
-    pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
-    pre_sheet = pre_sheet.reset_index(drop=True)
-    print("pre_sheet",pre_sheet)
-    header = pre_sheet.columns
-    sheet_L = {}
-    for i in range (len(header)):
-        sheet_L[header[i]] = pre_sheet[header[i]]
+# def editSheet(data):
+#     pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
+#     pre_sheet = pre_sheet.reset_index(drop=True)
+#     print("pre_sheet",pre_sheet)
+#     header = pre_sheet.columns
+#     sheet_L = {}
+#     for i in range (len(header)):
+#         sheet_L[header[i]] = pre_sheet[header[i]]
     
-    #qNum_L = len(sheet["question"])
-    return sheet_L
+#     #qNum_L = len(sheet["question"])
+#     return sheet_L
 
 #TODO----E
 
@@ -217,6 +215,7 @@ def handle_postback(event):
                         loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲')
                     message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
                     line_bot_api.reply_message(event.reply_token,message)
+                    setUserCountType(user)
                     user.count_L = user.count_type_L
                     user.index_L += 1
                 user.isAsked_L = False
@@ -236,15 +235,10 @@ def handle_postback(event):
                     correctBubble = rightBubble(reply)
                 message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
                 line_bot_api.reply_message(event.reply_token,message)
-                #line_bot_api.reply_message(event.reply_token, TextSendMessage(text = '恭喜你答對了!給你一個小星星!\n'))
                 user.index_L += 1
                 if(user.index_L < 10):
                     user.isAsked_L = False
-
-                if user.index_L < 3 and user.level_L !=3:
-                        user.count_type_L = 1
-                else:
-                    user.count_type_L = 2
+                setUserCountType(user)
                 user.count_L = user.count_type_L
             print('after user.count_L: ', user.count_L)
             print('after user.index_L: ', user.index_L)
@@ -308,27 +302,27 @@ def setLevel(levelinput,user):
 
     return myResult
 
+def setUserCountType(user):
+    if user.index_L < 3 and user.level_L !=3:
+        user.count_type_L = 1
+    else:
+        user.count_type_L = 2
+
 def Question(user):
     # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題 index",user.index_L)
     if user.index_L < 3:
         if user.level_L != 3:
-            user.count_type_L = 1
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
-                print("--## user.subindex_L",user.subindex_L)
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
-            print("*****change ～～")
-            user.count_type_L = 2
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
-                print("--user.subindex_L",user.subindex_L)
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
     elif user.index_L < 7:
-        user.count_type_L = 2
         # user.sheet_L = editSheet(user.data_word)
         # QA_bubble = QA.QA_Word(user.sheet_L,user.index_L,user.subindex_L)
         user.subindex_L = user.index_L - 3
@@ -351,7 +345,6 @@ def Question(user):
     else:
         user.isWord = False
         #user.subindex_L = user.index_L-7
-        user.count_type_L = 2
         if user.count_L == user.count_type_L :
             user.sheet_L = user.data_sen
             user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0])) 
