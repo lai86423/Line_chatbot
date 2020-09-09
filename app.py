@@ -164,6 +164,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
         elif user.isStart_L == True:
             if( user.isAsked_L == False ): 
+                print("here~~")
                 user.isAsked_L = True
                 QA_bubble = Question(user)
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
