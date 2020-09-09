@@ -110,7 +110,7 @@ def QA_Sentence(sheet,index_L,subindex,describe):
     option3 = sheet[subindex][3]
     print("option1 = ",option1)
     print("option2 = ",option2)
-    print("option2 = ",option3)
+    print("option3 = ",option3)
     print("Question = ",question)  #question 是 url 網址
 
     QA_sentence = BubbleContainer (
