@@ -1072,7 +1072,6 @@ def Question(user):
             QA_bubble = QA.QA_Word(user.index_L, user.word_list[user.subindex_L])
     else:
         user.isWord = False
-        user.subindex_L = user.index_L-7
         if user.count_L == user.count_type_L :
             user.sheet_L = user.data_sen
             user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0])) 
