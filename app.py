@@ -1038,7 +1038,6 @@ def Question(user):
     # global user.subindex_L,user.sheet_L
     print("選完階級！開始出題")
     if user.index_L < 3:
-        user.subindex_L = user.index_L
         if user.level_L != 3:
             if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
@@ -1047,7 +1046,7 @@ def Question(user):
             QA_bubble = QA.QA_Tail(user.sheet_L,user.index_L,user.subindex_L)
         else: #高級前三題，題目不同
             print("*****change ～～")
-            if user.count_L == count_type_L :
+            if user.count_L == user.count_type_L :
                 user.sheet_L = user.data_pho
                 user.subindex_L = random.randrange(1,len(np.transpose([user.sheet_L])[0]))
             QA_bubble = QA.QA_Sentence(user.sheet_L,user.index_L,user.subindex_L,'依據音檔，選出最適當的答案')
