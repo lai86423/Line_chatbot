@@ -146,7 +146,7 @@ def Choose_NextStep():
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    #global isAsked,user.TransType,user.isChangingTrans,user.isEnded
+    ##global isAsked,user.TransType,user.isChangingTrans,user.isEnded
     user = getUser(event.source.user_id)
     levelinput = event.postback.data
     if(user.isChangingTrans==True):
