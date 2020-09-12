@@ -22,12 +22,14 @@ line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX
 #Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
-##翻譯小達人  變數------------------------------------------------
-
-isAsked = True
-isChangingTrans = True
-isEnded = False
-TransType = 1 #(ETC= 1, CTE =2)
+allUser = []
+#個人ＩＤ變數------------------------------------------------
+class userVar_T():
+    def __init__(self,_id):
+        self.isAsked = True
+        self.isChangingTrans = True
+        self.isEnded = False
+        self.TransType = 1 #(ETC= 1, CTE =2)
 ##------------------------------------------------
 
 # 監聽所有來自 /callback 的 Post Request
@@ -48,17 +50,18 @@ def callback():
 ##翻譯小達人  處理訊息------------------------------------------------
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
+    user = getUser(event.source.user_id)
     myId = event.source.user_id
-    global isAsked, isChangingTrans, isEnded
+    #global isAsked, user.isChangingTrans, user.isEnded
     replytext = event.message.text
     if event.message.type == 'text':   
         if replytext =='?':
-            isChangingTrans = True
-            isEnded = False
+            user.isChangingTrans = True
+            user.isEnded = False
 
-        if (isChangingTrans == True ):  
-            isAsked = True
-            isEnded = False
+        if (user.isChangingTrans == True ):  
+            user.isAsked = True
+            user.isEnded = False
             buttons_template = TemplateSendMessage (
                 alt_text = 'Buttons Template',
                 template = ButtonsTemplate (
@@ -81,31 +84,31 @@ def handle_message(event):
             )
             line_bot_api.reply_message(event.reply_token, buttons_template)
             
-        elif( isAsked == False ):  
-            translatedMessage = translation(replytext)
+        elif( user.isAsked == False ):  
+            translatedMessage = translation(replytext, user)
             print("tenasM = ",translatedMessage)
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text = translatedMessage))
 
             Translation_bubble = Choose_NextStep()
             message2 = FlexSendMessage(alt_text="Translation_bubble", contents = Translation_bubble)
             line_bot_api.push_message(myId, message2)
-            isAsked = True 
+            user.isAsked = True 
         else:
-            if(isEnded == True):
+            if(user.isEnded == True):
                 #isAsked = True
                 message = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"
                 #line_bot_api.reply_message(event.reply_token,message)
-def translation(text):
+def translation(text, user):
     translator = Translator()
     #lang = translator.detect(event.message.text)
     #print("Lang=",lang.lang)
-    if TransType == 2: 
+    if user.TransType == 2: 
         #if lang.lang == "zh-CN" :
         print("---- transmeaasge C to E -----")
         translateMessage = translator.translate(text, dest='en')
         print("trans =",translateMessage.text)
         #message = TextSendMessage(text=translateMessage.text)
-    elif TransType == 1:
+    elif user.TransType == 1:
         #lang.lang =="en":
         print("---- transmeaasge E to C -----")
         translateMessage = translator.translate(text, dest='zh-tw')
@@ -143,38 +146,48 @@ def Choose_NextStep():
 @handler.add(PostbackEvent)
 def handle_postback(event):
     print("---Feedback---")
-    global isAsked,TransType,isChangingTrans,isEnded
+    #global isAsked,user.TransType,user.isChangingTrans,user.isEnded
+    user = getUser(event.source.user_id)
     levelinput = event.postback.data
-    if(isChangingTrans==True):
-        isChangingTrans = False
+    if(user.isChangingTrans==True):
+        user.isChangingTrans = False
         if (levelinput=='ETC'):
-            TransType = 1
+            user.TransType = 1
             print("切換英翻中模式")
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的英文單字或句子傳送給我哦~"))
-            isAsked = False
+            user.isAsked = False
 
         elif (levelinput=='CTE'):
-            TransType = 2
+            user.TransType = 2
             print("切換中翻英模式")
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的中文字詞或句子傳送給我哦~"))
-            isAsked = False   
+            user.isAsked = False   
         else:       
-            isChangingTrans = True
-            isAsked = True
+            user.isChangingTrans = True
+            user.isAsked = True
         
     if(levelinput == 'Next'):
-        if(isEnded == False):
-            if(TransType == 1):
+        if(user.isEnded == False):
+            if(user.TransType == 1):
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送英文單字或句子~"))
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
       
-            isAsked = False
+            user.isAsked = False
     
     if(levelinput == 'End'):
-        isEnded = True
-        isAsked = True  
+        user.isEnded = True
+        user.isAsked = True  
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "謝謝你使用翻譯小達人~~\n歡迎點開下方選單，使用其他功能哦！"))
+##-----------------------------------------------------------------------------------
+def getUser(user_ID):
+    global allUser
+    user = next((item for item in allUser if item._id == user_ID), None)
+    if user is None:
+        user = userVar_T(user_ID)
+        allUser.append(user)
+        print("Alluser",allUser)
+    return user 
 
 import os
 if __name__ == "__main__":
