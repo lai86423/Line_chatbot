@@ -26,6 +26,7 @@ allUser = []
 #個人ＩＤ變數------------------------------------------------
 class userVar_T():
     def __init__(self,_id):
+        self._id = _id
         self.isAsked = True
         self.isChangingTrans = True
         self.isEnded = False
