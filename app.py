@@ -119,6 +119,7 @@ class userVar():
         self.isChangingTrans = True
         self.isEnded = False
         self.TransType = 1
+        self.isInit_L = True
 
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
@@ -391,10 +392,10 @@ def handle_message(event):
         print('!!!!!-------status--------!!!!!: ', function_status)
     #-----------出題處理訊息-----------------
         if(function_status == 'quiz'):
-            global isAsked_Q,isInit_Q
-            global index_Q
-            global isChangingLevel_Q
-            global sheet_Q,subindex_Q
+            # global isAsked_Q,isInit_Q
+            # global index_Q
+            # global isChangingLevel_Q
+            # global sheet_Q,subindex_Q
             replytext = event.message.text
             myId = event.source.user_id
             reset_s(user)
@@ -416,10 +417,10 @@ def handle_message(event):
                         line_bot_api.reply_message(event.reply_token, message)
 #--------------聽力處理訊息--------------------
         elif(function_status == 'listen'):
-            global isAsked_L,isInit_L
-            global index_L
-            global isChangingLevel_L
-            global sheet,subindex
+            # global isAsked_L,isInit_L
+            # global index_L
+            # global isChangingLevel_L
+            # global sheet,subindex
             reset_s(user)
             replytext = event.message.text
             myId = event.source.user_id
@@ -445,9 +446,10 @@ def handle_message(event):
             reset_s(user)
             replytext = event.message.text
             if event.message.type == 'text':
-                if(event.message.type == '?'):
+                if(user.isInit_T == True):
                     user.isChangingTrans = True
                     user.isEnded = False
+                    user.isInit_T = False
                 if (user.isChangingTrans == True ):  
                     user.isAsked_T = True
                     user.isEnded = False
@@ -1513,6 +1515,7 @@ def reset(user):
     user.count_L = 2
     user.isWord = False 
     user.word_list = []
+    user.isInit_T = True
     user.isAsked_T = True
     user.isChangingTrans = True
     user.isEnded = False
