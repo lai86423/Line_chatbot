@@ -75,6 +75,7 @@ isChooseHelp = False
 isStart_P = False
 isAsk_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
+_id = 0
 ##----------------------------------------------------------------------------------
 class userVar_P():
     def __init__(self,_id):
@@ -122,8 +123,9 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    global isInit_P,  isAsk_P, isStart_P
-    user = getUser(event.source.user_id)
+    global isInit_P,  isAsk_P, isStart_P, _id
+    _id = event.source.user_id
+    #user = getUser(event.source.user_id)
     #---------------------------------------    
     if(isInit_P == True or event.message.text =='?'):
         smallpuzzle(event,'d00000',sheet_d0)
@@ -147,11 +149,11 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    user = getUser(event.source.user_id)
+    global isChooseHelp, level_P, isChangingLevel_P,_id
+    #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
 
-    global isChooseHelp, level_P, isChangingLevel_P
     if pb_event == 0:
         pass
     #--Game State-----------------------------------
@@ -210,6 +212,9 @@ def smallpuzzle(event,id, sheet):
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
+            message = TextSendMessage(text=sheet_text)
+            line_bot_api.push_message(_id, message)
+       
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
@@ -226,18 +231,18 @@ def smallpuzzle(event,id, sheet):
 
             replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
-            Postback(str(button_bubble))
+            line_bot_api.push_message(_id, button_bubble)  
+            #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
             CofirmPuzzle(event,sheet,next_id)
 
 
     except:
-        if next_id == 'd00209': #選題目階級
-            Postback('L')
+        # if next_id == 'd00209': #選題目階級
+        #     Postback('L')
         #elif index == 'd10029': 
-        else:
-            pass
+        pass
 
 def ButtonPuzzle(sheet_reply_list, title):
     replylist = []
@@ -278,14 +283,26 @@ def LoadQuestion(event):
     print("test_type = ", test_type)
     #題數引文
     if level_P == 1 :
-        print("（第$" + str(index_P+1) + "count 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。")
-    elif level_P == 2:
-        print("（第$" + str(index_P+1) + "count 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。")
-    elif level_P == 3:
-        print("（第$" + str(index_P+1) + "【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！")
+        test_pretext = "（第$" + str(index_P+1) + "count 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
+        print(test_pretext)
+        message = TextSendMessage(text=test_pretext)
+        line_bot_api.push_message(_id, message)
     
+    
+    elif level_P == 2:
+        test_pretext = "（第$" + str(index_P+1) + "count 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
+        print(test_pretext)
+        message = TextSendMessage(text=test_pretext)
+        line_bot_api.push_message(_id, message)
+
+    elif level_P == 3:
+        test_pretext = "（第$" + str(index_P+1) + "【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
+        print(test_pretext)
+        message = TextSendMessage(text=test_pretext)
+        line_bot_api.push_message(_id, message)
+
     #題前故事
-    print('d'+ str(level_P) + str(test_type) + '000')
+    print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
     smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
 
 def Question_P(event):
