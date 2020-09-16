@@ -43,19 +43,6 @@ sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
 
 ##----------------------------------------------------------------------------------
-sheet_type = 'text'
-sheet_title = ''
-sheet_text = ''
-sheet_reply_list = []
-level_P = 1
-index_P = 0 #第幾題
-isInit_P = True
-isChangingLevel_P = False
-isChooseHelp = False
-isStart_P = False
-isAsk_P = False
-levelsheet_d, levelsheet_r = getSheet_P(level_P)
-##----------------------------------------------------------------------------------
 def getSheet_P(level): 
     global sh_P  
     if(level == 3):
@@ -77,6 +64,19 @@ def getSheet_P(level):
 
     return sheet_d, sheet_r
 
+##----------------------------------------------------------------------------------
+sheet_type = 'text'
+sheet_title = ''
+sheet_text = ''
+sheet_reply_list = []
+level_P = 1
+index_P = 0 #第幾題
+isInit_P = True
+isChangingLevel_P = False
+isChooseHelp = False
+isStart_P = False
+isAsk_P = False
+levelsheet_d, levelsheet_r = getSheet_P(level_P)
 ##----------------------------------------------------------------------------------
 class userVar_P():
     def __init__(self,_id):
