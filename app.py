@@ -177,14 +177,13 @@ def handle_postback(event):
         pass
 
     if isChangingLevel_P == True:
+        print("-----Set Level-----")
         isChangingLevel_P = False
+        print("level = ",int(pb_event))
         #隨機取得題型
         RandomTest()
-        print("level = ",int(pb_event))
         level_P = int(pb_event)
-        smallpuzzle(event,'d00202',sheet_d0)
         setLevelStory(pb_event)
-        isChangingLevel_P = False
 
         
 ##-----------------------------------------------------------------------------------
@@ -261,6 +260,8 @@ def setLevelStory(event):
     print("setLevelStory")
     global levelsheet_d, levelsheet_r, isStart_P
     levelsheet_d, levelsheet_r = getSheet_P(level_P)
+    smallpuzzle(event,'d00202',sheet_d0)
+
     if level_P == 1:
         smallpuzzle(event,'d10000' , levelsheet_d)
 
@@ -275,7 +276,7 @@ def setLevelStory(event):
 def RandomTest():
     global test_type_list
     test_type_list = [random.randint(1,7) for _ in range(10)]
-    print(test_type_list)
+    print("*** 10 quiz type = ",test_type_list)
 
 def LoadQuestion(event):
     print("LoadQuestion", index_P)
