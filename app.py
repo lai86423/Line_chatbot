@@ -131,6 +131,8 @@ def handle_message(event):
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
+    # if isChangingLevel_P == True:
+    #     isAsk_P = False
     elif(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
@@ -153,40 +155,69 @@ def handle_postback(event):
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
-
-    if pb_event == 0:
-        pass
-    #--Game State-----------------------------------
-    elif pb_event == '1':
-        if isChooseHelp == True:
-            isChooseHelp = False
+    if isChangingLevel_P == True:
+        print("-----Set Level-----")
+        setLevel_P(pb_event)
+    
+    elif isChooseHelp == True:
+        #--Game State-----------------------------------
+        isChooseHelp = False
+        if pb_event == '1':
             #了解背景故事
             smallpuzzle(event,'d00100',sheet_d0)
             #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0)
-    elif pb_event == '2':
-        if isChooseHelp == True:
-            isChooseHelp = False
+        elif pb_event == '2':
             #開始遊戲
             smallpuzzle(event,'d00200',sheet_d0)
 
-    elif pb_event == '3':
-        if isChooseHelp == True:
+        elif pb_event == '3':
             #結束遊戲
             print("End!")
-        pass
 
-    if isChangingLevel_P == True:
-        print("-----Set Level-----")
-        isChangingLevel_P = False
-        print("level = ",int(pb_event))
-        #隨機取得題型
-        RandomTest()
-        level_P = int(pb_event)
-        setLevelStory(pb_event)
+        else:
+            pass
+    elif isStart_P == True:
+        # if user.isWord == True:
+        #         correctAns = str(user.word_list[user.subindex_L][2])
+
+        # else:
+        #     correctAns = str(user.sheet_L[user.subindex_L][4])
+        # print("correct answer = ",correctAns)
+        # print("answer user.index_L = ", user.index_L)
+        # print("answer subuser.index_L = ", user.subindex_L)
+        print("Ans feedback")
+
 
         
 ##-----------------------------------------------------------------------------------
+def setLevel_P(levelinput):
+    print("---Changing Level---")
+    global level_P, isChangingLevel_P
+    if (levelinput=='L'):
+        level_P = 1
+        isChangingLevel_P = False
+        
+    elif (levelinput=='M'):
+        level_P = 2
+        isChangingLevel_P = False
+
+    elif (levelinput=='H'):
+        level_P = 3
+        isChangingLevel_P = False
+
+    else:       
+        isChangingLevel_P = True
+
+    if isChangingLevel_P == False:
+        print("level = ",level_P)
+        global levelsheet_d, levelsheet_r
+        levelsheet_d, levelsheet_r = getSheet_P(level_P)
+
+        #隨機取得題型
+        RandomTest()
+        setLevelStory(level_P)
+
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp
     print("-------------------")
@@ -258,8 +289,7 @@ def CofirmPuzzle(event,sheet,next_id):
 
 def setLevelStory(event):
     print("setLevelStory")
-    global levelsheet_d, levelsheet_r, isStart_P
-    levelsheet_d, levelsheet_r = getSheet_P(level_P)
+    global isStart_P
     smallpuzzle(event,'d00202',sheet_d0)
 
     if level_P == 1:
@@ -284,20 +314,20 @@ def LoadQuestion(event):
     print("test_type = ", test_type)
     #題數引文
     if level_P == 1 :
-        test_pretext = "（第$" + str(index_P+1) + "count 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
+        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
     
     
     elif level_P == 2:
-        test_pretext = "（第$" + str(index_P+1) + "count 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
+        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
 
     elif level_P == 3:
-        test_pretext = "（第$" + str(index_P+1) + "【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
+        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
