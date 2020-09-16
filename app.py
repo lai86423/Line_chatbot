@@ -66,8 +66,6 @@ def getSheet_P(level):
 
 ##----------------------------------------------------------------------------------
 sheet_type = 'text'
-sheet_title = ''
-sheet_text = ''
 sheet_reply_list = []
 level_P = 1
 index_P = 0 #第幾題
@@ -90,6 +88,20 @@ class userVar_P():
         self.level_P = 1
         self.index_P = 0 #第幾題
         self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
+
+class userVar():
+    def __init__(self,_id):
+        self._id = _id
+        #QA
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
+        self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        self.isVoc = False 
+        self.VocQA = []
+        #Listen
+        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
+        self.sheet_L = self.data_pho
+        self.isWord = False 
+        self.word_list = []
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -110,6 +122,7 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
+    global isInit_P,  isAsk_P, isStart_P
     user = getUser(event.source.user_id)
     #---------------------------------------    
     if(isInit_P == True or event.message.text =='?'):
@@ -216,7 +229,7 @@ def smallpuzzle(event,id, sheet):
             Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
-            CofirmPuzzle(sheet,next_id)
+            CofirmPuzzle(event,sheet,next_id)
 
 
     except:
@@ -235,7 +248,7 @@ def ButtonPuzzle(sheet_reply_list, title):
     print("replylist",replylist) 
     return replylist
 
-def CofirmPuzzle(sheet,next_id):
+def CofirmPuzzle(event,sheet,next_id):
     print("CofirmBubble")
     smallpuzzle(event, next_id , sheet)
 
@@ -275,7 +288,7 @@ def LoadQuestion(event):
     print('d'+ str(level_P) + str(test_type) + '000')
     smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
 
-def Question_P():
+def Question_P(event):
     if test_type_list[index_P] == 1:
         print("sheet_pho")
         smallpuzzle(event,'d'+ str(level_P) +'1000',levelsheet_d)

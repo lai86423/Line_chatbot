@@ -15,7 +15,6 @@ sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
 allUser = []
-
 #---------------
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
@@ -60,7 +59,17 @@ def getSheet_P(level):
         sheet_r = pd.read_csv('r1.csv') 
 
     return sheet_d, sheet_r
-
+##----------------------------------------------------------------------------------
+# sheet_type = 'text'
+# level_P = 1
+# index_P = 0 #第幾題
+# isInit_P = True
+# isChangingLevel_P = False
+# isChooseHelp = False
+# isStart_P = False
+# isAsk_P = False
+# levelsheet_d, levelsheet_r = getSheet_P(level_P)
+##----------------------------------------------------------------------------------
 def editSheet(data):
     #pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
     print("header",data.columns)
@@ -113,7 +122,7 @@ def smallpuzzle(event,id, sheet):
             Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
-            CofirmPuzzle(sheet,next_id)
+            CofirmPuzzle(event,sheet,next_id)
 
 
     except:
@@ -132,7 +141,7 @@ def ButtonPuzzle(reply, title):
     #print("replylist",replylist)  
     return replylist
 
-def CofirmPuzzle(sheet,next_id):
+def CofirmPuzzle(event,sheet,next_id):
     print("CofirmBubble")
     smallpuzzle(event, next_id , sheet)
 
@@ -192,7 +201,7 @@ def RandomTest():
     print(test_type_list)
 
 def LoadQuestion(event):
-    print("LoadQuestion", index_P)
+    print("-----LoadQuestion------", index_P)
     test_type = test_type_list[index_P]
     print("test_type = ", test_type)
     #題數引文
@@ -207,7 +216,8 @@ def LoadQuestion(event):
     print('d'+ str(level_P) + str(test_type) + '000')
     smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
 
-def Question_P():
+def Question_P(event):
+    print("-----Question_P------", index_P)
     if test_type_list[index_P] == 1:
         print("sheet_pho")
         smallpuzzle(event,'d'+ str(level_P) +'1000',levelsheet_d)
@@ -261,11 +271,7 @@ def ButtonBubble(sheet_title, sheet_text, replylist):
 
 if __name__ == "__main__":
     #sheet_d, sheet_r = getSheet_P(1)
-    ##----------------------------------------------------------------------------------
     sheet_type = 'text'
-    sheet_title = ''
-    sheet_text = ''
-    sheet_reply_list = []
     level_P = 1
     index_P = 0 #第幾題
     isInit_P = True
@@ -274,19 +280,21 @@ if __name__ == "__main__":
     isStart_P = False
     isAsk_P = False
     levelsheet_d, levelsheet_r = getSheet_P(level_P)
-    ##----------------------------------------------------------------------------------
-
-    #global isInit_P,  isAsk_P
+    
+    #global isInit_P,  isAsk_P, isStart_P
     user = getUser("12345")
     event = '123' 
     if(isInit_P == True ):
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
-    elif(isStart_P == True):
+    if(isStart_P == True):
+        print("----???/",isAsk_P)
         if(isAsk_P == False):
             isAsk_P = True
+            print("----!!!!!",isAsk_P)
             LoadQuestion(event)
+            Question_P(event)
     #if(isChangingLevel_P == True):
        #smallpuzzle(event,'d00000',sheet_d0)
 
