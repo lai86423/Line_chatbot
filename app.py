@@ -56,22 +56,6 @@ isStart_P = False
 isAsk_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
 ##----------------------------------------------------------------------------------
-
-##----------------------------------------------------------------------------------
-class userVar_P():
-    def __init__(self,_id):
-        self._id = _id
-        self.isInit_P = True
-        self.isChangingLevel_P = True
-        # self.sheet_type = 'text'
-        # self.sheet_title = ''
-        # self.sheet_text = ''
-        #self.sheet_reply_list = []
-        self.level_P = 1
-        self.index_P = 0 #第幾題
-        self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
-
-##----------------------------------------------------------------------------------
 def getSheet_P(level): 
     global sh_P  
     if(level == 3):
@@ -93,6 +77,19 @@ def getSheet_P(level):
 
     return sheet_d, sheet_r
 
+##----------------------------------------------------------------------------------
+class userVar_P():
+    def __init__(self,_id):
+        self._id = _id
+        self.isInit_P = True
+        self.isChangingLevel_P = True
+        # self.sheet_type = 'text'
+        # self.sheet_title = ''
+        # self.sheet_text = ''
+        #self.sheet_reply_list = []
+        self.level_P = 1
+        self.index_P = 0 #第幾題
+        self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
