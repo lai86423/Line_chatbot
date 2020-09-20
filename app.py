@@ -67,6 +67,7 @@ def getSheet_P(level):
 ##----------------------------------------------------------------------------------
 sheet_type = 'text'
 sheet_reply_list = []
+next_id = 0
 level_P = 1
 index_P = 0 #第幾題
 isInit_P = True
@@ -76,6 +77,7 @@ isStart_P = False
 isAsk_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
 _id = 0
+testButtonsheet = levelsheet_d
 ##----------------------------------------------------------------------------------
 class userVar_P():
     def __init__(self,_id):
@@ -160,6 +162,9 @@ def handle_postback(event):
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
+    if (pb_event == 'Y'):
+        smallpuzzle(event, next_id , testButtonsheet)
+    
     if isChangingLevel_P == True:
         print("-----Set Level-----")
         setLevel_P(pb_event)
@@ -199,6 +204,7 @@ def handle_postback(event):
 def setLevel_P(levelinput):
     print("---Changing Level---")
     global level_P, isChangingLevel_P
+
     if (levelinput=='L'):
         level_P = 1
         isChangingLevel_P = False
@@ -224,7 +230,7 @@ def setLevel_P(levelinput):
         setLevelStory(level_P)
 
 def smallpuzzle(event,id, sheet):
-    global isChangingLevel_P, isChooseHelp
+    global isChangingLevel_P, isChooseHelp, next_id, testButtonsheet
     print("-------------------")
     # id_three = id[3]
     next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
@@ -245,12 +251,14 @@ def smallpuzzle(event,id, sheet):
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
+            testButtonsheet = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
-            message = TextSendMessage(text=sheet_text)
+            message = TextBubble(sheet_text)
+            #message = TextSendMessage(text=sheet_text)
             line_bot_api.push_message(_id, message)
-       
-            smallpuzzle(event, next_id , sheet)
+
+            #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
             if id == 'd00003':
@@ -317,7 +325,7 @@ def LoadQuestion():
     print("LoadQuestion", index_P)
     #題數引文
     if level_P == 1 :
-        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
+        test_pretext = "（第" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
@@ -393,6 +401,23 @@ def ButtonBubble(sheet_title, sheet_text, replylist):
                                     label = replylist[2][0], 
                                     text = replylist[2][1],
                                     data = replylist[2][2]
+                                )
+                        ]
+                    )
+                )
+    return level_template
+
+
+def TextBubble(sheet_text):
+    level_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        text = sheet_text,
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "好", 
+                                    text = "好",
+                                    data = "Y"
                                 )
                         ]
                     )
