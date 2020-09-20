@@ -163,8 +163,12 @@ def handle_postback(event):
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
+
     if (pb_event == 'Next'):
-        smallpuzzle(event, next_id , text_sheet)
+        if  next_id =='d00101': #重複詢問可以幫您什麼？
+            smallpuzzle(event,'d00003',sheet_d0)
+        else:
+            smallpuzzle(event, next_id , text_sheet)
     
     elif isChangingLevel_P == True:
         print("-----Set Level-----")
@@ -176,8 +180,7 @@ def handle_postback(event):
         if pb_event == '1':
             #了解背景故事
             smallpuzzle(event,'d00100',sheet_d0)
-            #重複詢問可以幫您什麼？
-            smallpuzzle(event,'d00003',sheet_d0)
+
         elif pb_event == '2':
             #開始遊戲
             smallpuzzle(event,'d00200',sheet_d0)
