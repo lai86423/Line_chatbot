@@ -332,20 +332,20 @@ def LoadQuestion():
     if level_P == 1 :
         test_pretext = "（第" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
-        message = TextSendMessage(text=test_pretext)
+        message = TextBubble(test_pretext)
         #line_bot_api.push_message(_id, message)
     
     elif level_P == 2:
-        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
+        test_pretext = "（第" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
-        message = TextSendMessage(text=test_pretext)
+        message = TextBubble(test_pretext)
+        #line_bot_api.push_message(_id, message)
         #line_bot_api.push_message(_id, message)
 
     elif level_P == 3:
-        test_pretext = "（第$" + str(index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
+        test_pretext = "（第" + str(index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
         print(test_pretext)
-        message = TextSendMessage(text=test_pretext)
-        #line_bot_api.push_message(_id, message)
+        message = TextBubble(test_pretext)
     return message
 
 def Question_P(event):
