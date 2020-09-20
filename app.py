@@ -77,7 +77,7 @@ isStart_P = False
 isAsk_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
 _id = 0
-testButtonsheet = levelsheet_d
+text_sheet = levelsheet_d
 ##----------------------------------------------------------------------------------
 class userVar_P():
     def __init__(self,_id):
@@ -162,10 +162,10 @@ def handle_postback(event):
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
-    if (pb_event == 'Y'):
-        smallpuzzle(event, next_id , testButtonsheet)
+    if (pb_event == 'Next'):
+        smallpuzzle(event, next_id , text_sheet)
     
-    if isChangingLevel_P == True:
+    elif isChangingLevel_P == True:
         print("-----Set Level-----")
         setLevel_P(pb_event)
     
@@ -230,7 +230,7 @@ def setLevel_P(levelinput):
         setLevelStory(level_P)
 
 def smallpuzzle(event,id, sheet):
-    global isChangingLevel_P, isChooseHelp, next_id, testButtonsheet
+    global isChangingLevel_P, isChooseHelp, next_id, text_sheet
     print("-------------------")
     # id_three = id[3]
     next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
@@ -251,7 +251,7 @@ def smallpuzzle(event,id, sheet):
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
-            testButtonsheet = sheet
+            text_sheet = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
@@ -415,9 +415,8 @@ def TextBubble(sheet_text):
                         text = sheet_text,
                         actions = [
                                 PostbackTemplateAction(
-                                    label = "好", 
-                                    text = "好",
-                                    data = "Y"
+                                    label = "Next", 
+                                    data = "Next"
                                 )
                         ]
                     )
