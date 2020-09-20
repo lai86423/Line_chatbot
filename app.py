@@ -136,8 +136,13 @@ def handle_message(event):
     elif(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
-            LoadQuestion(event)
-   
+            LoadQuestion()
+            #題前故事
+            test_type = test_type_list[index_P]
+            print("test_type = ", test_type)
+            print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
+            smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
+
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
@@ -308,17 +313,14 @@ def RandomTest():
     test_type_list = [random.randint(1,7) for _ in range(10)]
     print("*** 10 quiz type = ",test_type_list)
 
-def LoadQuestion(event):
+def LoadQuestion():
     print("LoadQuestion", index_P)
-    test_type = test_type_list[index_P]
-    print("test_type = ", test_type)
     #題數引文
     if level_P == 1 :
         test_pretext = "（第$" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
-    
     
     elif level_P == 2:
         test_pretext = "（第$" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
@@ -331,10 +333,6 @@ def LoadQuestion(event):
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
         line_bot_api.push_message(_id, message)
-
-    #題前故事
-    print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
-    smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
 
 def Question_P(event):
     if test_type_list[index_P] == 1:
