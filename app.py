@@ -138,7 +138,8 @@ def handle_message(event):
     elif(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
-            LoadQuestion()
+            message = LoadQuestion()
+            line_bot_api.reply_message(event.reply_token, message)  
             #題前故事
             test_type = test_type_list[index_P]
             print("test_type = ", test_type)
@@ -256,8 +257,8 @@ def smallpuzzle(event,id, sheet):
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
             #message = TextSendMessage(text=sheet_text)
-            line_bot_api.push_message(_id, message)
-
+            line_bot_api.reply_message(event.reply_token, message)  
+            #line_bot_api.push_message(_id, message)
             #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
@@ -274,7 +275,8 @@ def smallpuzzle(event,id, sheet):
 
             replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
-            line_bot_api.push_message(_id, button_bubble)  
+            line_bot_api.reply_message(event.reply_token, button_bubble)  
+            #line_bot_api.push_message(_id, button_bubble)  
             #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
@@ -328,19 +330,20 @@ def LoadQuestion():
         test_pretext = "（第" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
-        line_bot_api.push_message(_id, message)
+        #line_bot_api.push_message(_id, message)
     
     elif level_P == 2:
         test_pretext = "（第$" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
-        line_bot_api.push_message(_id, message)
+        #line_bot_api.push_message(_id, message)
 
     elif level_P == 3:
         test_pretext = "（第$" + str(index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
         print(test_pretext)
         message = TextSendMessage(text=test_pretext)
-        line_bot_api.push_message(_id, message)
+        #line_bot_api.push_message(_id, message)
+    return message
 
 def Question_P(event):
     if test_type_list[index_P] == 1:
