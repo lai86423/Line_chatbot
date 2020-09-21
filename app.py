@@ -255,8 +255,9 @@ def smallpuzzle(event,id, sheet):
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)     
-            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
+            #line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
             message = ImageBubble(sheet_text)
+            line_bot_api.reply_message(event.reply_token, message) 
             #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
@@ -443,7 +444,6 @@ def ImageBubble(sheet_img):
                     alt_text = 'Buttons Template',
                     thumbnail_image_url=sheet_img,
                     template = ButtonsTemplate (
-                        text = ' ',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
