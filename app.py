@@ -255,8 +255,9 @@ def smallpuzzle(event,id, sheet):
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)     
-            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
+            #line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
             message = TextBubble(' ',sheet_text)
+            line_bot_api.reply_message(event.reply_token, message)  
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
