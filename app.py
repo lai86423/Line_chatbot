@@ -75,7 +75,6 @@ isChangingLevel_P = False
 isChooseHelp = False
 isStart_P = False
 isAsk_P = False
-isTestNext_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
 _id = 0
 text_sheet = levelsheet_d
@@ -138,9 +137,8 @@ def handle_message(event):
         #隨機取得題型
         RandomTest()
         smallpuzzle(event,'d00202',sheet_d0)
-        setLevelStory(level_P)
         isAsk_P = False
-
+        
     elif(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
@@ -165,7 +163,7 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    global isChooseHelp, level_P, isChangingLevel_P,_id, isTestNext_P
+    global isChooseHelp, level_P, isChangingLevel_P,_id
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
@@ -173,10 +171,12 @@ def handle_postback(event):
     if (pb_event == 'Next'):
         if  next_id =='d00101': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0)
+        
+        elif next_id =='d00208':
+            setLevelStory(level_P)
+
         else:
-            print("Next")
-            #isTestNext_P = True
-            #smallpuzzle(event, next_id , text_sheet)
+            smallpuzzle(event, next_id , text_sheet)
     
     elif isChangingLevel_P == True:
         print("-----Set Level-----")
@@ -266,7 +266,7 @@ def smallpuzzle(event,id, sheet):
             #message = TextSendMessage(text=sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
             #line_bot_api.push_message(_id, message)
-            smallpuzzle(event, next_id , sheet)
+            #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
             if id == 'd00003':
