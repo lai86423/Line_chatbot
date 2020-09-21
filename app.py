@@ -320,7 +320,7 @@ def CofirmPuzzle(sheet_reply_list):
     for i in range(len(sheet_reply_list)):
         id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
         replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
-    print("Cofirm replylist",replylist) 
+    print("--Cofirm replylist",replylist) 
     return replylist
 
 def setLevelStory(event):
@@ -461,12 +461,7 @@ def ConfirmBubble(sheet_text, replylist):
                                     label = replylist[1][0], 
                                     text = replylist[1][1],
                                     data = replylist[1][2]
-                    ),
-                    PostbackTemplateAction(
-                                    label = replylist[2][0], 
-                                    text = replylist[2][1],
-                                    data = replylist[2][2]
-                    )       
+                    )      
                 ]
             )
         )
