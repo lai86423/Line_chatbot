@@ -33,7 +33,7 @@ allUser = []
 ##-----------------------------------------------------------------------------------
 ##解謎  初始抓資料＆資料處理
 GDriveJSON = 'JSON.json'
-GSpreadSheet_P = 'cilab_ChatBot_puzzle'
+GSpreadSheet_P = 'cilab_ChatBot_puzzle-1'
 gc_Q= pygsheets.authorize(service_account_file='JSON.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1nVIgWGQJRIQtMtZSv1HxyDb5FvthBNc0duN4Rlra8to/edit#gid=1732714016'
 sh_P = gc_Q.open(GSpreadSheet_P)
