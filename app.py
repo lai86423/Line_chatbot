@@ -257,7 +257,7 @@ def smallpuzzle(event,id, sheet):
             print("img= ",sheet_text)     
             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
             message = ImageBubble(sheet_text)
-            smallpuzzle(event, next_id , sheet)
+            #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             text_sheet = sheet
@@ -281,8 +281,6 @@ def smallpuzzle(event,id, sheet):
             replylist = ButtonPuzzle(sheet_reply_list)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)  
-            #line_bot_api.push_message(_id, button_bubble)  
-            #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
             sheet_text = sheet["text"][id_index]
@@ -295,12 +293,8 @@ def smallpuzzle(event,id, sheet):
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
-            #smallpuzzle(event, next_id , sheet)
 
     except:
-        # if next_id == 'd00209': #選題目階級
-        #     Postback('L')
-        #elif index == 'd10029': 
         pass
 
 def ButtonPuzzle(sheet_reply_list):
@@ -449,6 +443,7 @@ def ImageBubble(sheet_img):
                     alt_text = 'Buttons Template',
                     thumbnail_image_url=sheet_img,
                     template = ButtonsTemplate (
+                        text = ' ',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
