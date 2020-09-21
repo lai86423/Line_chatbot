@@ -133,11 +133,8 @@ def handle_message(event):
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
-    if isChangingLevel_P == True:
-        #隨機取得題型
-        RandomTest()
-        smallpuzzle(event,'d00202',sheet_d0)
-        isAsk_P = False
+    # if isChangingLevel_P == True:
+    #     isAsk_P = False
         
     elif(isStart_P == True):
         if(isAsk_P == False):
@@ -181,6 +178,9 @@ def handle_postback(event):
     elif isChangingLevel_P == True:
         print("-----Set Level-----")
         setLevel_P(pb_event)
+        #隨機取得題型
+        RandomTest()
+        smallpuzzle(event,'d00202',sheet_d0)
     
     elif isChooseHelp == True:
         #--Game State-----------------------------------
