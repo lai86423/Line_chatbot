@@ -257,13 +257,14 @@ def smallpuzzle(event,id, sheet):
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)     
             line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
+            message = TextBubble('',sheet_text)
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             text_sheet = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
-            message = TextBubble(sheet_text)
+            message = TextBubble(sheet_text,'')
             #message = TextSendMessage(text=sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
             #line_bot_api.push_message(_id, message)
@@ -432,9 +433,10 @@ def ButtonBubble(sheet_title, sheet_text, replylist):
     return level_template
 
 
-def TextBubble(sheet_text):
+def TextBubble(sheet_text,sheet_img):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
+                    thumbnail_image_url=sheet_img,
                     template = ButtonsTemplate (
                         text = sheet_text,
                         actions = [
