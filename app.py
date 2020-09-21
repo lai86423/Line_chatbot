@@ -133,8 +133,13 @@ def handle_message(event):
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
-    # if isChangingLevel_P == True:
-    #     isAsk_P = False
+    if isChangingLevel_P == True:
+        #隨機取得題型
+        RandomTest()
+        smallpuzzle(event,'d00202',sheet_d0)
+        setLevelStory(level_P)
+        isAsk_P = False
+
     elif(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
@@ -229,10 +234,6 @@ def setLevel_P(levelinput):
         global levelsheet_d, levelsheet_r
         levelsheet_d, levelsheet_r = getSheet_P(level_P)
 
-        #隨機取得題型
-        RandomTest()
-        setLevelStory(level_P)
-
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp, next_id, text_sheet
     print("-------------------")
@@ -308,7 +309,6 @@ def CofirmPuzzle(event,sheet,next_id):
 def setLevelStory(event):
     print("setLevelStory")
     global isStart_P
-    smallpuzzle(event,'d00202',sheet_d0)
 
     if level_P == 1:
         smallpuzzle(event,'d10000' , levelsheet_d)
