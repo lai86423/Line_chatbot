@@ -292,13 +292,12 @@ def smallpuzzle(event,id, sheet):
             for i in range (2):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
-
+            print("Cofirm sheet_reply_list",sheet_reply_list)
             replylist = CofirmPuzzle(sheet_reply_list)
-            print("Cofirm ",replylist)
-            button_bubble = ConfirmBubble(sheet_text, replylist)
-            line_bot_api.reply_message(event.reply_token, button_bubble)
+            print("Cofirm replylist",replylist)
+            confirm_bubble = ConfirmBubble(sheet_text, replylist)
+            line_bot_api.reply_message(event.reply_token, confirm_bubble)
             #smallpuzzle(event, next_id , sheet)
-
 
     except:
         # if next_id == 'd00209': #選題目階級
@@ -316,9 +315,8 @@ def ButtonPuzzle(sheet_reply_list):
     return replylist
 
 def CofirmPuzzle(sheet_reply_list):
-    print("CofirmBubble")
+    print("CofirmBubble",sheet_reply_list)
     replylist = []
-    print("ButtonPuzzle",sheet_reply_list)
     for i in range(len(sheet_reply_list)):
         id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
         replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
