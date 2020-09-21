@@ -294,6 +294,7 @@ def smallpuzzle(event,id, sheet):
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
             replylist = CofirmPuzzle(sheet_reply_list)
+            print("Cofirm ",replylist)
             button_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)
             #smallpuzzle(event, next_id , sheet)
