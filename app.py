@@ -280,14 +280,23 @@ def smallpuzzle(event,id, sheet):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
-            replylist = ButtonPuzzle(sheet_reply_list, sheet_title)
+            replylist = ButtonPuzzle(sheet_reply_list)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)  
             #line_bot_api.push_message(_id, button_bubble)  
             #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
-            CofirmPuzzle(event,sheet,next_id)
+            sheet_text = sheet["text"][id_index]
+            sheet_reply_list = []
+            for i in range (2):
+                if (str(sheet.iloc[id_index][4 + i]) != "") : 
+                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+
+            replylist = CofirmPuzzle(sheet_reply_list)
+            button_bubble = ConfirmBubble(sheet_text, replylist)
+            line_bot_api.reply_message(event.reply_token, button_bubble)
+            #smallpuzzle(event, next_id , sheet)
 
 
     except:
@@ -296,7 +305,7 @@ def smallpuzzle(event,id, sheet):
         #elif index == 'd10029': 
         pass
 
-def ButtonPuzzle(sheet_reply_list, title):
+def ButtonPuzzle(sheet_reply_list):
     replylist = []
     print("ButtonPuzzle",sheet_reply_list)
     for i in range(len(sheet_reply_list)):
@@ -305,9 +314,15 @@ def ButtonPuzzle(sheet_reply_list, title):
     print("replylist",replylist) 
     return replylist
 
-def CofirmPuzzle(event,sheet,next_id):
+def CofirmPuzzle(sheet_reply_list):
     print("CofirmBubble")
-    smallpuzzle(event, next_id , sheet)
+    replylist = []
+    print("ButtonPuzzle",sheet_reply_list)
+    for i in range(len(sheet_reply_list)):
+        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
+        replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
+    print("Cofirm replylist",replylist) 
+    return replylist
 
 def setLevelStory(event):
     print("setLevelStory")
@@ -431,6 +446,32 @@ def TextBubble(sheet_text):
                     )
                 )
     return level_template
+
+def ConfirmBubble(sheet_text, replylist):
+    Confirm_template = TemplateSendMessage(
+            alt_text='Confirm_template',
+            template=ConfirmTemplate(
+                text=sheet_text,
+                actions=[                              
+                    PostbackTemplateAction(
+                                    label = replylist[0][0], 
+                                    text = replylist[0][1],
+                                    data = replylist[0][2]
+                    ),
+                    PostbackTemplateAction(
+                                    label = replylist[1][0], 
+                                    text = replylist[1][1],
+                                    data = replylist[1][2]
+                    ),
+                    PostbackTemplateAction(
+                                    label = replylist[2][0], 
+                                    text = replylist[2][1],
+                                    data = replylist[2][2]
+                    )       
+                ]
+            )
+        )
+    return Confirm_template
 
 
 ##  End------------------------------------------------

@@ -6,7 +6,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 GDriveJSON = 'JSON.json'
-GSpreadSheet_P = 'cilab_ChatBot_puzzle'
+GSpreadSheet_P = 'cilab_ChatBot_puzzle-1'
 gc_Q= pygsheets.authorize(service_account_file='JSON.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1nVIgWGQJRIQtMtZSv1HxyDb5FvthBNc0duN4Rlra8to/edit#gid=1732714016'
 sh_P = gc_Q.open(GSpreadSheet_P)
@@ -122,7 +122,15 @@ def smallpuzzle(event,id, sheet):
             Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
-            CofirmPuzzle(event,sheet,next_id)
+            print("Confirm")
+            sheet_text = sheet["text"][id_index]
+            sheet_reply_list = []
+            for i in range (2):
+                if (str(sheet.iloc[id_index][4 + i]) != "") : 
+                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+
+            replylist = CofirmPuzzle(sheet_reply_list)
+            smallpuzzle(event, next_id , sheet)
 
 
     except:
@@ -141,9 +149,14 @@ def ButtonPuzzle(reply, title):
     #print("replylist",replylist)  
     return replylist
 
-def CofirmPuzzle(event,sheet,next_id):
-    print("CofirmBubble")
-    smallpuzzle(event, next_id , sheet)
+def CofirmPuzzle(reply):
+    print("CofirmBubble",reply)
+    replylist = []
+    for i in range(len(reply)):
+        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == reply[i]]
+        replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
+    print("Comfirm replylist",replylist)  
+    return replylist
 
 def Postback(pb_event):
     global isChooseHelp, level_P, isChangingLevel_P
@@ -285,7 +298,7 @@ if __name__ == "__main__":
     user = getUser("12345")
     event = '123' 
     if(isInit_P == True ):
-        smallpuzzle(event,'d00000',sheet_d0)
+        smallpuzzle(event,'d00203',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
     if(isStart_P == True):
