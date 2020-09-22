@@ -78,6 +78,7 @@ isAsk_P = False
 levelsheet_d, levelsheet_r = getSheet_P(level_P)
 _id = 0
 text_sheet = levelsheet_d
+test_type_list = []
 ##----------------------------------------------------------------------------------
 class userVar_P():
     def __init__(self,_id):
@@ -136,7 +137,7 @@ def handle_message(event):
     # if isChangingLevel_P == True:
     #     isAsk_P = False
         
-    elif(isStart_P == True):
+    if(isStart_P == True):
         if(isAsk_P == False):
             isAsk_P = True
             message = LoadQuestion()
@@ -213,8 +214,6 @@ def handle_postback(event):
         # print("answer subuser.index_L = ", user.subindex_L)
         print("Ans feedback")
 
-
-        
 ##-----------------------------------------------------------------------------------
 def setLevel_P(levelinput):
     print("---Changing Level---")

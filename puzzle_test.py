@@ -122,23 +122,23 @@ def smallpuzzle(event,id, sheet):
             Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
-            print("Confirm")
             sheet_text = sheet["text"][id_index]
-            sheet_reply_list = []
-            for i in range (2):
-                if (str(sheet.iloc[id_index][4 + i]) != "") : 
-                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
+            # sheet_reply_list = []
+            # for i in range (2):
+            #     if (str(sheet.iloc[id_index][4 + i]) != "") : 
+            #         sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
 
-            replylist = CofirmPuzzle(sheet_reply_list)
+            # replylist = CofirmPuzzle(sheet_reply_list)
+            print("confirm= ",sheet_text)
             smallpuzzle(event, next_id , sheet)
 
 
     except:
-        if next_id == 'd00209': #選題目階級
-            Postback('L')
+        #if next_id == 'd00209': #選題目階級
+        #    Postback('L')
         #elif index == 'd10029': 
-        else:
-            pass
+        print("Next id not exist, Break! ",next_id)
+        pass
 
 def ButtonPuzzle(reply, title):
     replylist = []
@@ -215,8 +215,7 @@ def RandomTest():
 
 def LoadQuestion(event):
     print("-----LoadQuestion------", index_P)
-    test_type = test_type_list[index_P]
-    print("test_type = ", test_type)
+
     #題數引文
     if level_P == 1 :
         print("（第$" + str(index_P+1) + "count 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。")
@@ -225,10 +224,6 @@ def LoadQuestion(event):
     elif level_P == 3:
         print("（第$" + str(index_P+1) + "【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！")
     
-    #題前故事
-    print('d'+ str(level_P) + str(test_type) + '000')
-    smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
-
 def Question_P(event):
     print("-----Question_P------", index_P)
     if test_type_list[index_P] == 1:
@@ -293,20 +288,27 @@ if __name__ == "__main__":
     isStart_P = False
     isAsk_P = False
     levelsheet_d, levelsheet_r = getSheet_P(level_P)
-    
+    test_type_list = []
     #global isInit_P,  isAsk_P, isStart_P
     user = getUser("12345")
     event = '123' 
     if(isInit_P == True ):
-        smallpuzzle(event,'d00203',sheet_d0)
+        smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
     if(isStart_P == True):
         print("----???/",isAsk_P)
         if(isAsk_P == False):
             isAsk_P = True
-            print("----!!!!!",isAsk_P)
+            print("----isAsk_P!!!!!",isAsk_P)
+            
             LoadQuestion(event)
+
+            test_type = test_type_list[index_P]
+            print("test_type = ", test_type)
+            #題前故事
+            print('d'+ str(level_P) + str(test_type) + '000')
+            smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
             Question_P(event)
     #if(isChangingLevel_P == True):
        #smallpuzzle(event,'d00000',sheet_d0)
