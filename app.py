@@ -445,7 +445,7 @@ def ImageBubble(sheet_img):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        text = '',
+                        text = ' ',
                         thumbnail_image_url= sheet_img,
                         actions = [
                                 PostbackTemplateAction(
