@@ -160,7 +160,7 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    global isChooseHelp, level_P, isChangingLevel_P,_id
+    global isChooseHelp, level_P, isChangingLevel_P,_id, isStart_P
     #_id = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
@@ -171,6 +171,9 @@ def handle_postback(event):
         
         elif next_id =='d00208':
             setLevelStory(level_P)
+        
+        elif next_id == 'd100**' or 'd200**' or 'd300**':
+            isStart_P = True
 
         else:
             smallpuzzle(event, next_id , text_sheet)
@@ -325,7 +328,6 @@ def CofirmPuzzle(sheet_reply_list):
 
 def setLevelStory(event):
     print("setLevelStory")
-    global isStart_P
 
     if level_P == 1:
         smallpuzzle(event,'d10000' , levelsheet_d)
@@ -335,8 +337,6 @@ def setLevelStory(event):
 
     elif level_P == 3:
         smallpuzzle(event,'d30000' , levelsheet_d)
-
-    isStart_P = True
 
 def RandomTest():
     global test_type_list
