@@ -173,7 +173,7 @@ def handle_postback(event):
         elif next_id =='d00208':
             setLevelStory(level_P)
         
-        elif next_id == 'd100**' or 'd200**' or 'd300**':
+        elif next_id == 'd100**' or next_id =='d200**' or next_id =='d300**':
             isStart_P = True
 
         else:
