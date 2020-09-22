@@ -251,13 +251,15 @@ def smallpuzzle(event,id, sheet):
         sheet_type = sheet["type"][id_index]
         print("sheet_type",sheet_type)
         
+        next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+        print("next id = ", next_id)
 
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)  
-            message = ImageBubble(sheet_text)
-            line_bot_api.reply_message(event.reply_token, message)                  
-            #smallpuzzle(event, next_id , sheet)
+            #message = ImageBubble(sheet_text)
+            #line_bot_api.reply_message(event.reply_token, message)                  
+            smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             text_sheet = sheet
@@ -299,9 +301,6 @@ def smallpuzzle(event,id, sheet):
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
             #smallpuzzle(event, next_id , sheet)
-
-        next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-        print("next id = ", next_id)
 
     except:
         # if next_id == 'd00209': #選題目階級
