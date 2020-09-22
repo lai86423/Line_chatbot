@@ -179,8 +179,8 @@ def handle_postback(event):
         print("-----Set Level-----")
         setLevel_P(pb_event)
         #隨機取得題型
-        RandomTest()
         smallpuzzle(event,'d00202',sheet_d0)
+        RandomTest()
     
     elif isChooseHelp == True:
         #--Game State-----------------------------------
@@ -341,10 +341,10 @@ def setLevelStory(event):
 def RandomTest():
     global test_type_list
     test_type_list = [random.randint(1,7) for _ in range(10)]
-    print("*** 10 quiz type = ",test_type_list)
+    print("-----*** 10 Quiz type = ",test_type_list)
 
 def LoadQuestion():
-    print("LoadQuestion", index_P)
+    print("-----LoadQuestion", index_P)
     #題數引文
     if level_P == 1 :
         test_pretext = "（第" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
