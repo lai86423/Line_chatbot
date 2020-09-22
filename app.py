@@ -130,6 +130,7 @@ def handle_message(event):
     #user = getUser(event.source.user_id)
     #---------------------------------------    
     if(isInit_P == True or event.message.text =='?'):
+        print("isInit")
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
@@ -442,9 +443,9 @@ def TextBubble(sheet_text):
 def ImageBubble(sheet_img):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
-                    thumbnail_image_url= 'https://dlms.iiiedu.org.tw/eng/img/d00000.png',
                     template = ButtonsTemplate (
-                        text = '123 ',
+                        text = ' ',
+                        thumbnail_image_url= 'https://dlms.iiiedu.org.tw/eng/img/d00000.png',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
