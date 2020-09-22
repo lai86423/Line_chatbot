@@ -243,9 +243,6 @@ def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp, next_id, text_sheet
     print("-------------------")
     # id_three = id[3]
-    next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-    print("next id = ", next_id)
-
     try:
         id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
         id_index = id_index[0]
@@ -257,8 +254,10 @@ def smallpuzzle(event,id, sheet):
 
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
-            print("img= ",sheet_text)                   
-            smallpuzzle(event, next_id , sheet)
+            print("img= ",sheet_text)  
+            message = ImageBubble(sheet_text)
+            line_bot_api.reply_message(event.reply_token, message)                  
+            #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
             text_sheet = sheet
@@ -300,6 +299,9 @@ def smallpuzzle(event,id, sheet):
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
             #smallpuzzle(event, next_id , sheet)
+
+        next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+        print("next id = ", next_id)
 
     except:
         # if next_id == 'd00209': #選題目階級
@@ -436,6 +438,23 @@ def TextBubble(sheet_text):
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
                         text = sheet_text,
+                        actions = [
+                                PostbackTemplateAction(
+                                    label = "Next", 
+                                    data = "Next"
+                                )
+                        ]
+                    )
+                )
+    return level_template
+
+
+def ImageBubble(sheet_text):
+    level_template = TemplateSendMessage (
+                    alt_text = 'Buttons Template',
+                    template = ButtonsTemplate (
+                        text = ' ',
+                        thumbnail_image_url=sheet_text,
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
