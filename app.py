@@ -444,7 +444,7 @@ def ImageBubble(sheet_img):
                     alt_text = 'Buttons Template',
                     thumbnail_image_url=sheet_img,
                     template = ButtonsTemplate (
-                        text = ' ',
+                        text = '123 ',
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
