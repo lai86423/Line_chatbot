@@ -178,17 +178,16 @@ def handle_postback(event):
             setLevelStory(level_P)
         
         elif next_id == 'd100**' or next_id == 'd200**' or next_id == 'd300**':
+            RandomTest()
             isStart_P = True
 
         else:
             smallpuzzle(event, next_id , text_sheet)
     
     elif isChangingLevel_P == True:
-        print("-----Set Level-----")
         setLevel_P(pb_event)
         #隨機取得題型
         smallpuzzle(event,'d00202',sheet_d0)
-        RandomTest()
     
     elif isChooseHelp == True:
         #--Game State-----------------------------------
@@ -245,7 +244,7 @@ def setLevel_P(levelinput):
 
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp, next_id, text_sheet
-    print("-------------------")
+    print("---------id----------",id)
     # id_three = id[3]
     try:
         id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
