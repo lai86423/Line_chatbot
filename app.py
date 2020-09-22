@@ -442,7 +442,7 @@ def TextBubble(sheet_text):
 def ImageBubble(sheet_img):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
-                    thumbnail_image_url=sheet_img,
+                    thumbnail_image_url= 'https://dlms.iiiedu.org.tw/eng/img/d00000.png',
                     template = ButtonsTemplate (
                         text = '123 ',
                         actions = [
