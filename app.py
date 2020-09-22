@@ -173,7 +173,7 @@ def handle_postback(event):
         elif next_id =='d00208':
             setLevelStory(level_P)
         
-        elif next_id == 'd100**' or next_id =='d200**' or next_id =='d300**':
+        elif next_id == 'd100**' or next_id == 'd200**' or next_id == 'd300**':
             isStart_P = True
 
         else:
@@ -321,8 +321,8 @@ def CofirmPuzzle(sheet_reply_list):
     print("CofirmBubble",sheet_reply_list)
     replylist = []
     for i in range(len(sheet_reply_list)):
-        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
-        replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
+        id_index = levelsheet_r["a-replyID"].index[levelsheet_r["a-replyID"] == sheet_reply_list[i]]
+        replylist.append(([levelsheet_r["label"][id_index[0]], levelsheet_r["text"][id_index[0]], levelsheet_r["data"][id_index[0]]]))
     print("--Cofirm replylist",replylist) 
     return replylist
 
