@@ -140,6 +140,7 @@ def handle_message(event):
         
     if(isStart_P == True):
         if(isAsk_P == False):
+            print("load_Q")
             isAsk_P = True
             message = LoadQuestion()
             line_bot_api.reply_message(event.reply_token, message)  
@@ -177,7 +178,8 @@ def handle_postback(event):
             levelsheet_d, levelsheet_r = getSheet_P(level_P)
             setLevelStory(level_P)
         
-        elif next_id == 'd100**' or next_id == 'd200**' or next_id == 'd300**':
+        elif next_id == 'd10029' or next_id == 'd20025' or next_id == 'd30022':
+            print("d100**")
             RandomTest()
             isStart_P = True
 
