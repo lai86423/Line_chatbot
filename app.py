@@ -306,6 +306,7 @@ def smallpuzzle(event,id, sheet):
         # if next_id == 'd00209': #選題目階級
         #     Postback('L')
         #elif index == 'd10029': 
+        print("Next id not exist, Break! ")
         pass
 
 def ButtonPuzzle(sheet_reply_list):
