@@ -130,7 +130,6 @@ def handle_message(event):
     #user = getUser(event.source.user_id)
     #---------------------------------------    
     if(isInit_P == True or event.message.text =='?'):
-        print("isInit")
         smallpuzzle(event,'d00000',sheet_d0)
         #isChangingLevel_P = True
         isInit_P = False
@@ -180,8 +179,8 @@ def handle_postback(event):
         print("-----Set Level-----")
         setLevel_P(pb_event)
         #隨機取得題型
-        smallpuzzle(event,'d00202',sheet_d0)
         RandomTest()
+        smallpuzzle(event,'d00202',sheet_d0)
     
     elif isChooseHelp == True:
         #--Game State-----------------------------------
@@ -253,12 +252,10 @@ def smallpuzzle(event,id, sheet):
         sheet_type = sheet["type"][id_index]
         print("sheet_type",sheet_type)
         
+
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
-            print("img= ",sheet_text)     
-            line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url=sheet_text, preview_image_url=sheet_text))              
-            #message = ImageBubble(sheet_text)
-            #line_bot_api.reply_message(event.reply_token, message) 
+            print("img= ",sheet_text)                   
             smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'text':
@@ -266,7 +263,10 @@ def smallpuzzle(event,id, sheet):
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
+            #message = TextSendMessage(text=sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
+            #line_bot_api.push_message(_id, message)
+            #smallpuzzle(event, next_id , sheet)
 
         elif sheet_type == 'button': 
             if id == 'd00003':
@@ -276,7 +276,6 @@ def smallpuzzle(event,id, sheet):
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
             sheet_reply_list = []
-            print("btn= ", sheet_text)
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
@@ -284,6 +283,8 @@ def smallpuzzle(event,id, sheet):
             replylist = ButtonPuzzle(sheet_reply_list)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)  
+            #line_bot_api.push_message(_id, button_bubble)  
+            #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
             sheet_text = sheet["text"][id_index]
@@ -296,8 +297,12 @@ def smallpuzzle(event,id, sheet):
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
+            #smallpuzzle(event, next_id , sheet)
+
     except:
-        #1313423
+        # if next_id == 'd00209': #選題目階級
+        #     Postback('L')
+        #elif index == 'd10029': 
         pass
 
 def ButtonPuzzle(sheet_reply_list):
@@ -431,22 +436,6 @@ def TextBubble(sheet_text):
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
                         text = sheet_text,
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "Next", 
-                                    data = "Next"
-                                )
-                        ]
-                    )
-                )
-    return level_template
-
-def ImageBubble(sheet_img):
-    level_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        text = ' ',
-                        thumbnail_image_url= sheet_img,
                         actions = [
                                 PostbackTemplateAction(
                                     label = "Next", 
