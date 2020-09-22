@@ -171,6 +171,9 @@ def handle_postback(event):
             smallpuzzle(event,'d00003',sheet_d0)
         
         elif next_id =='d00208':
+            print("level = ",level_P)
+            global levelsheet_d, levelsheet_r
+            levelsheet_d, levelsheet_r = getSheet_P(level_P)
             setLevelStory(level_P)
         
         elif next_id == 'd100**' or next_id == 'd200**' or next_id == 'd300**':
@@ -234,10 +237,10 @@ def setLevel_P(levelinput):
     else:       
         isChangingLevel_P = True
 
-    if isChangingLevel_P == False:
-        print("level = ",level_P)
-        global levelsheet_d, levelsheet_r
-        levelsheet_d, levelsheet_r = getSheet_P(level_P)
+    # if isChangingLevel_P == False:
+    #     print("level = ",level_P)
+    #     global levelsheet_d, levelsheet_r
+    #     levelsheet_d, levelsheet_r = getSheet_P(level_P)
 
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp, next_id, text_sheet
