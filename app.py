@@ -142,14 +142,7 @@ def handle_message(event):
         if(isAsk_P == False):
             print("load_Q")
             isAsk_P = True
-            message = LoadQuestion()
-            line_bot_api.reply_message(event.reply_token, message)  
-            #題前故事
-            test_type = test_type_list[index_P]
-            print("test_type = ", test_type)
-            print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
-            smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
-
+            LoadStory(event)
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
@@ -181,7 +174,8 @@ def handle_postback(event):
         elif next_id == 'd10029' or next_id == 'd20025' or next_id == 'd30022':
             print("d100**")
             RandomTest()
-            isStart_P = True
+            #isStart_P = True
+            LoadStory(event)
 
         else:
             smallpuzzle(event, next_id , text_sheet)
@@ -243,6 +237,14 @@ def setLevel_P(levelinput):
     #     print("level = ",level_P)
     #     global levelsheet_d, levelsheet_r
     #     levelsheet_d, levelsheet_r = getSheet_P(level_P)
+def LoadStory(event):
+    message = LoadQuestion()
+    line_bot_api.reply_message(event.reply_token, message)  
+    #題前故事
+    test_type = test_type_list[index_P]
+    print("test_type = ", test_type)
+    print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
+    smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
 
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp, next_id, text_sheet
