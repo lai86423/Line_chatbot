@@ -276,6 +276,7 @@ def smallpuzzle(event,id, sheet):
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
             sheet_reply_list = []
+            print("btn= ", sheet_text)
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
@@ -295,8 +296,8 @@ def smallpuzzle(event,id, sheet):
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
-
     except:
+        #1313423
         pass
 
 def ButtonPuzzle(sheet_reply_list):
@@ -444,7 +445,6 @@ def ImageBubble(sheet_img):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        text = ' ',
                         thumbnail_image_url= 'https://dlms.iiiedu.org.tw/eng/img/d00000.png',
                         actions = [
                                 PostbackTemplateAction(
