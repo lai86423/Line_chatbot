@@ -11,7 +11,7 @@ import pandas as pd
 from googletrans import Translator
 import random
 
-def Voc(index_L, sheet):
+def Voc(index, sheet):
     q_chinese = sheet[0]
     option = sheet[1]
     print("q_chinese = ",q_chinese)
@@ -24,7 +24,7 @@ def Voc(index_L, sheet):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="題目("+ str(index_L+1) +"/10)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="題目("+ str(index+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(

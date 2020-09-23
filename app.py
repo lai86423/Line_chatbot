@@ -17,6 +17,9 @@ import pygsheets
 import QA_Bubble
 import random
 
+import getVoc
+import QA_Bubble
+
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
@@ -84,16 +87,16 @@ def getSheet_P(level):
 class userVar():
     def __init__(self,_id):
         self._id = _id
-        # #QA
-        # self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
-        # self.sheet_Q = getVoc.editSheet(self.data_Voc)
-        # self.isVoc = False 
-        # self.VocQA = []
-        # #Listen
-        # self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        # self.sheet_L = self.data_pho
-        # self.isWord = False 
-        # self.word_list = []
+        #QA
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
+        self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        self.isVoc = False 
+        self.VocQA = []
+        #Listen
+        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
+        self.sheet_L = self.data_pho
+        self.isWord = False 
+        self.word_list = []
 
         #Puzzle
         self.next_id = 0
@@ -108,7 +111,49 @@ class userVar():
         self.levelsheet_r = sheet_r0
         self.text_sheet = self.levelsheet_d
         self.test_type_list = []
+        self.subindex_P = 0
+
+# 出題初始抓資料＆資料處理------------------------------------------------
+GSpreadSheet_Q = 'cilab_ChatBot_QA'
+gc_Q = pygsheets.authorize(service_account_file='JSON.json')
+sh_Q = gc_Q.open(GSpreadSheet_Q)
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open('cilab_ChatBot_QA')
+sheet_L1_Cloze = spreadSheet.worksheet("L1_Cloze")
+L1_Cloze = sheet_L1_Cloze.get_all_values()
+sheet_L2_Cloze = spreadSheet.worksheet("L2_Cloze")
+L2_Cloze = sheet_L2_Cloze.get_all_values()
+sheet_L3_Cloze = spreadSheet.worksheet("L3_Cloze")
+L3_Cloze = sheet_L3_Cloze.get_all_values()
+
+sheet_L1_Reading = spreadSheet.worksheet("L1_Reading")
+L1_Reading = sheet_L1_Reading.get_all_values()
+sheet_L2_Reading = spreadSheet.worksheet("L2_Reading")
+L2_Reading = sheet_L2_Reading.get_all_values()
+sheet_L3_Reading = spreadSheet.worksheet("L3_Reading")
+L3_Reading = sheet_L3_Reading.get_all_values()
 ##-----------------------------------------------------------------------------------
+def getSheetQA(Qlevel):   
+    if(Qlevel == 3):
+        sheet_Reading = L3_Reading
+        sheet_Cloze = L3_Cloze 
+
+    elif(Qlevel == 2):
+        sheet_Reading = L2_Reading
+        sheet_Cloze = L2_Cloze
+    else:
+        sheet_Reading = L1_Reading
+        sheet_Cloze = L1_Cloze
+    
+    sheet_Voc = getVoc.getSheet(Qlevel,sh_Q)
+    
+    return sheet_Voc, sheet_Reading, sheet_Cloze
+
+##---------------------------------------------------------------------------
+##----------------------------------------------------------------------------------
+
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -143,6 +188,10 @@ def handle_message(event):
             print("load_Q")
             user.isAsk_P = True
             LoadStory(event, user)
+            QA_bubble = Question_P(event, user)
+            message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+            line_bot_api.reply_message(event.reply_token, message)
+
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
@@ -348,7 +397,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(1,7) for _ in range(10)]
+    user.test_type_list = [random.randint(1,1) for _ in range(10)]
     print("-----*** 10 Quiz type = ",user.test_type_list)
 
 def LoadQuestion(user):
@@ -378,7 +427,13 @@ def Question_P(event, user):
         print("sheet_L_pho & voc")
         smallpuzzle(event,'d'+ str(user.level_P) +'1000',user.levelsheet_d, user)
         print("題目")
-        testsheet_P = data_pho
+        user.testsheet_P = user.data_Cloze
+        user.subindex_P = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
+        print("data_Cloze subindex_P", user.subindex_P)
+        if (user.level_P != 3):
+            QA_bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
+        else:
+            QA_bubble = QA_Bubble.Cloze_L3(user.testsheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
