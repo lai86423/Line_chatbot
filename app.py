@@ -26,7 +26,7 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
-#users = np.array(('0','0',0)) #userID,level_P,point
+#users = np.array(('0','0',0)) #userID,user.level_P,point
 
 allUser = [] 
 ##-----------------------------------------------------------------------------------
@@ -43,8 +43,7 @@ sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
 
 ##----------------------------------------------------------------------------------
-def getSheet_P(level): 
-    global sh_P  
+def getSheet_P(level):  
     if(level == 3):
         sh_P.worksheet_by_title('d3').export(filename='d3')
         sh_P.worksheet_by_title('r3').export(filename='r3')
@@ -65,48 +64,50 @@ def getSheet_P(level):
     return sheet_d, sheet_r
 
 ##----------------------------------------------------------------------------------
-sheet_type = 'text'
-sheet_reply_list = []
-next_id = 0
-level_P = 1
-index_P = 0 #第幾題
-isInit_P = True
-isChangingLevel_P = False
-isChooseHelp = False
-isStart_P = False
-isAsk_P = False
-levelsheet_d = sheet_d0
-levelsheet_r = sheet_r0
-_id = 0
-text_sheet = levelsheet_d
-test_type_list = []
-##----------------------------------------------------------------------------------
-class userVar_P():
-    def __init__(self,_id):
-        self._id = _id
-        self.isInit_P = True
-        self.isChangingLevel_P = True
-        # self.sheet_type = 'text'
-        # self.sheet_title = ''
-        # self.sheet_text = ''
-        #self.sheet_reply_list = []
-        self.level_P = 1
-        self.index_P = 0 #第幾題
-        self.levelsheet_d, self.levelsheet_r = getSheet_P(self.level_P)
+# sheet_type = 'text'
+# sheet_reply_list = []
+# user.next_id = 0
+# user.level_P = 1
+# user.index_P = 0 #第幾題
+# user.isInit_P = True
+# user.isChangingLevel_P = False
+# user.isChooseHelp = False
+# user.isStart_P = False
+# user.isAsk_P = False
+# user.levelsheet_d = sheet_d0
+# user.levelsheet_r = sheet_r0
+# _id = 0
+# user.text_sheet = user.levelsheet_d
+# user.test_type_list = []
 
+##----------------------------------------------------------------------------------
 class userVar():
     def __init__(self,_id):
         self._id = _id
-        #QA
-        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
-        self.sheet_Q = getVoc.editSheet(self.data_Voc)
-        self.isVoc = False 
-        self.VocQA = []
-        #Listen
-        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        self.sheet_L = self.data_pho
-        self.isWord = False 
-        self.word_list = []
+        # #QA
+        # self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
+        # self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        # self.isVoc = False 
+        # self.VocQA = []
+        # #Listen
+        # self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
+        # self.sheet_L = self.data_pho
+        # self.isWord = False 
+        # self.word_list = []
+
+        #Puzzle
+        self.next_id = 0
+        self.level_P = 1
+        self.index_P = 0 #第幾題
+        self.isInit_P = True
+        self.isChangingLevel_P = False
+        self.isChooseHelp = False
+        self.isStart_P = False
+        self.isAsk_P = False
+        self.levelsheet_d = sheet_d0
+        self.levelsheet_r = sheet_r0
+        self.text_sheet = levelsheet_d
+        self.test_type_list = []
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
@@ -127,22 +128,21 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    global isInit_P,  isAsk_P, isStart_P, _id
-    _id = event.source.user_id
-    #user = getUser(event.source.user_id)
+    #global user.isInit_P,  user.isAsk_P, user.isStart_P
+    user = getUser(event.source.user_id)
     #---------------------------------------    
-    if(isInit_P == True or event.message.text =='?'):
-        smallpuzzle(event,'d00000',sheet_d0)
-        #isChangingLevel_P = True
-        isInit_P = False
-    # if isChangingLevel_P == True:
-    #     isAsk_P = False
+    if(user.isInit_P == True or event.message.text =='?'):
+        smallpuzzle(event,'d00000',sheet_d0, user)
+        #user.isChangingLevel_P = True
+        user.isInit_P = False
+    # if user.isChangingLevel_P == True:
+    #     user.isAsk_P = False
         
-    if(isStart_P == True):
-        if(isAsk_P == False):
+    if(user.isStart_P == True):
+        if(user.isAsk_P == False):
             print("load_Q")
-            isAsk_P = True
-            LoadStory(event)
+            user.isAsk_P = True
+            LoadStory(event, user)
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
@@ -156,45 +156,45 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    global isChooseHelp, level_P, isChangingLevel_P,_id, isStart_P
-    #_id = getUser(event.source.user_id)
+    #global user.isChooseHelp, user.level_P, user.isChangingLevel_P,_id, user.isStart_P
+    user = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
 
     if (pb_event == 'Next'):
-        if  next_id =='d00101': #重複詢問可以幫您什麼？
-            smallpuzzle(event,'d00003',sheet_d0)
+        if  user.next_id =='d00101': #重複詢問可以幫您什麼？
+            smallpuzzle(event,'d00003',sheet_d0, user)
         
-        elif next_id =='d00208':
-            print("level = ",level_P)
-            global levelsheet_d, levelsheet_r
-            levelsheet_d, levelsheet_r = getSheet_P(level_P)
-            setLevelStory(level_P)
+        elif user.next_id =='d00208':
+            print("level = ",user.level_P)
+            #global user.levelsheet_d, user.levelsheet_r
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            setLevelStory(user.level_P, user)
         
-        elif next_id == 'd10029' or next_id == 'd20025' or next_id == 'd30022':
+        elif user.next_id == 'd10029' or user.next_id == 'd20025' or user.next_id == 'd30022':
             print("d100**")
-            RandomTest()
-            #isStart_P = True
-            LoadStory(event)
+            RandomTest(user)
+            #user.isStart_P = True
+            LoadStory(event, user)
 
         else:
-            smallpuzzle(event, next_id , text_sheet)
+            smallpuzzle(event, user.next_id , user.text_sheet, user)
     
-    elif isChangingLevel_P == True:
-        setLevel_P(pb_event)
+    elif user.isChangingLevel_P == True:
+        setLevel_P(pb_event, user)
         #隨機取得題型
-        smallpuzzle(event,'d00202',sheet_d0)
+        smallpuzzle(event,'d00202',sheet_d0, user)
     
-    elif isChooseHelp == True:
+    elif user.isChooseHelp == True:
         #--Game State-----------------------------------
-        isChooseHelp = False
+        user.isChooseHelp = False
         if pb_event == '1':
             #了解背景故事
-            smallpuzzle(event,'d00100',sheet_d0)
+            smallpuzzle(event,'d00100',sheet_d0, user)
 
         elif pb_event == '2':
             #開始遊戲
-            smallpuzzle(event,'d00200',sheet_d0)
+            smallpuzzle(event,'d00200',sheet_d0, user)
 
         elif pb_event == '3':
             #結束遊戲
@@ -202,7 +202,7 @@ def handle_postback(event):
 
         else:
             pass
-    elif isStart_P == True:
+    elif user.isStart_P == True:
         # if user.isWord == True:
         #         correctAns = str(user.word_list[user.subindex_L][2])
 
@@ -214,40 +214,40 @@ def handle_postback(event):
         print("Ans feedback")
 
 ##-----------------------------------------------------------------------------------
-def setLevel_P(levelinput):
+def setLevel_P(levelinput, user):
     print("---Changing Level---")
-    global level_P, isChangingLevel_P
+    #global user.level_P, user.isChangingLevel_P
 
     if (levelinput=='L'):
-        level_P = 1
-        isChangingLevel_P = False
+        user.level_P = 1
+        user.isChangingLevel_P = False
         
     elif (levelinput=='M'):
-        level_P = 2
-        isChangingLevel_P = False
+        user.level_P = 2
+        user.isChangingLevel_P = False
 
     elif (levelinput=='H'):
-        level_P = 3
-        isChangingLevel_P = False
+        user.level_P = 3
+        user.isChangingLevel_P = False
 
     else:       
-        isChangingLevel_P = True
+        user.isChangingLevel_P = True
 
-    # if isChangingLevel_P == False:
-    #     print("level = ",level_P)
-    #     global levelsheet_d, levelsheet_r
-    #     levelsheet_d, levelsheet_r = getSheet_P(level_P)
-def LoadStory(event):
-    message = LoadQuestion()
+    # if user.isChangingLevel_P == False:
+    #     print("level = ",user.level_P)
+    #     global user.levelsheet_d, user.levelsheet_r
+    #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+def LoadStory(event, user):
+    message = LoadQuestion(user)
     line_bot_api.reply_message(event.reply_token, message)  
     #題前故事
-    test_type = test_type_list[index_P]
+    test_type = user.test_type_list[user.index_P]
     print("test_type = ", test_type)
-    print('--TestPreStory--'+'d'+ str(level_P) + str(test_type) + '000')
-    smallpuzzle(event, 'd' + str(level_P) + str(test_type) + '000', levelsheet_d)
+    print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
+    smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
 
-def smallpuzzle(event,id, sheet):
-    global isChangingLevel_P, isChooseHelp, next_id, text_sheet
+def smallpuzzle(event,id, sheet, user):
+    #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet
     print("---------id----------",id)
     # id_three = id[3]
     try:
@@ -258,31 +258,31 @@ def smallpuzzle(event,id, sheet):
         sheet_type = sheet["type"][id_index]
         print("sheet_type",sheet_type)
         
-        next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-        print("next id = ", next_id)
+        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+        print("next id = ", user.next_id)
 
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)  
             #message = ImageBubble(sheet_text)
             #line_bot_api.reply_message(event.reply_token, message)                  
-            smallpuzzle(event, next_id , sheet)
+            smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
-            text_sheet = sheet
+            user.text_sheet = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
             #message = TextSendMessage(text=sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
             #line_bot_api.push_message(_id, message)
-            #smallpuzzle(event, next_id , sheet)
+            #smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'button': 
             if id == 'd00003':
-                isChooseHelp = True
+                user.isChooseHelp = True
             elif id == 'd00201':
-                isChangingLevel_P = True
+                user.isChangingLevel_P = True
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
             sheet_reply_list = []
@@ -303,14 +303,14 @@ def smallpuzzle(event,id, sheet):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
             print("Cofirm sheet_reply_list",sheet_reply_list)
-            replylist = CofirmPuzzle(sheet_reply_list)
+            replylist = CofirmPuzzle(sheet_reply_list, user)
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
-            #smallpuzzle(event, next_id , sheet)
+            #smallpuzzle(event, user.next_id , sheet, user)
 
     except:
-        # if next_id == 'd00209': #選題目階級
+        # if user.next_id == 'd00209': #選題目階級
         #     Postback('L')
         #elif index == 'd10029': 
         print("Next id not exist, Break! ")
@@ -325,88 +325,89 @@ def ButtonPuzzle(sheet_reply_list):
     print("replylist",replylist) 
     return replylist
 
-def CofirmPuzzle(sheet_reply_list):
+def CofirmPuzzle(sheet_reply_list, user):
     print("CofirmBubble",sheet_reply_list)
     replylist = []
     for i in range(len(sheet_reply_list)):
-        id_index = levelsheet_r["a-replyID"].index[levelsheet_r["a-replyID"] == sheet_reply_list[i]]
-        replylist.append(([levelsheet_r["label"][id_index[0]], levelsheet_r["text"][id_index[0]], levelsheet_r["data"][id_index[0]]]))
+        id_index = user.levelsheet_r["a-replyID"].index[user.levelsheet_r["a-replyID"] == sheet_reply_list[i]]
+        replylist.append(([user.levelsheet_r["label"][id_index[0]], user.levelsheet_r["text"][id_index[0]], user.levelsheet_r["data"][id_index[0]]]))
     print("--Cofirm replylist",replylist) 
     return replylist
 
-def setLevelStory(event):
+def setLevelStory(event, user):
     print("setLevelStory")
 
-    if level_P == 1:
-        smallpuzzle(event,'d10000' , levelsheet_d)
+    if user.level_P == 1:
+        smallpuzzle(event,'d10000' , user.levelsheet_d, user)
 
-    elif level_P == 2:
-        smallpuzzle(event,'d20000' , levelsheet_d)
+    elif user.level_P == 2:
+        smallpuzzle(event,'d20000' , user.levelsheet_d, user)
 
-    elif level_P == 3:
-        smallpuzzle(event,'d30000' , levelsheet_d)
+    elif user.level_P == 3:
+        smallpuzzle(event,'d30000' , user.levelsheet_d, user)
 
-def RandomTest():
-    global test_type_list
-    test_type_list = [random.randint(1,7) for _ in range(10)]
-    print("-----*** 10 Quiz type = ",test_type_list)
+def RandomTest(user):
+    #global user.test_type_list
+    user.test_type_list = [random.randint(1,7) for _ in range(10)]
+    print("-----*** 10 Quiz type = ",user.test_type_list)
 
-def LoadQuestion():
-    print("-----LoadQuestion", index_P)
+def LoadQuestion(user):
+    print("-----LoadQuestion", user.index_P)
     #題數引文
-    if level_P == 1 :
-        test_pretext = "（第" + str(index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
+    if user.level_P == 1 :
+        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextBubble(test_pretext)
         #line_bot_api.push_message(_id, message)
     
-    elif level_P == 2:
-        test_pretext = "（第" + str(index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
+    elif user.level_P == 2:
+        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextBubble(test_pretext)
         #line_bot_api.push_message(_id, message)
         #line_bot_api.push_message(_id, message)
 
-    elif level_P == 3:
-        test_pretext = "（第" + str(index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
+    elif user.level_P == 3:
+        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
         print(test_pretext)
         message = TextBubble(test_pretext)
     return message
 
-def Question_P(event):
-    if test_type_list[index_P] == 1:
-        print("sheet_pho")
-        smallpuzzle(event,'d'+ str(level_P) +'1000',levelsheet_d)
+def Question_P(event, user):
+    if user.test_type_list[user.index_P] == 1:
+        print("sheet_L_pho & voc")
+        smallpuzzle(event,'d'+ str(user.level_P) +'1000',user.levelsheet_d, user)
+        print("題目")
+        testsheet_P = data_pho
+
+    elif user.test_type_list[user.index_P] == 2:
+        print("sheet_L_sen")
+        smallpuzzle(event,'d'+ str(user.level_P) +'2000',user.levelsheet_d, user)
         print("題目")
 
-    elif test_type_list[index_P] == 2:
-        print("sheet_word")
-        smallpuzzle(event,'d'+ str(level_P) +'2000',levelsheet_d)
+    elif user.test_type_list[user.index_P] == 3:
+        print("sheet_speaking_word")
+        smallpuzzle(event,'d'+ str(user.level_P) +'3000',user.levelsheet_d, user)
         print("題目")
 
-    elif test_type_list[index_P] == 3:
-        print("sheet_sen")
-        smallpuzzle(event,'d'+ str(level_P) +'3000',levelsheet_d)
+    elif user.test_type_list[user.index_P] == 4:
+        print("sheet_speaking_sen")
+        smallpuzzle(event,'d'+ str(user.level_P) +'4000',user.levelsheet_d, user)
         print("題目")
 
-    elif test_type_list[index_P] == 4:
-        print("sheet_spexking_word")
-        smallpuzzle(event,'d'+ str(level_P) +'4000',levelsheet_d)
+    elif user.test_type_list[user.index_P] == 5:
+        print("sheet_Q_voc")
+        smallpuzzle(event,'d'+ str(user.level_P) +'5000',user.levelsheet_d, user)
         print("題目")
 
-    elif test_type_list[index_P] == 5:
-        print("sheet_spexking_sen")
-        smallpuzzle(event,'d'+ str(level_P) +'5000',levelsheet_d)
+    elif user.test_type_list[user.index_P] == 6:
+        print("sheet_Q_cloze")
+        smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
         print("題目")
 
-    elif test_type_list[index_P] == 6:
-        print("sheet_cloze")
-        smallpuzzle(event,'d'+ str(level_P) +'6000',levelsheet_d)
-        print("題目")
-
-    elif test_type_list[index_P] == 7:
-        print("sheet_reading")
-        smallpuzzle(event,'d'+ str(level_P) +'7000',levelsheet_d)
+    elif user.test_type_list[user.index_P] == 7:
+        print("sheet_Q_reading")
+        smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
         print("題目")
 
 
