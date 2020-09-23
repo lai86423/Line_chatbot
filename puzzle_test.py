@@ -82,19 +82,20 @@ def editSheet(data):
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp
     print("-------------------")
-    # id_three = id[3]
-    next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-    print("next id = ", next_id)
 
-    try:
-        id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
+    id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+    print("#####",id_index) 
+    if len(id_index) > 0:
         id_index = id_index[0]
         print("id_index",id_index)
+
+        # id_three = id[3]
+        next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+        print("next id = ", next_id)
 
         sheet_type = sheet["type"][id_index]
         print("sheet_type",sheet_type)
         
-
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)                   
@@ -133,11 +134,11 @@ def smallpuzzle(event,id, sheet):
             smallpuzzle(event, next_id , sheet)
 
 
-    except:
+    else:
         #if next_id == 'd00209': #選題目階級
         #    Postback('L')
         #elif index == 'd10029': 
-        print("Next id not exist, Break! ",next_id)
+        print("Do Not Find ID in Sheet! ")
         pass
 
 def ButtonPuzzle(reply, title):

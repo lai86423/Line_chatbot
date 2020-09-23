@@ -188,8 +188,8 @@ def handle_message(event):
             print("load_Q")
             user.isAsk_P = True
             LoadStory(event, user)
-            QA_bubble = Question_P(event, user)
-            message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+            bubble = Question_P(event, user)
+            message = FlexSendMessage(alt_text="bubble", contents = bubble)
             line_bot_api.reply_message(event.reply_token, message)
 
 ##-----------------------------------------------------------------------------------
@@ -286,8 +286,10 @@ def setLevel_P(levelinput, user):
     #     print("level = ",user.level_P)
     #     global user.levelsheet_d, user.levelsheet_r
     #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+
 def LoadStory(event, user):
-    message = LoadQuestion(user)
+    print("LoadStory")
+    message = LoadTestIndex(user)
     line_bot_api.reply_message(event.reply_token, message)  
     #題前故事
     test_type = user.test_type_list[user.index_P]
@@ -299,17 +301,18 @@ def smallpuzzle(event,id, sheet, user):
     #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet
     print("---------id----------",id)
     # id_three = id[3]
-    try:
-        id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id]  
+    id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+    #print("#####",id_index) 
+    if len(id_index) > 0:
         id_index = id_index[0]
         print("id_index",id_index)
+
+        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
+        print("next id = ", user.next_id)
 
         sheet_type = sheet["type"][id_index]
         print("sheet_type",sheet_type)
         
-        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-        print("next id = ", user.next_id)
-
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)  
@@ -358,11 +361,8 @@ def smallpuzzle(event,id, sheet, user):
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
             #smallpuzzle(event, user.next_id , sheet, user)
 
-    except:
-        # if user.next_id == 'd00209': #選題目階級
-        #     Postback('L')
-        #elif index == 'd10029': 
-        print("Next id not exist, Break! ")
+    else:
+        print("Do Not Find ID in Sheet! ")
         pass
 
 def ButtonPuzzle(sheet_reply_list):
@@ -400,8 +400,8 @@ def RandomTest(user):
     user.test_type_list = [random.randint(1,1) for _ in range(10)]
     print("-----*** 10 Quiz type = ",user.test_type_list)
 
-def LoadQuestion(user):
-    print("-----LoadQuestion", user.index_P)
+def LoadTestIndex(user):
+    print("-----LoadTestIndex----", user.index_P)
     #題數引文
     if user.level_P == 1 :
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
@@ -413,7 +413,6 @@ def LoadQuestion(user):
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextBubble(test_pretext)
-        #line_bot_api.push_message(_id, message)
         #line_bot_api.push_message(_id, message)
 
     elif user.level_P == 3:
@@ -431,9 +430,9 @@ def Question_P(event, user):
         user.subindex_P = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
         print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
-            QA_bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
         else:
-            QA_bubble = QA_Bubble.Cloze_L3(user.testsheet_P, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze_L3(user.testsheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
@@ -464,6 +463,8 @@ def Question_P(event, user):
         print("sheet_Q_reading")
         smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
         print("題目")
+    
+    return bubble
 
 
 
