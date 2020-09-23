@@ -106,7 +106,7 @@ class userVar():
         self.isAsk_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
-        self.text_sheet = levelsheet_d
+        self.text_sheet = self.levelsheet_d
         self.test_type_list = []
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
