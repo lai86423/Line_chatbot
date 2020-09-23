@@ -88,15 +88,15 @@ class userVar():
     def __init__(self,_id):
         self._id = _id
         #QA
-        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(1) #預設傳level = 1
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
-        #Listen
-        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        self.sheet_L = self.data_pho
-        self.isWord = False 
-        self.word_list = []
+        # #Listen
+        # self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
+        # self.sheet_L = self.data_pho
+        # self.isWord = False 
+        # self.word_list = []
 
         #Puzzle
         self.next_id = 0
