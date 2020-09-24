@@ -75,7 +75,7 @@ def getSheet_P(level):
 # user.isInit_P = True
 # user.isChangingLevel_P = False
 # user.isChooseHelp = False
-# user.isStart_P = False
+# user.isLoad_P = False
 # user.isAsk_P = False
 # user.levelsheet_d = sheet_d0
 # user.levelsheet_r = sheet_r0
@@ -102,10 +102,12 @@ class userVar():
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
-        self.isInit_P = False
+        self.isInit_P = Init
         self.isChangingLevel_P = False
         self.isChooseHelp = False
-        self.isStart_P = True
+        self.isLoad_P = True
+        self.isPreStory_P = False
+        self.isStart_P = False
         self.isAsk_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
@@ -173,24 +175,29 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    #global user.isInit_P,  user.isAsk_P, user.isStart_P
+    #global user.isInit_P,  user.isAsk_P, user.isLoad_P
     user = getUser(event.source.user_id)
     #---------------------------------------    
     if(user.isInit_P == True or event.message.text =='?'):
-        smallpuzzle(event,'d00000',sheet_d0, user)
+        #smallpuzzle(event,'d00000',sheet_d0, user)
+
+        #------Test
+        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+        smallpuzzle(event,'d10029',user.levelsheet_d, user)
+        #------Test
+
         #user.isChangingLevel_P = True
         user.isInit_P = False
     # if user.isChangingLevel_P == True:
     #     user.isAsk_P = False
         
     if(user.isStart_P == True):
-        if(user.isAsk_P == False):
-            print("load_Q")
-            user.isAsk_P = True
-            LoadStory(event, user)
-            bubble = Question_P(event, user)
-            message = FlexSendMessage(alt_text="bubble", contents = bubble)
-            line_bot_api.reply_message(event.reply_token, message)
+        #if(user.isAsk_P == False):
+        print("load_Q")
+        #user.isAsk_P = True
+        bubble = Question_P(event, user)
+        message = FlexSendMessage(alt_text="bubble", contents = bubble)
+        line_bot_api.reply_message(event.reply_token, message)
 
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
@@ -205,11 +212,13 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    #global user.isChooseHelp, user.level_P, user.isChangingLevel_P,_id, user.isStart_P
+    #global user.isChooseHelp, user.level_P, user.isChangingLevel_P,_id, user.isLoad_P
     user = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
-
+    if user.next_id == 'd10029' or user.next_id == 'd20025' or user.next_id == 'd30022':
+        user.isLoad_P = True
+    
     if (pb_event == 'Next'):
         if  user.next_id =='d00101': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0, user)
@@ -220,11 +229,22 @@ def handle_postback(event):
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
             setLevelStory(user.level_P, user)
         
-        elif user.next_id == 'd10029' or user.next_id == 'd20025' or user.next_id == 'd30022':
+        elif user.isLoad_P == True:
             print("d100**")
             RandomTest(user)
-            #user.isStart_P = True
-            LoadStory(event, user)
+            message = LoadTestIndex(user)
+            line_bot_api.reply_message(event.reply_token, message)  
+            user.isLoad_P = False
+            user.isPreStory_P = True
+
+        elif user.isPreStory_P == True:
+            if user.isAsking == False :
+                user.isAsking = True
+                #題前故事
+                test_type = user.test_type_list[user.index_P]
+                print("test_type = ", test_type)
+                print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
+                smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
 
         else:
             smallpuzzle(event, user.next_id , user.text_sheet, user)
@@ -251,7 +271,7 @@ def handle_postback(event):
 
         else:
             pass
-    elif user.isStart_P == True:
+    elif user.isLoad_P == True:
         # if user.isWord == True:
         #         correctAns = str(user.word_list[user.subindex_L][2])
 
@@ -286,22 +306,14 @@ def setLevel_P(levelinput, user):
     #     print("level = ",user.level_P)
     #     global user.levelsheet_d, user.levelsheet_r
     #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-
-def LoadStory(event, user):
-    print("LoadStory")
-    message = LoadTestIndex(user)
-    line_bot_api.reply_message(event.reply_token, message)  
-    #題前故事
-    test_type = user.test_type_list[user.index_P]
-    print("test_type = ", test_type)
-    print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
-    smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
+    
 
 def smallpuzzle(event,id, sheet, user):
     #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet
     print("---------id----------",id)
     # id_three = id[3]
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+
     #print("#####",id_index) 
     if len(id_index) > 0:
         id_index = id_index[0]
@@ -362,6 +374,12 @@ def smallpuzzle(event,id, sheet, user):
             #smallpuzzle(event, user.next_id , sheet, user)
 
     else:
+        if user.isPreStory_P == True:
+            print("PreStory End! Strat Testing!")
+            user.isStart_P = True
+            user.isAsking = False
+            user.isPreStory_P = False
+
         print("Do Not Find ID in Sheet! ")
         pass
 

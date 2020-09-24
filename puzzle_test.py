@@ -103,6 +103,7 @@ def smallpuzzle(event,id, sheet):
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
+            sheet["text"][id_index].color = (0.9529412, 0.9529412, 0.9529412, 0)
             print("text= ",sheet_text)
             smallpuzzle(event, next_id , sheet)
 
