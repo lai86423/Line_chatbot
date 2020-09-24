@@ -451,8 +451,6 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        smallpuzzle(event,'d'+ str(user.level_P) +'1000',user.levelsheet_d, user)
-        print("題目")
         user.testsheet_P = user.data_Cloze
         user.subindex_P = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
         print("data_Cloze subindex_P", user.subindex_P)
