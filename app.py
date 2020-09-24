@@ -239,13 +239,15 @@ def handle_postback(event):
 
         elif user.isPreStory_P == True:
             if user.isAsk_P == False :
+                print("題前故事")
                 user.isAsk_P = True
                 #題前故事
                 test_type = user.test_type_list[user.index_P]
                 print("test_type = ", test_type)
                 print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
                 smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
-
+            else:
+                smallpuzzle(event, user.next_id , user.text_sheet, user)
         else:
             smallpuzzle(event, user.next_id , user.text_sheet, user)
     
