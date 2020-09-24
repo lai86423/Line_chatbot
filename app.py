@@ -191,13 +191,13 @@ def handle_message(event):
     # if user.isChangingLevel_P == True:
     #     user.isAsk_P = False
         
-    if(user.isStart_P == True):
-        #if(user.isAsk_P == False):
-        print("load_Q")
-        #user.isAsk_P = True
-        bubble = Question_P(event, user)
-        message = FlexSendMessage(alt_text="bubble", contents = bubble)
-        line_bot_api.reply_message(event.reply_token, message)
+    # if(user.isStart_P == True):
+    #     #if(user.isAsk_P == False):
+    #     print("load_Q")
+    #     #user.isAsk_P = True
+    #     bubble = Question_P(event, user)
+    #     message = FlexSendMessage(alt_text="bubble", contents = bubble)
+    #     line_bot_api.reply_message(event.reply_token, message)
 
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
@@ -248,6 +248,13 @@ def handle_postback(event):
                 smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
             else:
                 smallpuzzle(event, user.next_id , user.text_sheet, user)
+
+        elif(user.isStart_P == True):
+            print("load_Q")
+            bubble = Question_P(event, user)
+            message = FlexSendMessage(alt_text="bubble", contents = bubble)
+            line_bot_api.reply_message(event.reply_token, message)
+
         else:
             smallpuzzle(event, user.next_id , user.text_sheet, user)
     
