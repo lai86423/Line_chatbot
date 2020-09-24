@@ -102,10 +102,10 @@ class userVar():
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
-        self.isInit_P = True
+        self.isInit_P = False
         self.isChangingLevel_P = False
         self.isChooseHelp = False
-        self.isStart_P = False
+        self.isStart_P = True
         self.isAsk_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
