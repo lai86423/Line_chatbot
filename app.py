@@ -238,8 +238,8 @@ def handle_postback(event):
             user.isPreStory_P = True
 
         elif user.isPreStory_P == True:
-            if user.isAsking == False :
-                user.isAsking = True
+            if user.isAsk_P == False :
+                user.isAsk_P = True
                 #題前故事
                 test_type = user.test_type_list[user.index_P]
                 print("test_type = ", test_type)
@@ -377,7 +377,7 @@ def smallpuzzle(event,id, sheet, user):
         if user.isPreStory_P == True:
             print("PreStory End! Strat Testing!")
             user.isStart_P = True
-            user.isAsking = False
+            user.isAsk_P = False
             user.isPreStory_P = False
 
         print("Do Not Find ID in Sheet! ")
