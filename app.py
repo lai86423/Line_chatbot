@@ -102,7 +102,7 @@ class userVar():
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
-        self.isInit_P = Init
+        self.isInit_P = True
         self.isChangingLevel_P = False
         self.isChooseHelp = False
         self.isLoad_P = True
