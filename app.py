@@ -114,6 +114,7 @@ class userVar():
         self.text_sheet = self.levelsheet_d
         self.test_type_list = []
         self.subindex_P = 0
+        self.count_P = 2
 
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
@@ -280,16 +281,54 @@ def handle_postback(event):
 
         else:
             pass
-    elif user.isLoad_P == True:
-        # if user.isWord == True:
-        #         correctAns = str(user.word_list[user.subindex_L][2])
+    elif user.isStart_P == True:
+        print("---Ans feedback---")
+        correctAns = str(user.text_sheet[user.subindex_P][4])
+        print("correct answer = ",correctAns)
+        print("correct answer, answer user.index_L, subuser.index_L = ",correctAns, user.index_L, user.subindex_L)
+        
+        if pb_event != correctAns:
+            print("answer",pb_event," != correctAns",correctAns)
+    #       if(user.count_P != 1):
+    #           user.isStart_P = False
+    #           wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
+    #           message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+    #           line_bot_api.reply_message(event.reply_token,message)
+    #           user.count_P -= 1
+    #       elif(user.count_P == 1):
+    #           user.isStart_P = False
+    #           if(user.index_P == 9):
+    #               loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
+    #           else:    
+    #               loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
+    #           message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+    #           line_bot_api.reply_message(event.reply_token,message)
+    #           user.count_P = 2
+    #           user.index_P += 1
+    #       user.isAsked_P = False
+        else:
+            user.isStart_P = False
+            print('正確答案!')
+    #     if(user.count_P == 2):
+    #         reply = '你好棒!一次就答對了!'
+    #     elif(user.count_P == 1):
+    #         reply = '好棒哦!你答對了!'
+    #     #print(user.count_P, reply)
+    #     if(user.index_P == 9):
+    #         print("last P")
+    #         reply = '好棒哦!你答對了!'
+    #         correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
 
-        # else:
-        #     correctAns = str(user.sheet_L[user.subindex_L][4])
-        # print("correct answer = ",correctAns)
-        # print("answer user.index_L = ", user.index_L)
-        # print("answer subuser.index_L = ", user.subindex_L)
-        print("Ans feedback")
+    #     else:
+    #         correctBubble = rightBubble(reply)
+    #     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
+    #     line_bot_api.reply_message(event.reply_token,message)
+    #     user.index_P += 1
+    #     user.count_P = 2
+    #     if(user.index_P < 10):
+    #         user.isAsked_P = False
+    # print('after count_P: ', user.count_P)
+    # print('after index_P: ', user.index_P)
 
 ##-----------------------------------------------------------------------------------
 def setLevel_P(levelinput, user):
@@ -452,7 +491,7 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         user.testsheet_P = user.data_Cloze
-        user.subindex_P = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
+        user.subindex_P = random.randrange(1,len(np.transpose([user.testsheet_P])[0]))
         print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
             bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
