@@ -823,13 +823,13 @@ def handle_postback(event):
             user.isChangingTrans = False
             if (user.levelinput=='ETC'):
                 user.TransType = 1
-                print("切換英翻中模式")
+                print("切換英翻中模式,請您傳送只有英文的單字或句子～")
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的英文單字或句子傳送給我哦~"))
                 user.isAsked_T = False
 
             elif (user.levelinput=='CTE'):
                 user.TransType = 2
-                print("切換中翻英模式")
+                print("切換中翻英模式,請您傳送只有中文的單字或句子～")
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的中文字詞或句子傳送給我哦~"))
                 user.isAsked_T = False   
             else:       
