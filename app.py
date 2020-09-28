@@ -120,6 +120,7 @@ class userVar_Q():
         self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
+        self.isOthertext = False
         
 ##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
@@ -148,16 +149,25 @@ def handle_message(event):
             message = TextSendMessage(text="歡迎來到解題小達人！\n\n在這邊可以選擇適合你的難易度來挑戰，一組題目有10題。\n\n題目分為詞彙題、克漏字以及閱讀測驗，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
             line_bot_api.push_message(user._id, message)
             user.isInit_Q=False
-        if(user.isChangingLevel_Q == True):   
-            user.isAsked_Q = False
-            setlevel_bubble = levelBubble('https://upload.cc/i1/2020/05/18/V5TmMA.png','解題小達人', '總是聽不懂別人在說什麼嗎?')
-            line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+        if(user.isChangingLevel_Q == True): 
+            if user.isOthertext == False:  
+                user.isAsked_Q = False
+                setlevel_bubble = levelBubble('https://upload.cc/i1/2020/05/18/V5TmMA.png','解題小達人', '總是聽不懂別人在說什麼嗎?')
+                line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+                user.isOthertext = True
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+        
         elif user.isStart_Q == True:
             if( user.isAsked_Q == False ): 
                 user.isAsked_Q = True
                 QA_bubble = Question(user)
                 message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                 line_bot_api.reply_message(event.reply_token, message)
+            else:
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+
+            
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
