@@ -166,9 +166,6 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, message)
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
-        else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
-
 
             
 ##-----------------------------------------------------------------------------------
@@ -283,6 +280,9 @@ def handle_postback(event):
     elif (event.postback.data == "AllEnd"):
         message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         line_bot_api.reply_message(event.reply_token, message)
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+
         
 ##-----------------------------------------------------------------------------------
 #設定Level------------------------------------------------
