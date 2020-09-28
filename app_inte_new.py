@@ -122,6 +122,8 @@ class userVar():
         self.isEnded = False
         self.TransType = 1
 
+        self.isOtherText = False
+
 ##-----------------------------------------------------------------------------------
 ##聽力  初始抓資料＆資料處理
 # GDriveJSON = 'JSON.json'
@@ -409,6 +411,9 @@ def handle_message(event):
                         QA_bubble = Question_Q(user)
                         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                         line_bot_api.reply_message(event.reply_token, message)
+                    else:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+     
 #--------------聽力處理訊息--------------------
         elif(user.function_status == 'listen'):
             global isAsked_L,isInit_L
@@ -425,15 +430,23 @@ def handle_message(event):
                     line_bot_api.push_message(user._id, message)
                     user.isInit_L=False
                 if(user.isChangingLevel_L == True):   
-                    user.isAsked_L = False
-                    setlevel_bubble = levelBubble('https://upload.cc/i1/2020/06/08/jhziMK.png','聽力練習','總是聽不懂別人在說什麼嗎?')
-                    line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+                    if user.isOthertext == False: 
+                        user.isAsked_L = False
+                        setlevel_bubble = levelBubble('https://upload.cc/i1/2020/06/08/jhziMK.png','聽力練習','總是聽不懂別人在說什麼嗎?')
+                        line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+                    else:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+     
                 elif user.isStart_L == True:
                     if( user.isAsked_L == False ): 
                         user.isAsked_L = True
                         QA_bubble = Question(user)
                         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
                         line_bot_api.reply_message(event.reply_token, message)
+                            else:
+                    else:
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+  
 #----------------翻譯處理訊息---------------
         elif(user.function_status == 'translation'):
             myId = event.source.user_id
