@@ -166,6 +166,9 @@ def handle_message(event):
                 line_bot_api.reply_message(event.reply_token, message)
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
+        
+        elif user.isOthertext == True:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
 
             
 ##-----------------------------------------------------------------------------------
@@ -186,9 +189,11 @@ def handle_postback(event):
     if(user.isChangingLevel_Q==True):
         level_bubble = setLevel(event.postback.data,user) 
         message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
-        line_bot_api.reply_message(event.reply_token,message) 
+        line_bot_api.reply_message(event.reply_token,message)
+        user.isOthertext = True 
 
-    elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
+    if(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
+        user.isOthertext = False
         if(user.index_Q == 7 and user.count_Q == 2):
             user.sheet_Q = user.data_Reading
             print("reading", len( np.transpose( [user.sheet_Q])[0] ) )
@@ -197,7 +202,6 @@ def handle_postback(event):
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
             line_bot_api.push_message(event.source.user_id, article)
         user.isStart_Q = True
-
     elif(user.isStart_Q == True):
         if user.isVoc == True:
             correctAns = str(user.VocQA[user.index_Q][2])
@@ -248,13 +252,13 @@ def handle_postback(event):
                     user.isAsked_Q = False
                 user.count_Q = 2
             print('after count_Q: ', user.count_Q)
-            print('after index_Q: ', user.index_Q)
-    
+            print('after index_Q: ', user.index_Q)   
     elif(event.postback.data == "end"):
         #print('恭喜你做完這次的聽力練習了!star=',star_num_Q)
         starBubble = totalStarBubble(user)
         message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
         line_bot_api.reply_message(event.reply_token,message)
+        user.isOthertext = True
         user.isStart_Q = False
 
     elif (event.postback.data == "next"): 
@@ -265,9 +269,11 @@ def handle_postback(event):
         print("答題分數顯示完 圖數和分數歸零----",user.index_Q,user.star_num_Q)
         changelevel_bubble = changeLevelBubble()
         message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
-        line_bot_api.reply_message(event.reply_token, message)  
+        line_bot_api.reply_message(event.reply_token, message)
+        user.isOthertext = True  
 
     elif (event.postback.data == "changeLevel"): 
+        user.isOthertext = False
         user.isChangingLevel_Q = True
         user.isOthertext = False
 
@@ -277,6 +283,7 @@ def handle_postback(event):
         QA_bubble = Question(user)
         message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
         line_bot_api.reply_message(event.reply_token, message)
+        user.isOthertext = True
     elif (event.postback.data == "AllEnd"):
         message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
         line_bot_api.reply_message(event.reply_token, message)
@@ -381,7 +388,7 @@ def levelBubble(pic_url,str1, str2):
                 )
     return level_template
 
-def readyBubble(level):
+def readyBubble(level): 
     if level == 1:
         leveltext = '初級難易度！'
     elif level == 2:
