@@ -272,6 +272,7 @@ def handle_postback(event):
 
     elif (event.postback.data == "changeLevel"): 
         user.isChangingLevel_Q = True
+        user.isOthertext = False
 
     elif (event.postback.data == "next2"):
         user.isStart_Q = True
@@ -304,6 +305,7 @@ def setLevel(levelinput,user):
 
     else:       
         user.isChangingLevel_Q = True
+        user.isOthertext = False
         myResult = "N"
 
     if user.isChangingLevel_Q == False:
