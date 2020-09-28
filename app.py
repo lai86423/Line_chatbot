@@ -167,9 +167,6 @@ def handle_message(event):
             else:
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
 
-        else:
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="咦？我不知道你在說什麼"))
-
             
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
