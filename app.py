@@ -8,17 +8,15 @@ from linebot.exceptions import (
 from linebot.models import *
 import numpy as np
 import pandas as pd
+import random
 from googletrans import Translator
 import QA
-##聽力測驗  import-----------------------------------------------
+##import-----------------------------------------------
 import sys
 import datetime
 import pygsheets
 import QA_Bubble
-import random
-
 import getVoc
-import QA_Bubble
 
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
@@ -29,97 +27,33 @@ app = Flask(__name__)
 line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
 #Channel Secret  
 handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
-#users = np.array(('0','0',0)) #userID,user.level_P,point
+#users = np.array(('0','0',0)) #userID,level_Q,point
 
 allUser = [] 
 ##-----------------------------------------------------------------------------------
-##-----------------------------------------------------------------------------------
-##解謎  初始抓資料＆資料處理
+##出題  初始抓資料＆資料處理
 GDriveJSON = 'JSON.json'
-GSpreadSheet_P = 'cilab_ChatBot_puzzle-1'
-gc_Q= pygsheets.authorize(service_account_file='JSON.json')
-survey_url_P = 'https://docs.google.com/spreadsheets/d/1nVIgWGQJRIQtMtZSv1HxyDb5FvthBNc0duN4Rlra8to/edit#gid=1732714016'
-sh_P = gc_Q.open(GSpreadSheet_P)
-sh_P.worksheet_by_title('d0').export(filename='d0')
-sh_P.worksheet_by_title('r0').export(filename='r0')
-sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
-sheet_r0 = pd.read_csv('r0.csv') 
-
-##----------------------------------------------------------------------------------
-def getSheet_P(level):  
-    if(level == 3):
-        sh_P.worksheet_by_title('d3').export(filename='d3')
-        sh_P.worksheet_by_title('r3').export(filename='r3')
-        sheet_d = pd.read_csv('d3.csv')        
-        sheet_r = pd.read_csv('r3.csv') 
-    elif(level == 2):
-        sh_P.worksheet_by_title('d2').export(filename='d2')
-        sh_P.worksheet_by_title('r2').export(filename='r2')
-        sheet_d = pd.read_csv('d2.csv')
-        sheet_r = pd.read_csv('r2.csv')
-
-    else:        
-        sh_P.worksheet_by_title('d1').export(filename='d1')
-        sh_P.worksheet_by_title('r1').export(filename='r1')
-        sheet_d = pd.read_csv('d1.csv')        
-        sheet_r = pd.read_csv('r1.csv') 
-
-    return sheet_d, sheet_r
-
-##----------------------------------------------------------------------------------
-# sheet_type = 'text'
-# sheet_reply_list = []
-# user.next_id = 0
-# user.level_P = 1
-# user.index_P = 0 #第幾題
-# user.isInit_P = True
-# user.isChangingLevel_P = False
-# user.isChooseHelp = False
-# user.isLoad_P = False
-# user.isAsk_P = False
-# user.levelsheet_d = sheet_d0
-# user.levelsheet_r = sheet_r0
-# _id = 0
-# user.text_sheet = user.levelsheet_d
-# user.test_type_list = []
-
-##----------------------------------------------------------------------------------
-class userVar():
-    def __init__(self,_id):
-        self._id = _id
-        #QA
-        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(1) #預設傳level = 1
-        self.sheet_Q = getVoc.editSheet(self.data_Voc)
-        self.isVoc = False 
-        self.VocQA = []
-        # #Listen
-        # self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        # self.sheet_L = self.data_pho
-        # self.isWord = False 
-        # self.word_list = []
-
-        #Puzzle
-        self.next_id = 0
-        self.level_P = 1
-        self.index_P = 0 #第幾題
-        self.isInit_P = True
-        self.isChangingLevel_P = False
-        self.isChooseHelp = False
-        self.isLoad_P = True
-        self.isPreStory_P = False
-        self.isStart_P = False
-        self.isAsk_P = False
-        self.levelsheet_d = sheet_d0
-        self.levelsheet_r = sheet_r0
-        self.text_sheet = self.levelsheet_d
-        self.test_type_list = []
-        self.subindex_P = 0
-        self.count_P = 2
-
-# 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='JSON.json')
 sh_Q = gc_Q.open(GSpreadSheet_Q)
+
+# sh_Q.worksheet_by_title('L1_Reading').export(filename='L1_Reading')
+# #sh_Q.worksheet_by_title('L1_Cloze').export(filename='L1_Cloze')
+# sh_Q.worksheet_by_title('L2_Reading').export(filename='L2_Reading')
+# #sh_Q.worksheet_by_title('L2_Cloze').export(filename='L2_Cloze')
+# sh_Q.worksheet_by_title('L3_Reading').export(filename='L3_Reading')
+# #sh_Q.worksheet_by_title('L3_Cloze').export(filename='L3_Cloze')
+
+# #type:<class 'pandas.core.frame.DataFrame'>
+# L1_Reading = pd.read_csv('L1_Reading.csv')
+# #L1_Cloze = pd.read_csv('L1_Cloze.csv')
+# L2_Reading = pd.read_csv('L2_Reading.csv') 
+# #L2_Cloze = pd.read_csv('L2_Cloze.csv')
+# L3_Reading = pd.read_csv('L3_Reading.csv') 
+# #L3_Cloze = pd.read_csv('L3_Cloze.csv')
+
+##----------------------------------------------------------------------------------
+
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
 client = gspread.authorize(creds)
@@ -137,8 +71,11 @@ sheet_L2_Reading = spreadSheet.worksheet("L2_Reading")
 L2_Reading = sheet_L2_Reading.get_all_values()
 sheet_L3_Reading = spreadSheet.worksheet("L3_Reading")
 L3_Reading = sheet_L3_Reading.get_all_values()
-##-----------------------------------------------------------------------------------
-def getSheetQA(Qlevel):   
+
+##----------------------------------------------------------------------------------
+
+#三種問題類型
+def getSheet(Qlevel):   
     if(Qlevel == 3):
         sheet_Reading = L3_Reading
         sheet_Cloze = L3_Cloze 
@@ -154,9 +91,37 @@ def getSheetQA(Qlevel):
     
     return sheet_Voc, sheet_Reading, sheet_Cloze
 
-##---------------------------------------------------------------------------
-##----------------------------------------------------------------------------------
+def editSheet(data):
+    #pre_sheet = data.sample(frac =1,random_state=1) #Random打亂資料再取n筆題 
+    #pre_sheet = pre_sheet.reset_index(drop=True)
+    #print("pre_sheet",pre_sheet)
+    #因為reading題型的題庫形式緊接三題連貫題目，就不像之前先打亂隨機取資料
+    header = data.columns
+    sheet_Q = {}
+    for i in range (len(header)):
+        sheet_Q[header[i]] = data[header[i]]
+    
+    return sheet_Q
 
+class userVar_Q():
+    def __init__(self,_id):
+        self._id = _id
+        self.level_Q = 1 # 預設level 1
+        self.qNum_Q = 10 # 每輪題目數量
+        self.star_num_Q = 0 #集點
+        self.isAsked_Q = False #出題與否
+        self.isChangingLevel_Q = True
+        self.isStart_Q = False
+        self.index_Q = 0 #第幾題
+        self.isInit_Q = True
+        self.subindex_Q = self.index_Q
+        self.count_Q = 2
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheet(self.level_Q) #預設傳level = 1
+        self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        self.isVoc = False 
+        self.VocQA = []
+        
+##-----------------------------------------------------------------------------------
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -171,41 +136,34 @@ def callback():
     except InvalidSignatureError:
         abort(400)
     return 'OK'
-    
 ##-----------------------------------------------------------------------------------
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    #global user.isInit_P,  user.isAsk_P, user.isLoad_P
     user = getUser(event.source.user_id)
-    #---------------------------------------    
-    if(user.isInit_P == True or event.message.text =='?'):
-        #smallpuzzle(event,'d00000',sheet_d0, user)
-
-        #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-        smallpuzzle(event,'d10029',user.levelsheet_d, user)
-        #------Test
-
-        #user.isChangingLevel_P = True
-        user.isInit_P = False
-    # if user.isChangingLevel_P == True:
-    #     user.isAsk_P = False
-        
-    # if(user.isStart_P == True):
-    #     #if(user.isAsk_P == False):
-    #     print("load_Q")
-    #     #user.isAsk_P = True
-    #     bubble = Question_P(event, user)
-    #     message = FlexSendMessage(alt_text="bubble", contents = bubble)
-    #     line_bot_api.reply_message(event.reply_token, message)
-
+    #---------------------------------------
+    if event.message.type == 'text':   
+        if(user.isInit_Q == True or event.message.text =='?'):
+            user.isChangingLevel_Q = True
+            message = TextSendMessage(text="歡迎來到解題小達人！\n\n在這邊可以選擇適合你的難易度來挑戰，一組題目有10題。\n\n題目分為詞彙題、克漏字以及閱讀測驗，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
+            line_bot_api.push_message(user._id, message)
+            user.isInit_Q=False
+        if(user.isChangingLevel_Q == True):   
+            user.isAsked_Q = False
+            setlevel_bubble = levelBubble('https://upload.cc/i1/2020/05/18/V5TmMA.png','解題小達人', '總是聽不懂別人在說什麼嗎?')
+            line_bot_api.reply_message(event.reply_token, setlevel_bubble)  
+        elif user.isStart_Q == True:
+            if( user.isAsked_Q == False ): 
+                user.isAsked_Q = True
+                QA_bubble = Question(user)
+                message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+                line_bot_api.reply_message(event.reply_token, message)
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
     user = next((item for item in allUser if item._id == user_ID), None)
     if user is None:
-        user = userVar(user_ID)
+        user = userVar_Q(user_ID)
         allUser.append(user)
         print("Alluser",allUser)
     return user 
@@ -213,407 +171,408 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    #global user.isChooseHelp, user.level_P, user.isChangingLevel_P,_id, user.isLoad_P
     user = getUser(event.source.user_id)
-    pb_event = event.postback.data
-    print("postbackData = ",pb_event )
-    if user.next_id == 'd10029' or user.next_id == 'd20025' or user.next_id == 'd30022':
-        user.isLoad_P = True
-    
-    if (pb_event == 'Next'):
-        if  user.next_id =='d00101': #重複詢問可以幫您什麼？
-            smallpuzzle(event,'d00003',sheet_d0, user)
-        
-        elif user.next_id =='d00208':
-            print("level = ",user.level_P)
-            #global user.levelsheet_d, user.levelsheet_r
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            setLevelStory(user.level_P, user)
-        
-        elif user.isLoad_P == True:
-            print("d100**")
-            RandomTest(user)
-            message = LoadTestIndex(user)
-            line_bot_api.reply_message(event.reply_token, message)  
-            user.isLoad_P = False
-            user.isPreStory_P = True
+    print("postbackData = ",event.postback.data )
+    if(user.isChangingLevel_Q==True):
+        level_bubble = setLevel(event.postback.data,user) 
+        message = FlexSendMessage(alt_text="level_bubble", contents = level_bubble)
+        line_bot_api.reply_message(event.reply_token,message) 
 
-        elif user.isPreStory_P == True:
-            if user.isAsk_P == False :
-                print("題前故事")
-                user.isAsk_P = True
-                #題前故事
-                test_type = user.test_type_list[user.index_P]
-                print("test_type = ", test_type)
-                print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
-                smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
-            else:
-                smallpuzzle(event, user.next_id , user.text_sheet, user)
+    elif(event.postback.data == "start"):  #第七題開始需要先主動送文章再出題
+        if(user.index_Q == 7 and user.count_Q == 2):
+            user.sheet_Q = user.data_Reading
+            print("reading", len( np.transpose( [user.sheet_Q])[0] ) )
+            user.subindex_Q = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
+            QA_bubble_article = QA_Bubble.Article( user.sheet_Q, user.subindex_Q )
+            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+            line_bot_api.push_message(event.source.user_id, article)
+        user.isStart_Q = True
 
-        elif(user.isStart_P == True):
-            print("load_Q")
-            bubble = Question_P(event, user)
-            message = FlexSendMessage(alt_text="bubble", contents = bubble)
-            line_bot_api.reply_message(event.reply_token, message)
-
+    elif(user.isStart_Q == True):
+        if user.isVoc == True:
+            correctAns = str(user.VocQA[user.index_Q][2])
         else:
-            smallpuzzle(event, user.next_id , user.text_sheet, user)
-    
-    elif user.isChangingLevel_P == True:
-        setLevel_P(pb_event, user)
-        #隨機取得題型
-        smallpuzzle(event,'d00202',sheet_d0, user)
-    
-    elif user.isChooseHelp == True:
-        #--Game State-----------------------------------
-        user.isChooseHelp = False
-        if pb_event == '1':
-            #了解背景故事
-            smallpuzzle(event,'d00100',sheet_d0, user)
-
-        elif pb_event == '2':
-            #開始遊戲
-            smallpuzzle(event,'d00200',sheet_d0, user)
-
-        elif pb_event == '3':
-            #結束遊戲
-            print("End!")
-
-        else:
-            pass
-    elif user.isStart_P == True:
-        print("---Ans feedback---")
-        correctAns = str(user.text_sheet[user.subindex_P][4])
+            correctAns = str(user.sheet_Q[user.subindex_Q][4])
         print("correct answer = ",correctAns)
-        print("correct answer, answer user.index_L, subuser.index_L = ",correctAns, user.index_L, user.subindex_L)
+        print("answer index_Q = ", user.index_Q)
+        print("answer subindex_Q = ", user.subindex_Q)
+
+        if(user.index_Q < user.qNum_Q): #做完本輪題庫數目
+            if event.postback.data != correctAns:
+                if(user.count_Q != 1):
+                    user.isStart_Q = False
+                    wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start')
+                    message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+                    line_bot_api.reply_message(event.reply_token,message)
+                    user.count_Q -= 1
+                elif(user.count_Q == 1):
+                    user.isStart_Q = False
+                    if(user.index_Q == 9):
+                        loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!')
+                    else:    
+                        loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲')
+                    message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+                    line_bot_api.reply_message(event.reply_token,message)
+                    user.count_Q = 2
+                    user.index_Q += 1
+                user.isAsked_Q = False
+            else:
+                user.isStart_Q = False
+                user.star_num_Q += user.count_Q
+                print('正確答案!')
+                if(user.count_Q == 2):
+                    reply = '你好棒!一次就答對了!'
+                elif(user.count_Q == 1):
+                    reply = '好棒哦!你答對了!'
+                if(user.index_Q == 9):
+                    print("last Q")
+                    reply = '好棒哦!你答對了!'
+                    correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!')
+
+                else:
+                    correctBubble = rightBubble(reply)
+                message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
+                line_bot_api.reply_message(event.reply_token,message)
+                user.index_Q += 1
+                if(user.index_Q < 10):
+                    user.isAsked_Q = False
+                user.count_Q = 2
+            print('after count_Q: ', user.count_Q)
+            print('after index_Q: ', user.index_Q)
+    
+    elif(event.postback.data == "end"):
+        #print('恭喜你做完這次的聽力練習了!star=',star_num_Q)
+        starBubble = totalStarBubble(user)
+        message = FlexSendMessage(alt_text="starBubble", contents = starBubble)
+        line_bot_api.reply_message(event.reply_token,message)
+        user.isStart_Q = False
+
+    elif (event.postback.data == "next"): 
+        user.index_Q = 0
+        user.star_num_Q = 0
+        #TODO
+        user.VocQA = []
+        print("答題分數顯示完 圖數和分數歸零----",user.index_Q,user.star_num_Q)
+        changelevel_bubble = changeLevelBubble()
+        message = FlexSendMessage(alt_text="changelevel_bubble", contents = changelevel_bubble)
+        line_bot_api.reply_message(event.reply_token, message)  
+
+    elif (event.postback.data == "changeLevel"): 
+        user.isChangingLevel_Q = True
+
+    elif (event.postback.data == "next2"):
+        user.isStart_Q = True
+        user.isAsked_Q = True
+        QA_bubble = Question(user)
+        message = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble)
+        line_bot_api.reply_message(event.reply_token, message)
+    elif (event.postback.data == "AllEnd"):
+        message = TextSendMessage(text="謝謝你使用解題小達人～～\n歡迎點開下方選單，使用其他功能使用其他功能哦！")
+        line_bot_api.reply_message(event.reply_token, message)
         
-        if pb_event != correctAns:
-            print("answer",pb_event," != correctAns",correctAns)
-    #       if(user.count_P != 1):
-    #           user.isStart_P = False
-    #           wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
-    #           message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-    #           line_bot_api.reply_message(event.reply_token,message)
-    #           user.count_P -= 1
-    #       elif(user.count_P == 1):
-    #           user.isStart_P = False
-    #           if(user.index_P == 9):
-    #               loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
-    #           else:    
-    #               loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
-    #           message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
-    #           line_bot_api.reply_message(event.reply_token,message)
-    #           user.count_P = 2
-    #           user.index_P += 1
-    #       user.isAsked_P = False
-        else:
-            user.isStart_P = False
-            print('正確答案!')
-    #     if(user.count_P == 2):
-    #         reply = '你好棒!一次就答對了!'
-    #     elif(user.count_P == 1):
-    #         reply = '好棒哦!你答對了!'
-    #     #print(user.count_P, reply)
-    #     if(user.index_P == 9):
-    #         print("last P")
-    #         reply = '好棒哦!你答對了!'
-    #         correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
-
-    #     else:
-    #         correctBubble = rightBubble(reply)
-    #     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
-    #     line_bot_api.reply_message(event.reply_token,message)
-    #     user.index_P += 1
-    #     user.count_P = 2
-    #     if(user.index_P < 10):
-    #         user.isAsked_P = False
-    # print('after count_P: ', user.count_P)
-    # print('after index_P: ', user.index_P)
-
 ##-----------------------------------------------------------------------------------
-def setLevel_P(levelinput, user):
+#設定Level------------------------------------------------
+def setLevel(levelinput,user):
     print("---Changing Level---")
-    #global user.level_P, user.isChangingLevel_P
-
     if (levelinput=='L'):
-        user.level_P = 1
-        user.isChangingLevel_P = False
+        user.level_Q = 1
+        myResult = readyBubble(user.level_Q)
+        user.isChangingLevel_Q = False
         
     elif (levelinput=='M'):
-        user.level_P = 2
-        user.isChangingLevel_P = False
+        user.level_Q = 2
+        myResult = readyBubble(user.level_Q)    
+        user.isChangingLevel_Q = False
 
     elif (levelinput=='H'):
-        user.level_P = 3
-        user.isChangingLevel_P = False
+        user.level_Q = 3
+        myResult = readyBubble(user.level_Q)
+        user.isChangingLevel_Q = False
 
     else:       
-        user.isChangingLevel_P = True
+        user.isChangingLevel_Q = True
+        myResult = "N"
 
-    # if user.isChangingLevel_P == False:
-    #     print("level = ",user.level_P)
-    #     global user.levelsheet_d, user.levelsheet_r
-    #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+    if user.isChangingLevel_Q == False:
+        user.data_Voc, user.data_Reading, user.data_Cloze = getSheet(user.level_Q)
+      
+    return myResult
+
+def Question(user):
+    print("選完階級開始出題")
+    if user.index_Q < 3:
+        user.isVoc = True
+        try:
+            print(user.VocQA[user.index_Q])
+            QA_bubble = QA_Bubble.Voc(user.index_Q, user.VocQA[user.index_Q])
+        except: 
+            user.sheet_Q = getVoc.editSheet(user.data_Voc)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
+            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            templist = [q_chinese, option, answer]
+            print(templist)
+            user.VocQA.append(templist)
+            print(user.VocQA[user.index_Q])
+            QA_bubble = QA_Bubble.Voc(user.index_Q, user.VocQA[user.index_Q])
     
-
-def smallpuzzle(event,id, sheet, user):
-    #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet
-    print("---------id----------",id)
-    # id_three = id[3]
-    id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
-
-    #print("#####",id_index) 
-    if len(id_index) > 0:
-        id_index = id_index[0]
-        print("id_index",id_index)
-
-        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-        print("next id = ", user.next_id)
-
-        sheet_type = sheet["type"][id_index]
-        print("sheet_type",sheet_type)
-        
-        if sheet_type == 'image':   
-            sheet_text = sheet["text"][id_index]  
-            print("img= ",sheet_text)  
-            #message = ImageBubble(sheet_text)
-            #line_bot_api.reply_message(event.reply_token, message)                  
-            smallpuzzle(event, user.next_id , sheet, user)
-
-        elif sheet_type == 'text':
-            user.text_sheet = sheet
-            sheet_text = sheet["text"][id_index]
-            print("text= ",sheet_text)
-            message = TextBubble(sheet_text)
-            #message = TextSendMessage(text=sheet_text)
-            line_bot_api.reply_message(event.reply_token, message)  
-            #line_bot_api.push_message(_id, message)
-            #smallpuzzle(event, user.next_id , sheet, user)
-
-        elif sheet_type == 'button': 
-            if id == 'd00003':
-                user.isChooseHelp = True
-            elif id == 'd00201':
-                user.isChangingLevel_P = True
-            sheet_title = sheet["title"][id_index]
-            sheet_text = sheet["text"][id_index]
-            sheet_reply_list = []
-            for i in range (3):
-                if (str(sheet.iloc[id_index][4 + i]) != "") : 
-                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
-
-            replylist = ButtonPuzzle(sheet_reply_list)
-            button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
-            line_bot_api.reply_message(event.reply_token, button_bubble)  
-            #line_bot_api.push_message(_id, button_bubble)  
-            #Postback(str(button_bubble))
-        
-        elif sheet_type == 'confirm':
-            sheet_text = sheet["text"][id_index]
-            sheet_reply_list = []
-            for i in range (2):
-                if (str(sheet.iloc[id_index][4 + i]) != "") : 
-                    sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
-            print("Cofirm sheet_reply_list",sheet_reply_list)
-            replylist = CofirmPuzzle(sheet_reply_list, user)
-            print("Cofirm replylist",replylist)
-            confirm_bubble = ConfirmBubble(sheet_text, replylist)
-            line_bot_api.reply_message(event.reply_token, confirm_bubble)
-            #smallpuzzle(event, user.next_id , sheet, user)
+    elif user.index_Q < 7:
+        user.isVoc = False
+        user.sheet_Q = user.data_Cloze
+        print("data_Cloze len",len(np.transpose([user.sheet_Q])[0]))
+        if user.count_Q == 2:
+            user.subindex_Q = random.randrange(1,len(np.transpose([user.sheet_Q])[0]))
+        if (user.level_Q != 3):
+            QA_bubble = QA_Bubble.Cloze(user.sheet_Q, user.index_Q, user.subindex_Q)
+        else:
+            QA_bubble = QA_Bubble.Cloze_L3(user.sheet_Q, user.index_Q, user.subindex_Q)
 
     else:
-        if user.isPreStory_P == True:
-            print("PreStory End! Strat Testing!")
-            user.isStart_P = True
-            user.isAsk_P = False
-            user.isPreStory_P = False
+        if (user.index_Q != 7 and user.count_Q == 2):
+            user.subindex_Q = user.subindex_Q + 1
+        
+        print("user.subindex_Q",user.subindex_Q)
+        QA_bubble = QA_Bubble.Reading(user.sheet_Q, user.index_Q, user.subindex_Q)
+        
+    return QA_bubble
 
-        print("Do Not Find ID in Sheet! ")
-        pass
-
-def ButtonPuzzle(sheet_reply_list):
-    replylist = []
-    print("ButtonPuzzle",sheet_reply_list)
-    for i in range(len(sheet_reply_list)):
-        id_index = sheet_r0["a-replyID"].index[sheet_r0["a-replyID"] == sheet_reply_list[i]]
-        replylist.append(([sheet_r0["label"][id_index[0]], sheet_r0["text"][id_index[0]], sheet_r0["data"][id_index[0]]]))
-    print("replylist",replylist) 
-    return replylist
-
-def CofirmPuzzle(sheet_reply_list, user):
-    print("CofirmBubble",sheet_reply_list)
-    replylist = []
-    for i in range(len(sheet_reply_list)):
-        id_index = user.levelsheet_r["a-replyID"].index[user.levelsheet_r["a-replyID"] == sheet_reply_list[i]]
-        replylist.append(([user.levelsheet_r["label"][id_index[0]], user.levelsheet_r["text"][id_index[0]], user.levelsheet_r["data"][id_index[0]]]))
-    print("--Cofirm replylist",replylist) 
-    return replylist
-
-def setLevelStory(event, user):
-    print("setLevelStory")
-
-    if user.level_P == 1:
-        smallpuzzle(event,'d10000' , user.levelsheet_d, user)
-
-    elif user.level_P == 2:
-        smallpuzzle(event,'d20000' , user.levelsheet_d, user)
-
-    elif user.level_P == 3:
-        smallpuzzle(event,'d30000' , user.levelsheet_d, user)
-
-def RandomTest(user):
-    #global user.test_type_list
-    user.test_type_list = [random.randint(1,1) for _ in range(10)]
-    print("-----*** 10 Quiz type = ",user.test_type_list)
-
-def LoadTestIndex(user):
-    print("-----LoadTestIndex----", user.index_P)
-    #題數引文
-    if user.level_P == 1 :
-        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
-        print(test_pretext)
-        message = TextBubble(test_pretext)
-        #line_bot_api.push_message(_id, message)
-    
-    elif user.level_P == 2:
-        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
-        print(test_pretext)
-        message = TextBubble(test_pretext)
-        #line_bot_api.push_message(_id, message)
-
-    elif user.level_P == 3:
-        test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
-        print(test_pretext)
-        message = TextBubble(test_pretext)
-    return message
-
-def Question_P(event, user):
-    if user.test_type_list[user.index_P] == 1:
-        print("sheet_L_pho & voc")
-        user.testsheet_P = user.data_Cloze
-        user.subindex_P = random.randrange(1,len(np.transpose([user.testsheet_P])[0]))
-        print("data_Cloze subindex_P", user.subindex_P)
-        if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
-        else:
-            bubble = QA_Bubble.Cloze_L3(user.testsheet_P, user.index_P, user.subindex_P)
-
-    elif user.test_type_list[user.index_P] == 2:
-        print("sheet_L_sen")
-        smallpuzzle(event,'d'+ str(user.level_P) +'2000',user.levelsheet_d, user)
-        print("題目")
-
-    elif user.test_type_list[user.index_P] == 3:
-        print("sheet_speaking_word")
-        smallpuzzle(event,'d'+ str(user.level_P) +'3000',user.levelsheet_d, user)
-        print("題目")
-
-    elif user.test_type_list[user.index_P] == 4:
-        print("sheet_speaking_sen")
-        smallpuzzle(event,'d'+ str(user.level_P) +'4000',user.levelsheet_d, user)
-        print("題目")
-
-    elif user.test_type_list[user.index_P] == 5:
-        print("sheet_Q_voc")
-        smallpuzzle(event,'d'+ str(user.level_P) +'5000',user.levelsheet_d, user)
-        print("題目")
-
-    elif user.test_type_list[user.index_P] == 6:
-        print("sheet_Q_cloze")
-        smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
-        print("題目")
-
-    elif user.test_type_list[user.index_P] == 7:
-        print("sheet_Q_reading")
-        smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
-        print("題目")
-    
-    return bubble
-
-
-
-def ButtonBubble(sheet_title, sheet_text, replylist):
+##-----------------------------------------------------------------------------------
+#Bubble Template------------------------------------------------
+def levelBubble(pic_url,str1, str2):
     level_template = TemplateSendMessage (
                     alt_text = 'Buttons Template',
                     template = ButtonsTemplate (
-                        title = sheet_title,
-                        text = sheet_text,
+                        title = str1,
+                        text = str2,
+                        thumbnail_image_url=pic_url,
                         actions = [
                                 PostbackTemplateAction(
-                                    label = replylist[0][0], 
-                                    text = replylist[0][1],
-                                    data = replylist[0][2]
+                                    label = "初級", 
+                                    text = "初級",
+                                    data = 'L'
                                 ),
                                 PostbackTemplateAction(
-                                    label = replylist[1][0], 
-                                    text = replylist[1][1],
-                                    data = replylist[1][2]
+                                    label = "中級",
+                                    text = "中級",
+                                    data = 'M'
                                 ),
                                 PostbackTemplateAction(
-                                    label = replylist[2][0], 
-                                    text = replylist[2][1],
-                                    data = replylist[2][2]
+                                    label = "高級",
+                                    text = "高級",
+                                    data = 'H'
                                 )
                         ]
                     )
                 )
     return level_template
 
-
-def TextBubble(sheet_text):
-    level_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        text = sheet_text,
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "Next", 
-                                    data = "Next"
-                                )
-                        ]
-                    )
+def readyBubble(level):
+    if level == 1:
+        leveltext = '初級難易度！'
+    elif level == 2:
+        leveltext ='中級難易度！'
+    else:
+        leveltext ='高級難易度！'
+    print("leveltext",leveltext)   
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="準備好了嗎?", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="你選擇的是" + leveltext, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '開始答題', data = 'start', text = '開始答題'),
+                    color = '#F8AF62',
+                    style = 'primary'
                 )
-    return level_template
+            ]
 
-
-def ImageBubble(sheet_text):
-    level_template = TemplateSendMessage (
-                    alt_text = 'Buttons Template',
-                    template = ButtonsTemplate (
-                        text = ' ',
-                        thumbnail_image_url=sheet_text,
-                        actions = [
-                                PostbackTemplateAction(
-                                    label = "Next", 
-                                    data = "Next"
-                                )
-                        ]
-                    )
-                )
-    return level_template
-
-def ConfirmBubble(sheet_text, replylist):
-    Confirm_template = TemplateSendMessage(
-            alt_text='Confirm_template',
-            template=ConfirmTemplate(
-                text=sheet_text,
-                actions=[                              
-                    PostbackTemplateAction(
-                                    label = replylist[0][0], 
-                                    text = replylist[0][1],
-                                    data = replylist[0][2]
-                    ),
-                    PostbackTemplateAction(
-                                    label = replylist[1][0], 
-                                    text = replylist[1][1],
-                                    data = replylist[1][2]
-                    )      
-                ]
-            )
         )
-    return Confirm_template
+    )  
+    return Bubble 
 
+def totalStarBubble(user):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="獲得星星!!", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        hero= ImageComponent(
+            url="https://upload.cc/i1/2020/07/01/pDbGXh.png", size='full', aspect_ratio="1.51:1",aspect_mode="cover"
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="恭喜你獲得了" + str(user.star_num_Q) + "顆星星!" , size='xs', align = 'center'),
+                SeparatorComponent(margin='md'),
+                ButtonComponent(
+                    action = PostbackAction(label = "下一大題", data = 'next', text = "下一大題"),
+                    color = '#F1C175',
+                    margin = 'md',
+                    style = 'primary',
+                ),
+                ButtonComponent(
+                    action = PostbackAction(label = "我不答了", data = 'AllEnd', text = "我不答了"),
+                    color = '#E18876',
+                    margin = 'md',
+                    style = 'primary',
+                )
+            ]  
+        )
+    )  
+    return Bubble 
 
+def changeLevelBubble():
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = "更換難易度", data = 'changeLevel', text = "更換難易度"),
+                    color = '#F1C175',
+                    margin = 'md',
+                    style = 'primary',
+                ),
+                ButtonComponent(
+                    action = PostbackAction(label = "不用，繼續下一大題", data = 'next2', text = "不用，繼續下一大題"),
+                    color = '#E18876',
+                    margin = 'md',
+                    style = 'primary',
+                )
+            ]  
+        )
+    )  
+    return Bubble 
+
+def rightBubble(reply): 
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="恭喜答對!!", weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= reply, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '下一題', data = 'start', text = '下一題'),
+                    color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+
+def tryagainBubble(str1, str2, str3):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text=str1, weight='bold', size='xl', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text=str2, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '再試一次', data = str3, text = '再試一次'),
+                    color = '#F8AF62',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+def nextBubble(feedback, str):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= str, weight='bold', size='xl', align = 'center')               
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= feedback, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '跳下一題', data = 'start', text = '下一題'),
+                    color = '#45E16E',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
+
+def finalBubble(str1, str2):
+    Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= str1, weight='bold', size='xl', align = 'center')               
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= str2, size='xs', align = 'center', gravity = 'top'),
+            ]  
+        ),
+        footer = BoxComponent(
+            layout='horizontal',
+            contents=[
+                ButtonComponent(
+                    action = PostbackAction(label = '結束作答', data = 'end', text = '結束作答'),
+                    color = '#E15B45',
+                    style = 'primary'
+                )
+            ]
+
+        )
+    )  
+    return Bubble
 ##  End------------------------------------------------
 
 import os

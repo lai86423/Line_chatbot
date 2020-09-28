@@ -69,6 +69,8 @@ def getOption(sheet, q_index):
 
     #get two voc from same_index
     same_index.remove(q_index) 
+    set(same_prefix_index).remove(q_index)
+    print("same index",same_index)
     if len(same_index) >= 2 :
         option_index = random.sample(same_index, 2) 
         option_english = sheet["english"][option_index[0]]
