@@ -401,7 +401,7 @@ def handle_message(event):
                     message = TextSendMessage(text="歡迎來到解題小達人！\n\n在這邊可以選擇適合你的難易度來挑戰，一組題目有10題。\n\n題目分為詞彙題、克漏字以及閱讀測驗，答題越精確獲得的星星數越多哦！\n\n第一次就答對：🌟🌟\n第二次才答對：🌟\n第三次才答對：❌")
                     line_bot_api.push_message(user._id, message)
                     user.isInit_Q = False
-                    
+
                 if(user.isChangingLevel_Q == True):   
                     if user.isOthertext == False: 
                         user.isAsked_Q = False
@@ -846,13 +846,13 @@ def handle_postback(event):
             if (user.levelinput=='ETC'):
                 user.TransType = 1
                 print("切換英翻中模式,請您傳送只有英文的單字或句子～")
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 英文翻中文模式！\n請將你想翻譯的英文單字或句子傳送給我哦~"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "切換英翻中模式,\n請您傳送只有英文的單字或句子～"))
                 user.isAsked_T = False
 
             elif (user.levelinput=='CTE'):
                 user.TransType = 2
                 print("切換中翻英模式,請您傳送只有中文的單字或句子～")
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "目前切換 中文翻英文模式！\n請將你想翻譯的中文字詞或句子傳送給我哦~"))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "切換中翻英模式,\n請您傳送只有中文的單字或句子～"))
                 user.isAsked_T = False   
             else:       
                 user.isChangingTrans = True
@@ -861,9 +861,9 @@ def handle_postback(event):
         if(user.levelinput == 'Next'):
             if(user.isEnded == False):
                 if(user.TransType == 1):
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送英文單字或句子~"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的詞彙或句子傳送給我~"))
                 else:
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請傳送中文字詞或句子~"))
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage(text = "請將你想翻譯的詞彙或句子傳送給我~"))
         
                 user.isAsked_T = False
         
