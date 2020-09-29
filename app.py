@@ -490,13 +490,13 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        user.testsheet_P = user.data_Cloze
-        user.subindex_P = random.randrange(1,len(np.transpose([user.testsheet_P])[0]))
+        user.text_sheet = user.data_Cloze
+        user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet])[0]))
         print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.testsheet_P, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze(user.text_sheet, user.index_P, user.subindex_P)
         else:
-            bubble = QA_Bubble.Cloze_L3(user.testsheet_P, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze_L3(user.text_sheet, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
