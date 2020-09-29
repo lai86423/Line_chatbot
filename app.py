@@ -421,7 +421,7 @@ def smallpuzzle(event,id, sheet, user):
 
     else:
         #剛開始答題
-        if user.id_index == 'd10029' or user.id_index == 'd20025' or user.id_index == 'd30022':
+        if id == 'd10029' or id == 'd20025' or id == 'd30022':
             user.isLoad_P = True
         #一次就答對
         if id[2:4] == '11' and user.index_P < 10: 
