@@ -521,7 +521,7 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         user.text_sheet_P = user.data_Cloze
-        if user.count_Q == 2:
+        if user.count_P == 2:
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
             print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
