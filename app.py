@@ -76,7 +76,7 @@ def getSheet_P(level):
 # user.isChangingLevel_P = False
 # user.isChooseHelp = False
 # user.isLoad_P = False
-# user.isAsk_P = False
+# user.isAsked_P = False
 # user.levelsheet_d = sheet_d0
 # user.levelsheet_r = sheet_r0
 # _id = 0
@@ -108,7 +108,7 @@ class userVar():
         self.isLoad_P = True
         self.isPreStory_P = False
         self.isStart_P = False
-        self.isAsk_P = False
+        self.isAsked_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
         self.text_sheet_P = self.levelsheet_d
@@ -176,7 +176,7 @@ def callback():
 #處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):  
-    #global user.isInit_P,  user.isAsk_P, user.isLoad_P
+    #global user.isInit_P,  user.isAsked_P, user.isLoad_P
     user = getUser(event.source.user_id)
     #---------------------------------------    
     if(user.isInit_P == True or event.message.text =='?'):
@@ -190,12 +190,12 @@ def handle_message(event):
         #user.isChangingLevel_P = True
         user.isInit_P = False
     # if user.isChangingLevel_P == True:
-    #     user.isAsk_P = False
+    #     user.isAsked_P = False
         
     # if(user.isStart_P == True):
-    #     #if(user.isAsk_P == False):
+    #     #if(user.isAsked_P == False):
     #     print("load_Q")
-    #     #user.isAsk_P = True
+    #     #user.isAsked_P = True
     #     bubble = Question_P(event, user)
     #     message = FlexSendMessage(alt_text="bubble", contents = bubble)
     #     line_bot_api.reply_message(event.reply_token, message)
@@ -239,9 +239,9 @@ def handle_postback(event):
             user.isPreStory_P = True
 
         elif user.isPreStory_P == True:
-            if user.isAsk_P == False :
+            if user.isAsked_P == False :
                 print("題前故事")
-                user.isAsk_P = True
+                user.isAsked_P = True
                 #題前故事
                 test_type = user.test_type_list[user.index_P]
                 print("test_type = ", test_type)
@@ -289,46 +289,48 @@ def handle_postback(event):
         
         if pb_event != correctAns:
             print("answer",pb_event," != correctAns",correctAns)
-    #       if(user.count_P != 1):
-    #           user.isStart_P = False
-    #           wrongBubble = tryagainBubble("請再想想!!", "答案不對哦~你再想想看!", 'start', ' ')
-    #           message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-    #           line_bot_api.reply_message(event.reply_token,message)
-    #           user.count_P -= 1
-    #       elif(user.count_P == 1):
-    #           user.isStart_P = False
-    #           if(user.index_P == 9):
-    #               loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
-    #           else:    
-    #               loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
-    #           message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
-    #           line_bot_api.reply_message(event.reply_token,message)
-    #           user.count_P = 2
-    #           user.index_P += 1
-    #       user.isAsked_P = False
+            if(user.count_P != 1):
+                print("Wrong 1")
+                user.isStart_P = False
+                user.count_P -= 1
+            elif(user.count_P == 1):
+                user.isStart_P = False
+                print("Wrong 2")
+                #if(user.index_P == 9):
+                #    loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
+                #else:    
+                #    loseBubble = nextBubble('好可惜哦~答案是('+ correctAns +')才對哦!','再接再厲', ' ')
+                #message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+                #line_bot_api.reply_message(event.reply_token,message)
+                user.count_P = 2
+                user.index_P += 1
+            user.isAsked_P = False
         else:
             user.isStart_P = False
             print('正確答案!')
-    #     if(user.count_P == 2):
-    #         reply = '你好棒!一次就答對了!'
-    #     elif(user.count_P == 1):
-    #         reply = '好棒哦!你答對了!'
-    #     #print(user.count_P, reply)
-    #     if(user.index_P == 9):
-    #         print("last P")
-    #         reply = '好棒哦!你答對了!'
-    #         correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
+            if(user.count_P == 2):
+                reply = '你好棒!一次就答對了!'
+                print(reply)
+            elif(user.count_P == 1):
+                reply = '好棒哦!你答對了!'
+                print(reply)
+            #print(user.count_P, reply)
+            if(user.index_P == 9):
+                print("last P")
+                reply = '好棒哦!你答對了!'
+                print(reply)
+                #correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
 
-    #     else:
-    #         correctBubble = rightBubble(reply)
-    #     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
-    #     line_bot_api.reply_message(event.reply_token,message)
-    #     user.index_P += 1
-    #     user.count_P = 2 
-    #     if(user.index_P < 10):
-    #         user.isAsked_P = False
-    # print('after count_P: ', user.count_P)
-    # print('after index_P: ', user.index_P)
+            #else:
+            #    correctBubble = rightBubble(reply)
+            #message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
+            #line_bot_api.reply_message(event.reply_token,message)
+            user.index_P += 1
+            user.count_P = 2 
+            if(user.index_P < 10):
+                user.isAsked_P = False
+        print('after count_P: ', user.count_P)
+        print('after index_P: ', user.index_P)
 
 ##-----------------------------------------------------------------------------------
 def setLevel_P(levelinput, user):
@@ -425,7 +427,7 @@ def smallpuzzle(event,id, sheet, user):
         if user.isPreStory_P == True:
             print("PreStory End! Strat Testing!")
             user.isStart_P = True
-            user.isAsk_P = False
+            user.isAsked_P = False
             user.isPreStory_P = False
 
         print("Do Not Find ID in Sheet! ")
