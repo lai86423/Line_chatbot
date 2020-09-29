@@ -285,7 +285,7 @@ def handle_postback(event):
         print("---Ans feedback---")
         correctAns = str(user.text_sheet_P[user.subindex_P][4])
         print("correct answer = ",correctAns)
-        print("correct answer, answer user.index_P, subuser.index_P = ",correctAns, user.index_L, user.subindex_L)
+        print("correct answer, answer user.index_P, subuser.index_P = ",correctAns, user.index_P, user.subindex_P)
         
         if pb_event != correctAns:
             print("answer",pb_event," != correctAns",correctAns)
