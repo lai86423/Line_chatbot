@@ -291,9 +291,11 @@ def handle_postback(event):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
+                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200', user.text_sheet_P, user)
             elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
+                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300', user.text_sheet_P, user)
                 #if(user.index_P == 9):
                 #    loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
                 #else:    
@@ -308,10 +310,12 @@ def handle_postback(event):
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
-                smallpuzzle(event,'d'+ str(user.level_P) + user.test_type_list[user.index_P] + '100',sheet_d0, user)
+                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100', user.text_sheet_P, user)
             elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
+                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100', user.text_sheet_P, user)
+                
             #print(user.count_P, reply)
             if(user.index_P == 9):
                 print("last P")
@@ -423,10 +427,21 @@ def smallpuzzle(event,id, sheet, user):
         #剛開始答題
         if id == 'd10029' or id == 'd20025' or id == 'd30022':
             user.isLoad_P = True
+
+        #---------------------------------------------------    
         #一次就答對
         if id[2:4] == '11' and user.index_P < 10: 
             print("一次就答對 繼續isLoad_P")
             user.isLoad_P = True
+        #第一次答錯
+        elif id[2:4] == '12' and user.index_P < 10:
+            print("第一次答錯 再一次 isStart_P，Load題目")
+            user.isStart_P = True
+        #第二次答錯
+        elif id[2:4] == '13' and user.index_P < 10:
+            user.isPreStory_P = True
+            print("第二次答錯 新題目PreStory")
+        #---------------------------------------------------  
 
         if user.isPreStory_P == True:
             print("PreStory End! Strat Testing!")
