@@ -80,7 +80,7 @@ def getSheet_P(level):
 # user.levelsheet_d = sheet_d0
 # user.levelsheet_r = sheet_r0
 # _id = 0
-# user.text_sheet = user.levelsheet_d
+# user.text_sheet_P = user.levelsheet_d
 # user.test_type_list = []
 
 ##----------------------------------------------------------------------------------
@@ -111,7 +111,7 @@ class userVar():
         self.isAsk_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
-        self.text_sheet = self.levelsheet_d
+        self.text_sheet_P = self.levelsheet_d
         self.test_type_list = []
         self.subindex_P = 0
         self.count_P = 2
@@ -248,7 +248,7 @@ def handle_postback(event):
                 print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
                 smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
             else:
-                smallpuzzle(event, user.next_id , user.text_sheet, user)
+                smallpuzzle(event, user.next_id , user.text_sheet_P, user)
 
         elif(user.isStart_P == True):
             print("load_Q")
@@ -257,7 +257,7 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token, message)
 
         else:
-            smallpuzzle(event, user.next_id , user.text_sheet, user)
+            smallpuzzle(event, user.next_id , user.text_sheet_P, user)
     
     elif user.isChangingLevel_P == True:
         setLevel_P(pb_event, user)
@@ -283,9 +283,9 @@ def handle_postback(event):
             pass
     elif user.isStart_P == True:
         print("---Ans feedback---")
-        correctAns = str(user.text_sheet[user.subindex_P][4])
+        correctAns = str(user.text_sheet_P[user.subindex_P][4])
         print("correct answer = ",correctAns)
-        print("correct answer, answer user.index_L, subuser.index_L = ",correctAns, user.index_L, user.subindex_L)
+        print("correct answer, answer user.index_P, subuser.index_P = ",correctAns, user.index_L, user.subindex_L)
         
         if pb_event != correctAns:
             print("answer",pb_event," != correctAns",correctAns)
@@ -357,7 +357,7 @@ def setLevel_P(levelinput, user):
     
 
 def smallpuzzle(event,id, sheet, user):
-    #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet
+    #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet_P
     print("---------id----------",id)
     # id_three = id[3]
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
@@ -381,7 +381,7 @@ def smallpuzzle(event,id, sheet, user):
             smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
-            user.text_sheet = sheet
+            user.text_sheet_P = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
@@ -490,13 +490,13 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        user.text_sheet = user.data_Cloze
-        user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet])[0]))
+        user.text_sheet_P = user.data_Cloze
+        user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
         print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.text_sheet, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
         else:
-            bubble = QA_Bubble.Cloze_L3(user.text_sheet, user.index_P, user.subindex_P)
+            bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
