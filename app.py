@@ -294,6 +294,7 @@ def handle_postback(event):
                 nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
                 print("nextID",nextID)
                 smallpuzzle(event, nextID, user.text_sheet_P, user)
+
             elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
@@ -316,12 +317,12 @@ def handle_postback(event):
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
-                smallpuzzle(event,nextID, user.text_sheet_P, user)
-                
+                smallpuzzle(event, nextID, user.text_sheet_P, user)
+
             elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
-                smallpuzzle(event,nextID, user.text_sheet_P, user)
+                smallpuzzle(event, nextID, user.text_sheet_P, user)
                 
             #print(user.count_P, reply)
             if(user.index_P == 9):
@@ -367,7 +368,7 @@ def setLevel_P(levelinput, user):
 
 def smallpuzzle(event,id, sheet, user):
     #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet_P
-    print("---------id----------",id)
+    print("---------id----------",id,type(id))
     # id_three = id[3]
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
 

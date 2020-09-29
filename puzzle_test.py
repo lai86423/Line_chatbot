@@ -215,6 +215,9 @@ def RandomTest():
     test_type_list = [random.randint(1,7) for _ in range(10)]
     print(test_type_list)
 
+    #for i i n range len(test_type_list):
+    #   test_type_list[i] = str(test_type_list[i])
+
 def LoadQuestion(event):
     print("-----LoadQuestion------", index_P)
 
