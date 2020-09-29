@@ -452,7 +452,7 @@ def smallpuzzle(event,id, sheet, user):
             print("第二次答錯 新題目PreStory")
         #---------------------------------------------------  
 
-        if user.isPreStory_P == True:
+        elif user.isPreStory_P == True:
             print("PreStory End! Strat Testing!")
             user.isStart_P = True
             user.isAsked_P = False
