@@ -89,7 +89,7 @@ def smallpuzzle(event,id, sheet):
         id_index = id_index[0]
         print("id_index",id_index)
 
-        # id_three = id[3]
+        print("id-3: ",id[1:4])
         next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
         print("next id = ", next_id)
 
@@ -103,7 +103,7 @@ def smallpuzzle(event,id, sheet):
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
-            sheet["text"][id_index].color = (0.9529412, 0.9529412, 0.9529412, 0)
+            #sheet["text"][id_index].color = (0.9529412, 0.9529412, 0.9529412, 0)
             print("text= ",sheet_text)
             smallpuzzle(event, next_id , sheet)
 

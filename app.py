@@ -36,7 +36,7 @@ allUser = []
 ##-----------------------------------------------------------------------------------
 ##解謎  初始抓資料＆資料處理
 GDriveJSON = 'JSON.json'
-GSpreadSheet_P = 'cilab_ChatBot_puzzle-1'
+GSpreadSheet_P = 'cilab_ChatBot_puzzle'
 gc_Q= pygsheets.authorize(service_account_file='JSON.json')
 survey_url_P = 'https://docs.google.com/spreadsheets/d/1nVIgWGQJRIQtMtZSv1HxyDb5FvthBNc0duN4Rlra8to/edit#gid=1732714016'
 sh_P = gc_Q.open(GSpreadSheet_P)
@@ -217,8 +217,6 @@ def handle_postback(event):
     user = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
-    if user.next_id == 'd10029' or user.next_id == 'd20025' or user.next_id == 'd30022':
-        user.isLoad_P = True
     
     if (pb_event == 'Next'):
         if  user.next_id =='d00101': #重複詢問可以幫您什麼？
@@ -304,13 +302,13 @@ def handle_postback(event):
                 #line_bot_api.reply_message(event.reply_token,message)
                 user.count_P = 2
                 user.index_P += 1
-            user.isAsked_P = False
         else:
             user.isStart_P = False
             print('正確答案!')
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
+                smallpuzzle(event,'d'+ str(user.level_P) + user.test_type_list[user.index_P] + '100',sheet_d0, user)
             elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
@@ -327,8 +325,6 @@ def handle_postback(event):
             #line_bot_api.reply_message(event.reply_token,message)
             user.index_P += 1
             user.count_P = 2 
-            if(user.index_P < 10):
-                user.isAsked_P = False
         print('after count_P: ', user.count_P)
         print('after index_P: ', user.index_P)
 
@@ -424,6 +420,14 @@ def smallpuzzle(event,id, sheet, user):
             #smallpuzzle(event, user.next_id , sheet, user)
 
     else:
+        #剛開始答題
+        if user.id_index == 'd10029' or user.id_index == 'd20025' or user.id_index == 'd30022':
+            user.isLoad_P = True
+        #一次就答對
+        if id[2:4] == '11' and user.index_P < 10: 
+            print("一次就答對 繼續isLoad_P")
+            user.isLoad_P = True
+
         if user.isPreStory_P == True:
             print("PreStory End! Strat Testing!")
             user.isStart_P = True
