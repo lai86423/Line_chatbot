@@ -291,11 +291,15 @@ def handle_postback(event):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
-                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200', user.text_sheet_P, user)
+                nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
+                print("nextID",nextID)
+                smallpuzzle(event, nextID, user.text_sheet_P, user)
             elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
-                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300', user.text_sheet_P, user)
+                nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
+                print("nextID",nextID)
+                smallpuzzle(event, nextID, user.text_sheet_P, user)
                 #if(user.index_P == 9):
                 #    loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
                 #else:    
@@ -307,14 +311,17 @@ def handle_postback(event):
         else:
             user.isStart_P = False
             print('正確答案!')
+            nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
+            print("nextID", nextID)
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
-                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100', user.text_sheet_P, user)
+                smallpuzzle(event,nextID, user.text_sheet_P, user)
+                
             elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
-                smallpuzzle(event,'d'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100', user.text_sheet_P, user)
+                smallpuzzle(event,nextID, user.text_sheet_P, user)
                 
             #print(user.count_P, reply)
             if(user.index_P == 9):
