@@ -521,7 +521,7 @@ def LoadTestIndex(user):
     return message
 
 def Question_P(event, user):
-    if user.test_type_list[user.index_P] == 1:
+    if user.test_type_list[user.index_P] == '1':
         print("sheet_L_pho & voc")
         user.text_sheet_P = user.data_Cloze
         user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -531,32 +531,32 @@ def Question_P(event, user):
         else:
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
-    elif user.test_type_list[user.index_P] == 2:
+    elif user.test_type_list[user.index_P] == '2':
         print("sheet_L_sen")
         smallpuzzle(event,'d'+ str(user.level_P) +'2000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == 3:
+    elif user.test_type_list[user.index_P] == '3':
         print("sheet_speaking_word")
         smallpuzzle(event,'d'+ str(user.level_P) +'3000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == 4:
+    elif user.test_type_list[user.index_P] == '4':
         print("sheet_speaking_sen")
         smallpuzzle(event,'d'+ str(user.level_P) +'4000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == 5:
+    elif user.test_type_list[user.index_P] == '5':
         print("sheet_Q_voc")
         smallpuzzle(event,'d'+ str(user.level_P) +'5000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == 6:
+    elif user.test_type_list[user.index_P] == '6':
         print("sheet_Q_cloze")
         smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == 7:
+    else: # user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
         smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
         print("題目")
