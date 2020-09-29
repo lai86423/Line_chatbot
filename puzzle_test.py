@@ -82,7 +82,7 @@ def editSheet(data):
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp
     print("-------------------")
-
+    print("id type ",type(id))
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
     print("#####",id_index) 
     if len(id_index) > 0:
@@ -214,9 +214,11 @@ def RandomTest():
     global test_type_list
     test_type_list = [random.randint(1,7) for _ in range(10)]
     print(test_type_list)
-
-    #for i i n range len(test_type_list):
-    #   test_type_list[i] = str(test_type_list[i])
+    
+    for i in range (len(test_type_list)):
+        print("TYPE",type(test_type_list[i]))
+        test_type_list[i] = str(test_type_list[i])
+        print("TYPE",type(test_type_list[i]))
 
 def LoadQuestion(event):
     print("-----LoadQuestion------", index_P)

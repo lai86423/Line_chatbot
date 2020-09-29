@@ -291,14 +291,14 @@ def handle_postback(event):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
-                nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
+                nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '200'
                 print("nextID",nextID)
                 smallpuzzle(event, nextID, user.text_sheet_P, user)
 
             elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
-                nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
+                nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '300'
                 print("nextID",nextID)
                 smallpuzzle(event, nextID, user.text_sheet_P, user)
                 #if(user.index_P == 9):
@@ -312,7 +312,7 @@ def handle_postback(event):
         else:
             user.isStart_P = False
             print('正確答案!')
-            nextID = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
+            nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '100'
             print("nextID", nextID)
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
@@ -494,6 +494,10 @@ def RandomTest(user):
     #global user.test_type_list
     user.test_type_list = [random.randint(1,1) for _ in range(10)]
     print("-----*** 10 Quiz type = ",user.test_type_list)
+    for i in range (len(test_type_list)):
+        print("TYPE", type(user.test_type_list[i]))
+        test_type_list[i] = str(user.test_type_list[i])
+        print("TYPE", type(user.test_type_list[i]))
 
 def LoadTestIndex(user):
     print("-----LoadTestIndex----", user.index_P)
