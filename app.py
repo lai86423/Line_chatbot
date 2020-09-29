@@ -494,9 +494,9 @@ def RandomTest(user):
     #global user.test_type_list
     user.test_type_list = [random.randint(1,1) for _ in range(10)]
     print("-----*** 10 Quiz type = ",user.test_type_list)
-    for i in range (len(test_type_list)):
+    for i in range (len(user.test_type_list)):
         print("TYPE", type(user.test_type_list[i]))
-        test_type_list[i] = str(user.test_type_list[i])
+        user.test_type_list[i] = str(user.test_type_list[i])
         print("TYPE", type(user.test_type_list[i]))
 
 def LoadTestIndex(user):
