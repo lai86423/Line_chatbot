@@ -291,16 +291,15 @@ def handle_postback(event):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
-                nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '200'
-                print("nextID",nextID)
-                smallpuzzle(event, nextID, user.text_sheet_P, user)
-
+                user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
+                print("nextID",user.next_id)
+                smallpuzzle(event, user.next_id, user.levelsheet_d, user)
             elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
-                nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '300'
-                print("nextID",nextID)
-                smallpuzzle(event, nextID, user.text_sheet_P, user)
+                user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
+                print("nextID",user.next_id)
+                smallpuzzle(event, user.next_id, user.levelsheet_d, user)
                 #if(user.index_P == 9):
                 #    loseBubble = finalBubble('再接再厲！!', '好可惜哦~答案是('+ correctAns +')才對哦!', ' ')
                 #else:    
@@ -312,17 +311,17 @@ def handle_postback(event):
         else:
             user.isStart_P = False
             print('正確答案!')
-            nextID = 'd'+ str(user.level_P) + user.test_type_list[user.index_P] + '100'
-            print("nextID", nextID)
+            user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
+            print("nextID", user.next_id)
             if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
-                smallpuzzle(event, nextID, user.text_sheet_P, user)
+                smallpuzzle(event, user.next_id, user.levelsheet_d, user)
 
             elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
-                smallpuzzle(event, nextID, user.text_sheet_P, user)
+                smallpuzzle(event, user.next_id, user.levelsheet_d, user)
                 
             #print(user.count_P, reply)
             if(user.index_P == 9):
@@ -368,7 +367,7 @@ def setLevel_P(levelinput, user):
 
 def smallpuzzle(event,id, sheet, user):
     #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet_P
-    print("---------id----------",id,type(id))
+    print("---------id----------",id)
     # id_three = id[3]
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
 
@@ -494,10 +493,6 @@ def RandomTest(user):
     #global user.test_type_list
     user.test_type_list = [random.randint(1,1) for _ in range(10)]
     print("-----*** 10 Quiz type = ",user.test_type_list)
-    for i in range (len(user.test_type_list)):
-        print("TYPE", type(user.test_type_list[i]))
-        user.test_type_list[i] = str(user.test_type_list[i])
-        print("TYPE", type(user.test_type_list[i]))
 
 def LoadTestIndex(user):
     print("-----LoadTestIndex----", user.index_P)
@@ -521,7 +516,7 @@ def LoadTestIndex(user):
     return message
 
 def Question_P(event, user):
-    if user.test_type_list[user.index_P] == '1':
+    if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         user.text_sheet_P = user.data_Cloze
         user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -531,32 +526,32 @@ def Question_P(event, user):
         else:
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
-    elif user.test_type_list[user.index_P] == '2':
+    elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
         smallpuzzle(event,'d'+ str(user.level_P) +'2000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == '3':
+    elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
         smallpuzzle(event,'d'+ str(user.level_P) +'3000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == '4':
+    elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
         smallpuzzle(event,'d'+ str(user.level_P) +'4000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == '5':
+    elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
         smallpuzzle(event,'d'+ str(user.level_P) +'5000',user.levelsheet_d, user)
         print("題目")
 
-    elif user.test_type_list[user.index_P] == '6':
+    elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
         smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
         print("題目")
 
-    else: # user.test_type_list[user.index_P] == 7:
+    elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
         smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
         print("題目")
