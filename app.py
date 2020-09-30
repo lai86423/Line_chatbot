@@ -322,18 +322,7 @@ def handle_postback(event):
                 reply = '好棒哦!你答對了!'
                 print(reply)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
-                
-            #print(user.count_P, reply)
-            if(user.index_P == 9):
-                print("last P")
-                reply = '好棒哦!你答對了!'
-                print(reply)
-                #correctBubble = finalBubble('恭喜答對!!', '好棒哦!你答對了!', ' ')
-
-            #else:
-            #    correctBubble = rightBubble(reply)
-            #message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
-            #line_bot_api.reply_message(event.reply_token,message)
+            
             user.index_P += 1
             user.count_P = 2 
         print('after count_P: ', user.count_P)
@@ -436,30 +425,51 @@ def smallpuzzle(event,id, sheet, user):
             user.isLoad_P = True
 
         #---------------------------------------------------    
-        #一次就答對
-        if id[2:4] == '11' and user.index_P < 10: 
-            print("一次就答對 繼續isLoad_P")
-            user.isLoad_P = True
-        #第一次答錯
-        elif id[2:4] == '12' and user.index_P < 10:
-            print("第一次答錯 再一次 isStart_P，Load題目")
-            user.isStart_P = True
-        #第二次答錯
-        elif id[2:4] == '13' and user.index_P < 10:
-            user.isStart_P = False
-            user.isPreStory_P = True
+        if id[1:2] == 1 or id[1:2] == 2 or id[1:2] == 3:
+            `#答對
+            if id[2:4] == '11': 
+                if  user.index_P < 10:
+                    print("答對 繼續isLoad_P")
+                    user.isLoad_P = True
+                else:
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+            #第一次答錯
+            elif id[2:4] == '12':
+                if user.index_P < 10:
+                    print("第一次答錯 再一次 isStart_P，Load題目")
+                    user.isStart_P = True
+                else:
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+            #第二次答錯
+            elif id[2:4] == '13':
+                if user.index_P < 10:
+                    user.isLoad_P = True
+                    print("第二次答錯 新題目PreStory")
+                else:
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+            #---------------------------------------------------  
 
-            print("第二次答錯 新題目PreStory")
-        #---------------------------------------------------  
+            elif user.isPreStory_P == True:
+                print("PreStory End! Strat Testing!")
+                user.isStart_P = True
+                user.isAsked_P = False
+                user.isPreStory_P = False
+        
+            #計算最後答題結果
+            elif id[2:4] == '01':
+                if user.count_P >= 6:
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
+                else:
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
+            elif id[2:4] == '02' or id[2:4] == '03':
+                    smallpuzzle(event,'d'+ str(user.level_P) + '0400', user.levelsheet_d, user)
 
-        elif user.isPreStory_P == True:
-            print("PreStory End! Strat Testing!")
-            user.isStart_P = True
-            user.isAsked_P = False
-            user.isPreStory_P = False
-
+            #結束 回到最初功能選擇
+            elif id[2:4] == '04':
+                    smallpuzzle(event,'d00003',sheet_d0, user)
         print("Do Not Find ID in Sheet! ")
         pass
+
 
 def ButtonPuzzle(sheet_reply_list):
     replylist = []
@@ -552,7 +562,15 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
         smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
-        print("題目")
+        user.text_sheet_P = user.data_Cloze
+        if user.count_P == 2:
+            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+            print("data_Cloze subindex_P", user.subindex_P)
+        if (user.level_P != 3):
+            bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
+        else:
+            bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
+
 
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")

@@ -82,7 +82,9 @@ def editSheet(data):
 def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp
     print("-------------------")
-    print("id type ",type(id))
+    print("id",id)
+    print("id-1: ",id[1:2])
+
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
     print("#####",id_index) 
     if len(id_index) > 0:
