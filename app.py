@@ -426,7 +426,7 @@ def smallpuzzle(event,id, sheet, user):
 
         #---------------------------------------------------    
         if id[1:2] == 1 or id[1:2] == 2 or id[1:2] == 3:
-            `#答對
+            #答對
             if id[2:4] == '11': 
                 if  user.index_P < 10:
                     print("答對 繼續isLoad_P")
