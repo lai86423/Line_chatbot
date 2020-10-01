@@ -535,6 +535,7 @@ def LoadTestIndex(user):
     return message
 
 def Question_P(event, user):
+    user.isVoc == False
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         if(user.count_P == 2):
@@ -546,7 +547,9 @@ def Question_P(event, user):
             line_bot_api.push_message(event.source.user_id, article)
         
         bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
+        
         # user.isVoc = True
+        #user.subindex_P = 0
         # try:
         #     print(user.VocQA[user.subindex_P])
         #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
