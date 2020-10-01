@@ -14,7 +14,6 @@ import QA
 import sys
 import datetime
 import pygsheets
-import QA_Bubble
 import random
 
 import getVoc
@@ -115,6 +114,7 @@ class userVar():
         self.test_type_list = []
         self.subindex_P = 0
         self.count_P = 2
+        self.star_num_P = 0
 
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
@@ -310,6 +310,7 @@ def handle_postback(event):
                 user.index_P += 1
         else:
             user.isStart_P = False
+            user.star_num_P += user.count_P
             print('正確答案!')
             user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
             print("nextID", user.next_id)
@@ -455,18 +456,21 @@ def smallpuzzle(event,id, sheet, user):
                 user.isAsked_P = False
                 user.isPreStory_P = False
         
-            #計算最後答題結果
+            #----計算最後答題結果
+            #是否大於六題
             elif id[2:4] == '01':
-                if user.count_P >= 6:
+                if user.star_num_P >= 6:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
+            #結尾故事
             elif id[2:4] == '02' or id[2:4] == '03':
                     smallpuzzle(event,'d'+ str(user.level_P) + '0400', user.levelsheet_d, user)
 
             #結束 回到最初功能選擇
             elif id[2:4] == '04':
                     smallpuzzle(event,'d00003',sheet_d0, user)
+
         print("Do Not Find ID in Sheet! ")
         pass
 
@@ -530,38 +534,40 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        user.text_sheet_P = user.data_Cloze
-        if user.count_P == 2:
-            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            print("data_Cloze subindex_P", user.subindex_P)
-        if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
-        else:
-            bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
+        user.isVoc = True
+        try:
+            print(user.VocQA[user.index_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.index_P])
+
+        except: 
+            user.sheet_Q = getVoc.editSheet(user.data_Voc)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
+            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            templist = [q_chinese, option, answer]
+            print(templist)
+            user.VocQA.append(templist)
+            print(user.VocQA[user.index_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.index_P])
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
-        smallpuzzle(event,'d'+ str(user.level_P) +'2000',user.levelsheet_d, user)
-        print("題目")
+        
 
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
-        smallpuzzle(event,'d'+ str(user.level_P) +'3000',user.levelsheet_d, user)
-        print("題目")
+        
 
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
-        smallpuzzle(event,'d'+ str(user.level_P) +'4000',user.levelsheet_d, user)
-        print("題目")
+        
 
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
-        smallpuzzle(event,'d'+ str(user.level_P) +'5000',user.levelsheet_d, user)
-        print("題目")
+        
 
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
-        smallpuzzle(event,'d'+ str(user.level_P) +'6000',user.levelsheet_d, user)
         user.text_sheet_P = user.data_Cloze
         if user.count_P == 2:
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -571,11 +577,9 @@ def Question_P(event, user):
         else:
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
-
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
-        smallpuzzle(event,'d'+ str(user.level_P) +'7000',user.levelsheet_d, user)
-        print("題目")
+        
     
     return bubble
 
