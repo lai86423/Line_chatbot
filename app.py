@@ -537,21 +537,22 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        user.isVoc = True
-        try:
-            print(user.VocQA[user.subindex_P])
-            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+        QA_bubble = QA_Bubble.Reading(user.sheet_Q, user.index_P, user.subindex_P)
+        # user.isVoc = True
+        # try:
+        #     print(user.VocQA[user.subindex_P])
+        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
-        except: 
-            user.sheet_Q = getVoc.editSheet(user.data_Voc)
-            q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
-            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
-            option, answer = getVoc.getQA(q_english, option_english,option_english2)
-            templist = [q_chinese, option, answer]
-            print(templist)
-            user.VocQA.append(templist)
-            print(user.VocQA[user.subindex_P])
-            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+        # except: 
+        #     user.sheet_Q = getVoc.editSheet(user.data_Voc)
+        #     q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
+        #     option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+        #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
+        #     templist = [q_chinese, option, answer]
+        #     print(templist)
+        #     user.VocQA.append(templist)
+        #     print(user.VocQA[user.subindex_P])
+        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
