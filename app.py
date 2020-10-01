@@ -539,10 +539,10 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         if(user.count_P == 2):
-            #user.sheet_Q = user.data_Reading
-            print("reading", len( np.transpose( [user.data_Reading])[0] ) )
-            user.subindex_P = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
-            QA_bubble_article = QA_Bubble.Article( user.data_Reading, user.subindex_P )
+            user.text_sheet_P = user.data_Reading
+            print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
+            user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
+            QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
             article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
             line_bot_api.push_message(event.source.user_id, article)
         
