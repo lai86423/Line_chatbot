@@ -88,14 +88,15 @@ class userVar():
         self._id = _id
         #QA
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(1) #預設傳level = 1
-        self.sheet_Q = getVoc.editSheet(self.data_Voc)
+        #self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
-        # #Listen
-        # self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        # self.sheet_L = self.data_pho
-        # self.isWord = False 
-        # self.word_list = []
+
+        #Listen
+        self.data_pho, self.data_word, self.data_sen = getSheet(1)
+        #self.sheet_L = self.data_pho
+        self.isWord = False 
+        self.word_list = []
 
         #Puzzle
         self.next_id = 0
@@ -155,6 +156,47 @@ def getSheetQA(Qlevel):
     return sheet_Voc, sheet_Reading, sheet_Cloze
 
 ##---------------------------------------------------------------------------
+GSpreadSheet_L = 'cilab_ChatBot_listening'
+gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
+sh_L = gc_L.open(GSpreadSheet_L)
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
+client = gspread.authorize(creds)
+spreadSheet = client.open('cilab_ChatBot_listening')
+sheet_L1_pho = spreadSheet.worksheet("L1_pho")
+L1_pho = sheet_L1_pho.get_all_values()
+sheet_L2_pho = spreadSheet.worksheet("L2_pho")
+L2_pho = sheet_L2_pho.get_all_values()
+sheet_L3_pho = spreadSheet.worksheet("L3_pho")
+L3_pho = sheet_L3_pho.get_all_values()
+
+sheet_L1_sen = spreadSheet.worksheet("L1_sen")
+L1_sen = sheet_L1_sen.get_all_values()
+sheet_L2_sen = spreadSheet.worksheet("L2_sen")
+L2_sen = sheet_L2_sen.get_all_values()
+sheet_L3_sen = spreadSheet.worksheet("L3_sen")
+L3_sen = sheet_L3_sen.get_all_values()
+
+#三種問題類型
+def getSheet(Qlevel):   
+    if(Qlevel == 3):
+        sheet_pho = L3_pho
+        #sheet_word = L3_word
+        sheet_sen = L3_sen  
+
+    elif(Qlevel == 2):
+        sheet_pho = L2_pho
+        #sheet_word = L2_word
+        sheet_sen = L2_sen 
+    else:
+        sheet_pho = L1_pho
+        #sheet_word = L1_word
+        sheet_sen = L1_sen 
+    
+    sheet_word = getVoc.getSheet(Qlevel,sh_L)
+    
+    return sheet_pho, sheet_word, sheet_sen
+
 ##----------------------------------------------------------------------------------
 
 # 監聽所有來自 /callback 的 Post Request
@@ -535,9 +577,29 @@ def LoadTestIndex(user):
     return message
 
 def Question_P(event, user):
-    user.isVoc == False
+    user.isVoc = False
+    user.isWord = False
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
+        # user.subindex_P = 0
+        # user.isWord = True
+        # try:
+        #     print(user.word_list[user.subindex_P])
+        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+        # except: 
+        #     user.text_sheet_P = getVoc.editSheet(user.data_word)
+        #     q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
+        #     option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
+        #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
+        #     q_audio = getVoc.getAudio(user.sheet_P, q_index)
+        #     templist = [q_audio, option, answer]
+        #     print(templist)
+        #     user.word_list.append(templist)
+        #     print("user.word_list",user.word_list[user.subindex_P])
+        #     print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
+        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+  
+        # #TODO ---- Reading Bug
         if(user.count_P == 2):
             user.text_sheet_P = user.data_Reading
             print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
@@ -555,8 +617,8 @@ def Question_P(event, user):
         #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
         # except: 
-        #     user.sheet_Q = getVoc.editSheet(user.data_Voc)
-        #     q_index, q_chinese, q_english = getVoc.getVoc(user.sheet_Q)
+        #     user.text_sheet_P = getVoc.editSheet(user.data_Voc)
+        #     q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
         #     option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
         #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
         #     templist = [q_chinese, option, answer]
