@@ -537,7 +537,15 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        QA_bubble = QA_Bubble.Reading(user.sheet_Q, user.index_P, user.subindex_P)
+        if(user.count_P == 2):
+            #user.sheet_Q = user.data_Reading
+            print("reading", len( np.transpose( [user.data_Reading])[0] ) )
+            user.subindex_P = random.randrange(1, len(np.transpose([user.sheet_Q])[0]), 3)
+            QA_bubble_article = QA_Bubble.Article( user.data_Reading, user.subindex_P )
+            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+            line_bot_api.push_message(event.source.user_id, article)
+        
+        bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
         # user.isVoc = True
         # try:
         #     print(user.VocQA[user.subindex_P])
