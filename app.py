@@ -281,7 +281,10 @@ def handle_postback(event):
             pass
     elif user.isStart_P == True:
         print("---Ans feedback---")
-        correctAns = str(user.text_sheet_P[user.subindex_P][4])
+        if user.isVoc == True:
+            correctAns = str(user.VocQA[user.subindex_P][2])
+        else:
+            correctAns = str(user.text_sheet_P[user.subindex_P][4])
         print("correct answer = ",correctAns)
         print("correct answer, answer user.index_P, subuser.index_P = ",correctAns, user.index_P, user.subindex_P)
         
@@ -536,8 +539,8 @@ def Question_P(event, user):
         print("sheet_L_pho & voc")
         user.isVoc = True
         try:
-            print(user.VocQA[user.index_P])
-            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.index_P])
+            print(user.VocQA[user.subindex_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
         except: 
             user.sheet_Q = getVoc.editSheet(user.data_Voc)
@@ -547,8 +550,8 @@ def Question_P(event, user):
             templist = [q_chinese, option, answer]
             print(templist)
             user.VocQA.append(templist)
-            print(user.VocQA[user.index_P])
-            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.index_P])
+            print(user.VocQA[user.subindex_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
