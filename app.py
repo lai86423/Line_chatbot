@@ -581,34 +581,35 @@ def Question_P(event, user):
     user.isWord = False
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        # user.subindex_P = 0
-        # user.isWord = True
-        # try:
-        #     print(user.word_list[user.subindex_P])
-        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-        # except: 
-        #     user.text_sheet_P = getVoc.editSheet(user.data_word)
-        #     q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-        #     option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
-        #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        #     q_audio = getVoc.getAudio(user.sheet_P, q_index)
-        #     templist = [q_audio, option, answer]
-        #     print(templist)
-        #     user.word_list.append(templist)
-        #     print("user.word_list",user.word_list[user.subindex_P])
-        #     print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
-        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+        user.subindex_P = 0
+        user.isWord = True
+
+        try:
+            print(user.word_list[user.subindex_P])
+            bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+        except: 
+            user.text_sheet_P = getVoc.editSheet(user.data_word)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
+            option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
+            templist = [q_audio, option, answer]
+            print(templist)
+            user.word_list.append(templist)
+            print("user.word_list",user.word_list[user.subindex_P])
+            print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
+            bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
   
-        # #TODO ---- Reading Bug
-        if(user.count_P == 2):
-            user.text_sheet_P = user.data_Reading
-            print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
-            user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
-            QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
-            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-            line_bot_api.push_message(event.source.user_id, article)
+        # # #TODO ---- Reading Bug
+        # if(user.count_P == 2):
+        #     user.text_sheet_P = user.data_Reading
+        #     print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
+        #     user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
+        #     QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
+        #     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+        #     line_bot_api.push_message(event.source.user_id, article)
         
-        bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
+        # bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
         
         # user.isVoc = True
         #user.subindex_P = 0
