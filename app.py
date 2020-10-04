@@ -323,7 +323,7 @@ def handle_postback(event):
             pass
     elif user.isStart_P == True:
         print("---Ans feedback---")
-        if user.isVoc == True or user.isWord = True:
+        if user.isVoc == True or user.isWord == True:
             correctAns = str(user.VocQA[user.subindex_P][2])
         else:
             correctAns = str(user.text_sheet_P[user.subindex_P][4])
