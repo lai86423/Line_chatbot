@@ -591,7 +591,7 @@ def Question_P(event, user):
         print("sheet_L_pho & word")
         test_type1 = random.randint(1, 2)
         if test_type1 == 1:
-            print("--sheet_L_pho--")
+            print("--sheet_pho--")
             if user.level_P != 3:
                 user.count_type_P = 1
                 
@@ -605,7 +605,7 @@ def Question_P(event, user):
                     #---
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-                
+                user.text_sheet_P = user.data_pho
                 bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
             else: #高級前三題，題目不同
                 print("---level 3 pho  依據音檔選句子---")
@@ -617,8 +617,9 @@ def Question_P(event, user):
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
         else:
-            print("--sheet_L_word--",test_type1)
+            print("--sheet_word--",test_type1)
             user.isWord = True
+            user.subindex_P = 0
             try:
                 print(user.word_list[user.subindex_P])
                 bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
@@ -637,7 +638,6 @@ def Question_P(event, user):
     
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
-        #TODO debug
         #---test 用 之後前面有跑setLevel即可拿掉
         user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
         #---
