@@ -600,8 +600,9 @@ def Question_P(event, user):
                 #---test 用 之後前面有跑setLevel即可拿掉
                 user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
                 #---
+                user.text_sheet_P = user.data_pho
                 user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            user.text_sheet_P = user.data_pho
+            
             bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
         else: #高級前三題，題目不同
             print("*****change ～～")
