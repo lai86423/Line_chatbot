@@ -580,6 +580,7 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         if user.count_P == 2 :
+            print("getQ!!!")
             user.text_sheet_P = user.data_sen
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
