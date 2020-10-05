@@ -292,7 +292,7 @@ def handle_postback(event):
                 print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
                 smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
             else:
-                smallpuzzle(event, user.next_id , user.text_sheet_P, user)
+                smallpuzzle(event, user.next_id , user.levelsheet_d, user)
 
         elif(user.isStart_P == True):
             print("load_Q")
@@ -301,7 +301,7 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token, message)
 
         else:
-            smallpuzzle(event, user.next_id , user.text_sheet_P, user)
+            smallpuzzle(event, user.next_id , user.levelsheet_d, user)
     
     elif user.isChangingLevel_P == True:
         setLevel_P(pb_event, user)
