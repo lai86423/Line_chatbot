@@ -585,6 +585,7 @@ def Question_P(event, user):
     user.isVoc = False
     user.isWord = False
     user.count_type_P = 2
+    
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & word")
         user.subindex_P = 0
@@ -592,16 +593,18 @@ def Question_P(event, user):
             #---test 用 之後前面有跑setLevel即可拿掉
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             #---
+            if user.count_P == 2:
+                user.count_P = 1
             user.count_type_P = 1
+            user.text_sheet_P = user.data_pho
             if user.count_P == user.count_type_P:
-                user.text_sheet_P = user.data_pho
                 user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
             print(user.text_sheet_P)
             bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
         else: #高級前三題，題目不同
             print("*****change ～～")
+            user.text_sheet_P = user.data_pho
             if user.count_P == user.count_type_P :
-                user.text_sheet_P = user.data_pho
                 user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
             bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
 
@@ -628,9 +631,9 @@ def Question_P(event, user):
         #---test 用 之後前面有跑setLevel即可拿掉
         user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
         #---
+        user.text_sheet_P = user.data_sen
         if user.count_P == user.count_type_P :
-            print("randomQ!!!")
-            user.text_sheet_P = user.data_sen
+            print("random subindex_P")
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
         print("user.subindex_P",user.subindex_P)
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
