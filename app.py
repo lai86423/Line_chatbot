@@ -100,7 +100,7 @@ class userVar():
 
         #Puzzle
         self.next_id = 0
-        self.level_P = 3
+        self.level_P = 1
         self.index_P = 0 #第幾題
         self.isInit_P = True
         self.isChangingLevel_P = False
@@ -226,7 +226,7 @@ def handle_message(event):
         #smallpuzzle(event,'d00000',sheet_d0, user)
 
         #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(3)
+        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
         smallpuzzle(event,'d10029',user.levelsheet_d, user)
         #------Test
 
@@ -589,28 +589,27 @@ def Question_P(event, user):
     
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & word")
-        
-        if user.level_P != 3:
-            user.count_type_P = 1
+        # if user.level_P != 3:
+        #     user.count_type_P = 1
             
-            if user.count_P == 2:
-                user.count_P = 1
+        #     if user.count_P == 2:
+        #         user.count_P = 1
             
-            if user.count_P == user.count_type_P:
-                print("random QA_Tail subindex")
-                #---test 用 之後前面有跑setLevel即可拿掉
-                user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-                #---
-                user.text_sheet_P = user.data_pho
-                user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+        #     if user.count_P == user.count_type_P:
+        #         print("random QA_Tail subindex")
+        #         #---test 用 之後前面有跑setLevel即可拿掉
+        #         user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+        #         #---
+        #         user.text_sheet_P = user.data_pho
+        #         user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
             
-            bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
-        else: #高級前三題，題目不同
-            print("*****change ～～")
+        #     bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
+        # else: #高級前三題，題目不同
+        print("---level 3 pho  依據音檔選句子---")
+        if user.count_P == user.count_type_P :
             user.text_sheet_P = user.data_pho
-            if user.count_P == user.count_type_P :
-                user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
+            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+        bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
 
         # user.isWord = True
         # try:
