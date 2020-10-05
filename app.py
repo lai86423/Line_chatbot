@@ -345,6 +345,7 @@ def handle_postback(event):
                 user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
                 print("nextID",user.next_id)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
+                
             elif(user.count_P == user.count_type_P - 1):
                 user.isStart_P = False
                 print("Wrong 2")
@@ -588,7 +589,7 @@ def Question_P(event, user):
     
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & word")
-        user.subindex_P = 0
+        
         if user.level_P != 3:
             user.count_type_P = 1
             
