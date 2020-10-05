@@ -95,7 +95,6 @@ class userVar():
         #Listen
         self.data_pho, self.data_word, self.data_sen = getSheet(1)
         #self.sheet_L = self.data_pho
-        self.isWord = False 
         self.word_list = []
 
         #Puzzle
@@ -116,7 +115,6 @@ class userVar():
         self.subindex_P = 0
         self.count_P = 2
         self.star_num_P = 0
-        self.count_type_P = 2
 
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
@@ -326,8 +324,6 @@ def handle_postback(event):
         print("---Ans feedback---")
         if user.isVoc == True:
             correctAns = str(user.VocQA[user.subindex_P][2])
-        elif user.isWord == True:
-            correctAns = str(user.word_list[user.subindex_P][2])
         else:
             correctAns = str(user.text_sheet_P[user.subindex_P][4])
         print("correct answer = ",correctAns)
@@ -335,14 +331,15 @@ def handle_postback(event):
         
         if pb_event != correctAns:
             print("answer",pb_event," != correctAns",correctAns)
-            if(user.count_P != user.count_type_P - 1):
+            if(user.count_P != 1):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
+                print("user.count_P",user.count_P)
                 user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
                 print("nextID",user.next_id)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
-            elif(user.count_P == user.count_type_P - 1):
+            elif(user.count_P == 1):
                 user.isStart_P = False
                 print("Wrong 2")
                 user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
@@ -362,12 +359,12 @@ def handle_postback(event):
             print('正確答案!')
             user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
             print("nextID", user.next_id)
-            if(user.count_P == user.count_type_P):
+            if(user.count_P == 2):
                 reply = '你好棒!一次就答對了!'
                 print(reply)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
 
-            elif(user.count_P == user.count_type_P - 1):
+            elif(user.count_P == 1):
                 reply = '好棒哦!你答對了!'
                 print(reply)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
@@ -581,62 +578,59 @@ def LoadTestIndex(user):
 
 def Question_P(event, user):
     user.isVoc = False
-    user.isWord = False
-    user.count_type_P = 2
     if user.test_type_list[user.index_P] == 1:
-        print("sheet_L_pho & word")
-        user.subindex_P = 0
-        if user.level_P != 3:
-            user.count_type_P = 1
-            if user.count_P == user.count_type_P:
-                user.text_sheet_P = user.data_pho
-                user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            print(user.text_sheet_P)
-            bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
-        else: #高級前三題，題目不同
-            print("*****change ～～")
-            if user.count_P == user.count_type_P :
-                user.text_sheet_P = user.data_pho
-                user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
-
-        # user.isWord = True
+        print("sheet_L_pho & voc")
+        
+        # # #TODO ---- Reading Bug
+        # if(user.count_P == 2):
+        #     user.text_sheet_P = user.data_Reading
+        #     print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
+        #     user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
+        #     QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
+        #     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+        #     line_bot_api.push_message(event.source.user_id, article)
+        
+        # bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
+        
+        # user.isVoc = True
+        #user.subindex_P = 0
         # try:
-        #     print(user.word_list[user.subindex_P])
-        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+        #     print(user.VocQA[user.subindex_P])
+        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+
         # except: 
-        #     user.text_sheet_P = getVoc.editSheet(user.data_word)
+        #     user.text_sheet_P = getVoc.editSheet(user.data_Voc)
         #     q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-        #     option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
+        #     option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
         #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        #     q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
-        #     templist = [q_audio, option, answer]
+        #     templist = [q_chinese, option, answer]
         #     print(templist)
-        #     user.word_list.append(templist)
-        #     print("user.word_list",user.word_list[user.subindex_P])
-        #     print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
-        #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-  
+        #     user.VocQA.append(templist)
+        #     print(user.VocQA[user.subindex_P])
+        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
         #TODO debug
-        if user.count_P == user.count_type_P :
+        if user.count_P == 2 :
             print("randomQ!!!")
             user.text_sheet_P = user.data_sen
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
         print("user.subindex_P",user.subindex_P)
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
     
+
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
         
+
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
         
 
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
-        #user.isVoc = True
+        # user.isVoc = True
         #user.subindex_P = 0
         # try:
         #     print(user.VocQA[user.subindex_P])
@@ -655,29 +649,17 @@ def Question_P(event, user):
 
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
-        user.text_sheet_P = user.data_Cloze
-        if user.count_P == user.count_type_P:
-            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            print("data_Cloze subindex_P", user.subindex_P)
-        if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
-        else:
-            bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
+        # user.text_sheet_P = user.data_Cloze
+        # if user.count_P == 2:
+        #     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+        #     print("data_Cloze subindex_P", user.subindex_P)
+        # if (user.level_P != 3):
+        #     bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
+        # else:
+        #     bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
-        #TODO ---- Reading Bug
-        # if(user.count_P == user.count_type_P):
-        #     user.text_sheet_P = user.data_Reading
-        #     print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
-        #     user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
-        #     QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
-        #     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-        #     line_bot_api.push_message(event.source.user_id, article)
-        
-        # bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
-        
-        
         
     
     return bubble
