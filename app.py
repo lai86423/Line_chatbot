@@ -525,7 +525,6 @@ def smallpuzzle(event,id, sheet, user):
         print("Do Not Find ID in Sheet! ")
         pass
 
-
 def ButtonPuzzle(sheet_reply_list):
     replylist = []
     print("ButtonPuzzle",sheet_reply_list)
@@ -588,65 +587,53 @@ def Question_P(event, user):
     user.count_type_P = 2
     
     if user.test_type_list[user.index_P] == 1:
-        #---test 用 之後前面有跑setLevel即可拿掉
-        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-        #---
-        if(user.count_P == user.count_type_P):
-            user.text_sheet_P = user.data_Reading
-            print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
-            user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
-            QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
-            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-            line_bot_api.push_message(event.source.user_id, article)
-        
-        bubble = QA_Bubble.Reading(user.text_sheet_P, user.index_P, user.subindex_P)
 
-        # print("sheet_L_pho & word")
-        # test_type1 = random.randint(1, 2)
-        # if test_type1 == 1:
-        #     print("--sheet_L_pho--")
-        #     if user.level_P != 3:
-        #         user.count_type_P = 1
+        print("sheet_L_pho & word")
+        test_type1 = random.randint(1, 2)
+        if test_type1 == 1:
+            print("--sheet_L_pho--")
+            if user.level_P != 3:
+                user.count_type_P = 1
                 
-        #         if user.count_P == 2:
-        #             user.count_P = 1
+                if user.count_P == 2:
+                    user.count_P = 1
                 
-        #         if user.count_P == user.count_type_P:
-        #             print("random QA_Tail subindex")
-        #             #---test 用 之後前面有跑setLevel即可拿掉
-        #             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-        #             #---
-        #             user.text_sheet_P = user.data_pho
-        #             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+                if user.count_P == user.count_type_P:
+                    print("random QA_Tail subindex")
+                    #---test 用 之後前面有跑setLevel即可拿掉
+                    user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+                    #---
+                    user.text_sheet_P = user.data_pho
+                    user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 
-        #         bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
-        #     else: #高級前三題，題目不同
-        #         print("---level 3 pho  依據音檔選句子---")
-        #         if user.count_P == user.count_type_P :
-        #             #---test後拿掉----
-        #             user.data_pho, user.data_word, user.data_sen = getSheet(3)
-        #             #---test後拿掉----
-        #             user.text_sheet_P = user.data_pho
-        #             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-        #         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
-        # else:
-        #     print("--sheet_L_word--",test_type1)
-        #     user.isWord = True
-        #     try:
-        #         print(user.word_list[user.subindex_P])
-        #         bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-        #     except: 
-        #         user.text_sheet_P = getVoc.editSheet(user.data_word)
-        #         q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-        #         option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
-        #         option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        #         q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
-        #         templist = [q_audio, option, answer]
-        #         print(templist)
-        #         user.word_list.append(templist)
-        #         print("user.word_list",user.word_list[user.subindex_P])
-        #         print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
-        #         bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+                bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
+            else: #高級前三題，題目不同
+                print("---level 3 pho  依據音檔選句子---")
+                if user.count_P == user.count_type_P :
+                    #---test後拿掉----
+                    user.data_pho, user.data_word, user.data_sen = getSheet(3)
+                    #---test後拿掉----
+                    user.text_sheet_P = user.data_pho
+                    user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+                bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
+        else:
+            print("--sheet_L_word--",test_type1)
+            user.isWord = True
+            try:
+                print(user.word_list[user.subindex_P])
+                bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
+            except: 
+                user.text_sheet_P = getVoc.editSheet(user.data_word)
+                q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
+                option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
+                option, answer = getVoc.getQA(q_english, option_english,option_english2)
+                q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
+                templist = [q_audio, option, answer]
+                print(templist)
+                user.word_list.append(templist)
+                print("user.word_list",user.word_list[user.subindex_P])
+                print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
+                bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
     
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
@@ -670,22 +657,22 @@ def Question_P(event, user):
 
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
-        #user.isVoc = True
-        #user.subindex_P = 0
-        # try:
-        #     print(user.VocQA[user.subindex_P])
-        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+        user.isVoc = True
+        user.subindex_P = 0
+        try:
+            print(user.VocQA[user.subindex_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
-        # except: 
-        #     user.text_sheet_P = getVoc.editSheet(user.data_Voc)
-        #     q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-        #     option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
-        #     option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        #     templist = [q_chinese, option, answer]
-        #     print(templist)
-        #     user.VocQA.append(templist)
-        #     print(user.VocQA[user.subindex_P])
-        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+        except: 
+            user.text_sheet_P = getVoc.editSheet(user.data_Voc)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
+            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            templist = [q_chinese, option, answer]
+            print(templist)
+            user.VocQA.append(templist)
+            print(user.VocQA[user.subindex_P])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
 
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
@@ -700,19 +687,18 @@ def Question_P(event, user):
 
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
-        #TODO ---- Reading Bug
-        ##---test 用 之後前面有跑setLevel即可拿掉
-        #user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-        ##---
-        # if(user.count_P == user.count_type_P):
-        #     user.text_sheet_P = user.data_Reading
-        #     print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
-        #     user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
-        #     QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
-        #     article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
-        #     line_bot_api.push_message(event.source.user_id, article)
+        #---test 用 之後前面有跑setLevel即可拿掉
+        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+        #---
+        if(user.count_P == user.count_type_P):
+            user.text_sheet_P = user.data_Reading
+            print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
+            user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
+            QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
+            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+            line_bot_api.push_message(event.source.user_id, article)
         
-        # bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
+        bubble = QA_Bubble.Reading(user.data_Reading, user.index_P, user.subindex_P)
         
         
         
