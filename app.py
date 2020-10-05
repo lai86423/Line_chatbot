@@ -95,7 +95,6 @@ class userVar():
         #Listen
         self.data_pho, self.data_word, self.data_sen = getSheet(1)
         #self.sheet_L = self.data_pho
-        self.isWord = False 
         self.word_list = []
 
         #Puzzle
@@ -325,8 +324,6 @@ def handle_postback(event):
         print("---Ans feedback---")
         if user.isVoc == True:
             correctAns = str(user.VocQA[user.subindex_P][2])
-        elif user.isWord == True:
-            correctAns = str(user.word_list[user.subindex_P][2])
         else:
             correctAns = str(user.text_sheet_P[user.subindex_P][4])
         print("correct answer = ",correctAns)
@@ -580,28 +577,13 @@ def LoadTestIndex(user):
 
 def Question_P(event, user):
     user.isVoc = False
-    user.isWord = False
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
-        user.subindex_P = 0
-        user.isWord = True
-
-        try:
-            print(user.word_list[user.subindex_P])
-            bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-        except: 
-            user.text_sheet_P = getVoc.editSheet(user.data_word)
-            q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-            option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
-            option, answer = getVoc.getQA(q_english, option_english,option_english2)
-            q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
-            templist = [q_audio, option, answer]
-            print(templist)
-            user.word_list.append(templist)
-            print("user.word_list",user.word_list[user.subindex_P])
-            print("user.word_list[2]",user.subindex_P, user.word_list[user.subindex_P][2])
-            bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-  
+        if user.count_P == 2 :
+            user.text_sheet_P = user.data_sen
+            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
+        bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
+    
         # # #TODO ---- Reading Bug
         # if(user.count_P == 2):
         #     user.text_sheet_P = user.data_Reading
