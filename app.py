@@ -589,15 +589,18 @@ def Question_P(event, user):
     
     if user.test_type_list[user.index_P] == 1:
         #---test 用 之後前面有跑setLevel即可拿掉
-        user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
         #---
-        user.text_sheet_P = user.data_sen
-        if user.count_P == user.count_type_P :
-            print("random subindex_P")
-            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
-        print("user.subindex_P",user.subindex_P)
-        bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
-    
+        if(user.count_P == user.count_type_P):
+            user.text_sheet_P = user.data_Reading
+            print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
+            user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
+            QA_bubble_article = QA_Bubble.Article( user.text_sheet_P, user.subindex_P )
+            article = FlexSendMessage(alt_text="QA_bubble", contents = QA_bubble_article)
+            line_bot_api.push_message(event.source.user_id, article)
+        
+        bubble = QA_Bubble.Reading(user.text_sheet_P, user.index_P, user.subindex_P)
+
         # print("sheet_L_pho & word")
         # test_type1 = random.randint(1, 2)
         # if test_type1 == 1:
