@@ -607,6 +607,9 @@ def Question_P(event, user):
         # else: #高級前三題，題目不同
         print("---level 3 pho  依據音檔選句子---")
         if user.count_P == user.count_type_P :
+            #---test後拿掉----
+            user.data_pho, user.data_word, user.data_sen = getSheet(3)
+            #---test後拿掉----
             user.text_sheet_P = user.data_pho
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
