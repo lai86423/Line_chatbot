@@ -590,15 +590,18 @@ def Question_P(event, user):
         print("sheet_L_pho & word")
         user.subindex_P = 0
         if user.level_P != 3:
-            #---test 用 之後前面有跑setLevel即可拿掉
-            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-            #---
+            user.count_type_P = 1
+            
             if user.count_P == 2:
                 user.count_P = 1
-            user.count_type_P = 1
-            user.text_sheet_P = user.data_pho
+            
             if user.count_P == user.count_type_P:
+                print("random QA_Tail subindex")
+                #---test 用 之後前面有跑setLevel即可拿掉
+                user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+                #---
                 user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+            user.text_sheet_P = user.data_pho
             bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
         else: #高級前三題，題目不同
             print("*****change ～～")
