@@ -599,7 +599,6 @@ def Question_P(event, user):
             user.text_sheet_P = user.data_pho
             if user.count_P == user.count_type_P:
                 user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            print(user.text_sheet_P)
             bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
         else: #高級前三題，題目不同
             print("*****change ～～")
