@@ -335,6 +335,7 @@ def handle_postback(event):
                 print("Wrong 1")
                 user.isStart_P = False
                 user.count_P -= 1
+                print("user.count_P",user.count_P)
                 user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
                 print("nextID",user.next_id)
                 smallpuzzle(event, user.next_id, user.levelsheet_d, user)
@@ -580,9 +581,10 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & voc")
         if user.count_P == 2 :
-            print("getQ!!!")
+            print("randomQ!!!")
             user.text_sheet_P = user.data_sen
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
+        print("user.subindex_P",user.subindex_P)
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
     
         # # #TODO ---- Reading Bug
@@ -631,14 +633,14 @@ def Question_P(event, user):
 
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
-        user.text_sheet_P = user.data_Cloze
-        if user.count_P == 2:
-            user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
-            print("data_Cloze subindex_P", user.subindex_P)
-        if (user.level_P != 3):
-            bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
-        else:
-            bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
+        # user.text_sheet_P = user.data_Cloze
+        # if user.count_P == 2:
+        #     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
+        #     print("data_Cloze subindex_P", user.subindex_P)
+        # if (user.level_P != 3):
+        #     bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
+        # else:
+        #     bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
