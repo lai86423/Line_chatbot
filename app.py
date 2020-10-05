@@ -269,6 +269,9 @@ def handle_postback(event):
             print("level = ",user.level_P)
             #global user.levelsheet_d, user.levelsheet_r
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+        
             setLevelStory(user.level_P, user)
         
         elif user.isLoad_P == True:
@@ -428,7 +431,6 @@ def smallpuzzle(event,id, sheet, user):
             smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
-            user.text_sheet_P = sheet
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
@@ -587,6 +589,9 @@ def Question_P(event, user):
         print("sheet_L_pho & word")
         user.subindex_P = 0
         if user.level_P != 3:
+            #---test 用 之後前面有跑setLevel即可拿掉
+            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+            #---
             user.count_type_P = 1
             if user.count_P == user.count_type_P:
                 user.text_sheet_P = user.data_pho
@@ -620,6 +625,9 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
         #TODO debug
+        #---test 用 之後前面有跑setLevel即可拿掉
+        user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+        #---
         if user.count_P == user.count_type_P :
             print("randomQ!!!")
             user.text_sheet_P = user.data_sen
@@ -667,6 +675,9 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
         #TODO ---- Reading Bug
+        ##---test 用 之後前面有跑setLevel即可拿掉
+        #user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+        ##---
         # if(user.count_P == user.count_type_P):
         #     user.text_sheet_P = user.data_Reading
         #     print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
