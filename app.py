@@ -112,6 +112,13 @@ class userVar():
         self.count_P = 2
         self.star_num_P = 0
         self.count_type_P = 2
+        self.isPuzzle_P = True  #目前用在判斷是P還是S功能裡的語音辨識題型 
+
+        self.sheet_word_s = []
+        self.sheet_sen_s = []
+        self.L1_sen_s = []
+        self.L2_sen_s = []
+        self.L3_sen_s = []
 
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
@@ -194,44 +201,52 @@ def getSheet(Qlevel):
     return sheet_pho, sheet_word, sheet_sen
 
 #--------------抓題目----------------------------
-# scope_S = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-# creds_S = ServiceAccountCredentials.from_json_keyfile_name("./speak.json", scope_S)
-# client_S = gspread.authorize(creds_S)
-# spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
-# #random.seed(10)
-# L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
-# L1_voc_data = L1_voc_sheet.get_all_values()
-# del(L1_voc_data[0])
-# L1_sen_sheet = spreadSheet.worksheet("L1_sen")
-# L1_sen_data = L1_sen_sheet.get_all_values()
-# del(L1_sen_data[0])
-# L2_voc_sheet = spreadSheet.worksheet("L2_voc")
-# L2_voc_data = L2_voc_sheet.get_all_values()
-# del(L2_voc_data[0])
-# L2_sen_sheet = spreadSheet.worksheet("L2_sen")
-# L2_sen_data = L2_sen_sheet.get_all_values()
-# del(L2_sen_data[0])
-# L3_voc_sheet = spreadSheet.worksheet("L3_voc")
-# L3_voc_data = L3_voc_sheet.get_all_values()
-# del(L3_voc_data[0])
-# L3_sen_sheet = spreadSheet.worksheet("L3_sen")
-# L3_sen_data = L3_sen_sheet.get_all_values()
-# del(L3_sen_data[0])
+scope_S = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds_S = ServiceAccountCredentials.from_json_keyfile_name("./speak.json", scope_S)
+client_S = gspread.authorize(creds_S)
+spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
+#random.seed(10)
+L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
+L1_voc_data = L1_voc_sheet.get_all_values()
+del(L1_voc_data[0])
+L1_sen_sheet = spreadSheet.worksheet("L1_sen")
+L1_sen_data = L1_sen_sheet.get_all_values()
+del(L1_sen_data[0])
+L2_voc_sheet = spreadSheet.worksheet("L2_voc")
+L2_voc_data = L2_voc_sheet.get_all_values()
+del(L2_voc_data[0])
+L2_sen_sheet = spreadSheet.worksheet("L2_sen")
+L2_sen_data = L2_sen_sheet.get_all_values()
+del(L2_sen_data[0])
+L3_voc_sheet = spreadSheet.worksheet("L3_voc")
+L3_voc_data = L3_voc_sheet.get_all_values()
+del(L3_voc_data[0])
+L3_sen_sheet = spreadSheet.worksheet("L3_sen")
+L3_sen_data = L3_sen_sheet.get_all_values()
+del(L3_sen_data[0])
 
-# def getSheet_S(Qlevel, user):   
-#     user.L1_qa = random.sample(L1_voc_data, 5)
-#     user.L1_qa.extend(random.sample(L1_sen_data, 5))
-#     user.L2_qa = random.sample(L2_voc_data, 5)
-#     user.L2_qa.extend(random.sample(L2_sen_data, 5))
-#     user.L3_qa = random.sample(L3_voc_data, 5)
-#     user.L3_qa.extend(random.sample(L3_sen_data, 5))
+def getSheet_S(Qlevel, user):   
+    user.L1_qa = random.sample(L1_voc_data, 5)
+    user.L1_sen_s = random.sample(L1_sen_data, 5)
+    #user.L1_qa.extend(random.sample(L1_sen_data, 5))
+    user.L2_qa = random.sample(L2_voc_data, 5)
+    user.L2_sen_s = random.sample(L2_sen_data, 5)
+    #user.L2_qa.extend(random.sample(L2_sen_data, 5))
+    user.L3_qa = random.sample(L3_voc_data, 5)
+    user.L3_sen_s = random.sample(L3_sen_data, 5)
+    #user.L3_qa.extend(random.sample(L3_sen_data, 5))
     
-#     if(Qlevel == 3):
-#         user.QA_ = user.L1_qa
-#     elif(Qlevel == 2):
-#         user.QA_ = user.L2_qa
-#     else:
-#         user.QA_ = user.L3_qa
+    if(Qlevel == 3):
+        user.sheet_word_s = user.L1_qa
+        user.sheet_sen_s = user.L1_sen_s
+    elif(Qlevel == 2):
+        #user.QA_ = user.L2_qa
+        user.sheet_word_s = user.L2_qa
+        user.sheet_sen_s = user.L2_sen_s
+    else:
+        #user.QA_ = user.L3_qa
+        user.sheet_word_s = user.L3_qa
+        user.sheet_sen_s = user.L3_sen_s
 
 ##----------------------------------------------------------------------------------
 
@@ -592,7 +607,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(7,7) for _ in range(2)]
+    user.test_type_list = [random.randint(3,3) for _ in range(2)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -679,10 +694,11 @@ def Question_P(event, user):
     
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
-        
+        bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user)
+
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
-        
+        bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user)
 
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
@@ -725,95 +741,126 @@ def Question_P(event, user):
     return bubble
 
 #------------語音處理訊息----------------
-# @handler.add(MessageEvent,message=AudioMessage)
-# def handle_aud(event):
-#     user = getUser(event.source.user_id)
-#     r = sr.Recognizer()
-#     message_content = line_bot_api.get_message_content(event.message.id)
-#     ext = 'mp3'
-#     try:
-#         with tempfile.NamedTemporaryFile(prefix=ext + '-', delete=False) as tf:
-#             for chunk in message_content.iter_content():
-#                 tf.write(chunk)
-#             tempfile_path = tf.name
-#         path = tempfile_path 
-#         AudioSegment.converter = '/app/vendor/ffmpeg/ffmpeg'
-#         sound = AudioSegment.from_file_using_temporary_files(path)
-#         path = os.path.splitext(path)[0]+'.wav'
-#         sound.export(path, format="wav")
-#         with sr.AudioFile(path) as source:
-#             audio = r.record(source)
-#     except sr.UnknownValueError:
-#         print("Google Speech Recognition could not understand audio")
+@handler.add(MessageEvent,message=AudioMessage)
+def handle_aud(event):
+    user = getUser(event.source.user_id)
+    r = sr.Recognizer()
+    message_content = line_bot_api.get_message_content(event.message.id)
+    ext = 'mp3'
+    try:
+        with tempfile.NamedTemporaryFile(prefix=ext + '-', delete=False) as tf:
+            for chunk in message_content.iter_content():
+                tf.write(chunk)
+            tempfile_path = tf.name
+        path = tempfile_path 
+        AudioSegment.converter = '/app/vendor/ffmpeg/ffmpeg'
+        sound = AudioSegment.from_file_using_temporary_files(path)
+        path = os.path.splitext(path)[0]+'.wav'
+        sound.export(path, format="wav")
+        with sr.AudioFile(path) as source:
+            audio = r.record(source)
+    except sr.UnknownValueError:
+        print("Google Speech Recognition could not understand audio")
 
-#     except sr.RequestError as e:
-#         if(user.count_P != 1):
-#             wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain','')
-#             message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-#             line_bot_api.reply_message(event.reply_token,message)
-#             user.count_S -= 1
-#         elif(user.count_S == 1):
-#                 if(user.index_S == 9):
-#                     loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
-#                 else:
-#                     loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
-#                 message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
-#                 line_bot_api.reply_message(event.reply_token,message)
-#                 user.count_S = 2
-#                 user.index_S += 1            
-#     except Exception as e:
-#         t = '音訊有問題'+test+str(e.args)+path
-#         wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain','')
-#         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-#         line_bot_api.reply_message(event.reply_token,message)
-#     os.remove(path)
-#     text = r.recognize_google(audio,language='zh-En')
-#     user.stt_mes = text
-#     print('原始語音訊息：', user.stt_mes)
-#     user.stt_mes = user.stt_mes.lower()
-#     user.QA_[user.index_S][1] = user.QA_[user.index_S][1].lower()
-#     print('忽略大小寫語音訊息：', user.stt_mes)
-#     #exclude = set(string.punctuation)
-#     exclude = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' + '‘’→↓△▿⋄•！？?〞＃＄％＆』（）＊＋，－╱︰；＜＝＞＠〔╲〕 ＿ˋ｛∣｝∼、〃》「」『』【】﹝﹞【】〝〞–—『』「」…﹏'
-#     output_mes = ''.join(ch for ch in user.stt_mes if ch not in exclude)
-#     output_ans = ''.join(se for se in user.QA_[user.index_S][1] if se not in exclude)
-#     print('忽略符號語音訊息：', output_mes)
-#     print('忽略符號解答：', output_ans)
-#     print('語音處理 QA_[index_S][1]', user.QA_[user.index_S][1])
+    except sr.RequestError as e:
+        if user.isPuzzle_P == True:
+            checkAnswer('1', '2', user, event)
+            
+        else:
+            print("user.isPuzzle_P = False!!")
+            # if(user.count_P != 1):
+            #     wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain','')
+            #     message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+            #     line_bot_api.reply_message(event.reply_token,message)
+            #     user.count_S -= 1
+            # elif(user.count_S == 1):
+            #         if(user.index_S == 9):
+            #             loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
+            #         else:
+            #             loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
+            #         message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+            #         line_bot_api.reply_message(event.reply_token,message)
+            #         user.count_S = 2
+            #         user.index_S += 1            
+    except Exception as e:
+        if user.isPuzzle_P == True:
+            checkAnswer('1', '2', user, event)
+
+        else:
+            print("user.isPuzzle_P = False!!")
+            # t = '音訊有問題'+test+str(e.args)+path
+            # wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain','')
+            # message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+            # line_bot_api.reply_message(event.reply_token,message)
     
-#     checkAnswer(output_mes, output_ans, user, event)
-#     # if(output_mes != output_ans):
-#     #     if(user.count_S != 1):
-#     #         wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain', user.stt_mes)
-#     #         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-#     #         line_bot_api.reply_message(event.reply_token,message)
-#     #         user.count_S -= 1
-#     #     elif(user.count_S == 1):
-#     #         if(user.index_S == 9):
-#     #             loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
-#     #         else:
-#     #             loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
-#     #         message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
-#     #         line_bot_api.reply_message(event.reply_token,message)
-#     #         user.count_S = 2
-#     #         user.index_S += 1
-#     # else:
-#     #     user.star_num_s += user.count_S
-#     #     if(user.count_S == 2):
-#     #         reply = '你好棒!一次就答對了!'
-#     #     elif(user.count_S == 1):
-#     #         reply = '好棒哦!你答對了!'
-#     #     print(user.count_S, reply)
-#     #     if(user.index_S == 9):
-#     #         reply = '好棒哦!你答對了!'
-#     #         correctBubble = finalBubble('恭喜答對!!', reply, user.stt_mes)
-#     #         #user_sheet.update_cell(user.index, 8, 1)
-#     #     else:
-#     #         correctBubble = rightBubble(reply)
-#     #     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
-#     #     line_bot_api.reply_message(event.reply_token,message)
-#     #     user.index_S += 1
-#     #     user.count_S = 2
+    os.remove(path)
+    text = r.recognize_google(audio,language='zh-En')
+    user.stt_mes = text
+    print('原始語音訊息：', user.stt_mes)
+    user.stt_mes = user.stt_mes.lower()
+
+    print('忽略大小寫語音訊息：', user.stt_mes)
+    #exclude = set(string.punctuation)
+    exclude = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' + '‘’→↓△▿⋄•！？?〞＃＄％＆』（）＊＋，－╱︰；＜＝＞＠〔╲〕 ＿ˋ｛∣｝∼、〃》「」『』【】﹝﹞【】〝〞–—『』「」…﹏'
+    output_mes = ''.join(ch for ch in user.stt_mes if ch not in exclude)
+
+    if user.isPuzzle_P == True:
+        if user.test_type_list[user.index_P] == 3:
+            user.sheet_word_s[user.index_P][1] = user.sheet_word_s[user.index_P][1].lower()
+            output_ans = ''.join(se for se in user.sheet_word_s[user.index_S][1] if se not in exclude)
+            print('語音處理 sheet_word_s[index_P][1]', user.sheet_word_s[user.index_P][1])
+
+        elif user.test_type_list[user.index_P] == 4:
+            user.sheet_sen_s[user.index_P][1] = user.sheet_sen_s[user.index_P][1].lower() 
+            output_ans = ''.join(se for se in user.sheet_sen_s[user.index_S][1] if se not in exclude)
+            print('語音處理 sheet_sen_s[index_P][1]', user.sheet_sen_s[user.index_P][1])
+    else:
+        print("user.isPuzzle_P = False!!")
+        output_ans = '@@@'
+        #user.QA_[user.index_S][1] = user.QA_[user.index_S][1].lower()
+        #output_ans = ''.join(se for se in user.QA_[user.index_S][1] if se not in exclude)
+        #print('語音處理 QA_[index_S][1]', user.QA_[user.index_S][1])
+
+    print('忽略符號語音訊息：', output_mes)
+    print('忽略符號解答：', output_ans)
+
+    if user.isPuzzle_P == True:
+        print("!!---speech checkAnswer---!!")
+        checkAnswer(output_mes, output_ans, user, event)
+    else:
+        print("user.isPuzzle_P = False!!")
+    # if(output_mes != output_ans):
+    #     if(user.count_S != 1):
+    #         wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain', user.stt_mes)
+    #         message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+    #         line_bot_api.reply_message(event.reply_token,message)
+    #         user.count_S -= 1
+    #     elif(user.count_S == 1):
+    #         if(user.index_S == 9):
+    #             loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
+    #         else:
+    #             loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
+    #         message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+    #         line_bot_api.reply_message(event.reply_token,message)
+    #         user.count_S = 2
+    #         user.index_S += 1
+    # else:
+    #     user.star_num_s += user.count_S
+    #     if(user.count_S == 2):
+    #         reply = '你好棒!一次就答對了!'
+    #     elif(user.count_S == 1):
+    #         reply = '好棒哦!你答對了!'
+    #     print(user.count_S, reply)
+    #     if(user.index_S == 9):
+    #         reply = '好棒哦!你答對了!'
+    #         correctBubble = finalBubble('恭喜答對!!', reply, user.stt_mes)
+    #         #user_sheet.update_cell(user.index, 8, 1)
+    #     else:
+    #         correctBubble = rightBubble(reply)
+    #     message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
+    #     line_bot_api.reply_message(event.reply_token,message)
+    #     user.index_S += 1
+    #     user.count_S = 2
 #-----------------語音處理訊息結束----------------
 
 def ButtonBubble(sheet_title, sheet_text, replylist):
@@ -895,6 +942,33 @@ def ConfirmBubble(sheet_text, replylist):
         )
     return Confirm_template
 
+#-----------------發音Function------------
+def QA_S(address, ques, user):
+    QA_Bubble = BubbleContainer (
+        direction='ltr',
+        header = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text="發音練習("+ str(user.index_S+1) +"/10)", weight='bold', size='lg', align = 'center')                   
+            ]
+        ),
+        body = BoxComponent(
+            layout='vertical',
+            contents=[
+                TextComponent(text= ques, weight='bold', size='xl', align = 'center', wrap = True),
+                TextComponent(text='請透過語音訊息唸給我聽', margin= 'none',size='sm', align = 'center',gravity = 'center', color= '#727272'),
+                SeparatorComponent(margin='xl',color='#A89F9F'),
+                ButtonComponent(
+                    action = URIAction(label= '聽正確發音', uri= address),
+                    color = '#3B9A9C',
+                    margin = 'lg',
+                    style = 'primary',
+                    flex = 10
+                )
+            ]
+        )
+    )                       
+    return QA_Bubble
 ##  End------------------------------------------------
 
 import os
