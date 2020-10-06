@@ -482,29 +482,30 @@ def smallpuzzle(event,id, sheet, user):
         print("user.index_P",user.index_P)
         print(str(user.test_type_list[user.index_P-1]))
 
-        if (id[1:2] == str(user.level_P)) and (id[2:3] == str(user.test_type_list[user.index_P-1])): #非d0表單 
-            #答對
-            if id[3:4] == '1': 
-                if  user.index_P < 2:
-                    print("答對 繼續isLoad_P")
-                    user.isLoad_P = True
-                else:
-                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
-            #第一次答錯
-            elif id[3:4] == '2':
-                if user.index_P < 2:
-                    print("第一次答錯 再一次 isStart_P，Load題目")
-                    user.isStart_P = True
-                else:
-                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
-            #第二次答錯
-            elif id[3:4] == '3':
-                if user.index_P < 2:
-                    user.isLoad_P = True
-                    print("第二次答錯 新題目PreStory")
-                else:
-                    smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
-            #---------------------------------------------------  
+        if (id[1:2] == str(user.level_P)):#非d0表單
+            if(id[2:3] == str(user.test_type_list[user.index_P-1])):  
+                #答對
+                if id[3:4] == '1': 
+                    if  user.index_P < 2:
+                        print("答對 繼續isLoad_P")
+                        user.isLoad_P = True
+                    else:
+                        smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+                #第一次答錯
+                elif id[3:4] == '2':
+                    if user.index_P < 2:
+                        print("第一次答錯 再一次 isStart_P，Load題目")
+                        user.isStart_P = True
+                    else:
+                        smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+                #第二次答錯
+                elif id[3:4] == '3':
+                    if user.index_P < 2:
+                        user.isLoad_P = True
+                        print("第二次答錯 新題目PreStory")
+                    else:
+                        smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
+                #---------------------------------------------------  
 
             elif user.isPreStory_P == True:
                 print("PreStory End! Strat Testing!")
