@@ -328,7 +328,7 @@ def handle_postback(event):
     elif user.isStart_P == True:
         print("---Ans feedback---")
         if user.isVoc == True:
-            correctAns = str(user.VocQA[user.subindex_P][2])
+            correctAns = str(user.VocQA[2])
         elif user.isWord == True:
             correctAns = str(user.word_list[user.subindex_P][2])
         else:
@@ -670,13 +670,14 @@ def Question_P(event, user):
         #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
 
     # except: 
-        user.text_sheet_P = getVoc.editSheet(user.data_Voc)
-        q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-        option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
-        option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        user.VocQA = [q_chinese, option, answer]
-        #print(templist)
-        #user.VocQA.append(templist)
+        if user.count_P == user.count_type_P:
+            user.text_sheet_P = getVoc.editSheet(user.data_Voc)
+            q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
+            option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
+            option, answer = getVoc.getQA(q_english, option_english,option_english2)
+            user.VocQA = [q_chinese, option, answer]
+            #print(templist)
+            #user.VocQA.append(templist)
         print(user.VocQA)
         bubble = QA_Bubble.Voc(user.index_P, user.VocQA)
 
