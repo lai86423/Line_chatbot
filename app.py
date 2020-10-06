@@ -507,7 +507,7 @@ def smallpuzzle(event,id, sheet, user):
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #---------------------------------------------------  
 
-            elif user.isPreStory_P == True:
+            if user.isPreStory_P == True:
                 print("PreStory End! Strat Testing!")
                 user.isStart_P = True
                 user.isAsked_P = False
