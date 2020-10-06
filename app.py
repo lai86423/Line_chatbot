@@ -563,7 +563,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(1,1) for _ in range(2)]
+    user.test_type_list = [random.randint(7,7) for _ in range(2)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -626,11 +626,6 @@ def Question_P(event, user):
         else:
             print("--sheet_word--",test_type1)
             user.isWord = True
-            #user.subindex_P = 0
-            # try:
-            #     print(user.word_list[user.subindex_P])
-            #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
-            # except: 
             if user.count_P == user.count_type_P:
                 user.text_sheet_P = getVoc.editSheet(user.data_word)
                 q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
@@ -638,14 +633,12 @@ def Question_P(event, user):
                 option, answer = getVoc.getQA(q_english, option_english,option_english2)
                 q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
                 user.word_list = [q_audio, option, answer]
-                #user.word_list.append(templist)
             print("user.word_list",user.word_list)
-            print("user.word_list[2]",user.word_list[2])
             bubble = QA.QA_Word(user.index_P, user.word_list)
     
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
-        #---test 用 之後前面有跑setLevel即可拿掉
+        #---test 用 之後前面有跑setLevel即可拿tt掉
         user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
         #---
         user.text_sheet_P = user.data_sen
@@ -665,20 +658,12 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
         user.isVoc = True
-        #user.subindex_P = 0
-        # try:
-        #     print(user.VocQA[user.subindex_P+1])
-        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
-
-    # except: 
         if user.count_P == user.count_type_P:
             user.text_sheet_P = getVoc.editSheet(user.data_Voc)
             q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
             option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
             option, answer = getVoc.getQA(q_english, option_english,option_english2)
             user.VocQA = [q_chinese, option, answer]
-            #print(templist)
-            #user.VocQA.append(templist)
         print(user.VocQA)
         bubble = QA_Bubble.Voc(user.index_P, user.VocQA)
 
