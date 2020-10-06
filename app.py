@@ -626,7 +626,7 @@ def Question_P(event, user):
         else:
             print("--sheet_word--",test_type1)
             user.isWord = True
-            user.subindex_P = 0
+            #user.subindex_P = 0
             # try:
             #     print(user.word_list[user.subindex_P])
             #     bubble = QA.QA_Word(user.index_P, user.word_list[user.subindex_P])
@@ -639,9 +639,9 @@ def Question_P(event, user):
                 q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
                 user.word_list = [q_audio, option, answer]
                 #user.word_list.append(templist)
-                print("user.word_list",user.word_list)
-                print("user.word_list[2]",user.word_list[2])
-                bubble = QA.QA_Word(user.index_P, user.word_list)
+            print("user.word_list",user.word_list)
+            print("user.word_list[2]",user.word_list[2])
+            bubble = QA.QA_Word(user.index_P, user.word_list)
     
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
