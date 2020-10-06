@@ -665,20 +665,20 @@ def Question_P(event, user):
         print("sheet_Q_voc")
         user.isVoc = True
         user.subindex_P = 0
-        # try:
-        #     print(user.VocQA[user.subindex_P+1])
-        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
+        try:
+            print(user.VocQA[user.subindex_P+1])
+            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
 
     # except: 
         user.text_sheet_P = getVoc.editSheet(user.data_Voc)
         q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
         option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
         option, answer = getVoc.getQA(q_english, option_english,option_english2)
-        templist = [q_chinese, option, answer]
-        print(templist)
-        user.VocQA = templist
-        #print(user.VocQA[user.subindex_P])
-        bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P])
+        user.VocQA = [q_chinese, option, answer]
+        #print(templist)
+        #user.VocQA.append(templist)
+        print(user.VocQA)
+        bubble = QA_Bubble.Voc(user.index_P, user.VocQA)
 
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
