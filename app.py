@@ -111,7 +111,7 @@ class userVar():
         self.isAsked_P = False
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
-        self.text_sheet_P = self.levelsheet_d
+        self.text_sheet_P = self.data_Cloze
         self.test_type_list = []
         self.subindex_P = 0
         self.count_P = 2
@@ -477,7 +477,7 @@ def smallpuzzle(event,id, sheet, user):
             user.isLoad_P = True
 
         #---------------------------------------------------    
-        if id[1:2] == '1' or id[1:2] == '2' or id[1:2] == '3':
+        if id[1:2] == '1' or id[1:2] == '2' or id[1:2] == '3': #非d0表單
             #答對
             if id[2:4] == '11': 
                 if  user.index_P < 5:
