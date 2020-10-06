@@ -194,37 +194,44 @@ def getSheet(Qlevel):
     return sheet_pho, sheet_word, sheet_sen
 
 #--------------抓題目----------------------------
-scope_S = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
-creds_S = ServiceAccountCredentials.from_json_keyfile_name("./speak.json", scope_S)
-client_S = gspread.authorize(creds_S)
-spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
-#random.seed(10)
-L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
-L1_voc_data = L1_voc_sheet.get_all_values()
-del(L1_voc_data[0])
-L1_sen_sheet = spreadSheet.worksheet("L1_sen")
-L1_sen_data = L1_sen_sheet.get_all_values()
-del(L1_sen_data[0])
-L2_voc_sheet = spreadSheet.worksheet("L2_voc")
-L2_voc_data = L2_voc_sheet.get_all_values()
-del(L2_voc_data[0])
-L2_sen_sheet = spreadSheet.worksheet("L2_sen")
-L2_sen_data = L2_sen_sheet.get_all_values()
-del(L2_sen_data[0])
-L3_voc_sheet = spreadSheet.worksheet("L3_voc")
-L3_voc_data = L3_voc_sheet.get_all_values()
-del(L3_voc_data[0])
-L3_sen_sheet = spreadSheet.worksheet("L3_sen")
-L3_sen_data = L3_sen_sheet.get_all_values()
-del(L3_sen_data[0])
+# scope_S = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+# creds_S = ServiceAccountCredentials.from_json_keyfile_name("./speak.json", scope_S)
+# client_S = gspread.authorize(creds_S)
+# spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
+# #random.seed(10)
+# L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
+# L1_voc_data = L1_voc_sheet.get_all_values()
+# del(L1_voc_data[0])
+# L1_sen_sheet = spreadSheet.worksheet("L1_sen")
+# L1_sen_data = L1_sen_sheet.get_all_values()
+# del(L1_sen_data[0])
+# L2_voc_sheet = spreadSheet.worksheet("L2_voc")
+# L2_voc_data = L2_voc_sheet.get_all_values()
+# del(L2_voc_data[0])
+# L2_sen_sheet = spreadSheet.worksheet("L2_sen")
+# L2_sen_data = L2_sen_sheet.get_all_values()
+# del(L2_sen_data[0])
+# L3_voc_sheet = spreadSheet.worksheet("L3_voc")
+# L3_voc_data = L3_voc_sheet.get_all_values()
+# del(L3_voc_data[0])
+# L3_sen_sheet = spreadSheet.worksheet("L3_sen")
+# L3_sen_data = L3_sen_sheet.get_all_values()
+# del(L3_sen_data[0])
 
-def getSheet_S(Qlevel, user):   
-    if(Qlevel == 3):
-        user.QA_ = user.L1_qa
-    elif(Qlevel == 2):
-        user.QA_ = user.L2_qa
-    else:
-        user.QA_ = user.L3_qa
+# def getSheet_S(Qlevel, user):   
+#     user.L1_qa = random.sample(L1_voc_data, 5)
+#     user.L1_qa.extend(random.sample(L1_sen_data, 5))
+#     user.L2_qa = random.sample(L2_voc_data, 5)
+#     user.L2_qa.extend(random.sample(L2_sen_data, 5))
+#     user.L3_qa = random.sample(L3_voc_data, 5)
+#     user.L3_qa.extend(random.sample(L3_sen_data, 5))
+    
+#     if(Qlevel == 3):
+#         user.QA_ = user.L1_qa
+#     elif(Qlevel == 2):
+#         user.QA_ = user.L2_qa
+#     else:
+#         user.QA_ = user.L3_qa
 
 ##----------------------------------------------------------------------------------
 
