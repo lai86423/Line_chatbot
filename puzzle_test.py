@@ -83,7 +83,7 @@ def smallpuzzle(event,id, sheet):
     global isChangingLevel_P, isChooseHelp
     print("-------------------")
     print("id",id)
-    print("id-1: ",id[1:2])
+    print("id-1: ",id[1:2],id[2:3])
 
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
     print("#####",id_index) 

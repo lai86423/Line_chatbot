@@ -476,8 +476,11 @@ def smallpuzzle(event,id, sheet, user):
         if id == 'd10029' or id == 'd20025' or id == 'd30022':
             user.isLoad_P = True
 
-        #---------------------------------------------------    
-        if id[1:2] == str(user.level_P) and id[2:3] == str(user.test_type_list[user.index_P]): #非d0表單 
+        #---------------------------------------------------
+        print(id[1:2],str(user.level_P)) 
+        print(id[2:3],str(user.test_type_list[user.index_P]))
+
+        if (id[1:2] == str(user.level_P)) and (id[2:3] == str(user.test_type_list[user.index_P])): #非d0表單 
             #答對
             if id[3:4] == '1': 
                 if  user.index_P < 5:
@@ -557,7 +560,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(5,5) for _ in range(5)]
+    user.test_type_list = [random.randint(6,6) for _ in range(5)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
