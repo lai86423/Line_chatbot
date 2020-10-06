@@ -688,7 +688,7 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
         #---test 用 之後前面有跑setLevel即可拿掉
-        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) 
         #---
         if(user.count_P == user.count_type_P):
             user.text_sheet_P = user.data_Reading
