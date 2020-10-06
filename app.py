@@ -477,23 +477,23 @@ def smallpuzzle(event,id, sheet, user):
             user.isLoad_P = True
 
         #---------------------------------------------------    
-        if id[1:2] == '1' or id[1:2] == '2' or id[1:2] == '3': #非d0表單
+        if id[1:2] == str(user.level_P) and id[2:3] == str(user.test_type_list[user.index_P]): #非d0表單 
             #答對
-            if id[2:4] == '11': 
+            if id[3:4] == '1': 
                 if  user.index_P < 5:
                     print("答對 繼續isLoad_P")
                     user.isLoad_P = True
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
             #第一次答錯
-            elif id[2:4] == '12':
+            elif id[3:4] == '2':
                 if user.index_P < 5:
                     print("第一次答錯 再一次 isStart_P，Load題目")
                     user.isStart_P = True
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
             #第二次答錯
-            elif id[2:4] == '13':
+            elif id[3:4] == '3':
                 if user.index_P < 5:
                     user.isLoad_P = True
                     print("第二次答錯 新題目PreStory")
