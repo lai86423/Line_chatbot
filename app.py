@@ -478,7 +478,7 @@ def smallpuzzle(event,id, sheet, user):
 
         #---------------------------------------------------
         print(id[1:2],str(user.level_P)) 
-        print(id[2:3])
+        print(id[2:3])
         print("user.index_P",user.index_P)
         print(str(user.test_type_list[user.index_P-1]))
 
