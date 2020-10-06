@@ -478,26 +478,28 @@ def smallpuzzle(event,id, sheet, user):
 
         #---------------------------------------------------
         print(id[1:2],str(user.level_P)) 
-        print(id[2:3],str(user.test_type_list[user.index_P]))
+        print(id[2:3])
+        print("user.index_P",user.index_P)
+        print(str(user.test_type_list[user.index_P-1]))
 
-        if (id[1:2] == str(user.level_P)) and (id[2:3] == str(user.test_type_list[user.index_P])): #非d0表單 
+        if (id[1:2] == str(user.level_P)) and (id[2:3] == str(user.test_type_list[user.index_P-1])): #非d0表單 
             #答對
             if id[3:4] == '1': 
-                if  user.index_P < 5:
+                if  user.index_P < 2:
                     print("答對 繼續isLoad_P")
                     user.isLoad_P = True
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
             #第一次答錯
             elif id[3:4] == '2':
-                if user.index_P < 5:
+                if user.index_P < 2:
                     print("第一次答錯 再一次 isStart_P，Load題目")
                     user.isStart_P = True
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
             #第二次答錯
             elif id[3:4] == '3':
-                if user.index_P < 5:
+                if user.index_P < 2:
                     user.isLoad_P = True
                     print("第二次答錯 新題目PreStory")
                 else:
@@ -513,7 +515,7 @@ def smallpuzzle(event,id, sheet, user):
             #----計算最後答題結果
             #是否大於六題
             elif id[2:4] == '01':
-                if user.star_num_P >= 3:
+                if user.star_num_P >= 1:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
@@ -560,7 +562,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(6,6) for _ in range(5)]
+    user.test_type_list = [random.randint(6,6) for _ in range(2)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
