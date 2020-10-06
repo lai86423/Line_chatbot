@@ -664,10 +664,10 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
         user.isVoc = True
-        user.subindex_P = 0
-        try:
-            print(user.VocQA[user.subindex_P+1])
-            bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
+        #user.subindex_P = 0
+        # try:
+        #     print(user.VocQA[user.subindex_P+1])
+        #     bubble = QA_Bubble.Voc(user.index_P, user.VocQA[user.subindex_P+1])
 
     # except: 
         user.text_sheet_P = getVoc.editSheet(user.data_Voc)
