@@ -101,7 +101,7 @@ class userVar():
 
         #Puzzle
         self.next_id = 0
-        self.level_P = 2
+        self.level_P = 1
         self.index_P = 0 #第幾題
         self.isInit_P = True
         self.isChangingLevel_P = False
@@ -280,11 +280,11 @@ def handle_message(event):
     #---------------------------------------    
     if(user.isInit_P == True):
         user.isInit_P = False
-        #smallpuzzle(event,'d00000',sheet_d0, user)
-        #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
-        smallpuzzle(event,'d20024',user.levelsheet_d, user)
-        #------Test
+        smallpuzzle(event,'d00000',sheet_d0, user)
+        # #------Test
+        # user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
+        # smallpuzzle(event,'d20024',user.levelsheet_d, user)
+        # #------Test
 
         #user.isChangingLevel_P = True
         
@@ -535,7 +535,7 @@ def smallpuzzle(event,id, sheet, user):
             if(id[2:3] == str(user.test_type_list[user.index_P])):  
                 #答對
                 if id[3:4] == '1': 
-                    if  user.index_P < 2:
+                    if  user.index_P < 5:
                         print("答對 繼續isLoad_P")
                         user.index_P += 1
                         user.isLoad_P = True
@@ -543,14 +543,14 @@ def smallpuzzle(event,id, sheet, user):
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #第一次答錯
                 elif id[3:4] == '2':
-                    if user.index_P < 2:
+                    if user.index_P < 5:
                         print("第一次答錯 再一次 isStart_P，Load題目")
                         user.isStart_P = True
                     else:
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #第二次答錯
                 elif id[3:4] == '3':
-                    if user.index_P < 2:
+                    if user.index_P < 5:
                         user.index_P += 1
                         user.isLoad_P = True
                         print("第二次答錯 新題目PreStory")
@@ -560,7 +560,7 @@ def smallpuzzle(event,id, sheet, user):
             #----計算最後答題結果
             #是否大於六題
             elif id[2:4] == '01':
-                if user.star_num_P >= 1:
+                if user.star_num_P >= 3:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
@@ -612,7 +612,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(1,7) for _ in range(2)]
+    user.test_type_list = [random.randint(1,7) for _ in range(5)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
