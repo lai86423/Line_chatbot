@@ -699,10 +699,16 @@ def Question_P(event, user):
     
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
+        #---test 用 之後前面有跑setLevel即可拿tt掉
+        getSheet_S(user.level_P, user)
+        #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user)
 
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
+        #---test 用 之後前面有跑setLevel即可拿tt掉
+        getSheet_S(user.level_P, user)
+        #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user)
 
     elif user.test_type_list[user.index_P] == 5:
