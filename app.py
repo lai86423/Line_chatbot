@@ -311,13 +311,13 @@ def handle_message(event):
         reset(user)
         if(user.isInit_P == True):
             user.isInit_P = False
-            smallpuzzle(event,'d00000',sheet_d0, user)
+            #smallpuzzle(event,'d00000',sheet_d0, user)
     #---------------------------------------    
     
-        # #------Test
-        # user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
-        # smallpuzzle(event,'d20024',user.levelsheet_d, user)
-        # #------Test
+            #------Test
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
+            smallpuzzle(event,'d20024',user.levelsheet_d, user)
+            #------Test
 
         #user.isChangingLevel_P = True
         
