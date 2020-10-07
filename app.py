@@ -544,7 +544,7 @@ def smallpuzzle(event,id, sheet, user):
         elif id =='d00208':
             print("level = ",user.level_P)
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            print(user.levelsheet_d, user.levelsheet_rr)
+            print(user.levelsheet_d, user.levelsheet_r)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
