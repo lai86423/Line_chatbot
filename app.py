@@ -396,10 +396,10 @@ def checkAnswer(pb_event, correctAns, user, event):
             print("Wrong 2")
             user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
             print("nextID",user.next_id)
-            smallpuzzle(event, user.next_id, user.levelsheet_d, user)
-
             user.count_P = 2
             user.index_P += 1
+            smallpuzzle(event, user.next_id, user.levelsheet_d, user)
+
     else:
         user.isStart_P = False
         user.star_num_P += user.count_P
