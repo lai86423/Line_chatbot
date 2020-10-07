@@ -72,7 +72,6 @@ def getSheet_P(level):
         sh_P.worksheet_by_title('r1').export(filename='r1')
         sheet_d = pd.read_csv('d1.csv')        
         sheet_r = pd.read_csv('r1.csv') 
-    print(sheet_d, sheet_r)
 
     return sheet_d, sheet_r
 
@@ -516,6 +515,7 @@ def smallpuzzle(event,id, sheet, user):
         elif id =='d00208':
             print("level = ",user.level_P)
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            print(user.levelsheet_d, user.levelsheet_rr)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
