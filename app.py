@@ -444,9 +444,7 @@ def setLevel_P(levelinput, user):
     #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
     
 def smallpuzzle(event,id, sheet, user):
-    #global user.isChangingLevel_P, user.isChooseHelp, user.next_id, user.text_sheet_P
     print("---------id----------",id)
-    # id_three = id[3]
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
 
     #print("#####",id_index) 
