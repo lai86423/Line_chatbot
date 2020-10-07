@@ -628,7 +628,6 @@ def LoadTestIndex(user):
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextBubble(test_pretext)
-        #line_bot_api.push_message(_id, message)
 
     elif user.level_P == 3:
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Cynthia】：\n真是太好了！剛好每天晚上Helena都會在他的閣樓唱歌給大家聽，我們趕緊去找，18:00拿去給領主吧！\n勇者，Let's go！"
