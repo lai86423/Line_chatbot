@@ -559,10 +559,10 @@ def smallpuzzle(event,id, sheet, user):
             user.isLoad_P = True
 
         #---------------------------------------------------
-        print(id[1:2],str(user.level_P)) 
-        print(id[2:3])
-        print("user.index_P",user.index_P)
-        print(str(user.test_type_list[user.index_P]))
+        # print(id[1:2],str(user.level_P)) 
+        # print(id[2:3])
+        # print("user.index_P",user.index_P)
+        # print(str(user.test_type_list[user.index_P]))
 
         if (id[1:2] == str(user.level_P)):#非d0表單
             if(id[2:3] == str(user.test_type_list[user.index_P])):  
