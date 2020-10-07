@@ -278,12 +278,12 @@ def handle_message(event):
     user = getUser(event.source.user_id)
     #---------------------------------------    
     if(user.isInit_P == True or event.message.text =='?'):
-        #smallpuzzle(event,'d00000',sheet_d0, user)
+        smallpuzzle(event,'d00000',sheet_d0, user)
 
-        #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-        smallpuzzle(event,'d10029',user.levelsheet_d, user)
-        #------Test
+        # #------Test
+        # user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+        # smallpuzzle(event,'d10029',user.levelsheet_d, user)
+        # #------Test
 
         #user.isChangingLevel_P = True
         user.isInit_P = False
@@ -476,8 +476,8 @@ def smallpuzzle(event,id, sheet, user):
         if sheet_type == 'image':   
             sheet_text = sheet["text"][id_index]  
             print("img= ",sheet_text)  
-            #message = ImageBubble(sheet_text)
-            #line_bot_api.reply_message(event.reply_token, message)                  
+            message = ImageBubble(sheet_text)
+            line_bot_api.reply_message(event.reply_token, message)                  
             smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
