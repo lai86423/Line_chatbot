@@ -101,7 +101,7 @@ class userVar():
 
         #Puzzle
         self.next_id = 0
-        self.level_P = 1
+        self.level_P = 3
         self.index_P = 0 #第幾題
         self.isInit_P = True
         self.isChangingLevel_P = False
@@ -280,11 +280,11 @@ def handle_message(event):
     #---------------------------------------    
     if(user.isInit_P == True):
         user.isInit_P = False
-        smallpuzzle(event,'d00000',sheet_d0, user)
-        # #------Test
-        # user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-        # smallpuzzle(event,'d10029',user.levelsheet_d, user)
-        # #------Test
+        #smallpuzzle(event,'d00000',sheet_d0, user)
+        #------Test
+        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+        smallpuzzle(event,'d20024',user.levelsheet_d, user)
+        #------Test
 
         #user.isChangingLevel_P = True
         
@@ -612,7 +612,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(4,4) for _ in range(2)]
+    user.test_type_list = [random.randint(1,7) for _ in range(2)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
