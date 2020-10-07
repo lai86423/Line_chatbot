@@ -278,8 +278,8 @@ def handle_message(event):
     user = getUser(event.source.user_id)
     #---------------------------------------    
     if(user.isInit_P == True):
-        smallpuzzle(event,'d00000',sheet_d0, user)
         user.isInit_P = False
+        smallpuzzle(event,'d00000',sheet_d0, user)
         # #------Test
         # user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
         # smallpuzzle(event,'d10029',user.levelsheet_d, user)
