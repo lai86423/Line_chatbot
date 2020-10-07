@@ -279,14 +279,14 @@ def handle_message(event):
     #---------------------------------------    
     if(user.isInit_P == True or event.message.text =='?'):
         smallpuzzle(event,'d00000',sheet_d0, user)
-
+        user.isInit_P = False
         # #------Test
         # user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
         # smallpuzzle(event,'d10029',user.levelsheet_d, user)
         # #------Test
 
         #user.isChangingLevel_P = True
-        user.isInit_P = False
+        
     # if user.isChangingLevel_P == True:
     #     user.isAsked_P = False
         
@@ -317,18 +317,7 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
     
     if (pb_event == 'Next'):
-        if  user.next_id =='d00101': #重複詢問可以幫您什麼？
-            smallpuzzle(event,'d00003',sheet_d0, user)
-        
-        elif user.next_id =='d00208':
-            print("level = ",user.level_P)
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-            getSheet_S(user.level_P, user)
-            setLevelStory(user.level_P, user)
-        
-        elif user.isLoad_P == True:
+        if user.isLoad_P == True:
             print("d100**")
             RandomTest(user)
             message = LoadTestIndex(user)
@@ -521,6 +510,17 @@ def smallpuzzle(event,id, sheet, user):
             #smallpuzzle(event, user.next_id , sheet, user)
 
     else:
+        if id =='d00102': #重複詢問可以幫您什麼？
+            smallpuzzle(event,'d00003',sheet_d0, user)
+        
+        elif id =='d00208':
+            print("level = ",user.level_P)
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+            getSheet_S(user.level_P, user)
+            setLevelStory(user.level_P, user)
+        
         #剛開始答題
         if id == 'd10029' or id == 'd20025' or id == 'd30022':
             user.isLoad_P = True
