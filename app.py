@@ -125,6 +125,34 @@ class userVar():
         self.L2_sen_s = []
         self.L3_sen_s = []
 
+def reset(user):
+    #Puzzle
+    user.next_id = 0
+    user.level_P = 1
+    user.index_P = 0 #第幾題
+    user.isInit_P = True
+    user.isChangingLevel_P = False
+    user.isChooseHelp = False
+    user.isLoad_P = False
+    user.isPreStory_P = False
+    user.isStart_P = False
+    user.isAsked_P = False
+    user.levelsheet_d = sheet_d0
+    user.levelsheet_r = sheet_r0
+    user.text_sheet_P = user.data_Cloze
+    user.test_type_list = []
+    user.subindex_P = 0
+    user.count_P = 2
+    user.star_num_P = 0
+    user.count_type_P = 2
+    user.isPuzzle_P = True  #目前用在判斷是P還是S功能裡的語音辨識題型 
+
+    user.sheet_word_s = []
+    user.sheet_sen_s = []
+    user.L1_sen_s = []
+    user.L2_sen_s = []
+    user.L3_sen_s = []
+
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
 gc_Q = pygsheets.authorize(service_account_file='JSON.json')
@@ -276,10 +304,13 @@ def callback():
 def handle_message(event):  
     #global user.isInit_P,  user.isAsked_P, user.isLoad_P
     user = getUser(event.source.user_id)
+    if event.message.text =='#puzzle':
+        reset(user)
+        if(user.isInit_P == True):
+            user.isInit_P = False
+            smallpuzzle(event,'d00000',sheet_d0, user)
     #---------------------------------------    
-    if(user.isInit_P == True):
-        user.isInit_P = False
-        smallpuzzle(event,'d00000',sheet_d0, user)
+    
         # #------Test
         # user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
         # smallpuzzle(event,'d20024',user.levelsheet_d, user)
