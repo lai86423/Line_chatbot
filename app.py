@@ -612,7 +612,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(3,3) for _ in range(2)]
+    user.test_type_list = [random.randint(4,4) for _ in range(2)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -700,14 +700,16 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
         #---test 用 之後前面有跑setLevel即可拿tt掉
-        getSheet_S(user.level_P, user)
+        if user.count_P == user.count_type_P :
+            getSheet_S(user.level_P, user)
         #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user, user.index_P)
 
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
         #---test 用 之後前面有跑setLevel即可拿tt掉
-        getSheet_S(user.level_P, user)
+        if user.count_P == user.count_type_P :
+            getSheet_S(user.level_P, user)
         #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user, user.index_P)
 
@@ -961,7 +963,7 @@ def QA_S(address, ques, user, index):
         header = BoxComponent(
             layout='vertical',
             contents=[
-                TextComponent(text="發音練習("+ str(index) +"/10)", weight='bold', size='lg', align = 'center')                   
+                TextComponent(text="發音練習("+ str(index+1) +"/10)", weight='bold', size='lg', align = 'center')                   
             ]
         ),
         body = BoxComponent(
