@@ -6,26 +6,31 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+from linebot.models import UnfollowEvent
+import sys
+import traceback
 import numpy as np
 import pandas as pd
 from googletrans import Translator
-import QA
-
-import sys
-import datetime
-import pygsheets
-import random
-
-import getVoc
-import QA_Bubble
-
+from openpyxl import load_workbook
+from openpyxl import Workbook
+import openpyxl
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
-
+import QA
+import QA_Bubble
+import getVoc
+import datetime 
+import pygsheets
 from pydub import AudioSegment
 import speech_recognition as sr
 import time
 import tempfile
+from gtts import gTTS
+from pygame import mixer
+import random
+import string
+import os
 
 app = Flask(__name__)
 
@@ -209,7 +214,7 @@ spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
 L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
 L1_voc_data = L1_voc_sheet.get_all_values()
 del(L1_voc_data[0])
-L1_sen_sheet = spreadSheet.worksheet("L1_sen")
+L1_sen_sheet = spreadSheet_S.worksheet("L1_sen")
 L1_sen_data = L1_sen_sheet.get_all_values()
 del(L1_sen_data[0])
 L2_voc_sheet = spreadSheet_S.worksheet("L1_voc")
