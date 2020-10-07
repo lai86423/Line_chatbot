@@ -277,7 +277,7 @@ def handle_message(event):
     #global user.isInit_P,  user.isAsked_P, user.isLoad_P
     user = getUser(event.source.user_id)
     #---------------------------------------    
-    if(user.isInit_P == True or event.message.text =='?'):
+    if(user.isInit_P == True):
         smallpuzzle(event,'d00000',sheet_d0, user)
         user.isInit_P = False
         # #------Test
@@ -510,6 +510,7 @@ def smallpuzzle(event,id, sheet, user):
             #smallpuzzle(event, user.next_id , sheet, user)
 
     else:
+        print("Do Not Find ID in Sheet! ")
         if id =='d00102': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0, user)
         
@@ -555,14 +556,7 @@ def smallpuzzle(event,id, sheet, user):
                     else:
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #---------------------------------------------------  
-
-            if user.isPreStory_P == True:
-                print("PreStory End! Strat Testing!")
-                user.isStart_P = True
-                user.isAsked_P = False
-                user.isPreStory_P = False
-        
-            #----計算最後答題結果
+                            #----計算最後答題結果
             #是否大於六題
             elif id[2:4] == '01':
                 if user.star_num_P >= 1:
@@ -577,7 +571,12 @@ def smallpuzzle(event,id, sheet, user):
             elif id[2:4] == '04':
                     smallpuzzle(event,'d00003',sheet_d0, user)
 
-        print("Do Not Find ID in Sheet! ")
+            if user.isPreStory_P == True:
+                print("PreStory End! Strat Testing!")
+                user.isStart_P = True
+                user.isAsked_P = False
+                user.isPreStory_P = False
+        
         pass
 
 def ButtonPuzzle(sheet_reply_list):
