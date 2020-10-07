@@ -105,7 +105,7 @@ class userVar():
         self.isInit_P = True
         self.isChangingLevel_P = False
         self.isChooseHelp = False
-        self.isLoad_P = True
+        self.isLoad_P = False
         self.isPreStory_P = False
         self.isStart_P = False
         self.isAsked_P = False
