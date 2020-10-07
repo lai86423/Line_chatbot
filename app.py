@@ -101,7 +101,7 @@ class userVar():
 
         #Puzzle
         self.next_id = 0
-        self.level_P = 3
+        self.level_P = 2
         self.index_P = 0 #第幾題
         self.isInit_P = True
         self.isChangingLevel_P = False
@@ -282,7 +282,7 @@ def handle_message(event):
         user.isInit_P = False
         #smallpuzzle(event,'d00000',sheet_d0, user)
         #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(3)
+        user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
         smallpuzzle(event,'d20025',user.levelsheet_d, user)
         #------Test
 
