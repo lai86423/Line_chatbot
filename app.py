@@ -57,17 +57,20 @@ sheet_r0 = pd.read_csv('r0.csv')
 ##----------------------------------------------------------------------------------
 def getSheet_P(level):  
     if(level == 3):
+        print("level == 3")
         sh_P.worksheet_by_title('d3').export(filename='d3')
         sh_P.worksheet_by_title('r3').export(filename='r3')
         sheet_d = pd.read_csv('d3.csv')        
         sheet_r = pd.read_csv('r3.csv') 
     elif(level == 2):
+        print("level == 2")
         sh_P.worksheet_by_title('d2').export(filename='d2')
         sh_P.worksheet_by_title('r2').export(filename='r2')
         sheet_d = pd.read_csv('d2.csv')
         sheet_r = pd.read_csv('r2.csv')
 
     else:        
+        print("level == 1")
         sh_P.worksheet_by_title('d1').export(filename='d1')
         sh_P.worksheet_by_title('r1').export(filename='r1')
         sheet_d = pd.read_csv('d1.csv')        
@@ -508,7 +511,7 @@ def smallpuzzle(event,id, sheet, user):
         elif sheet_type == 'button': 
             if id == 'd00003':
                 user.isChooseHelp = True
-            elif id == 'd00201':
+            if id == 'd00201':
                 user.isChangingLevel_P = True
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
