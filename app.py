@@ -283,7 +283,7 @@ def handle_message(event):
         #smallpuzzle(event,'d00000',sheet_d0, user)
         #------Test
         user.levelsheet_d, user.levelsheet_r = getSheet_P(2)
-        smallpuzzle(event,'d20025',user.levelsheet_d, user)
+        smallpuzzle(event,'d20024',user.levelsheet_d, user)
         #------Test
 
         #user.isChangingLevel_P = True
