@@ -282,7 +282,7 @@ def handle_message(event):
         user.isInit_P = False
         #smallpuzzle(event,'d00000',sheet_d0, user)
         #------Test
-        user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+        user.levelsheet_d, user.levelsheet_r = getSheet_P(3)
         smallpuzzle(event,'d20025',user.levelsheet_d, user)
         #------Test
 
