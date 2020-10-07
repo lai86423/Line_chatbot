@@ -72,6 +72,7 @@ def getSheet_P(level):
         sh_P.worksheet_by_title('r1').export(filename='r1')
         sheet_d = pd.read_csv('d1.csv')        
         sheet_r = pd.read_csv('r1.csv') 
+    print(sheet_d, sheet_r)
 
     return sheet_d, sheet_r
 
