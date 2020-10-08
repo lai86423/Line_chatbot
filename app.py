@@ -552,7 +552,7 @@ def smallpuzzle(event,id, sheet, user):
             smallpuzzle(event,'d00003',sheet_d0, user)
         
         if id =='d00208':
-            user.isGetSheet == True
+            user.isGetSheet_P == True
         
         #剛開始答題
         if id == 'd10030' or id == 'd20025' or id == 'd30022':
