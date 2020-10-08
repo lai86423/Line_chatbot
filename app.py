@@ -311,13 +311,13 @@ def handle_message(event):
         reset(user)
         if(user.isInit_P == True):
             user.isInit_P = False
-            #smallpuzzle(event,'d00000',sheet_d0, user)
+            smallpuzzle(event,'d00000',sheet_d0, user)
     #---------------------------------------    
     
-            #------Test
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
-            smallpuzzle(event,'d10029',user.levelsheet_d, user)
-            #------Test
+            # #------Test
+            # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
+            # smallpuzzle(event,'d10029',user.levelsheet_d, user)
+            # #------Test
 
         #user.isChangingLevel_P = True
         
@@ -503,10 +503,7 @@ def smallpuzzle(event,id, sheet, user):
             sheet_text = sheet["text"][id_index]
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
-            #message = TextSendMessage(text=sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
-            #line_bot_api.push_message(_id, message)
-            #smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'button': 
             if id == 'd00003':
@@ -523,8 +520,6 @@ def smallpuzzle(event,id, sheet, user):
             replylist = ButtonPuzzle(sheet_reply_list)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)  
-            #line_bot_api.push_message(_id, button_bubble)  
-            #Postback(str(button_bubble))
         
         elif sheet_type == 'confirm':
             sheet_text = sheet["text"][id_index]
@@ -537,7 +532,6 @@ def smallpuzzle(event,id, sheet, user):
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
-            #smallpuzzle(event, user.next_id , sheet, user)
 
     else:
         print("Do Not Find ID in Sheet! ")
@@ -547,7 +541,7 @@ def smallpuzzle(event,id, sheet, user):
         elif id =='d00208':
             print("level = ",user.level_P)
             #TODO level!!!
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
             print(user.levelsheet_d, user.levelsheet_r)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
