@@ -113,8 +113,8 @@ class userVar():
         self.isPreStory_P = False
         self.isStart_P = False
         self.isAsked_P = False
-        self.levelsheet_d = []
-        self.levelsheet_r = []
+        self.levelsheet_d = sheet_d0
+        self.levelsheet_r = sheet_r0
         self.text_sheet_P = self.data_Cloze
         self.test_type_list = []
         self.subindex_P = 0
@@ -142,8 +142,8 @@ def reset(user):
     user.isPreStory_P = False
     user.isStart_P = False
     user.isAsked_P = False
-    user.levelsheet_d = []
-    user.levelsheet_r = []
+    user.levelsheet_d = sheet_d0
+    user.levelsheet_r = sheet_r0
     user.text_sheet_P = user.data_Cloze
     user.test_type_list = []
     user.subindex_P = 0
