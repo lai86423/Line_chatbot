@@ -108,12 +108,13 @@ class userVar():
         self.isInit_P = True
         self.isChangingLevel_P = False
         self.isChooseHelp = False
+        self.isGetSheet_P = False
         self.isLoad_P = False
         self.isPreStory_P = False
         self.isStart_P = False
         self.isAsked_P = False
-        self.levelsheet_d = sheet_d0
-        self.levelsheet_r = sheet_r0
+        self.levelsheet_d = []
+        self.levelsheet_r = []
         self.text_sheet_P = self.data_Cloze
         self.test_type_list = []
         self.subindex_P = 0
@@ -136,12 +137,13 @@ def reset(user):
     user.isInit_P = True
     user.isChangingLevel_P = False
     user.isChooseHelp = False
+    user.isGetSheet_P = False
     user.isLoad_P = False
     user.isPreStory_P = False
     user.isStart_P = False
     user.isAsked_P = False
-    user.levelsheet_d = sheet_d0
-    user.levelsheet_r = sheet_r0
+    user.levelsheet_d = []
+    user.levelsheet_r = []
     user.text_sheet_P = user.data_Cloze
     user.test_type_list = []
     user.subindex_P = 0
@@ -351,7 +353,18 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
     
     if (pb_event == 'Next'):
-        if user.isLoad_P == True:
+
+        if user.isGetSheet_P == True:
+            user.isGetSheet_P = False
+            print("level = ",user.level_P)
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            print(user.levelsheet_d, user.levelsheet_r)
+            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+            getSheet_S(user.level_P, user)
+            setLevelStory(user.level_P, user)
+
+        elif user.isLoad_P == True:
             print("d100**")
             RandomTest(user)
             message = LoadTestIndex(user)
@@ -538,15 +551,8 @@ def smallpuzzle(event,id, sheet, user):
         if id =='d00102': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0, user)
         
-        elif id =='d00208':
-            print("level = ",user.level_P)
-            #TODO level!!!
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            print(user.levelsheet_d, user.levelsheet_r)
-            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-            getSheet_S(user.level_P, user)
-            setLevelStory(user.level_P, user)
+        if id =='d00208':
+            user.isGetSheet == True
         
         #剛開始答題
         if id == 'd10030' or id == 'd20025' or id == 'd30022':
