@@ -353,7 +353,6 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
     
     if (pb_event == 'Next'):
-
         if user.isGetSheet_P == True:
             user.isGetSheet_P = False
             print("level = ",user.level_P)
@@ -510,7 +509,7 @@ def smallpuzzle(event,id, sheet, user):
             print("img= ",sheet_text)  
             message = ImageBubble(sheet_text)
             line_bot_api.reply_message(event.reply_token, message)                  
-            smallpuzzle(event, user.next_id , sheet, user)
+            #smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
