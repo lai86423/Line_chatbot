@@ -357,7 +357,7 @@ def handle_postback(event):
             user.isGetSheet_P = False
             print("level = ",user.level_P)
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            print(user.levelsheet_d, user.levelsheet_r)
+            #print(user.levelsheet_d, user.levelsheet_r)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
@@ -787,6 +787,7 @@ def Question_P(event, user):
 #------------語音處理訊息----------------
 @handler.add(MessageEvent,message=AudioMessage)
 def handle_aud(event):
+    print("AudioMessage")
     user = getUser(event.source.user_id)
     r = sr.Recognizer()
     message_content = line_bot_api.get_message_content(event.message.id)
