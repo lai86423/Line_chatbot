@@ -364,7 +364,6 @@ def handle_postback(event):
             setLevelStory(user.level_P, user)
 
         elif user.isLoad_P == True:
-            print("d100**")
             RandomTest(user)
             message = LoadTestIndex(user)
             line_bot_api.reply_message(event.reply_token, message)  
@@ -373,7 +372,7 @@ def handle_postback(event):
 
         elif user.isPreStory_P == True:
             if user.isAsked_P == False :
-                print("題前故事")
+                print("isPreStory")
                 user.isAsked_P = True
                 #題前故事
                 test_type = user.test_type_list[user.index_P]
