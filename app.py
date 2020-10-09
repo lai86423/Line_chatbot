@@ -354,7 +354,6 @@ def handle_postback(event):
     
     if (pb_event == 'Next'):
         if user.isGetSheet_P == True:
-            user.isGetSheet_P = False
             print("level = ",user.level_P)
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
             print(user.levelsheet_d, user.levelsheet_r)
@@ -362,6 +361,7 @@ def handle_postback(event):
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
             setLevelStory(user.level_P, user)
+            user.isGetSheet_P = False
 
         elif user.isLoad_P == True:
             RandomTest(user)
@@ -550,6 +550,7 @@ def smallpuzzle(event,id, sheet, user):
             smallpuzzle(event,'d00003',sheet_d0, user)
         
         if id =='d00208':
+            print("isGetSheet")
             user.isGetSheet_P == True
         
         #剛開始答題
