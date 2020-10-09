@@ -313,13 +313,13 @@ def handle_message(event):
         reset(user)
         if(user.isInit_P == True):
             user.isInit_P = False
-            smallpuzzle(event,'d00000',sheet_d0, user)
+            #smallpuzzle(event,'d00000',sheet_d0, user)
     #---------------------------------------    
     
-            # #------Test
-            # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
-            # smallpuzzle(event,'d10029',user.levelsheet_d, user)
-            # #------Test
+            #------Test
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
+            smallpuzzle(event,'d10029',user.levelsheet_d, user)
+            #------Test
 
         #user.isChangingLevel_P = True
         
@@ -852,12 +852,12 @@ def handle_aud(event):
     if user.isPuzzle_P == True:
         if user.test_type_list[user.index_P] == 3:
             user.sheet_word_s[user.index_P][1] = user.sheet_word_s[user.index_P][1].lower()
-            output_ans = ''.join(se for se in user.sheet_word_s[user.index_S][1] if se not in exclude)
+            output_ans = ''.join(se for se in user.sheet_word_s[user.index_P][1] if se not in exclude)
             print('語音處理 sheet_word_s[index_P][1]', user.sheet_word_s[user.index_P][1])
 
         elif user.test_type_list[user.index_P] == 4:
             user.sheet_sen_s[user.index_P][1] = user.sheet_sen_s[user.index_P][1].lower() 
-            output_ans = ''.join(se for se in user.sheet_sen_s[user.index_S][1] if se not in exclude)
+            output_ans = ''.join(se for se in user.sheet_sen_s[user.index_P][1] if se not in exclude)
             print('語音處理 sheet_sen_s[index_P][1]', user.sheet_sen_s[user.index_P][1])
     else:
         print("user.isPuzzle_P = False!!")
