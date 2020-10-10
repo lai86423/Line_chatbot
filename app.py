@@ -644,7 +644,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(4,4) for _ in range(5)]
+    user.test_type_list = [random.randint(4,4) for _ in range(10)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
