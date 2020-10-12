@@ -315,11 +315,12 @@ def handle_message(event):
         reset(user)
         if(user.isInit_P == True):
             user.isInit_P = False
-            smallpuzzle(event,'d00000',sheet_d0, user)
-        elif user.next_id == 'd00002':
+            smallpuzzle(event,'d00000',sheet_d0, user)       
+        if user.next_id == 'd00003':
             user.name = event.message.text
-            smallpuzzle(event, user.next_id , user.levelsheet_d, user)  
-                
+            print(event.message.text)
+            print(user.name)
+            smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
     #---------------------------------------    
             # #------Test
             # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
@@ -526,6 +527,9 @@ def smallpuzzle(event,id, sheet, user):
             print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
+        elif sheet_type == 'input':
+            sheet_text = sheet["text"][id_index]
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text = sheet_text)) 
 
     else:
         print("Do Not Find ID in Sheet! ")
