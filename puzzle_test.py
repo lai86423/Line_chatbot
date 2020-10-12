@@ -106,6 +106,9 @@ def smallpuzzle(event,id, sheet):
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
             #sheet["text"][id_index].color = (0.9529412, 0.9529412, 0.9529412, 0)
+            if '$username' in sheet_text:   # 使用in運算子檢查
+                sheet_text = sheet_text.replace('$username', '小明')
+                print('字串中有\'$username\'')
             print("text= ",sheet_text)
             smallpuzzle(event, next_id , sheet)
 
@@ -286,10 +289,10 @@ def ButtonBubble(sheet_title, sheet_text, replylist):
     ans = input("input 1 or 2 or 3 :")
     return ans
 
+#def FillinUserName():
+
 if __name__ == "__main__":
     #sheet_d, sheet_r = getSheet_P(1)
-    test_type_list = np.zeros(10)
-    print(test_type_list)
     sheet_type = 'text'
     level_P = 1
     index_P = 0 #第幾題

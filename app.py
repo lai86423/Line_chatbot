@@ -102,6 +102,7 @@ class userVar():
         self.QA_ = []
 
         #Puzzle
+        self.name = '勇者'
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
@@ -131,6 +132,7 @@ class userVar():
 
 def reset(user):
     #Puzzle
+    user.name = '勇者'
     user.next_id = 0
     user.level_P = 1
     user.index_P = 0 #第幾題
@@ -314,6 +316,10 @@ def handle_message(event):
         if(user.isInit_P == True):
             user.isInit_P = False
             smallpuzzle(event,'d00000',sheet_d0, user)
+        elif user.next_id == 'd00002':
+            user.name = event.message.text
+            smallpuzzle(event, user.next_id , user.levelsheet_d, user)  
+                
     #---------------------------------------    
             # #------Test
             # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
@@ -367,8 +373,9 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token, message)
 
         else:
-            smallpuzzle(event, user.next_id , user.levelsheet_d, user)
-    
+            if(user.next_id != 'd00002'):
+                smallpuzzle(event, user.next_id , user.levelsheet_d, user)  
+
     elif user.isChangingLevel_P == True:
         setLevel_P(pb_event, user)
         #隨機取得題型
@@ -485,6 +492,9 @@ def smallpuzzle(event,id, sheet, user):
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
+            if '$username' in sheet_text:   # 使用in運算子檢查
+                sheet_text = sheet_text.replace('$username', user.name)
+                print('字串中有\'$username\'')
             print("text= ",sheet_text)
             message = TextBubble(sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
@@ -620,7 +630,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(3,4) for _ in range(10)]
+    user.test_type_list = [random.randint(1,7) for _ in range(10)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
