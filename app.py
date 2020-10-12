@@ -356,11 +356,6 @@ def handle_postback(event):
         if user.isGetSheet_P == True:
             user.isGetSheet_P = False
             print("level = ",user.level_P)
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            #print(user.levelsheet_d, user.levelsheet_r)
-            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-            getSheet_S(user.level_P, user)
             setLevelStory(user.level_P, user)
 
         elif user.isLoad_P == True:
@@ -552,6 +547,10 @@ def smallpuzzle(event,id, sheet, user):
         if id =='d00208':
             print("isGetSheet")
             user.isGetSheet_P = True
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+            getSheet_S(user.level_P, user)
         
         #剛開始答題
         if id == 'd10030' or id == 'd20025' or id == 'd30022':
@@ -644,7 +643,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(4,4) for _ in range(10)]
+    user.test_type_list = [random.randint(1,7) for _ in range(10)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
