@@ -312,8 +312,8 @@ def handle_message(event):
     #global user.isInit_P,  user.isAsked_P, user.isLoad_P
     user = getUser(event.source.user_id)
     if event.message.text =='#puzzle':
-        user.isInit_P == True
         reset(user)
+        user.isInit_P == True
     if(user.isInit_P == True):
         user.isInit_P = False
         smallpuzzle(event,'d00000',sheet_d0, user)       
