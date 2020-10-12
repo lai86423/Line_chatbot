@@ -116,7 +116,7 @@ class userVar():
         self.levelsheet_d = sheet_d0
         self.levelsheet_r = sheet_r0
         self.text_sheet_P = self.data_Cloze
-        self.test_type_list = []
+        self.test_type_list = np.zeros(10)
         self.subindex_P = 0
         self.count_P = 2
         self.star_num_P = 0
@@ -525,11 +525,11 @@ def smallpuzzle(event,id, sheet, user):
         
         if id =='d00208':
             print("isGetSheet")
-            user.isGetSheet_P = True
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
+            user.isGetSheet_P = True
         
         #剛開始答題
         if id == 'd10030' or id == 'd20025' or id == 'd30022':

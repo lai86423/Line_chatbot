@@ -288,6 +288,8 @@ def ButtonBubble(sheet_title, sheet_text, replylist):
 
 if __name__ == "__main__":
     #sheet_d, sheet_r = getSheet_P(1)
+    test_type_list = np.zeros(10)
+    print(test_type_list)
     sheet_type = 'text'
     level_P = 1
     index_P = 0 #第幾題
