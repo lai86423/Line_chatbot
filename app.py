@@ -102,7 +102,7 @@ class userVar():
         self.QA_ = []
 
         #Puzzle
-        self.name = '勇者'
+        self.name = '???'
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
@@ -318,9 +318,10 @@ def handle_message(event):
         user.isInit_P = False
         smallpuzzle(event,'d00000',sheet_d0, user)       
     if user.next_id == 'd00002':
-        user.name = event.message.text
-        print(event.message.text)
-        print(user.name)
+        if event.message.type == 'text':
+            user.name = event.message.text
+            print(event.message.text)
+            print(user.name)
         smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
     #---------------------------------------    
             # #------Test
