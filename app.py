@@ -343,10 +343,9 @@ def handle_postback(event):
             setLevelStory(event, user)
 
         elif user.isLoad_P == True:
-            RandomTest(user)
+            user.isLoad_P = False
             message = LoadTestIndex(user)
             line_bot_api.reply_message(event.reply_token, message)  
-            user.isLoad_P = False
             user.isPreStory_P = True
 
         elif user.isPreStory_P == True:
@@ -523,7 +522,7 @@ def smallpuzzle(event,id, sheet, user):
         if id =='d00102': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0, user)
         
-        if id =='d00208':
+        elif id =='d00208':
             print("isGetSheet")
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
@@ -531,17 +530,16 @@ def smallpuzzle(event,id, sheet, user):
             getSheet_S(user.level_P, user)
             user.isGetSheet_P = True
         
-        #剛開始答題
-        if id == 'd10030' or id == 'd20025' or id == 'd30022':
-            user.isLoad_P = True
-
         #---------------------------------------------------
         # print(id[1:2],str(user.level_P)) 
         # print(id[2:3])
         # print("user.index_P",user.index_P)
         # print(str(user.test_type_list[user.index_P]))
-
-        if (int(id[1:2]) == (user.level_P)):#非d0表單
+        #剛開始答題
+        elif id == 'd10030' or id == 'd20025' or id == 'd30022':
+            RandomTest(user)
+            user.isLoad_P = True
+        elif (int(id[1:2]) == (user.level_P)):#非d0表單
             if(int(id[2:3]) == (user.test_type_list[user.index_P])):  
                 #答對
                 if id[3:4] == '1': 
