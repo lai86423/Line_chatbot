@@ -545,10 +545,7 @@ def smallpuzzle(event,id, sheet, user):
             user.isGetSheet_P = True
         
         #---------------------------------------------------
-        # print(id[1:2],str(user.level_P)) 
-        # print(id[2:3])
-        # print("user.index_P",user.index_P)
-        # print(str(user.test_type_list[user.index_P]))
+
         #剛開始答題
         elif id == 'd10030' or id == 'd20025' or id == 'd30022':
             RandomTest(user)
