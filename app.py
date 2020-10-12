@@ -316,7 +316,7 @@ def handle_message(event):
         if(user.isInit_P == True):
             user.isInit_P = False
             smallpuzzle(event,'d00000',sheet_d0, user)       
-        if user.next_id == 'd00003':
+        if user.next_id == 'd00002':
             user.name = event.message.text
             print(event.message.text)
             print(user.name)
