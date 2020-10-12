@@ -315,25 +315,10 @@ def handle_message(event):
             user.isInit_P = False
             smallpuzzle(event,'d00000',sheet_d0, user)
     #---------------------------------------    
-    
             # #------Test
             # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
             # smallpuzzle(event,'d10029',user.levelsheet_d, user)
             # #------Test
-
-        #user.isChangingLevel_P = True
-        
-    # if user.isChangingLevel_P == True:
-    #     user.isAsked_P = False
-        
-    # if(user.isStart_P == True):
-    #     #if(user.isAsked_P == False):
-    #     print("load_Q")
-    #     #user.isAsked_P = True
-    #     bubble = Question_P(event, user)
-    #     message = FlexSendMessage(alt_text="bubble", contents = bubble)
-    #     line_bot_api.reply_message(event.reply_token, message)
-
 ##-----------------------------------------------------------------------------------
 def getUser(user_ID):
     global allUser
@@ -347,7 +332,6 @@ def getUser(user_ID):
 #回饋判斷
 @handler.add(PostbackEvent)
 def handle_postback(event):
-    #global user.isChooseHelp, user.level_P, user.isChangingLevel_P,_id, user.isLoad_P
     user = getUser(event.source.user_id)
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
@@ -356,7 +340,7 @@ def handle_postback(event):
         if user.isGetSheet_P == True:
             user.isGetSheet_P = False
             print("level = ",user.level_P)
-            setLevelStory(user.level_P, user)
+            setLevelStory(event, user)
 
         elif user.isLoad_P == True:
             RandomTest(user)
@@ -478,11 +462,6 @@ def setLevel_P(levelinput, user):
     else:       
         user.isChangingLevel_P = True
 
-    # if user.isChangingLevel_P == False:
-    #     print("level = ",user.level_P)
-    #     global user.levelsheet_d, user.levelsheet_r
-    #     user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-    
 def smallpuzzle(event,id, sheet, user):
     print("---------id----------",id)
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
