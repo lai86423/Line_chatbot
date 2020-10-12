@@ -541,8 +541,8 @@ def smallpuzzle(event,id, sheet, user):
         # print("user.index_P",user.index_P)
         # print(str(user.test_type_list[user.index_P]))
 
-        if (id[1:2] == str(user.level_P)):#非d0表單
-            if(id[2:3] == str(user.test_type_list[user.index_P])):  
+        if (int(id[1:2]) == (user.level_P)):#非d0表單
+            if(int(id[2:3]) == (user.test_type_list[user.index_P])):  
                 #答對
                 if id[3:4] == '1': 
                     if  user.index_P < 5:
