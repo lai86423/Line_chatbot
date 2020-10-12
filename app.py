@@ -106,7 +106,7 @@ class userVar():
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
-        self.isInit_P = True
+        self.isInit_P = False
         self.isChangingLevel_P = False
         self.isChooseHelp = False
         self.isGetSheet_P = False
@@ -136,7 +136,7 @@ def reset(user):
     user.next_id = 0
     user.level_P = 1
     user.index_P = 0 #第幾題
-    user.isInit_P = True
+    user.isInit_P = False
     user.isChangingLevel_P = False
     user.isChooseHelp = False
     user.isGetSheet_P = False
@@ -312,15 +312,16 @@ def handle_message(event):
     #global user.isInit_P,  user.isAsked_P, user.isLoad_P
     user = getUser(event.source.user_id)
     if event.message.text =='#puzzle':
+        user.isInit_P == True
         reset(user)
-        if(user.isInit_P == True):
-            user.isInit_P = False
-            smallpuzzle(event,'d00000',sheet_d0, user)       
-        if user.next_id == 'd00002':
-            user.name = event.message.text
-            print(event.message.text)
-            print(user.name)
-            smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
+    if(user.isInit_P == True):
+        user.isInit_P = False
+        smallpuzzle(event,'d00000',sheet_d0, user)       
+    if user.next_id == 'd00002':
+        user.name = event.message.text
+        print(event.message.text)
+        print(user.name)
+        smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
     #---------------------------------------    
             # #------Test
             # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
