@@ -264,14 +264,14 @@ L3_sen_data = L3_sen_sheet.get_all_values()
 del(L3_sen_data[0])
 
 def getSheet_S(Qlevel, user):   
-    user.L1_qa = random.sample(L1_voc_data, 5)
-    user.L1_sen_s = random.sample(L1_sen_data, 5)
+    user.L1_qa = random.sample(L1_voc_data, 10)
+    user.L1_sen_s = random.sample(L1_sen_data, 10)
     #user.L1_qa.extend(random.sample(L1_sen_data, 5))
-    user.L2_qa = random.sample(L2_voc_data, 5)
-    user.L2_sen_s = random.sample(L2_sen_data, 5)
+    user.L2_qa = random.sample(L2_voc_data, 10)
+    user.L2_sen_s = random.sample(L2_sen_data, 10)
     #user.L2_qa.extend(random.sample(L2_sen_data, 5))
-    user.L3_qa = random.sample(L3_voc_data, 5)
-    user.L3_sen_s = random.sample(L3_sen_data, 5)
+    user.L3_qa = random.sample(L3_voc_data, 10)
+    user.L3_sen_s = random.sample(L3_sen_data, 10)
     #user.L3_qa.extend(random.sample(L3_sen_data, 5))
     
     if(Qlevel == 3):
@@ -620,7 +620,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(1,7) for _ in range(10)]
+    user.test_type_list = [random.randint(3,4) for _ in range(10)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -695,7 +695,7 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
         #---test 用 之後前面有跑setLevel即可拿tt掉
-        user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+        #user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
         #---
         user.text_sheet_P = user.data_sen
         if user.count_P == user.count_type_P :
@@ -707,16 +707,16 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
         #---test 用 之後前面有跑setLevel即可拿tt掉
-        if user.count_P == user.count_type_P :
-            getSheet_S(user.level_P, user)
+        # if user.count_P == user.count_type_P :
+        #     getSheet_S(user.level_P, user)
         #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user, user.index_P)
 
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
         #---test 用 之後前面有跑setLevel即可拿tt掉
-        if user.count_P == user.count_type_P :
-            getSheet_S(user.level_P, user)
+        # if user.count_P == user.count_type_P :
+        #     getSheet_S(user.level_P, user)
         #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user, user.index_P)
 
@@ -746,7 +746,7 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
         #---test 用 之後前面有跑setLevel即可拿掉
-        user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) 
+        #user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) 
         #---
         if(user.count_P == user.count_type_P):
             user.text_sheet_P = user.data_Reading
