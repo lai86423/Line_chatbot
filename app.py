@@ -84,7 +84,6 @@ class userVar():
         self._id = _id
         #QA
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(1) #預設傳level = 1
-
         #self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
@@ -349,6 +348,8 @@ def handle_postback(event):
     if (pb_event == 'Next'):
         if user.isGetSheet_P == True:
             user.isGetSheet_P = False
+            print("level = ",user.level_P)
+            setLevelStory(event, user)
 
         elif user.isLoad_P == True:
             user.isLoad_P = False
@@ -470,6 +471,10 @@ def setLevel_P(levelinput, user):
     else:       
         user.isChangingLevel_P = True
 
+    user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+    user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
+    getSheet_S(user.level_P, user)
+
 def smallpuzzle(event,id, sheet, user):
     print("---------id----------",id)
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
@@ -540,11 +545,6 @@ def smallpuzzle(event,id, sheet, user):
         elif id =='d00208':
             print("isGetSheet")
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-            user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
-            getSheet_S(user.level_P, user)
-            print("level = ",user.level_P)
-            setLevelStory(event, user)
             user.isGetSheet_P = True
         
         #---------------------------------------------------

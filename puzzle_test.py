@@ -14,6 +14,31 @@ sh_P.worksheet_by_title('d0').export(filename='d0')
 sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
+
+GSpreadSheet_P = 'cilab_ChatBot_puzzle'
+gc_P = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
+sh_P = gc_P.open(GSpreadSheet_P)
+scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name('JSON.json', scope)
+client = gspread.authorize(creds)
+spreadSheet_P = client.open('cilab_ChatBot_puzzle')
+d0 = spreadSheet_P.worksheet("d0")
+sheet_d0 = d0.get_all_values()
+d1 = spreadSheet_P.worksheet("d1")
+sheet_d1 = d1.get_all_values()
+d2 = spreadSheet_P.worksheet("d2")
+sheet_d2 = d2.get_all_values()
+d3 = spreadSheet_P.worksheet("d3")
+sheet_d3 = d3.get_all_values()
+r0 = spreadSheet_P.worksheet("r0")
+sheet_r0 = r0.get_all_values()
+r1 = spreadSheet_P.worksheet("r1")
+sheet_r1 = r1.get_all_values()
+r2 = spreadSheet_P.worksheet("r2")
+sheet_r2 = r2.get_all_values()
+r3 = spreadSheet_P.worksheet("r3")
+sheet_r3 = r3.get_all_values()
+
 allUser = []
 #---------------
 scope = ["https://spreadsheets.google.com/feeds",'https://www.googleapis.com/auth/drive']
@@ -42,23 +67,26 @@ class userVar_P():
 def getSheet_P(level): 
     global sh_P  
     if(level == 3):
-        sh_P.worksheet_by_title('d3').export(filename='d3')
-        sh_P.worksheet_by_title('r3').export(filename='r3')
-        sheet_d = pd.read_csv('d3.csv')        
-        sheet_r = pd.read_csv('r3.csv') 
+        #sh_P.worksheet_by_title('d3').export(filename='d3')
+        #sh_P.worksheet_by_title('r3').export(filename='r3')
+        sheet_d = sheet_d3  
+        sheet_r = sheet_r0
     elif(level == 2):
-        sh_P.worksheet_by_title('d2').export(filename='d2')
-        sh_P.worksheet_by_title('r2').export(filename='r2')
-        sheet_d = pd.read_csv('d2.csv')
-        sheet_r = pd.read_csv('r2.csv')
-
+        #sh_P.worksheet_by_title('d2').export(filename='d2')
+        #sh_P.worksheet_by_title('r2').export(filename='r2')
+        #sheet_d = pd.read_csv('d2.csv')
+        #sheet_r = pd.read_csv('r2.csv')
+        sheet_d = sheet_d2  
+        sheet_r = sheet_r2
     else:        
-        sh_P.worksheet_by_title('d1').export(filename='d1')
-        sh_P.worksheet_by_title('r1').export(filename='r1')
-        sheet_d = pd.read_csv('d1.csv')        
-        sheet_r = pd.read_csv('r1.csv') 
-
+        # sh_P.worksheet_by_title('d1').export(filename='d1')
+        # sh_P.worksheet_by_title('r1').export(filename='r1')
+        # sheet_d = pd.read_csv('d1.csv')        
+        # sheet_r = pd.read_csv('r1.csv') 
+        sheet_d = sheet_d3  
+        sheet_r = sheet_r0
     return sheet_d, sheet_r
+
 ##----------------------------------------------------------------------------------
 # sheet_type = 'text'
 # level_P = 1
