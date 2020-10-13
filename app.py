@@ -31,6 +31,9 @@ from pygame import mixer
 import random
 import string
 import os
+sys.setrecursionlimit(100000)
+ulimit -a
+ulimit -S -s unlimited
 
 app = Flask(__name__)
 
@@ -84,6 +87,7 @@ class userVar():
         self._id = _id
         #QA
         self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(1) #預設傳level = 1
+
         #self.sheet_Q = getVoc.editSheet(self.data_Voc)
         self.isVoc = False 
         self.VocQA = []
@@ -348,8 +352,6 @@ def handle_postback(event):
     if (pb_event == 'Next'):
         if user.isGetSheet_P == True:
             user.isGetSheet_P = False
-            print("level = ",user.level_P)
-            setLevelStory(event, user)
 
         elif user.isLoad_P == True:
             user.isLoad_P = False
@@ -544,6 +546,8 @@ def smallpuzzle(event,id, sheet, user):
             user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
             user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) #預設傳level = 1
             getSheet_S(user.level_P, user)
+            print("level = ",user.level_P)
+            setLevelStory(event, user)
             user.isGetSheet_P = True
         
         #---------------------------------------------------
