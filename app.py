@@ -31,9 +31,6 @@ from pygame import mixer
 import random
 import string
 import os
-sys.setrecursionlimit(100000)
-ulimit -a
-ulimit -S -s unlimited
 
 app = Flask(__name__)
 
