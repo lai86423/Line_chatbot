@@ -53,28 +53,43 @@ sh_P.worksheet_by_title('d0').export(filename='d0')
 sh_P.worksheet_by_title('r0').export(filename='r0')
 sheet_d0 = pd.read_csv('d0.csv') #type: <class 'pandas.core.frame.DataFrame'>
 sheet_r0 = pd.read_csv('r0.csv') 
-
+sh_P.worksheet_by_title('d1').export(filename='d1')
+sh_P.worksheet_by_title('r1').export(filename='r1')
+sheet_d1 = pd.read_csv('d1.csv')        
+sheet_r1 = pd.read_csv('r1.csv') 
+sh_P.worksheet_by_title('d2').export(filename='d2')
+sh_P.worksheet_by_title('r2').export(filename='r2')
+sheet_d2 = pd.read_csv('d2.csv')        
+sheet_r2 = pd.read_csv('r2.csv') 
+sh_P.worksheet_by_title('d3').export(filename='d3')
+sh_P.worksheet_by_title('r3').export(filename='r3')
+sheet_d3 = pd.read_csv('d3.csv')        
+sheet_r3 = pd.read_csv('r3.csv') 
 ##----------------------------------------------------------------------------------
 def getSheet_P(level):  
     if(level == 3):
         print("level == 3")
-        sh_P.worksheet_by_title('d3').export(filename='d3')
-        sh_P.worksheet_by_title('r3').export(filename='r3')
-        sheet_d = pd.read_csv('d3.csv')        
-        sheet_r = pd.read_csv('r3.csv') 
+        # sh_P.worksheet_by_title('d3').export(filename='d3')
+        # sh_P.worksheet_by_title('r3').export(filename='r3')
+        # sheet_d = pd.read_csv('d3.csv')        
+        # sheet_r = pd.read_csv('r3.csv') 
+        sheet_d = sheet_d3
+        sheet_r = sheet_r3
     elif(level == 2):
         print("level == 2")
-        sh_P.worksheet_by_title('d2').export(filename='d2')
-        sh_P.worksheet_by_title('r2').export(filename='r2')
-        sheet_d = pd.read_csv('d2.csv')
-        sheet_r = pd.read_csv('r2.csv')
+        # sh_P.worksheet_by_title('d2').export(filename='d2')
+        # sh_P.worksheet_by_title('r2').export(filename='r2')
+        sheet_d = sheet_d2
+        sheet_r = sheet_r2
 
     else:        
         print("level == 1")
-        sh_P.worksheet_by_title('d1').export(filename='d1')
-        sh_P.worksheet_by_title('r1').export(filename='r1')
-        sheet_d = pd.read_csv('d1.csv')        
-        sheet_r = pd.read_csv('r1.csv') 
+        # sh_P.worksheet_by_title('d1').export(filename='d1')
+        # sh_P.worksheet_by_title('r1').export(filename='r1')
+        # sheet_d = pd.read_csv('d1.csv')        
+        # sheet_r = pd.read_csv('r1.csv') 
+        sheet_d = sheet_d1
+        sheet_r = sheet_r1
 
     return sheet_d, sheet_r
 
