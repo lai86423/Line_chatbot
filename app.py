@@ -147,7 +147,7 @@ def reset(user):
     user.levelsheet_d = sheet_d0
     user.levelsheet_r = sheet_r0
     user.text_sheet_P = user.data_Cloze
-    user.test_type_list = []
+    user.test_type_list = np.zeros(10)
     user.subindex_P = 0
     user.count_P = 2
     user.star_num_P = 0
