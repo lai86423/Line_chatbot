@@ -510,7 +510,6 @@ def smallpuzzle(event,id, sheet, user):
             print("img= ",sheet_text)  
             message = ImageBubble(sheet_text)
             line_bot_api.reply_message(event.reply_token, message)                  
-            #smallpuzzle(event, user.next_id , sheet, user)
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
@@ -560,7 +559,9 @@ def smallpuzzle(event,id, sheet, user):
         elif id =='d00208':
             print("isGetSheet")
             user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
-            user.isGetSheet_P = True
+            print("level = ",user.level_P)
+            setLevelStory(event, user)
+            #user.isGetSheet_P = True
         
         #---------------------------------------------------
 
@@ -616,7 +617,8 @@ def smallpuzzle(event,id, sheet, user):
                 user.isPreStory_P = False
         
         pass
-
+def SpecialCaseDetect():
+    
 def ButtonPuzzle(sheet_reply_list):
     replylist = []
     print("ButtonPuzzle",sheet_reply_list)
