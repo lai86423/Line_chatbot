@@ -917,9 +917,7 @@ def typeButtonQA():
 
 def setLevel_Q(levelinput, user):
     print("---Changing Level---")
-    #global data_Voc, data_Reading, data_Cloze
-    #global level_Q
-    #global isChangingLevel_Q
+
     if (levelinput=='L'):
         user.level_Q = 1
         myResult = readyBubble(user.level_Q)
