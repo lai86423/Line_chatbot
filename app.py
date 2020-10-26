@@ -267,7 +267,7 @@ del(L1_voc_data[0])
 L1_sen_sheet = spreadSheet_S.worksheet("L1_sen")
 L1_sen_data = L1_sen_sheet.get_all_values()
 del(L1_sen_data[0])
-L2_voc_sheet = spreadSheet_S.worksheet("L1_voc")
+L2_voc_sheet = spreadSheet_S.worksheet("L2_voc")
 L2_voc_data = L2_voc_sheet.get_all_values()
 del(L1_voc_data[0])
 L2_sen_sheet = spreadSheet_S.worksheet("L2_sen")
@@ -572,7 +572,7 @@ def smallpuzzle(event,id, sheet, user):
             if(int(id[2:3]) == (user.test_type_list[user.index_P])):  
                 #答對
                 if id[3:4] == '1': 
-                    if  user.index_P < 5:
+                    if  user.index_P < 3:
                         print("答對 繼續isLoad_P")
                         user.index_P += 1
                         user.isLoad_P = True
@@ -580,14 +580,14 @@ def smallpuzzle(event,id, sheet, user):
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #第一次答錯
                 elif id[3:4] == '2':
-                    if user.index_P < 5:
+                    if user.index_P < 3:
                         print("第一次答錯 再一次 isStart_P，Load題目")
                         user.isStart_P = True
                     else:
                         smallpuzzle(event,'d'+ str(user.level_P) + '0100', user.levelsheet_d, user)
                 #第二次答錯
                 elif id[3:4] == '3':
-                    if user.index_P < 5:
+                    if user.index_P < 3:
                         user.index_P += 1
                         user.isLoad_P = True
                         print("第二次答錯 新題目PreStory")
@@ -597,7 +597,7 @@ def smallpuzzle(event,id, sheet, user):
             #----計算最後答題結果
             #是否大於六題
             elif id[2:4] == '01':
-                if user.star_num_P >= 3:
+                if user.star_num_P >= 2:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
@@ -649,7 +649,7 @@ def setLevelStory(event, user):
 
 def RandomTest(user):
     #global user.test_type_list
-    user.test_type_list = [random.randint(1,7) for _ in range(10)]
+    user.test_type_list = [random.randint(6,6) for _ in range(3)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -693,7 +693,7 @@ def Question_P(event, user):
                 if user.count_P == user.count_type_P:
                     print("random QA_Tail subindex")
                     #---test 用 之後前面有跑setLevel即可拿掉
-                    user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
+                    #user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
                     #---
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -703,7 +703,7 @@ def Question_P(event, user):
                 print("---level 3 pho  依據音檔選句子---")
                 if user.count_P == user.count_type_P :
                     #---test後拿掉----
-                    user.data_pho, user.data_word, user.data_sen = getSheet(3)
+                    #user.data_pho, user.data_word, user.data_sen = getSheet(3)
                     #---test後拿掉----
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -714,7 +714,7 @@ def Question_P(event, user):
             if user.count_P == user.count_type_P:
                 user.text_sheet_P = getVoc.editSheet(user.data_word)
                 q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-                option_english,option_english2 = getVoc.getOption(user.data_word, q_index)
+                option_english,option_english2 = getVoc.getOption(user.text_sheet_P, q_index)
                 option, answer = getVoc.getQA(q_english, option_english,option_english2)
                 q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
                 user.word_list = [q_audio, option, answer]

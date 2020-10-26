@@ -29,7 +29,7 @@ def getSheet(level,sh_P):
     return presheet
 
 def editSheet(level_sheet):
-    print("header",level_sheet.columns)
+    #print("header",level_sheet.columns)
     header = level_sheet.columns
     sheet = {}
     for i in range (len(header)):
@@ -38,7 +38,6 @@ def editSheet(level_sheet):
     return sheet
 
 def getOption(sheet, q_index):
-    #for i in range (3):
     q_chinese = sheet["chinese"][q_index]
     q_english = sheet["english"][q_index]
     
@@ -69,16 +68,31 @@ def getOption(sheet, q_index):
 
     #get two voc from same_index
     same_index.remove(q_index) 
-    set(same_prefix_index).remove(q_index)
-    print("same index",same_index)
-    if len(same_index) >= 2 :
+    same_prefix_index = set(same_prefix_index)
+    same_prefix_index.remove(q_index)
+    
+    if len(same_index) >= 2 : #取詞性和字首都相同
         option_index = random.sample(same_index, 2) 
-        option_english = sheet["english"][option_index[0]]
-        option_english2 = sheet["english"][option_index[1]]
-    else:
-        option_english = sheet["english"][same_prefix_index[0]]
-        option_english2 = sheet["english"][same_prefix_index[1]]
-    #print(option_english,option_english2) 
+
+    elif len(same_index) == 1 : #詞性和字首都相同的選擇只有一個
+        option_index = list(same_index)
+        same_prefix_index.remove(option_index)
+        #另一個拿隨機同字首
+        option_index.append(random.sample(list(same_prefix_index), 1)[0])
+        print("TYPE2 option",option_index)
+    elif len(same_prefix_index) >= 2 : #取兩個隨機同字首
+        option_index = random.sample(same_prefix_index, 2) 
+    elif len(same_prefix_index) == 1 : #同字首只有一個
+        option_index = list(same_prefix_index)
+        same_part_index = set(same_part_index)
+        same_part_index.remove(q_index)
+        option_index.append(random.sample(list(same_part_index), 1)[0])
+    else: #隨機取同詞性
+        option_index = random.sample(list(same_part_index), 2) 
+
+    option_english = sheet["english"][option_index[0]]
+    option_english2 = sheet["english"][option_index[1]]
+
     return option_english,option_english2
 
 def getVoc(sheet):
@@ -98,7 +112,7 @@ def getAudio(sheet, q_index):
     try:
         q_audio = sheet["audio"][q_index]
     except:
-        q_audio = '0'
+        q_audio = '0'#建議可以多做一個找不到音檔的網址
     return q_audio
 
 if __name__ == "__main__":
@@ -110,15 +124,10 @@ if __name__ == "__main__":
             print(VocQA[i])
         except: 
             q_index, q_chinese, q_english = getVoc(sheet)
-            option_english,option_english2 = getOption(sheet, q_index)
+            option_english,option_english2 = getOption(sheet, 226)
             print(q_chinese, q_english, option_english,option_english2)
             option, answer = getQA(q_english, option_english,option_english2)
             print(option, answer)
             q_audio = getAudio(sheet, q_index)
             templist = [q_chinese, option, answer,q_audio]
-            print(templist)
             VocQA.append(templist)
-    print(VocQA)
-    #    VocQA[i][0] = q_chinese
-    #    VocQA[i][1] = option
-    #    VocQA[i][2] = answer
