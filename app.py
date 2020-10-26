@@ -87,7 +87,26 @@ class userVar():
     def __init__(self,_id):
         self._id = _id
 
-        #TODO -------------------------------------
+        #QA
+        self.level_Q = 1 # 預設level 1
+        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
+        self.isVoc = False 
+        self.VocQA = []
+
+        #Listen
+        self.level_L = 1 # 預設level 1
+        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
+        self.isWord = False 
+        self.word_list = []
+
+        #speech
+        self.L1_qa = []
+        self.L2_qa = []
+        self.L3_qa = []
+        self.stt_mes = ''
+        self.QA_ = []
+
+#TODO -------------------------------------
         self.name = '???'
         self.next_id = 0
         self.level_P = 1
@@ -109,32 +128,13 @@ class userVar():
         self.star_num_P = 0
         self.count_type_P = 2
         self.isPuzzle_P = True  #目前用在判斷是P還是S功能裡的語音辨識題型 
-        #TODO END-------------------------------------
-
         self.sheet_word_s = []
         self.sheet_sen_s = []
         self.L1_sen_s = []
         self.L2_sen_s = []
         self.L3_sen_s = []
+#TODO END-------------------------------------
 
-        #QA
-        self.level_Q = 1 # 預設level 1
-        self.data_Voc, self.data_Reading, self.data_Cloze = getSheetQA(self.level_Q) #預設傳level = 1
-        self.isVoc = False 
-        self.VocQA = []
-
-        #Listen
-        self.level_L = 1 # 預設level 1
-        self.data_pho, self.data_word, self.data_sen = getSheet(self.level_L)
-        self.isWord = False 
-        self.word_list = []
-
-        #speech
-        self.L1_qa = []
-        self.L2_qa = []
-        self.L3_qa = []
-        self.stt_mes = ''
-        self.QA_ = []
 #TODO -------------------------------------
 def reset(user):
     #Puzzle
@@ -160,11 +160,6 @@ def reset(user):
     user.count_type_P = 2
     user.isPuzzle_P = True  #目前用在判斷是P還是S功能裡的語音辨識題型 
 
-    user.sheet_word_s = []
-    user.sheet_sen_s = []
-    user.L1_sen_s = []
-    user.L2_sen_s = []
-    user.L3_sen_s = []
 #TODO END-------------------------------------
 
 # 出題初始抓資料＆資料處理------------------------------------------------
