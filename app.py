@@ -634,7 +634,7 @@ def setLevelStory(event, user):
         smallpuzzle(event,'d30000' , user.levelsheet_d, user)
 
 def RandomTest(user):
-    user.test_type_list = [random.randint(6,6) for _ in range(3)]
+    user.test_type_list = [random.randint(1,7) for _ in range(3)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
