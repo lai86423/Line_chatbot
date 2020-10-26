@@ -617,7 +617,7 @@ def smallpuzzle(event,id, sheet, user):
                 user.isPreStory_P = False
         
         pass
-def SpecialCaseDetect():
+#def SpecialCaseDetect():
     
 def ButtonPuzzle(sheet_reply_list):
     replylist = []
