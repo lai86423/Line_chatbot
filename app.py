@@ -338,12 +338,7 @@ def handle_message(event):
             print(event.message.text)
             print(user.name)
         smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
-    #---------------------------------------    
-            # #------Test
-            # user.levelsheet_d, user.levelsheet_r = getSheet_P(1)
-            # smallpuzzle(event,'d10029',user.levelsheet_d, user)
-            # #------Test
-##-----------------------------------------------------------------------------------
+        
 def getUser(user_ID):
     global allUser
     user = next((item for item in allUser if item._id == user_ID), None)
@@ -402,16 +397,17 @@ def handle_postback(event):
     elif user.isChooseHelp == True:
         #--Game State-----------------------------------
         user.isChooseHelp = False
-        if pb_event == '1':
+        if pb_event == 'f1':
             #了解背景故事
             smallpuzzle(event,'d00100',sheet_d0, user)
 
-        elif pb_event == '2':
+        elif pb_event == 'f2':
             #開始遊戲
             smallpuzzle(event,'d00200',sheet_d0, user)
 
-        elif pb_event == '3':
+        elif pb_event == 'f3':
             #結束遊戲
+            reset(user)
             print("End!")
 
         else:
@@ -604,11 +600,12 @@ def smallpuzzle(event,id, sheet, user):
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
             #結尾故事
             elif id[2:4] == '02' or id[2:4] == '03':
-                    smallpuzzle(event,'d'+ str(user.level_P) + '0400', user.levelsheet_d, user)
+                smallpuzzle(event,'d'+ str(user.level_P) + '0400', user.levelsheet_d, user)
 
             #結束 回到最初功能選擇
             elif id[2:4] == '04':
-                    smallpuzzle(event,'d00003',sheet_d0, user)
+                reset(user)
+                smallpuzzle(event,'d00003',sheet_d0, user)
 
             if user.isPreStory_P == True:
                 print("PreStory End! Strat Testing!")
@@ -650,7 +647,6 @@ def setLevelStory(event, user):
         smallpuzzle(event,'d30000' , user.levelsheet_d, user)
 
 def RandomTest(user):
-    #global user.test_type_list
     user.test_type_list = [random.randint(6,6) for _ in range(3)]
     print("-----*** 5 Quiz type = ",user.test_type_list)
 
@@ -661,7 +657,6 @@ def LoadTestIndex(user):
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Silas】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Ariel 希望我們在傍晚18:00前完成。"
         print(test_pretext)
         message = TextBubble(test_pretext)
-        #line_bot_api.push_message(_id, message)
     
     elif user.level_P == 2:
         test_pretext = "（第" + str(user.index_P+1) + " 題）\n【Keith】：\n勇者$username ，現在是 "+ str(8+user.index_P) +":00，Faun 希望我們在傍晚18:00前完成。"
@@ -682,8 +677,7 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
 
         print("sheet_L_pho & word")
-        #test_type1 = random.randint(1, 2)
-        test_type1 = 2
+        test_type1 = random.randint(1, 2)
         if test_type1 == 1:
             print("--sheet_pho--")
             if user.level_P != 3:
@@ -694,9 +688,6 @@ def Question_P(event, user):
                 
                 if user.count_P == user.count_type_P:
                     print("random QA_Tail subindex")
-                    #---test 用 之後前面有跑setLevel即可拿掉
-                    #user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-                    #---
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 user.text_sheet_P = user.data_pho
@@ -704,9 +695,6 @@ def Question_P(event, user):
             else: #高級前三題，題目不同
                 print("---level 3 pho  依據音檔選句子---")
                 if user.count_P == user.count_type_P :
-                    #---test後拿掉----
-                    #user.data_pho, user.data_word, user.data_sen = getSheet(3)
-                    #---test後拿掉----
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
@@ -725,9 +713,6 @@ def Question_P(event, user):
     
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
-        #---test 用 之後前面有跑setLevel即可拿tt掉
-        #user.data_pho, user.data_word, user.data_sen = getSheet(user.level_P)
-        #---
         user.text_sheet_P = user.data_sen
         if user.count_P == user.count_type_P :
             print("random subindex_P")
@@ -737,18 +722,10 @@ def Question_P(event, user):
     
     elif user.test_type_list[user.index_P] == 3:
         print("sheet_speaking_word")
-        #---test 用 之後前面有跑setLevel即可拿tt掉
-        # if user.count_P == user.count_type_P :
-        #     getSheet_S(user.level_P, user)
-        #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user, user.index_P)
 
     elif user.test_type_list[user.index_P] == 4:
         print("sheet_speaking_sen")
-        #---test 用 之後前面有跑setLevel即可拿tt掉
-        # if user.count_P == user.count_type_P :
-        #     getSheet_S(user.level_P, user)
-        #---test 用 之後前面有跑setLevel即可拿tt掉
         bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user, user.index_P)
 
     elif user.test_type_list[user.index_P] == 5:
@@ -776,9 +753,6 @@ def Question_P(event, user):
 
     elif user.test_type_list[user.index_P] == 7:
         print("sheet_Q_reading")
-        #---test 用 之後前面有跑setLevel即可拿掉
-        #user.data_Voc, user.data_Reading, user.data_Cloze = getSheetQA(user.level_P) 
-        #---
         if(user.count_P == user.count_type_P):
             user.text_sheet_P = user.data_Reading
             print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )

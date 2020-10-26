@@ -129,26 +129,6 @@ class userVar():
         self.isOtherText = False
 
 ##-----------------------------------------------------------------------------------
-##聽力  初始抓資料＆資料處理
-# GDriveJSON = 'JSON.json'
-# GSpreadSheet_L = 'cilab_ChatBot_listening'
-# gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
-# sh_L = gc_L.open(GSpreadSheet_L)
-# sh_L.worksheet_by_title('L1_pho').export(filename='L1_pho')
-# sh_L.worksheet_by_title('L1_sen').export(filename='L1_sen')
-# sh_L.worksheet_by_title('L2_pho').export(filename='L2_pho')
-# sh_L.worksheet_by_title('L2_sen').export(filename='L2_sen')
-# sh_L.worksheet_by_title('L3_pho').export(filename='L3_pho')
-# sh_L.worksheet_by_title('L3_sen').export(filename='L3_sen')
-
-# #type: <class 'pandas.core.frame.DataFrame'>
-# L1_pho = pd.read_csv('L1_pho.csv')
-# L1_sen = pd.read_csv('L1_sen.csv')
-# L2_pho = pd.read_csv('L2_pho.csv')
-# L2_sen = pd.read_csv('L2_sen.csv')
-# L3_pho = pd.read_csv('L3_pho.csv') 
-# L3_sen = pd.read_csv('L3_sen.csv')
-
 GSpreadSheet_L = 'cilab_ChatBot_listening'
 gc_L = pygsheets.authorize(service_account_file='JSON.json') #檔案裡的google user.sheet_L js檔
 sh_L = gc_L.open(GSpreadSheet_L)
@@ -174,33 +154,19 @@ L3_sen = sheet_L3_sen.get_all_values()
 def getSheet(Qlevel):   
     if(Qlevel == 3):
         sheet_pho = L3_pho
-        #sheet_word = L3_word
         sheet_sen = L3_sen  
 
     elif(Qlevel == 2):
         sheet_pho = L2_pho
-        #sheet_word = L2_word
         sheet_sen = L2_sen 
     else:
         sheet_pho = L1_pho
-        #sheet_word = L1_word
         sheet_sen = L1_sen 
     
     sheet_word = getVoc.getSheet(Qlevel,sh_L)
     
     return sheet_pho, sheet_word, sheet_sen
 
-# def editSheet(data):
-#     pre_sheet = data.sample(frac =0.1) #Random打亂資料再取n筆題 
-#     pre_sheet = pre_sheet.reset_index(drop=True)
-#     print("pre_sheet",pre_sheet)
-#     header = pre_sheet.columns
-#     sheet_L = {}
-#     for i in range (len(header)):
-#         sheet_L[header[i]] = pre_sheet[header[i]]
-    
-#     #qNum_L = len(sheet["question"])
-#     return sheet_L
 ##---------------------------------------------------------------------------
 # 出題初始抓資料＆資料處理------------------------------------------------
 GSpreadSheet_Q = 'cilab_ChatBot_QA'
