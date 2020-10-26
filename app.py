@@ -854,38 +854,38 @@ def handle_aud(event):
         #message = TextSendMessage(text="辨識結果：" + output_mes)
         #line_bot_api.push_message(myId, message)
         if(user.index_S < user.qNum_S): #做完本輪題庫數目
-        if(output_mes != output_ans):
-            if(user.count_S != 1):
-                wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain', user.stt_mes)
-                message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
-                line_bot_api.reply_message(event.reply_token,message)
-                user.count_S -= 1
-            elif(user.count_S == 1):
-                if(user.index_S == 9):
-                    loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
-                else:
-                    loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
-                message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
-                line_bot_api.reply_message(event.reply_token,message)
-                user.count_S = 2
-                user.index_S += 1
-        else:
-            user.star_num_s += user.count_S
-            if(user.count_S == 2):
-                reply = '你好棒!一次就答對了!'
-            elif(user.count_S == 1):
-                reply = '好棒哦!你答對了!'
-            print(user.count_S, reply)
-            if(user.index_S == 9):
-                reply = '好棒哦!你答對了!'
-                correctBubble = finalBubble('恭喜答對!!', reply, user.stt_mes)
-                user_sheet.update_cell(user.index, 8, 1)
+            if(output_mes != output_ans):
+                if(user.count_S != 1):
+                    wrongBubble = tryagainBubble('請再試試!!', '還有些不正確哦~你再試試看！', 'tryagain', user.stt_mes)
+                    message = FlexSendMessage(alt_text="wrongBubble", contents = wrongBubble)
+                    line_bot_api.reply_message(event.reply_token,message)
+                    user.count_S -= 1
+                elif(user.count_S == 1):
+                    if(user.index_S == 9):
+                        loseBubble = finalBubble('再接再厲!!', '好可惜哦!\n往上滑再聽一次正確發音吧!', user.stt_mes)
+                    else:
+                        loseBubble = loseBubble = nextBubble('好可惜哦!\n往上滑再聽一次正確發音吧!','再接再厲!!',user.stt_mes)
+                    message = FlexSendMessage(alt_text="loseBubble", contents = loseBubble)
+                    line_bot_api.reply_message(event.reply_token,message)
+                    user.count_S = 2
+                    user.index_S += 1
             else:
-                correctBubble = rightBubble(reply)
-            message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
-            line_bot_api.reply_message(event.reply_token,message)
-            user.index_S += 1
-            user.count_S = 2
+                user.star_num_s += user.count_S
+                if(user.count_S == 2):
+                    reply = '你好棒!一次就答對了!'
+                elif(user.count_S == 1):
+                    reply = '好棒哦!你答對了!'
+                print(user.count_S, reply)
+                if(user.index_S == 9):
+                    reply = '好棒哦!你答對了!'
+                    correctBubble = finalBubble('恭喜答對!!', reply, user.stt_mes)
+                    user_sheet.update_cell(user.index, 8, 1)
+                else:
+                    correctBubble = rightBubble(reply)
+                message = FlexSendMessage(alt_text="correctBubble", contents = correctBubble)
+                line_bot_api.reply_message(event.reply_token,message)
+                user.index_S += 1
+                user.count_S = 2
 #TODO -------------------------------------       
     else: #puzzle 功能語音結果比對   
         if user.test_type_list[user.index_P] == 3:
