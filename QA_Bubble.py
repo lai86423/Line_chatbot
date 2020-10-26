@@ -132,26 +132,26 @@ def Cloze_L3(sheet,index_L,subindex):
                 TextComponent(text = "選出空格中合適的答案", margin='sm', size='md', align = 'center',color = '#9F9F9F'),
                 SeparatorComponent(margin = 'xl', color = '#A89F9F'),
                 ButtonComponent(
-                    action = PostbackAction(label = "(1) " + option1, data = '1', text = "(1) " + option1, wrap=True),
+                    action = PostbackAction(label = "(1) " + option1, data = '1', text = "(1) " , wrap=True),
                     color = '#46549B',
                     margin = 'xl',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(2) " + option2, data = '2', text = "(2) " + option2, wrap=True),
+                    action = PostbackAction(label = "(2) " + option2, data = '2', text = "(2) " , wrap=True),
                     color = '#7E318E',
                     margin = 'md',
                     style = 'primary'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(3) " + option3, data = '3', text = "(3) " + option3, wrap=True),
+                    action = PostbackAction(label = "(3) " + option3, data = '3', text = "(3) ", wrap=True),
                     color = '#CD2774',
                     margin = 'md',
                     style = 'primary',
                     gravity='top'
                 ),
                 ButtonComponent(
-                    action = PostbackAction(label = "(4) " + option4, data = '4', text = "(4) " + option4, wrap=True),
+                    action = PostbackAction(label = "(4) " + option4, data = '4', text = "(4) ", wrap=True),
                     color = '#FFBF00',
                     margin = 'md',
                     style = 'primary',
