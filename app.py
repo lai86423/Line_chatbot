@@ -725,7 +725,7 @@ def handle_aud(event):
                 else:
                     user.star_num_s += user.count_S
                     if(user.count_S == 2):
-                    reply = '你好棒!一次就答對了!'
+                        reply = '你好棒!一次就答對了!'
                     elif(user.count_S == 1):
                         reply = '好棒哦!你答對了!'
                     print(user.count_S, reply)
