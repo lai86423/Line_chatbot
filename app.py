@@ -173,7 +173,7 @@ class userVar():
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
-        self.isInit_P = False
+        self.isInit_P = True
         self.isChangingLevel_P = False
         self.isChooseHelp = False
         self.isGetSheet_P = False
@@ -204,7 +204,7 @@ def reset_P(user):
     user.next_id = 0
     user.level_P = 1
     user.index_P = 0 #第幾題
-    user.isInit_P = False
+    user.isInit_P = True
     user.isChangingLevel_P = False
     user.isChooseHelp = False
     user.isGetSheet_P = False
@@ -238,7 +238,6 @@ sheet_L2_pho = spreadSheet.worksheet("L2_pho")
 L2_pho = sheet_L2_pho.get_all_values()
 sheet_L3_pho = spreadSheet.worksheet("L3_pho")
 L3_pho = sheet_L3_pho.get_all_values()
-
 sheet_L1_sen = spreadSheet.worksheet("L1_sen")
 L1_sen = sheet_L1_sen.get_all_values()
 sheet_L2_sen = spreadSheet.worksheet("L2_sen")
@@ -329,19 +328,19 @@ spreadSheet_S = client_S.open("cilab_ChatBot_speaking")
 L1_voc_sheet = spreadSheet_S.worksheet("L1_voc")
 L1_voc_data = L1_voc_sheet.get_all_values()
 del(L1_voc_data[0])
-L1_sen_sheet = spreadSheet.worksheet("L1_sen")
+L1_sen_sheet = spreadSheet_S.worksheet("L1_sen")
 L1_sen_data = L1_sen_sheet.get_all_values()
 del(L1_sen_data[0])
-L2_voc_sheet = spreadSheet.worksheet("L2_voc")
+L2_voc_sheet = spreadSheet_S.worksheet("L2_voc")
 L2_voc_data = L2_voc_sheet.get_all_values()
 del(L2_voc_data[0])
-L2_sen_sheet = spreadSheet.worksheet("L2_sen")
+L2_sen_sheet = spreadSheet_S.worksheet("L2_sen")
 L2_sen_data = L2_sen_sheet.get_all_values()
 del(L2_sen_data[0])
-L3_voc_sheet = spreadSheet.worksheet("L3_voc")
+L3_voc_sheet = spreadSheet_S.worksheet("L3_voc")
 L3_voc_data = L3_voc_sheet.get_all_values()
 del(L3_voc_data[0])
-L3_sen_sheet = spreadSheet.worksheet("L3_sen")
+L3_sen_sheet = spreadSheet_S.worksheet("L3_sen")
 L3_sen_data = L3_sen_sheet.get_all_values()
 del(L3_sen_data[0])
 #-------------------查看積分變數-------------------
@@ -601,17 +600,16 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, message)
     #-----------闖關處理訊息--------------------
         elif(user.function_status =='game'):
-            reset_P(user)
-            user.isInit_P = True
-        if(user.isInit_P == True):
-            user.isInit_P = False
-            smallpuzzle(event,'d00000',sheet_d0, user)       
-        if user.next_id == 'd00002':
-            if event.message.type == 'text':
-                user.name = event.message.text
-                print(event.message.text)
-                print(user.name)
-            smallpuzzle(event, user.next_id , user.levelsheet_d, user)
+            if(user.isInit_P == True):
+                user.isInit_P = False
+                smallpuzzle(event,'d00000',sheet_d0, user)       
+            if user.next_id == 'd00002':
+                print("detect user name")
+                if event.message.type == 'text':
+                    user.name = event.message.text
+                    print(event.message.text)
+                    print(user.name)
+                smallpuzzle(event, user.next_id , user.levelsheet_d, user)
         #TODO END-------------------------------------
 
 #------------語音處理訊息----------------
