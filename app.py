@@ -655,11 +655,12 @@ def LoadTestIndex(user):
 def Question_P(event, user):
     user.isVoc = False
     user.isWord = False
-    user.count_type_P = 1
+    user.count_type_P = 2
     
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & word")
         test_type1 = random.randint(1, 2)
+        test_type1 = 1
         if test_type1 == 1:
             print("--sheet_pho--")
             if user.level_P != 3:
