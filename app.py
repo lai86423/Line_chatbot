@@ -630,7 +630,7 @@ def setLevelStory(event, user):
         smallpuzzle(event,'d30000' , user.levelsheet_d, user)
 
 def RandomTest(user):
-    user.test_type_list = [random.randint(1,1) for _ in range(10)]
+    user.test_type_list = [random.randint(1,7) for _ in range(10)]
     print("-----*** Quiz type = ",user.test_type_list)
 
 def LoadTestIndex(user):
@@ -660,7 +660,6 @@ def Question_P(event, user):
     if user.test_type_list[user.index_P] == 1:
         print("sheet_L_pho & word")
         test_type1 = random.randint(1, 2)
-        test_type1 = 1
         if test_type1 == 1:
             print("--sheet_pho--")
             if user.level_P != 3:
@@ -678,14 +677,16 @@ def Question_P(event, user):
                 bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
             else: #高級前三題，題目不同
                 print("---level 3 pho  依據音檔選句子---")
-                if user.count_P == user.count_type_P :
+                if user.count_P == user.count_type_P and user.isAsked_P == False:
+                    user.isAsked_P = True
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
         else:
             print("--sheet_word--",test_type1)
             user.isWord = True
-            if user.count_P == user.count_type_P:
+            if user.count_P == user.count_type_P and user.isAsked_P == False:
+                user.isAsked_P = True
                 user.text_sheet_P = getVoc.editSheet(user.data_word)
                 q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
                 option_english,option_english2 = getVoc.getOption(user.text_sheet_P, q_index)
@@ -698,7 +699,8 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 2:
         print("sheet_L_sen")
         user.text_sheet_P = user.data_sen
-        if user.count_P == user.count_type_P :
+        if user.count_P == user.count_type_P and user.isAsked_P == False:
+            user.isAsked_P = True
             print("random subindex_P")
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0])) 
         print("user.subindex_P",user.subindex_P)
@@ -715,7 +717,8 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 5:
         print("sheet_Q_voc")
         user.isVoc = True
-        if user.count_P == user.count_type_P:
+        if user.count_P == user.count_type_P and user.isAsked_P == False:
+            user.isAsked_P = True
             user.text_sheet_P = getVoc.editSheet(user.data_Voc)
             q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
             option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
@@ -727,7 +730,8 @@ def Question_P(event, user):
     elif user.test_type_list[user.index_P] == 6:
         print("sheet_Q_cloze")
         user.text_sheet_P = user.data_Cloze
-        if user.count_P == user.count_type_P:
+        if user.count_P == user.count_type_P and user.isAsked_P == False:
+            user.isAsked_P = True
             user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
             print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
@@ -735,9 +739,10 @@ def Question_P(event, user):
         else:
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
-    elif user.test_type_list[user.index_P] == 7:
+    elif user.test_type_list[user.index_P] == 7 :
         print("sheet_Q_reading")
-        if(user.count_P == user.count_type_P):
+        if(user.count_P == user.count_type_P and user.isAsked_P == False):
+            user.isAsked_P = True
             user.text_sheet_P = user.data_Reading
             print("reading", len( np.transpose( [user.text_sheet_P])[0] ) )
             user.subindex_P = random.randrange(1, len(np.transpose([user.text_sheet_P])[0]), 3)
