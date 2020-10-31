@@ -41,6 +41,7 @@ handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 #users = np.array(('0','0',0)) #userID,user.level_P,point
 
 allUser = [] 
+
 #TODO --------------------------------------------
 ##解謎  初始抓資料＆資料處理
 GDriveJSON = 'JSON.json'
@@ -65,6 +66,7 @@ sh_P.worksheet_by_title('r3').export(filename='r3')
 sheet_d3 = pd.read_csv('d3.csv')        
 sheet_r3 = pd.read_csv('r3.csv') 
 ##----------------------------------------------------------------------------------
+#根據階級設定對應資料表單
 def getSheet_P(level):  
     if(level == 3):
         print("level == 3")
@@ -106,7 +108,7 @@ class userVar():
         self.QA_ = []
 
 #TODO -------------------------------------
-        self.name = '???'
+        self.name = '???'#預設名字
         self.next_id = 0
         self.level_P = 1
         self.index_P = 0 #第幾題
@@ -117,16 +119,17 @@ class userVar():
         self.isLoad_P = False #是否觸發載入階級表單
         self.isPreStory_P = False #是否正在題目前故事劇情中
         self.isStart_P = False #是否開始出題
-        self.isAsked_P = False
-        self.levelsheet_d = sheet_d0
-        self.levelsheet_r = sheet_r0
-        self.text_sheet_P = self.data_Cloze
-        self.test_type_list = np.zeros(10)
-        self.subindex_P = 0
-        self.count_P = 2
-        self.star_num_P = 0
-        self.count_type_P = 2
-        self.isPuzzle_P = True  #目前用在判斷是P還是S功能裡的語音辨識題型 
+        self.isAsked_P = False #是否正在題前故事中 或 答題中
+        self.levelsheet_d = sheet_d0 #階級表單 初始設為d0 r0
+        self.levelsheet_r = sheet_r0 
+        self.text_sheet_P = self.data_Cloze #題目表單 預設為克漏字表單
+        self.test_type_list = np.zeros(10) #隨機七種類題目 共十題
+        self.subindex_P = 0 #子題號 （隨機取表單之題號）
+        self.count_P = 2 #答題次數
+        self.star_num_P = 0 #計分
+        self.count_type_P = 2 #可答題次數 （因應選項可能為兩題或三題） 
+        self.isPuzzle_P = True  #判斷語音辨識中是目前是Puzzle還是Speech功能使用到
+        #speech變數
         self.sheet_word_s = []
         self.sheet_sen_s = []
         self.L1_sen_s = []
@@ -264,6 +267,7 @@ L3_sen_data = L3_sen_sheet.get_all_values()
 del(L3_sen_data[0])
 
 #TODO -------------------------------------
+#發音取題目表單
 def getSheet_S(Qlevel, user):   
     user.L1_qa = random.sample(L1_voc_data, 10)
     user.L1_sen_s = random.sample(L1_sen_data, 10)
@@ -306,14 +310,14 @@ def handle_message(event):
     user = getUser(event.source.user_id)
 #TODO -------------------------------------
     if event.message.text =='#puzzle':
-        reset(user)
+        reset(user) #初始遊戲變數
         user.isInit_P = True
     if(user.isInit_P == True):
         user.isInit_P = False
         smallpuzzle(event,'d00000',sheet_d0, user)       
     if user.next_id == 'd00002':
         if event.message.type == 'text':
-            user.name = event.message.text
+            user.name = event.message.text #設定user name
             print(event.message.text)
             print(user.name)
         smallpuzzle(event, user.next_id , user.levelsheet_d, user)         
@@ -334,31 +338,24 @@ def handle_postback(event):
 #TODO -------------------------------------
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
-    
     if (pb_event == 'Next'):
-        # if user.isGetSheet_P == True:
-        #     user.isGetSheet_P = False
-        #     print("level = ",user.level_P)
-        #     setLevelStory(event, user)
-
-        if user.isLoad_P == True:
+        #載入題號與敘述
+        if user.isLoad_P == True: 
             user.isLoad_P = False
-            message = LoadTestIndex(user)
+            message = LoadTestIndex(user) 
             line_bot_api.reply_message(event.reply_token, message)  
             user.isPreStory_P = True
-
+        #載入題目前故事
         elif user.isPreStory_P == True:
             if user.isAsked_P == False :
-                print("isPreStory")
                 user.isAsked_P = True
-                #題前故事
-                test_type = user.test_type_list[user.index_P]
+                test_type = user.test_type_list[user.index_P] #判斷題型
                 print("test_type = ", test_type)
                 print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
                 smallpuzzle(event, 'd' + str(user.level_P) + str(test_type) + '000', user.levelsheet_d, user)
             else:
                 smallpuzzle(event, user.next_id , user.levelsheet_d, user)
-
+        #開始出題
         elif(user.isStart_P == True):
             print("load_Q")
             bubble = Question_P(event, user)
@@ -366,84 +363,76 @@ def handle_postback(event):
             line_bot_api.reply_message(event.reply_token, message)
 
         else:
-            if(user.next_id != 'd00002'):
+            if(user.next_id != 'd00002'): #若非需等待使用者輸入名字
                 smallpuzzle(event, user.next_id , user.levelsheet_d, user)  
 
-    elif user.isChangingLevel_P == True:
+    elif user.isChangingLevel_P == True: #設定階級
         setLevel_P(pb_event, user)
-        #隨機取得題型
         smallpuzzle(event,'d00202',sheet_d0, user)
     
-    elif user.isChooseHelp == True:
+    elif user.isChooseHelp == True: #功能選單
         #--Game State-----------------------------------
         user.isChooseHelp = False
         if pb_event == 'f1':
             #了解背景故事
             smallpuzzle(event,'d00100',sheet_d0, user)
-
         elif pb_event == 'f2':
             #開始遊戲
             smallpuzzle(event,'d00200',sheet_d0, user)
-
         elif pb_event == 'f3':
             #結束遊戲
             reset(user)
             print("End!")
-
         else:
             pass
-    elif user.isStart_P == True:
+
+    elif user.isStart_P == True: #判斷答案對錯
         print("---Ans feedback---")
+        #取得正確答案
         if user.isVoc == True:
             correctAns = str(user.VocQA[2])
         elif user.isWord == True:
             correctAns = str(user.word_list[2])
-        else:
+        else: #非字彙題型
             correctAns = str(user.text_sheet_P[user.subindex_P][4])
-        print("correct answer = ",correctAns)
-        print("correct answer, answer user.index_P, subuser.index_P = ",correctAns, user.index_P, user.subindex_P)
+        print("correct answer",correctAns)
         checkAnswer(pb_event, correctAns, user, event)
 #TODO END-------------------------------------
 
 #TODO -------------------------------------
+ #判斷答案對錯
 def checkAnswer(pb_event, correctAns, user, event):
     if pb_event != correctAns:
         print("answer",pb_event," != correctAns",correctAns)
-        if(user.count_P != user.count_type_P - 1):
+        if(user.count_P != user.count_type_P - 1): #第一次答錯
             print("Wrong 1")
             user.isStart_P = False
             user.count_P -= 1
             user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '200'
-            print("nextID",user.next_id)
             smallpuzzle(event, user.next_id, user.levelsheet_d, user)
             
-        elif(user.count_P == user.count_type_P - 1):
+        elif(user.count_P == user.count_type_P - 1):#第二次答錯
             user.isStart_P = False
             print("Wrong 2")
             user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '300'
-            print("nextID",user.next_id)
             user.count_P = 2
             smallpuzzle(event, user.next_id, user.levelsheet_d, user)
 
-    else:
+    else:#答對
         user.isStart_P = False
         user.star_num_P += user.count_P
-        print('正確答案!')
+        print('Correct Answer!')
         user.next_id = 'd'+ str(user.level_P) + str(user.test_type_list[user.index_P]) + '100'
-        print("nextID", user.next_id)
         if(user.count_P == user.count_type_P):
-            reply = '你好棒!一次就答對了!'
-            print(reply)
             smallpuzzle(event, user.next_id, user.levelsheet_d, user)
 
         elif(user.count_P == user.count_type_P - 1):
-            reply = '好棒哦!你答對了!'
-            print(reply)
             smallpuzzle(event, user.next_id, user.levelsheet_d, user)
 
         user.count_P = 2 
     print('after count_P: ', user.count_P)
 
+#設定階級與取得相對應題目表單
 def setLevel_P(levelinput, user):
     print("---Changing Level---")
     #global user.level_P, user.isChangingLevel_P
@@ -469,85 +458,81 @@ def setLevel_P(levelinput, user):
 
 def smallpuzzle(event,id, sheet, user):
     print("---------id----------",id)
+    #檢查表單中是否有此id
     id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
 
-    #print("#####",id_index) 
-    if len(id_index) > 0:
+    if len(id_index) > 0: #有此id
         id_index = id_index[0]
-        print("id_index",id_index)
+        #print("id_index",id_index)
 
-        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3)
-        print("next id = ", user.next_id)
+        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3) #下一號
+        #print("next id = ", user.next_id)
 
-        sheet_type = sheet["type"][id_index]
-        print("sheet_type",sheet_type)
+        sheet_type = sheet["type"][id_index] #id種類
+        #print("sheet_type",sheet_type)
         
-        if sheet_type == 'image':   
+        #依id種類對應訊息格式
+        if sheet_type == 'image':  
             sheet_text = sheet["text"][id_index]  
-            print("img= ",sheet_text)  
             message = ImageBubble(sheet_text)
             line_bot_api.reply_message(event.reply_token, message)                  
 
         elif sheet_type == 'text':
             sheet_text = sheet["text"][id_index]
             if '$username' in sheet_text:   # 使用in運算子檢查
-                sheet_text = sheet_text.replace('$username', user.name)
-                print('字串中有\'$username\'')
-            print("text= ",sheet_text)
+                sheet_text = sheet_text.replace('$username', user.name) #判斷字串中有'$username 取代為user.name
             message = TextBubble(sheet_text)
             line_bot_api.reply_message(event.reply_token, message)  
 
         elif sheet_type == 'button': 
-            if id == 'd00003':
+            if id == 'd00003': 
                 user.isChooseHelp = True
             if id == 'd00201':
                 user.isChangingLevel_P = True
             sheet_title = sheet["title"][id_index]
             sheet_text = sheet["text"][id_index]
             sheet_reply_list = []
+            #抓取表單選項資料
             for i in range (3):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
-
             replylist = ButtonPuzzle(sheet_reply_list)
             button_bubble = ButtonBubble(sheet_title, sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, button_bubble)  
         
         elif sheet_type == 'confirm':
-            sheet_text = sheet["text"][id_index]
+            sheet_text = sheet["text"][id_index] 
             sheet_reply_list = []
+            #抓取表單選項資料
             for i in range (2):
                 if (str(sheet.iloc[id_index][4 + i]) != "") : 
                     sheet_reply_list.append((str(sheet.iloc[id_index][4 + i])))
-            print("Cofirm sheet_reply_list",sheet_reply_list)
             replylist = CofirmPuzzle(sheet_reply_list, user)
-            print("Cofirm replylist",replylist)
             confirm_bubble = ConfirmBubble(sheet_text, replylist)
             line_bot_api.reply_message(event.reply_token, confirm_bubble)
+
         elif sheet_type == 'input':
             sheet_text = sheet["text"][id_index]
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text = sheet_text)) 
 
-    else:
+    else: #id不存在
         print("Do Not Find ID in Sheet! ")
         if id =='d00102': #重複詢問可以幫您什麼？
             smallpuzzle(event,'d00003',sheet_d0, user)
         
-        elif id =='d00208':
-            print("isGetSheet")
-            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P)
+        elif id =='d00208': #設定階級
+            user.levelsheet_d, user.levelsheet_r = getSheet_P(user.level_P) #取得階級表單
             print("level = ",user.level_P)
-            setLevelStory(event, user)
-            #user.isGetSheet_P = True
+            setLevelStory(event, user) #開始階級表單
         
         #---------------------------------------------------
 
         #剛開始答題
         elif id == 'd10030' or id == 'd20025' or id == 'd30022':
-            RandomTest(user)
-            user.isLoad_P = True
-        elif (int(id[1:2]) == (user.level_P)):#非d0表單
-            if(int(id[2:3]) == (user.test_type_list[user.index_P])):  
+            RandomTest(user) #取得隨機十題型
+            user.isLoad_P = True #載入題號
+        elif (int(id[1:2]) == (user.level_P)):# 判斷第一碼是否為d1/d2/d3表單 
+            if(int(id[2:3]) == (user.test_type_list[user.index_P])):  #判斷第二碼為題型碼
                 #答對
                 if id[3:4] == '1': 
                     if  user.index_P < 9:
@@ -577,7 +562,7 @@ def smallpuzzle(event,id, sheet, user):
             #----計算最後答題結果
             #是否大於六題
             elif id[2:4] == '01':
-                if user.star_num_P >= 2:
+                if user.star_num_P >= 6:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0200', user.levelsheet_d, user)
                 else:
                     smallpuzzle(event,'d'+ str(user.level_P) + '0300', user.levelsheet_d, user)
@@ -590,15 +575,15 @@ def smallpuzzle(event,id, sheet, user):
                 reset(user)
                 smallpuzzle(event,'d00003',sheet_d0, user)
 
-            if user.isPreStory_P == True:
+            if user.isPreStory_P == True: #題目前故事結束
                 print("PreStory End! Strat Testing!")
-                user.isStart_P = True
+                user.isStart_P = True #開始出題
                 user.isAsked_P = False
-                user.isPreStory_P = False #提前故事結束 將isPreStory_P狀態設為關閉
+                user.isPreStory_P = False 
         
         pass
-#def SpecialCaseDetect():
-    
+
+#取得表單內容    
 def ButtonPuzzle(sheet_reply_list):
     replylist = []
     print("ButtonPuzzle",sheet_reply_list)
@@ -608,6 +593,7 @@ def ButtonPuzzle(sheet_reply_list):
     print("replylist",replylist) 
     return replylist
 
+#取得表單內容
 def CofirmPuzzle(sheet_reply_list, user):
     print("CofirmBubble",sheet_reply_list)
     replylist = []
@@ -617,6 +603,7 @@ def CofirmPuzzle(sheet_reply_list, user):
     print("--Cofirm replylist",replylist) 
     return replylist
 
+#載入階級表單
 def setLevelStory(event, user):
     print("setLevelStory")
 
@@ -629,10 +616,12 @@ def setLevelStory(event, user):
     elif user.level_P == 3:
         smallpuzzle(event,'d30000' , user.levelsheet_d, user)
 
+#取隨機七種題型十題
 def RandomTest(user):
     user.test_type_list = [random.randint(1,7) for _ in range(10)]
     print("-----*** Quiz type = ",user.test_type_list)
 
+#載入題號與敘述
 def LoadTestIndex(user):
     print("-----LoadTestIndex----", user.index_P)
     #題數引文
@@ -652,15 +641,16 @@ def LoadTestIndex(user):
         message = TextBubble(test_pretext)
     return message
 
+#題目
 def Question_P(event, user):
     user.isVoc = False
     user.isWord = False
     user.count_type_P = 2
     
-    if user.test_type_list[user.index_P] == 1:
+    if user.test_type_list[user.index_P] == 1: 
         print("sheet_L_pho & word")
         test_type1 = random.randint(1, 2)
-        if test_type1 == 1:
+        if test_type1 == 1: #題型 聽力pho
             print("--sheet_pho--")
             if user.level_P != 3:
                 user.count_type_P = 1
@@ -668,35 +658,35 @@ def Question_P(event, user):
                 if user.count_P == 2:
                     user.count_P = 1
                 
-                if user.count_P == user.count_type_P and user.isAsked_P == False :
+                if user.count_P == user.count_type_P and user.isAsked_P == False : #是否為第一次答此題 隨機取題，若否 subindex_P維持  
                     print("random QA_Tail subindex")
                     user.isAsked_P = True
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 user.text_sheet_P = user.data_pho
                 bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
-            else: #高級前三題，題目不同
+            else: #聽力pho高級 題目不同 音檔選句子
                 print("---level 3 pho  依據音檔選句子---")
                 if user.count_P == user.count_type_P and user.isAsked_P == False:
                     user.isAsked_P = True
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
                 bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'依據音檔，選出最適當的答案')
-        else:
+        else: #題型 聽力單字題
             print("--sheet_word--",test_type1)
             user.isWord = True
             if user.count_P == user.count_type_P and user.isAsked_P == False:
                 user.isAsked_P = True
-                user.text_sheet_P = getVoc.editSheet(user.data_word)
-                q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
-                option_english,option_english2 = getVoc.getOption(user.text_sheet_P, q_index)
-                option, answer = getVoc.getQA(q_english, option_english,option_english2)
-                q_audio = getVoc.getAudio(user.text_sheet_P, q_index)
+                user.text_sheet_P = getVoc.editSheet(user.data_word) #編輯單字表單
+                q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P) #取得題目
+                option_english,option_english2 = getVoc.getOption(user.text_sheet_P, q_index) #取得選項
+                option, answer = getVoc.getQA(q_english, option_english,option_english2) #編輯選項答案成list
+                q_audio = getVoc.getAudio(user.text_sheet_P, q_index) #取得音檔
                 user.word_list = [q_audio, option, answer]
             print("user.word_list",user.word_list)
             bubble = QA.QA_Word(user.index_P, user.word_list)
     
-    elif user.test_type_list[user.index_P] == 2:
+    elif user.test_type_list[user.index_P] == 2:#題型 聽力句子
         print("sheet_L_sen")
         user.text_sheet_P = user.data_sen
         if user.count_P == user.count_type_P and user.isAsked_P == False:
@@ -706,20 +696,20 @@ def Question_P(event, user):
         print("user.subindex_P",user.subindex_P)
         bubble = QA.QA_Sentence(user.text_sheet_P,user.index_P,user.subindex_P,'選出正確的應對句子')
     
-    elif user.test_type_list[user.index_P] == 3:
+    elif user.test_type_list[user.index_P] == 3:#題型 口說單字
         print("sheet_speaking_word")
         bubble = QA_S(user.sheet_word_s[user.index_P][0], user.sheet_word_s[user.index_P][1], user, user.index_P)
 
-    elif user.test_type_list[user.index_P] == 4:
+    elif user.test_type_list[user.index_P] == 4:#題型 口說句子
         print("sheet_speaking_sen")
         bubble = QA_S(user.sheet_sen_s[user.index_P][0], user.sheet_sen_s[user.index_P][1], user, user.index_P)
 
-    elif user.test_type_list[user.index_P] == 5:
+    elif user.test_type_list[user.index_P] == 5:#題型 出題單字
         print("sheet_Q_voc")
         user.isVoc = True
         if user.count_P == user.count_type_P and user.isAsked_P == False:
             user.isAsked_P = True
-            user.text_sheet_P = getVoc.editSheet(user.data_Voc)
+            user.text_sheet_P = getVoc.editSheet(user.data_Voc)#編輯單字表單
             q_index, q_chinese, q_english = getVoc.getVoc(user.text_sheet_P)
             option_english,option_english2 = getVoc.getOption(user.data_Voc, q_index)
             option, answer = getVoc.getQA(q_english, option_english,option_english2)
@@ -727,7 +717,7 @@ def Question_P(event, user):
         print(user.VocQA)
         bubble = QA_Bubble.Voc(user.index_P, user.VocQA)
 
-    elif user.test_type_list[user.index_P] == 6:
+    elif user.test_type_list[user.index_P] == 6:#題型 出題克漏字
         print("sheet_Q_cloze")
         user.text_sheet_P = user.data_Cloze
         if user.count_P == user.count_type_P and user.isAsked_P == False:
@@ -736,10 +726,10 @@ def Question_P(event, user):
             print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
             bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
-        else:
+        else: #高級 格式不同 
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
-    elif user.test_type_list[user.index_P] == 7 :
+    elif user.test_type_list[user.index_P] == 7 :#題型 出題閱測
         print("sheet_Q_reading")
         if(user.count_P == user.count_type_P and user.isAsked_P == False):
             user.isAsked_P = True
@@ -798,8 +788,8 @@ def handle_aud(event):
     #             user.index_S += 1
     except sr.RequestError as e:
 #TODO -------------------------------------
-        if user.isPuzzle_P == True:
-            checkAnswer('1', '2', user, event)
+        if user.isPuzzle_P == True: #偵測到錯誤 且題型是解謎時
+            checkAnswer('1', '2', user, event) #回傳1&2不同答案
             
         else:
             print("user.isPuzzle_P = False!!")
@@ -820,8 +810,8 @@ def handle_aud(event):
             #         user.index_S += 1            
     except Exception as e:
 #TODO -------------------------------------
-        if user.isPuzzle_P == True:
-            checkAnswer('1', '2', user, event)
+        if user.isPuzzle_P == True:#偵測到錯誤 且題型是解謎時
+            checkAnswer('1', '2', user, event)#回傳1&2不同答案
 
         else:
             print("user.isPuzzle_P = False!!")
@@ -835,9 +825,6 @@ def handle_aud(event):
     user.stt_mes = text
     print('原始語音訊息：', user.stt_mes)
     user.stt_mes = user.stt_mes.lower()
-#TODO 以下這行往後移了！----------------------
-    #user.QA_[user.index_S][1] = user.QA_[user.index_S][1].lower()
-#TODO END----------------------------------
     print('忽略大小寫語音訊息：', user.stt_mes)
     #exclude = set(string.punctuation)
     exclude = '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' + '‘’→↓△▿⋄•！？?〞＃＄％＆』（）＊＋，－╱︰；＜＝＞＠〔╲〕 ＿ˋ｛∣｝∼、〃》「」『』【】﹝﹞【】〝〞–—『』「」…﹏'
@@ -847,7 +834,7 @@ def handle_aud(event):
     if user.isPuzzle_P == False:
         print("user.isPuzzle_P = False!!")
         output_ans = '@@@'
-#TODO 移來這裡～ 判斷Fuction是Speech再做        
+#TODO 判斷Fuction是Speech再做        
         user.QA_[user.index_S][1] = user.QA_[user.index_S][1].lower()
         output_ans = ''.join(se for se in user.QA_[user.index_S][1] if se not in exclude)
 #TODO END-------------------------------------        
@@ -889,7 +876,7 @@ def handle_aud(event):
                 user.index_S += 1
                 user.count_S = 2
 #TODO -------------------------------------       
-    else: #puzzle 功能語音結果比對   
+    else: #puzzle功能 語音結果比對   
         if user.test_type_list[user.index_P] == 3:
             user.sheet_word_s[user.index_P][1] = user.sheet_word_s[user.index_P][1].lower()
             output_ans = ''.join(se for se in user.sheet_word_s[user.index_P][1] if se not in exclude)
@@ -986,8 +973,6 @@ def ConfirmBubble(sheet_text, replylist):
 #TODO END------------------------------------- 
 
 #-----------------發音Function------------
-#TODO 原本直接用的user.index_S 改用傳入index。 
-# PS.阿書這邊原本有call此Func 的也再記得改一下傳入index囉！！^^ 感謝！------------------------------------- 
 def QA_S(address, ques, user, index):
     QA_Bubble = BubbleContainer (
         direction='ltr',
@@ -1014,7 +999,6 @@ def QA_S(address, ques, user, index):
         )
     )                       
     return QA_Bubble
-#TODO END------------------------------------- 
 
 ##  End------------------------------------------------
 import os
