@@ -891,7 +891,6 @@ def handle_aud(event):
 #TODO END-------------------------------------      
 #-----------------語音處理訊息結束----------------
 
-#Bubble格式處理
 #TODO ------------------------------------- 
 def ButtonBubble(sheet_title, sheet_text, replylist):
     level_template = TemplateSendMessage (
