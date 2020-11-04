@@ -470,9 +470,6 @@ def smallpuzzle(event,id, sheet, user):
         id_index = id_index[0]
         #print("id_index",id_index)
 
-        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3) #下一號
-        #print("next id = ", user.next_id)
-
         sheet_type = sheet["type"][id_index] #id種類
         #print("sheet_type",sheet_type)
         
@@ -519,6 +516,16 @@ def smallpuzzle(event,id, sheet, user):
         elif sheet_type == 'input':
             sheet_text = sheet["text"][id_index]
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text = sheet_text)) 
+
+        user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3) #下一號
+        #print("next id = ", user.next_id)
+        next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+        if len(next_id_index) <= 0: 
+            if user.isPreStory_P == True: #題目前故事結束
+                print("PreStory End! Strat Testing!")
+                user.isStart_P = True #開始出題
+                user.isAsked_P = False
+                user.isPreStory_P = False 
 
     else: #id不存在
         print("Do Not Find ID in Sheet! ")
@@ -580,11 +587,11 @@ def smallpuzzle(event,id, sheet, user):
                 reset(user)
                 smallpuzzle(event,'d00003',sheet_d0, user)
 
-            if user.isPreStory_P == True: #題目前故事結束
-                print("PreStory End! Strat Testing!")
-                user.isStart_P = True #開始出題
-                user.isAsked_P = False
-                user.isPreStory_P = False 
+            # if user.isPreStory_P == True: #題目前故事結束
+            #     print("PreStory End! Strat Testing!")
+            #     user.isStart_P = True #開始出題
+            #     user.isAsked_P = False
+            #     user.isPreStory_P = False 
         
         pass
 
