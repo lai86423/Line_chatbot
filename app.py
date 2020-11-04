@@ -518,9 +518,11 @@ def smallpuzzle(event,id, sheet, user):
             line_bot_api.reply_message(event.reply_token,TextSendMessage(text = sheet_text)) 
 
         user.next_id = id[0:3]+ str( int(id[3:6]) + 1).zfill(3) #下一號
+
         #print("next id = ", user.next_id)
         next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
         if len(next_id_index) <= 0: 
+            print("No Next")
             if user.isPreStory_P == True: #題目前故事結束
                 print("PreStory End! Strat Testing!")
                 user.isStart_P = True #開始出題
