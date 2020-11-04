@@ -35,9 +35,10 @@ import os
 app = Flask(__name__)
 
 #Channel Access Token
-line_bot_api = LineBotApi('請填LineBotApi')
+line_bot_api = LineBotApi('mIg76U+23oiAkDahsjUoK7ElbuYXzLDJcGXaEjaJIfZ+mMqOO3BvX+RlQIzx/Zu0Smy8W08i01F38xGDg6r/thlWLwGxRvcgExAucwMag8KPVAkBFfSLUvgcrxQS4HBzOGIBxoo+zRSJhOFoBEtCVQdB04t89/1O/w1cDnyilFU=')
+
 #Channel Secret  
-handler = WebhookHandler('請填WebhookHandler')
+handler = WebhookHandler('bc9f08c9c29eccb41c7b5b8102b55fd7')
 
 allUser = [] 
 
@@ -338,6 +339,9 @@ def handle_postback(event):
     pb_event = event.postback.data
     print("postbackData = ",pb_event )
     if (pb_event == 'Next'):
+        if user.next_id == 'd10030' or user.next_id == 'd20025' or user.next_id == 'd30022':
+            RandomTest(user) #取得隨機十題型
+            user.isLoad_P = True #載入題號
         #載入題號與敘述
         if user.isLoad_P == True: 
             user.isLoad_P = False
@@ -528,9 +532,9 @@ def smallpuzzle(event,id, sheet, user):
         #---------------------------------------------------
 
         #剛開始答題
-        elif id == 'd10030' or id == 'd20025' or id == 'd30022':
-            RandomTest(user) #取得隨機十題型
-            user.isLoad_P = True #載入題號
+        # elif id == 'd10030' or id == 'd20025' or id == 'd30022':
+        #     RandomTest(user) #取得隨機十題型
+        #     user.isLoad_P = True #載入題號
         elif (int(id[1:2]) == (user.level_P)):# 判斷第一碼是否為d1/d2/d3表單 
             if(int(id[2:3]) == (user.test_type_list[user.index_P])):  #判斷第二碼為題型碼
                 #答對
