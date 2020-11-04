@@ -524,7 +524,7 @@ def smallpuzzle(event,id, sheet, user):
         if len(next_id_index) <= 0: 
             print("No Next")
             if user.isPreStory_P == True: #題目前故事結束
-                print("PreStory End! Strat Testing!")
+                print("*********PreStory End! Strat Testing!")
                 user.isStart_P = True #開始出題
                 user.isAsked_P = False
                 user.isPreStory_P = False 
