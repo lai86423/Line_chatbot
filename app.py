@@ -340,6 +340,7 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
     if (pb_event == 'Next'):
         if user.next_id == 'd10030' or user.next_id == 'd20025' or user.next_id == 'd30022':
+            user.next_id = '0'
             RandomTest(user) #取得隨機十題型
             user.isLoad_P = True #載入題號
         #載入題號與敘述
