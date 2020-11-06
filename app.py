@@ -473,7 +473,7 @@ def smallpuzzle(event,id, sheet, user):
         sheet_type = sheet["type"][id_index] #id種類
         #print("sheet_type",sheet_type)
                 
-        #next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+        next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
         #print("next id = ", user.next_id)
         if len(next_id_index) <= 0: 
             print("No Next")
