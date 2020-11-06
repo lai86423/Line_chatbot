@@ -308,7 +308,7 @@ def callback():
 def handle_message(event):  
     user = getUser(event.source.user_id)
 #TODO -------------------------------------
-    if event.message.text =='#puzzle':
+    if event.message.text =='#puzzle': #這邊在整合app有改成用功能判斷
         reset(user) #初始遊戲變數
         user.isInit_P = True
     if(user.isInit_P == True):
@@ -324,6 +324,7 @@ def handle_message(event):
 #將使用者資訊更新至資料庫 
 def getUser(user_ID):
     global allUser
+    #查找user表單
     user = next((item for item in allUser if item._id == user_ID), None)
     if user is None:
         user = userVar(user_ID)
@@ -340,7 +341,7 @@ def handle_postback(event):
     print("postbackData = ",pb_event )
     if (pb_event == 'Next'):
         if user.next_id == 'd10030' or user.next_id == 'd20025' or user.next_id == 'd30022':
-            user.next_id = '0'
+            user.next_id = '0' #以防判斷一直進來
             RandomTest(user) #取得隨機十題型
             user.isLoad_P = True #載入題號
         #載入題號與敘述
@@ -352,7 +353,7 @@ def handle_postback(event):
         #載入題目前故事
         elif user.isPreStory_P == True:
             if user.isAsked_P == False :
-                user.isAsked_P = True
+                user.isAsked_P = True #剛載入的第一則才需進入判斷
                 test_type = user.test_type_list[user.index_P] #判斷題型
                 print("test_type = ", test_type)
                 print('--TestPreStory--'+'d'+ str(user.level_P) + str(test_type) + '000')
@@ -371,7 +372,7 @@ def handle_postback(event):
                 smallpuzzle(event, user.next_id , user.levelsheet_d, user)  
 
     elif user.isChangingLevel_P == True: #設定階級
-        setLevel_P(pb_event, user)
+        setLevel_P(pb_event, user) #L / M / H
         smallpuzzle(event,'d00202',sheet_d0, user)
     
     elif user.isChooseHelp == True: #功能選單
@@ -386,7 +387,6 @@ def handle_postback(event):
         elif pb_event == 'f3':
             #結束遊戲
             reset(user)
-            print("End!")
         else:
             pass
 
@@ -473,7 +473,7 @@ def smallpuzzle(event,id, sheet, user):
         sheet_type = sheet["type"][id_index] #id種類
         #print("sheet_type",sheet_type)
                 
-        next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
+        #next_id_index = sheet["a-descriptionID"].index[sheet["a-descriptionID"] == id] 
         #print("next id = ", user.next_id)
         if len(next_id_index) <= 0: 
             print("No Next")
@@ -589,11 +589,11 @@ def smallpuzzle(event,id, sheet, user):
                 reset(user)
                 smallpuzzle(event,'d00003',sheet_d0, user)
 
-            # if user.isPreStory_P == True: #題目前故事結束
-            #     print("PreStory End! Strat Testing!")
-            #     user.isStart_P = True #開始出題
-            #     user.isAsked_P = False
-            #     user.isPreStory_P = False 
+                # if user.isPreStory_P == True: #題目前故事結束
+                #     print("PreStory End! Strat Testing!")
+                #     user.isStart_P = True #開始出題
+                #     user.isAsked_P = False
+                #     user.isPreStory_P = False 
         
         pass
 
@@ -681,7 +681,7 @@ def Question_P(event, user):
                 bubble = QA.QA_Tail(user.text_sheet_P,user.index_P,user.subindex_P)
             else: #聽力pho高級 題目不同 音檔選句子
                 print("---level 3 pho  依據音檔選句子---")
-                if user.count_P == user.count_type_P and user.isAsked_P == False:
+                if user.count_P == user.count_type_P and user.isAsked_P == False: #user.isAsked_P == False 是為了重複按Next可以跳出一樣的題
                     user.isAsked_P = True
                     user.text_sheet_P = user.data_pho
                     user.subindex_P = random.randrange(1,len(np.transpose([user.text_sheet_P])[0]))
@@ -740,7 +740,7 @@ def Question_P(event, user):
             print("data_Cloze subindex_P", user.subindex_P)
         if (user.level_P != 3):
             bubble = QA_Bubble.Cloze(user.text_sheet_P, user.index_P, user.subindex_P)
-        else: #高級 格式不同 
+        else: #高級 格式不同 4個選項
             bubble = QA_Bubble.Cloze_L3(user.text_sheet_P, user.index_P, user.subindex_P)
 
     elif user.test_type_list[user.index_P] == 7 :#題型 出題閱測

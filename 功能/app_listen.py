@@ -188,14 +188,13 @@ def handle_postback(event):
         line_bot_api.reply_message(event.reply_token,message) 
         setUserCountType(user)
         user.count_L = user.count_type_L
-    elif(event.postback.data == "start"):  
+    elif(event.postback.data == "start"):  #按了開始答題或下一題
         user.isStart_L = True
 
     elif(user.isStart_L == True): 
         if user.isWord == True:
             correctAns = str(user.word_list[user.subindex_L][2])
         else:
-            #correctAns = str(user.sheet_L["answer"][user.subindex_L])
             correctAns = str(user.sheet_L[user.subindex_L][4])
         print("correct answer = ",correctAns)
         print("answer user.index_L = ", user.index_L)
@@ -304,7 +303,7 @@ def setLevel(levelinput,user):
     return myResult
 
 def setUserCountType(user):
-    if user.index_L < 3 and user.level_L !=3:
+    if user.index_L < 3 and user.level_L !=3: #聽力前三題 只有兩個選項
         user.count_type_L = 1
     else:
         user.count_type_L = 2
